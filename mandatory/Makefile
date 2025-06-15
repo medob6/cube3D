@@ -1,24 +1,43 @@
-CC = cc -fsanitize=address -g
-CFLAGS =  -Wall -Wextra -Werror 
-LDFLAGS = -lmlx -lXext -lX11 -lm
-SRC = src/main.c 
-OBJ = $(SRC:.c=.o)
-NAME = cub3D
-RM = rm -f
+NAME = cub
 
-all: $(NAME)
+CC = cc
 
-$(NAME): $(OBJ) 
-	@$(CC) $(OBJ) $(LDFLAGS) -o $(NAME)
+LDFLAGS = #-lmlx -lXext -lX11 -lm
 
-%.o: %.c
-	@$(CC) $(CFLAGS) -c $< -o $@
+CFLAGS = -g3 -Wall -Wextra -Werror -Iincludes -Ilibft
 
-clean: 
-	@$(RM) $(OBJ)
+MAIN_SRC = main.c
+
+PARSER_SRC = parser.c check_map.c
+
+SRCS = $(addprefix src/, $(MAIN_SRC)) $(addprefix src/parser/, $(PARSER_SRC))
+
+OBJS = $(SRCS:.c=.o)
+
+HEADER_FILES = includes/cub.h
+
+LIBFT_PATH = libft
+LIBFT = $(LIBFT_PATH)/libft.a
+
+all: $(LIBFT) $(NAME)
+
+$(LIBFT):
+	@make -C $(LIBFT_PATH)
+	@make bonus -C $(LIBFT_PATH)
+
+$(NAME): $(OBJS)
+	@$(CC) $(CFLAGS) $(LDFLAGS) $(OBJS) $(LIBFT) -o $(NAME)
+
+%.o: %.c $(HEADER_FILES)
+	@$(CC) $(CFLAGS) $(LDFLAGS) -c $< -o $@
+
+clean:
+	@rm -rf $(OBJS)
+	@make -C $(LIBFT_PATH) clean
 
 fclean: clean
-	@$(RM) $(NAME)
+	@rm -rf $(NAME)
+	@make -C $(LIBFT_PATH) fclean
 
 re: fclean all
 
