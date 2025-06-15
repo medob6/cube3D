@@ -1,3 +1,10 @@
+// the theme of our game will be a surviver of a nucluar war that destroyed the world in 2030 , have been sent by the consile of survivers of rradiotion to get the cure of zombizim 
+//
+// main game maision
+// stop nucluar power plant leak 
+// 
+
+
 //  first is we need to get all needed data from .cub file and store it in a structered variables
 
 // so lets say that we have a main struct called t_game
@@ -10,4 +17,72 @@
 // map image
 // we should have :
 // player :
+//
+// 	t_image	player;
+// 	double	x;
+// 	double	y;
+// 	double	angle;
+// texteures :
+//
+// hor_wall
+// ver_wall
+// sky color
+// floor color
+//
+// game struct :
+//
+// 	void	*mlx;
+// 	void	*win;
+// 	t_player	player;
+// 	t_image	hor_wall;
+//  t_image ver_wall
+//  t_image sky color
+//  t_image floor color
+// 	t_image	player_view_buf;
+// 	t_map	*map;
+//
+
+
+// the theme of our game will be a surviver of a nucluar war that destroyed the world in 2030 , have been sent by the consile of survivers of rradiotion to get the cure of zombizim 
+//
+// main game maision
+// stop nucluar power plant leak 
+// 
+
+
+//  first is we need to get all needed data from .cub file and store it in a structered variables
+
+// so lets say that we have a main struct called t_game
+// in it :
+// we should have :
+// map:
+// map_hieght
+// map_width
+// map array
+// map image
+// we should have :
+// player :
+//
+// 	t_image	player;
+// 	double	x;
+// 	double	y;
+// 	double	angle;
+// texteures :
+//
+// hor_wall
+// ver_wall
+// sky color
+// floor color
+//
+// game struct :
+//
+// 	void	*mlx;
+// 	void	*win;
+// 	t_player	player;
+// 	t_image	hor_wall;
+//  t_image ver_wall
+//  t_image sky color
+//  t_image floor color
+// 	t_image	player_view_buf;
+// 	t_map	*map;
 //
