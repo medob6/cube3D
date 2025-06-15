@@ -6,7 +6,7 @@
 /*   By: omben-ch <omben-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 17:12:52 by omben-ch          #+#    #+#             */
-/*   Updated: 2024/11/28 09:37:45 by omben-ch         ###   ########.fr       */
+/*   Updated: 2025/06/15 18:56:19 by omben-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,9 @@ char	*for_free(char *buffer, char **mem, char *s, int arg)
 char	*cond_one(char *buffer, char **mem, char **line)
 {
 	free(buffer);
-	*line = ft_strjoin(&line[0][0], &mem[0][0], 10, 1);
+	*line = gnl_ft_strjoin(&line[0][0], &mem[0][0], 10, 1);
 	buffer = &mem[0][0];
-	*mem = ft_save_for_next(buffer + ft_strchr(buffer, '\n'));
+	*mem = ft_save_for_next(buffer + gnl_ft_strchr(buffer, '\n'));
 	free(buffer);
 	return (*line);
 }
@@ -50,9 +50,9 @@ char	*cond_two(char *buffer, char **mem, char **line)
 {
 	if (check_return(buffer) > 0)
 	{
-		*line = ft_strjoin(&mem[0][0], buffer, 10, 1);
+		*line = gnl_ft_strjoin(&mem[0][0], buffer, 10, 1);
 		free((*mem));
-		*mem = ft_save_for_next(buffer + ft_strchr(buffer, '\n'));
+		*mem = ft_save_for_next(buffer + gnl_ft_strchr(buffer, '\n'));
 		free(buffer);
 		return (*line);
 	}
@@ -90,7 +90,7 @@ char	*get_next_line(int fd)
 		&& read(fd, buffer, BUFFER_SIZE) > 0 && check_return(buffer) == 0)
 	{
 		line = mem;
-		mem = ft_strjoin(mem, buffer, 10, 10);
+		mem = gnl_ft_strjoin(mem, buffer, 10, 10);
 		if (!mem)
 			for_free(buffer, NULL, NULL, 1);
 	}
