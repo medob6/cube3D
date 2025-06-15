@@ -1,0 +1,13 @@
+//  first is we need to get all needed data from .cub file and store it in a structered variables
+
+// so lets say that we have a main struct called t_game
+// in it :
+// we should have :
+// map:
+// map_hieght
+// map_width
+// map array
+// map image
+// we should have :
+// player :
+//
