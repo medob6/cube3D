@@ -1,9 +1,10 @@
-// the theme of our game will be a surviver of a nucluar war that destroyed the world in 2030 , have been sent by the consile of survivers of rradiotion to get the cure of zombizim 
+// the theme of our game will be a surviver of a nucluar war that destroyed the world in 2030 ,
+	have been sent by the consile of survivers of radiotion to get the cure for infected ppl amd stop nucluar leakage
 //
 // main game maision
-// stop nucluar power plant leak 
-// 
-
+// stop nucluar power plant leak
+//
+// the advanteg of our game will be the quality of the graphics
 
 //  first is we need to get all needed data from .cub file and store it in a structered variables
 
@@ -42,4 +43,6 @@
 // 	t_map	*map;
 //
 
-
+// ray  casting ;
+// read about : bsp
+// here : https://web.archive.org/web/20111115163809/http://www.devmaster.net/articles/bsp-trees
