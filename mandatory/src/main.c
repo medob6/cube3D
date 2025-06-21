@@ -1,59 +1,63 @@
 #include "cub.h"
 
-bool	is_valid_dir(char dir)
+void	parse_input(t_game *game, int ac, char **av)
 {
-	if (dir == 'N' || dir == 'S' || dir == 'E' || dir == 'W')
-		return (true);
-	return (false);
+	static char	*dummy_map[] = {"11111", "1N001", "10001", "10001", "11111",
+			NULL};
+
+	(void)ac;
+	(void)av;
+	game->data.paths[E_WALL] = "./textures/east.xpm";
+	game->data.paths[W_WALL] = "./textures/west.xpm";
+	game->data.paths[N_WALL] = "./textures/north.xpm";
+	game->data.paths[S_WALL] = "./textures/south.xpm";
+	game->data.ceiling_clr = 0x87CEEB;
+	game->data.floor_clr = 0x2E2E2E;
+	game->data.map.arr = dummy_map;
+	game->data.map.map_h = 5;
+	game->data.map.map_w = 5;
 }
 
-void	init_player(t_game *game)
+void	print_err(char *msg)
 {
-	int		y;
-	int		x;
-	char	**map;
-
-	map = game->map->arr;
-	y = 0;
-	while (map[y])
-	{
-		x = 0;
-		while (map[y][x])
-		{
-			if (is_valid_dir(map[y][x]))
-			{
-				game->player.x = (x + 0.5) * TILE_SIZE;
-				game->player.y = (y + 0.5) * TILE_SIZE;
-				game->player.angle = get_view_angel(map[y][x]);
-				return ;
-			}
-			x++;
-		}
-		y++;
-	}
+	ft_putstr_fd("Error\n", 2);
+	ft_putstr_fd(msg, 2);
+	cleanup(get_game(), EXIT_FAILURE);
 }
 
-void	initilize_game_resorces(t_game *game)
+int	game_loop(t_game *game)
 {
+	update_player(game);
+	// draw_map(game);
+	// draw_player(game);
+	// draw_rays(game);
+	// draw_3d_view(game);
+	mlx_put_image_to_window(game->mlx, game->win, game->display.img, 0, 0);
+	return (1);
+}
+
+void	lunch_game_hooks(t_game *game)
+{
+	mlx_do_key_autorepeatoff(game->mlx);
+	mlx_hook(game->win, 2, 1L << 0, key_press, &game);
+	mlx_hook(game->win, 3, 1L << 1, key_release, &game);
+	mlx_loop_hook(game->mlx, game_loop, &game);
+	mlx_loop(game->mlx);
+}
+
+int	main(int ac, char **av)
+{
+	t_game	*game;
+
+	game = get_game();
 	game->mlx = mlx_init();
 	if (!game->mlx)
 		print_err("Failed to initialize MLX\n");
 	game->win = mlx_new_window(game->mlx, WIN_WIDTH, WIN_HEIGHT, "Cub3D");
 	if (!game->win)
 		print_err("Failed to create window\n");
-	init_player(&game);
-	init_image_fram(&game, &game->map->map_buf);
-	init_image_fram(&game, &game->player_view_buf);
-	init_image(&game, &game->graphics[E_WALL], "textures/east_wall.xpm");
-	init_image(&game, &game->graphics[N_WALL], "textures/north_wall.xpm");
-	init_image(&game, &game->graphics[W_WALL], "textures/west_wall.xpm");
-	init_image(&game, &game->graphics[S_WALL], "textures/south_wall.xpm");
-}
-
-int	main(int ac, char **av)
-{
-	t_game *game;
-	parse_input(game, ac, av);// check file and map and get maps values  , and store it in array of maps
-	intilize_game_resorces(game);
-    lunch_game_hooks();
+	parse_input(game, ac, av);
+	initilize_game_resorces(game);
+	lunch_game_hooks(game);
+	return (0);
 }

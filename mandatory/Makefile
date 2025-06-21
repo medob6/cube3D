@@ -2,7 +2,7 @@ NAME = cub
 
 CC = cc
 
-LDFLAGS = #-lmlx -lXext -lX11 -lm
+LDFLAGS = -lmlx -lXext -lX11 -lm
 
 CFLAGS = -g3 -Wall -Wextra -Werror -Iincludes -Ilibft
 
@@ -10,7 +10,10 @@ MAIN_SRC = main.c
 
 PARSER_SRC = parser.c check_map.c
 
-SRCS = $(addprefix src/, $(MAIN_SRC)) $(addprefix src/parser/, $(PARSER_SRC))
+RAY_CASTER = cast_ray.c init_resorces.c keys_api.c movements.c
+
+
+SRCS = $(addprefix src/, $(MAIN_SRC)) $(addprefix src/parser/, $(PARSER_SRC)) 
 
 OBJS = $(SRCS:.c=.o)
 
@@ -26,10 +29,10 @@ $(LIBFT):
 	@make bonus -C $(LIBFT_PATH)
 
 $(NAME): $(OBJS)
-	@$(CC) $(CFLAGS) $(LDFLAGS) $(OBJS) $(LIBFT) -o $(NAME)
+	@$(CC) $(CFLAGS)  $(OBJS) $(LIBFT) -o $(NAME) $(LDFLAGS)
 
 %.o: %.c $(HEADER_FILES)
-	@$(CC) $(CFLAGS) $(LDFLAGS) -c $< -o $@
+	@$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
 	@rm -rf $(OBJS)

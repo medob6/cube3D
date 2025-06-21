@@ -5,12 +5,13 @@
 # include "parser.h"
 # include <errno.h>
 # include <fcntl.h>
+# include <math.h>
 # include <mlx.h>
+# include <stdbool.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
 # include <unistd.h>
-# include <stdbool.h>
 
 // window config
 # define WIN_WIDTH 1100
@@ -37,8 +38,6 @@
 # define NUM_RAYS WIN_WIDTH
 # define FOV_ANGLE deg_to_rad(60)
 
-// t_image
-
 enum			graphics
 {
 	E_WALL,
@@ -59,9 +58,9 @@ typedef struct s_image
 	int			endian;
 }				t_image;
 
-typedef struct
+typedef struct s_player
 {
-	t_image		player;
+	t_image		sprite;
 	double		x;
 	double		y;
 	double		angle;
@@ -72,48 +71,45 @@ typedef struct s_map
 	char		**arr;
 	int			map_w;
 	int			map_h;
-	t_image		map_buf;
-}				t_map;
+}
+				t_map;
+typedef struct s_keys
+{
+	int			code;
+	bool		press;
+}				t_key;
+
+typedef struct s_data
+{
+	t_map		map;
+	char		*paths[4];
+	int			ceiling_clr;
+	int			floor_clr;
+
+}				t_data;
 
 typedef struct s_game
 {
 	void		*mlx;
 	void		*win;
 	t_player	player;
-	t_image		*graphics;
-	t_image		display; // what player see
-	t_map		*map;
-
+	t_image		graphics[4];
+	t_image		display;
+	t_data		data;
+	t_key		keys[9];
 }				t_game;
 
+int				handle_close(t_game *game);
+void			cleanup(t_game *game, int code);
+void			update_player(t_game *game);
+t_game			*get_game(void);
+bool			is_valid_dir(char dir);
+void			init_image_fram(t_game *game, t_image *frame);
+void			init_player(t_game *game);
+void			initilize_game_resorces(t_game *game);
+void			init_keys(t_game *game);
+int				key_press(int keycode, t_game *game);
+int				key_release(int keycode, t_game *game);
+t_key			*get_key(int keycode, t_game *game);
+
 #endif
-
-
-//
-//
-//
-// [' ','1','1','1','1','1',' ',' ',' ',',',' ',' ',' ']
-// ['1','0','0','0','0','0','1',' ',' ',',',' ',' ',' ']
-// ['1','0','0','0','E','0','1',' ',' ',',','1','1','1']
-// ['1','1','1','1','1','1','1',' ',' ',',','1','0','1']
-// [' ',' ',' ',' ',' ',' ',' ',' ',' ',',','1','1','1']
-//
-//
-//
-// if (cher == '0' && ( (j == 0 || j == last_arr_indx ) || (i == 0 || i == east_edge)))
-//         then "not valid map"
-// else if (cher == '0' &&  cher_up[i-1][i] == ' ' || cher_down[j+1][i] == ' ' || cher_est[j][i+1] == ' ' || cher_west[j][i-1] == ' ')
-//         then  "not valid"
-//
-//
-//
-
-// 1111111
-// 1     1
-// 1 111 1
-// 1 1E1 1
-// 1 110 1
-// 1   1
-// 1111111
-
-
