@@ -14,6 +14,11 @@ bool	is_valid_dir(char dir)
 	return (false);
 }
 
+double	deg_to_rad(double a)
+{
+	return (a * M_PI / 180.0);
+}
+
 double	get_view_angel(char dir)
 {
 	if (dir == 'E')
@@ -36,6 +41,18 @@ void	init_image_fram(t_game *game, t_image *frame)
 			&frame->endian);
 	if (!frame->addr)
 		print_err("Failed to get image data address");
+}
+
+void	init_image(t_game *game, t_image *img, char *path)
+{
+	img->img = mlx_xpm_file_to_image(game->mlx, path, &img->w, &img->h);
+	if (!img->img)
+	{
+		perror("Error: Failed to load an image ");
+		exit(1);
+	}
+	img->addr = mlx_get_data_addr(img->img, &img->bpp, &img->line_len,
+			&img->endian);
 }
 
 void	init_player(t_game *game)
@@ -66,11 +83,11 @@ void	init_player(t_game *game)
 
 void	initilize_game_resorces(t_game *game)
 {
-	int_keys(game);
-	init_player(&game);
-	init_image_fram(&game, &game->display);
-	init_image(&game, &game->graphics[E_WALL], game->data.paths[E_WALL]);
-	init_image(&game, &game->graphics[N_WALL], game->data.paths[N_WALL]);
-	init_image(&game, &game->graphics[W_WALL], game->data.paths[W_WALL]);
-	init_image(&game, &game->graphics[S_WALL], game->data.paths[S_WALL]);
+	init_keys(game);
+	init_player(game);
+	init_image_fram(game, &game->display);
+	init_image(game, &game->graphics[E_WALL], game->data.paths[E_WALL]);
+	init_image(game, &game->graphics[N_WALL], game->data.paths[N_WALL]);
+	init_image(game, &game->graphics[W_WALL], game->data.paths[W_WALL]);
+	init_image(game, &game->graphics[S_WALL], game->data.paths[S_WALL]);
 }

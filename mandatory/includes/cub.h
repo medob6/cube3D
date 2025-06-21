@@ -71,8 +71,8 @@ typedef struct s_map
 	char		**arr;
 	int			map_w;
 	int			map_h;
-}
-				t_map;
+}				t_map;
+
 typedef struct s_keys
 {
 	int			code;
@@ -111,5 +111,7 @@ void			init_keys(t_game *game);
 int				key_press(int keycode, t_game *game);
 int				key_release(int keycode, t_game *game);
 t_key			*get_key(int keycode, t_game *game);
+void			print_err(char *msg);
+double			normalize_angle(double angle);
 
 #endif

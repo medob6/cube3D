@@ -18,6 +18,8 @@ void	parse_input(t_game *game, int ac, char **av)
 	game->data.map.map_w = 5;
 }
 
+
+
 void	print_err(char *msg)
 {
 	ft_putstr_fd("Error\n", 2);

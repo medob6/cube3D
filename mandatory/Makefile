@@ -1,19 +1,19 @@
-NAME = cub
+NAME = cub3D
 
 CC = cc
 
 LDFLAGS = -lmlx -lXext -lX11 -lm
 
-CFLAGS = -g3 -Wall -Wextra -Werror -Iincludes -Ilibft
+CFLAGS = -g3 -Wall -Wextra -Werror -Iincludes -Ilibft -fsanitize=address
 
 MAIN_SRC = main.c
 
 PARSER_SRC = parser.c check_map.c
 
-RAY_CASTER = cast_ray.c init_resorces.c keys_api.c movements.c
+RAY_CASTER = cast_ray.c init_resorces.c keys_api.c movements.c cleanup.c
 
 
-SRCS = $(addprefix src/, $(MAIN_SRC)) $(addprefix src/parser/, $(PARSER_SRC)) 
+SRCS = $(addprefix src/, $(MAIN_SRC)) $(addprefix src/parser/, $(PARSER_SRC)) $(addprefix src/raycaster/, $(RAY_CASTER)) 
 
 OBJS = $(SRCS:.c=.o)
 
