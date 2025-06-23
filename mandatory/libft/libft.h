@@ -6,7 +6,7 @@
 /*   By: omben-ch <omben-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 15:21:15 by omben-ch          #+#    #+#             */
-/*   Updated: 2024/11/07 14:19:04 by omben-ch         ###   ########.fr       */
+/*   Updated: 2025/06/20 16:25:10 by omben-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void				ft_putchar_fd(char c, int fd);
 void				ft_striteri(char *s, void (*f)(unsigned int, char *));
 char				*ft_strmapi(char const *s, char (*f)(unsigned int, char));
 char				*ft_itoa(int n);
-char				**ft_split(char const *s, char c);
+char				**ft_split(char const *s, char *c);
 char				*ft_strtrim(char const *s1, char const *set);
 char				*ft_substr(char const *s, unsigned int start, size_t len);
 char				*ft_strdup(const char *s1);
@@ -69,5 +69,5 @@ int					ft_memcmp(const void *s1, const void *s2, size_t n);
 char				*ft_strnstr(const char *haystack, const char *needle,
 						size_t len);
 char				*ft_strjoin(char const *s1, char const *s2);
-
+int					ft_strcmp(char *s1, char *s2);
 #endif

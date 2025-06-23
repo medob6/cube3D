@@ -6,7 +6,7 @@
 /*   By: omben-ch <omben-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 17:13:24 by omben-ch          #+#    #+#             */
-/*   Updated: 2025/06/15 15:45:41 by omben-ch         ###   ########.fr       */
+/*   Updated: 2025/06/16 09:18:44 by omben-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 # include <unistd.h>
 
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 0
+#  define BUFFER_SIZE 1
 # endif
 
 char	*get_next_line(int fd);

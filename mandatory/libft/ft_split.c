@@ -6,7 +6,7 @@
 /*   By: omben-ch <omben-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 15:07:59 by omben-ch          #+#    #+#             */
-/*   Updated: 2024/11/01 15:20:26 by omben-ch         ###   ########.fr       */
+/*   Updated: 2025/06/16 14:36:39 by omben-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,18 +19,21 @@ static void	freeing(char **s, int i)
 	free(s);
 }
 
-static int	check(char s, char c)
+static int	check(char s, char *c)
 {
 	int	i;
 
 	i = 0;
-	if (s == c)
-		return (1);
-	i++;
+	while (c[i])
+	{
+		if (s == c[i])
+			return (1);
+		i++;
+	}
 	return (0);
 }
 
-static int	cw(char const *s, char c)
+static int	cw(char const *s, char *c)
 {
 	int	i;
 	int	j;
@@ -53,7 +56,7 @@ static int	cw(char const *s, char c)
 	return (count);
 }
 
-static char	*alocation_str(char const *s, char c, int *j)
+static char	*alocation_str(char const *s, char *c, int *j)
 {
 	int		i;
 	char	*p;
@@ -73,7 +76,7 @@ static char	*alocation_str(char const *s, char c, int *j)
 	return (p);
 }
 
-char	**ft_split(char const *s, char c)
+char	**ft_split(char const *s, char *c)
 {
 	char	**sp;
 	int		w;

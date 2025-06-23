@@ -6,7 +6,7 @@
 /*   By: omben-ch <omben-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 15:38:56 by omben-ch          #+#    #+#             */
-/*   Updated: 2025/06/15 15:43:24 by omben-ch         ###   ########.fr       */
+/*   Updated: 2025/06/22 16:30:24 by omben-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,11 +43,29 @@ void	check_name(char *name)
 		print_error_map("2- file invalide");
 }
 
-int	check(int ac, char **av)
+void init_data(t_data *data)
 {
+    data->n_path = NULL;
+    data->w_path = NULL;
+    data->e_path = NULL;
+    data->s_path = NULL;
+    data->c_color = NULL;
+    data->f_color = NULL;
+    data->map = NULL;
+}
+
+void	check(t_data *data, int ac, char **av)
+{
+	int		fd;
+
 	if (ac != 2)
 		print_error_map("number of args invalid");
 	check_name(av[1]);
-    check_element(av[1]);
-	return (1);
+	fd = open(av[1], O_RDONLY);
+	if (fd == -1)
+		print_error_map(strerror(errno));
+	init_data(data);
+    get_val_element(data ,fd);
+	check_content_fc(data);
+	check_content_map(data);
 }
