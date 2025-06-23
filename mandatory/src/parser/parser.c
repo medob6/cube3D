@@ -6,7 +6,7 @@
 /*   By: omben-ch <omben-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 15:38:56 by omben-ch          #+#    #+#             */
-/*   Updated: 2025/06/22 16:30:24 by omben-ch         ###   ########.fr       */
+/*   Updated: 2025/06/23 17:28:26 by omben-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 
 void	print_error_map(char *str)
 {
-	printf("%s\n", str);
+	ft_putstr_fd(str, 2);
+	ft_putstr_fd("\n", 2);
 	exit(1);
 }
 
@@ -27,19 +28,11 @@ void	check_name(char *name)
 	i = 0;
 	j = 0;
 	str = ".cub";
-	while (name[i])
-	{
-		if (i != 0 && name[i] == '.' && name[i + 1] != '.')
-			break ;
-		i++;
-	}
-	while (str[j])
-	{
-		if (name[i + j] != str[j])
+	if (ft_strlen(name) < 5)
 			print_error_map("1- file invalide");
-		j++;
-	}
-	if (name[i + j])
+	while (name[i])
+		i++;
+	if (name[--i] != 'b' || name[--i] != 'u'|| name[--i] != 'c' || name[--i] != '.')
 		print_error_map("2- file invalide");
 }
 

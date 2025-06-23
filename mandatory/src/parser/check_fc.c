@@ -6,7 +6,7 @@
 /*   By: omben-ch <omben-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/16 09:38:42 by omben-ch          #+#    #+#             */
-/*   Updated: 2025/06/23 15:14:31 by omben-ch         ###   ########.fr       */
+/*   Updated: 2025/06/23 15:33:32 by omben-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,29 +52,6 @@ int	check_nb_is_valide(const char *str)
 	    return (1);
 	return (1);
 }
-
-// int check_nb_args(char **args)
-// {
-//     int i;
-    
-//     i = 0;
-//     if (!args)
-//     {
-//         printf("1- error malloc\n");    
-//         return (1);
-//     }
-//     while (args[i])
-//         i++;
-//     if (i != 3)
-//     {
-//         i = 0;
-//         while (args[i])
-//             free(args[i++]);
-//         free(args); 
-//         print_error_map("1- error 3 nb not existe");    
-//     }
-//     return (0);
-// }
 
 void free_list(char **args)
 {
