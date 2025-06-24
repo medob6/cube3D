@@ -6,7 +6,7 @@
 /*   By: omben-ch <omben-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/16 09:38:42 by omben-ch          #+#    #+#             */
-/*   Updated: 2025/06/23 15:33:32 by omben-ch         ###   ########.fr       */
+/*   Updated: 2025/06/24 16:11:20 by omben-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,18 +28,19 @@ int check_diget_comma(char *arg)
         i++;
     }
     if (j > 2)
+    {
+        ft_putstr_fd("error more comma\n", 2);
         return (1);
+    }
     return (0);
 }
 
 int	check_nb_is_valide(const char *str)
 {
 	int                 nb;
-	int					sign;
 	int					i;
 
 	nb = 0;
-	sign = 1;
 	i = 0;
 	while ((str[i] >= '0' && str[i] <= '9'))
 	{
@@ -48,19 +49,9 @@ int	check_nb_is_valide(const char *str)
             return (0);
 		i++;
 	}
-    if (str[i] != '\n' && str[i])
-	    return (1);
+    if (str[i])
+	    return (0);
 	return (1);
-}
-
-void free_list(char **args)
-{
-    int i;
-
-    i = 0;
-    while (args[i])
-        free(args[i++]);
-    free(args);
 }
 
 int check_val(char *arg)
@@ -74,30 +65,41 @@ int check_val(char *arg)
     if (check_diget_comma(arg))
         return (1);
     args = ft_split(arg, ",");
+    if (!args)
+    {
+        ft_putstr_fd("error malloc\n", 2);
+        return (1);
+    }
     if (nb_args(args) != 3)
     {
-        free_list(args);
-        printf("1- error nb args\n");    
+        freeing_list(args);
+        ft_putstr_fd("error nb args\n", 2);
         return (1);
     }
     i = -1;
     while (++i < 3)
     {
         if (!check_nb_is_valide(args[i]))
-            j = 1;
+        {
+            freeing_list(args);
+            ft_putstr_fd("error nb args\n", 2);
+            return (1);
+        }
     }
-    free_list(args);
-    if (j)
-        printf("1- error nb args\n");
+    freeing_list(args);
     return (0);
 }
 
 void check_content_fc(t_data *data)
 {
-    if (check_val(data->f_color) || check_val(data->c_color))
+    if (check_val(data->f_color))
     {
-		//! freeing struct of data
-        printf("error fc val \n");
+        freeing_data(data);
+		exit(1);
+	}
+    if (check_val(data->f_color))
+    {
+        freeing_data(data);
 		exit(1);
 	}
 }

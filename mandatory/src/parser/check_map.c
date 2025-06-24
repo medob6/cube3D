@@ -26,48 +26,31 @@ int	counter_line(char *str)
 	return ((int)i);
 }
 
-int	check_wall_first_last(char *wall)
+void print_error_map_and_exit(t_data *data)
+{
+	ft_putstr_fd("error line map\n",2);
+	freeing_data(data);
+	exit(1);
+}
+
+void check_line_first_last(t_data *data, int last_line)
 {
 	int	i;
 
 	i = 0;
-	while (wall[i])
+	while (data->map[0][i])
 	{
-		if (!ft_strchr("1 ", wall[i]))
-			return (1);
+		if (!ft_strchr("1 ", data->map[0][i]))
+			print_error_map_and_exit(data);
 		i++;
 	}
-	return (0);
-}
-
-int	check_inside(char *line, int before_last_line)
-{
-	static int	position;
-	int			i;
-
 	i = 0;
-	while (line[i] && line[i] == ' ')
+	while (data->map[last_line][i])
 	{
+		if (!ft_strchr("1 ", data->map[last_line][i]))
+			print_error_map_and_exit(data);
 		i++;
 	}
-	if (!ft_strchr("1", line[i]))
-		return (1);
-	i++;
-	while (line[i] && line[i + 1] && line[i + 1] != '\n')
-	{
-		if (!ft_strchr(" 10NWSE\n", line[i]))
-			return (1);
-		if (ft_strchr("NWSE", line[i]))
-			position++;
-		i++;
-	}
-	while (line[i] && line[i] == ' ')
-	{
-		i--;
-	}
-	if (!ft_strchr("1", line[i]) || (position != 1 && before_last_line))
-		return (1);
-	return (0);
 }
 
 int	get_size_of_long_line(t_data *data)
@@ -83,8 +66,9 @@ int	get_size_of_long_line(t_data *data)
 		tmp_size_line = counter_line(data->map[i]);
 		if (tmp_size_line == -1)
 		{
-			printf("line is solong \n");
-			exit(1); //! freeing data
+			ft_putstr_fd("the line is solong\n",2);
+			freeing_data(data);
+			exit(1);
 		}
 		if (tmp_size_line > size_line)
 			size_line = tmp_size_line;
@@ -96,84 +80,66 @@ int	get_size_of_long_line(t_data *data)
 void	add_space(t_data *data)
 {
 	char	*tmp;
+	char	*tmp_two;
 	int		size_line;
 	int		nb_space;
 	int		i;
 
-	i = 0;
+	i = -1;
 	size_line = get_size_of_long_line(data);
-	while (data->map[i])
+	while (data->map[++i])
 	{
 		nb_space = size_line - counter_line(data->map[i]);
 		while (nb_space--)
 		{
 			tmp = data->map[i];
-			data->map[i] = ft_strjoin(data->map[i], " ");
+			tmp_two = ft_strjoin(data->map[i], " ");
+			if (!tmp_two)
+			{
+				freeing_data(data);
+				ft_putstr_fd("error malloc\n", 2);
+				exit(1);
+			}
+			data->map[i] = tmp_two;
 			free(tmp);
 		}
-		i++;
 	}
+}
+
+void position_of_plaer_and_floor_check(t_data *data, char **map, int x , int y)
+{
+	if (x && map[x][y]&& map[x + 1] && ft_strchr("0NWSE", map[x][y])
+				&& (!ft_strchr("10NWSE", map[x][y - 1])
+					|| !ft_strchr("10NWSE", map[x][y + 1])
+					|| !ft_strchr("10NWSE", map[x - 1][y])
+					|| !ft_strchr("10NWSE", map[x + 1][y])))
+            	print_error_map_and_exit(data);
 }
 
 void	check_content_map(t_data *data)
 {
-	int	i;
-	int	j;
+	int	x;
+	int	y;
 	int	position;
 
-	i = -1;
+	x = 0;
 	position = 0;
 	add_space(data);
-	while (data->map[++i])
+    check_line_first_last(data, nb_args(data->map) - 1);
+	while (data->map[++x] && data->map[x + 1])
 	{
-        j = -1;
-        if (check_wall_first_last(data->map[0]) || check_wall_first_last(data->map[nb_args(data->map) - 1]))
-        {
-			printf("2 - error wall is not valide \n");
-			exit(1); //! freeing data
-        }
-		while (data->map[i][++j])
+        y = -1;
+		while (data->map[x][++y])
 		{
-            if(!ft_strchr(" 10NWSE", data->map[i][j]))
-            {
-				printf("error wall is not valide \n");
-				exit(1); //! freeing data
-            }
-            if(!ft_strchr(" 10NWSE", data->map[i][j]))
-            {
-				printf("error wall is not valide \n");
-				exit(1); //! freeing data
-            }
-			if (i && data->map[i][j]&& data->map[i + 1] && ft_strchr("0NWSE", data->map[i][j])
-				&& (!ft_strchr("10NWSE", data->map[i][j - 1])
-					|| !ft_strchr("10NWSE", data->map[i][j + 1])
-					|| !ft_strchr("10NWSE", data->map[i - 1][j])
-					|| !ft_strchr("10NWSE", data->map[i + 1][j])))
-			{
-				printf("error wall is not valide \n");
-				exit(1); //! freeing data
-			}
-			if (ft_strchr("NWSE", data->map[i][j]))
+            if(!ft_strchr(" 10NWSE", data->map[x][y]))
+            	print_error_map_and_exit(data);
+            if(!ft_strchr(" 10NWSE", data->map[x][y]))
+            	print_error_map_and_exit(data);
+			position_of_plaer_and_floor_check(data, data->map, x , y);
+			if (ft_strchr("NWSE", data->map[x][y]))
                 position++;
 		}
 	}
     if (position != 1)
-    {
-		printf("error wall is not valide \n");
-		exit(1); //! freeing data
-    }
+    	print_error_map_and_exit(data);
 }
-
-// if (i == (size - 2))
-//     sign = 1;
-// if ((!i && check_wall_first_last(data->map[i])) || ((i == (size - 1))
-// 		&& check_wall_first_last(data->map[i])))
-//         {
-//             printf("error wall is not valide \n");
-// 		     exit(1); //! freeing data
-//         }
-// else if (check_inside(data->map[i], sign))
-// {
-//     printf("error inside map \n");
-// 	exit(1); //! freeing data
-// }

@@ -6,7 +6,7 @@
 /*   By: omben-ch <omben-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 09:38:33 by omben-ch          #+#    #+#             */
-/*   Updated: 2025/06/22 18:07:22 by omben-ch         ###   ########.fr       */
+/*   Updated: 2025/06/24 18:09:35 by omben-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int main(int ac, char **av)
     int i;
     
     i = 0;
-    check(&data, ac, av);
+    get_data(&data, ac, av);
     printf("E - \"%s\" \n",data.e_path);
     printf("W - \"%s\" \n",data.w_path);
     printf("S - \"%s\" \n",data.s_path);
@@ -31,5 +31,6 @@ int main(int ac, char **av)
     {    
         printf(">> \"%s\" \n",data.map[i]);
         i++;
-    }  
+    }
+    freeing_data(&data);
 }
