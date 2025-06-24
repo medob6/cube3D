@@ -4,13 +4,13 @@ static void	move_forward_backward(t_game *game, double *new_x, double *new_y)
 {
 	if (get_key(KEY_UP, game)->press || get_key(ARROW_UP, game)->press)
 	{
-		*new_x += cos(game->player.angle) * MOVE_SPEED;
-		*new_y += sin(game->player.angle) * MOVE_SPEED;
+		*new_y -= cos(game->player.angle) * MOVE_SPEED;
+		*new_x += sin(game->player.angle) * MOVE_SPEED;
 	}
 	if (get_key(KEY_DOWN, game)->press || get_key(ARROW_DOWN, game)->press)
 	{
-		*new_x -= cos(game->player.angle) * MOVE_SPEED;
-		*new_y -= sin(game->player.angle) * MOVE_SPEED;
+		*new_y += cos(game->player.angle) * MOVE_SPEED;
+		*new_x -= sin(game->player.angle) * MOVE_SPEED;
 	}
 }
 
@@ -18,13 +18,13 @@ static void	move_sideways(t_game *game, double *new_x, double *new_y)
 {
 	if (get_key(KEY_LEFT, game)->press)
 	{
-		*new_x += sin(game->player.angle) * MOVE_SPEED;
-		*new_y -= cos(game->player.angle) * MOVE_SPEED;
+		*new_x -= cos(game->player.angle) * MOVE_SPEED;
+		*new_y -= sin(game->player.angle) * MOVE_SPEED;
 	}
 	if (get_key(KEY_RIGHT, game)->press)
 	{
-		*new_x -= sin(game->player.angle) * MOVE_SPEED;
-		*new_y += cos(game->player.angle) * MOVE_SPEED;
+		*new_x += cos(game->player.angle) * MOVE_SPEED;
+		*new_y += sin(game->player.angle) * MOVE_SPEED;
 	}
 }
 
@@ -49,15 +49,19 @@ static void	apply_movement(t_game *game, double new_x, double new_y)
 		&& game->data.map.arr[(int)(new_y / TILE_SIZE)][(int)(new_x
 			/ TILE_SIZE)] != '1')
 	{
-		game->player.x = new_x;
-		game->player.y = new_y;
+		if (game->player.p.x != new_x || game->player.p.y != new_y)
+			game->player.moving = true;
+		else
+			game->player.moving = false;
+		game->player.p.x = new_x;
+		game->player.p.y = new_y;
 	}
 }
 
 void	update_player(t_game *game)
 {
-	double new_x = game->player.x;
-	double new_y = game->player.y;
+	double new_x = game->player.p.x;
+	double new_y = game->player.p.y;
 
 	move_forward_backward(game, &new_x, &new_y);
 	move_sideways(game, &new_x, &new_y);

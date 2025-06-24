@@ -14,8 +14,8 @@
 # include <unistd.h>
 
 // window config
-# define WIN_WIDTH 1100
-# define WIN_HEIGHT 1100
+# define WIN_WIDTH 1700
+# define WIN_HEIGHT 1400
 # define TILE_SIZE 100
 
 // keys
@@ -31,21 +31,30 @@
 
 // speed
 # define MOVE_SPEED 5
-# define ROTATE_SPEED 0.1
+# define ROTATE_SPEED 0.05
 
 // player config
 # define FIELD_SIGHT 170
 # define NUM_RAYS WIN_WIDTH
 # define FOV_ANGLE deg_to_rad(60)
 
-enum			graphics
+typedef enum e_graphic
 {
 	E_WALL,
 	N_WALL,
 	W_WALL,
 	S_WALL,
+	N_ICONE,
+	ARROW,
 
-};
+}				t_graphic;
+
+typedef struct s_point
+{
+	double		x;
+	double		y;
+	double		z;
+}				t_point;
 
 typedef struct s_image
 {
@@ -61,9 +70,10 @@ typedef struct s_image
 typedef struct s_player
 {
 	t_image		sprite;
-	double		x;
-	double		y;
+	t_point		p;
 	double		angle;
+	double		hieght;
+	bool		moving;
 }				t_player;
 
 typedef struct s_map
@@ -88,12 +98,19 @@ typedef struct s_data
 
 }				t_data;
 
+typedef struct s_circle
+{
+	t_point		c;
+	double		radius;
+
+}				t_circle;
+
 typedef struct s_game
 {
 	void		*mlx;
 	void		*win;
 	t_player	player;
-	t_image		graphics[4];
+	t_image		graphics[6];
 	t_image		display;
 	t_data		data;
 	t_key		keys[9];
@@ -113,5 +130,12 @@ int				key_release(int keycode, t_game *game);
 t_key			*get_key(int keycode, t_game *game);
 void			print_err(char *msg);
 double			normalize_angle(double angle);
+void			draw_mini_map(t_game *game);
+double			deg_to_rad(double a);
+
+void			my_mlx_pixel_put(t_image fram, int x, int y, int color);
+unsigned int	get_color(t_image img, int x, int y);
+int				get_t(int trgb);
+double			get_distance(t_point a, t_point b);
 
 #endif

@@ -6,19 +6,19 @@ void	destroy_image(void *mlx, void *image)
 		mlx_destroy_image(mlx, image);
 }
 
-void	free_map(char **map, int height)
+void	free_map(t_map *map)
 {
 	int	i;
 
 	if (!map)
 		return ;
 	i = 0;
-	while (i < height)
+	while (i < map->map_h)
 	{
-		free(map[i]);
+		free(map->arr[i]);
 		i++;
 	}
-	free(map);
+	free(map->arr);
 }
 
 void	cleanup(t_game *game,int code)
@@ -26,12 +26,12 @@ void	cleanup(t_game *game,int code)
 	int	i;
 
 	i = 0;
-	while (i < 4)
-		destroy_image(game->mlx, &game->graphics[i++]);
-	destroy_image(game->mlx, &game->display);
+	while (i < 6)
+		destroy_image(game->mlx, game->graphics[i++].img);
+	destroy_image(game->mlx, game->display.img);
 	// destroy_image(game->mlx, &game->player.sprite);
 	if (game->data.map.arr)
-		free_map(game->data.map.arr, game->data.map.map_h);
+		free_map(&game->data.map);
 	if (game->mlx)
 	{
 		mlx_destroy_display(game->mlx);

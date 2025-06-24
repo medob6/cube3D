@@ -62,6 +62,7 @@ void	init_player(t_game *game)
 	char	**map;
 
 	map = game->data.map.arr;
+	game->player.moving = false;
 	y = 0;
 	while (map[y])
 	{
@@ -70,8 +71,8 @@ void	init_player(t_game *game)
 		{
 			if (is_valid_dir(map[y][x]))
 			{
-				game->player.x = (x + 0.5) * TILE_SIZE;
-				game->player.y = (y + 0.5) * TILE_SIZE;
+				game->player.p.x = (x + 0.5) * TILE_SIZE;
+				game->player.p.y = (y + 0.5) * TILE_SIZE;
 				game->player.angle = get_view_angel(map[y][x]);
 				return ;
 			}
@@ -90,4 +91,6 @@ void	initilize_game_resorces(t_game *game)
 	init_image(game, &game->graphics[N_WALL], game->data.paths[N_WALL]);
 	init_image(game, &game->graphics[W_WALL], game->data.paths[W_WALL]);
 	init_image(game, &game->graphics[S_WALL], game->data.paths[S_WALL]);
+	init_image(game, &game->graphics[N_ICONE], "textures/N_icon.xpm");
+	init_image(game, &game->graphics[ARROW], "textures/minimap_player.xpm");
 }

@@ -10,7 +10,7 @@ MAIN_SRC = main.c
 
 PARSER_SRC = parser.c check_map.c
 
-RAY_CASTER = cast_ray.c init_resorces.c keys_api.c movements.c cleanup.c
+RAY_CASTER = ray_cast.c init_resorces.c keys_api.c movements.c cleanup.c helpers.c minimap.c
 
 
 SRCS = $(addprefix src/, $(MAIN_SRC)) $(addprefix src/parser/, $(PARSER_SRC)) $(addprefix src/raycaster/, $(RAY_CASTER)) 
