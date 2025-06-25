@@ -34,7 +34,7 @@ double	get_view_angel(char dir)
 
 void	init_image_fram(t_game *game, t_image *frame)
 {
-	frame->img = mlx_new_image(game->mlx, WIN_WIDTH, WIN_HEIGHT);
+	frame->img = mlx_new_image(game->mlx, game->win_w, game->win_h);
 	if (!frame->img)
 		print_err("Failed to create image");
 	frame->addr = mlx_get_data_addr(frame->img, &frame->bpp, &frame->line_len,

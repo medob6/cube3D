@@ -151,9 +151,9 @@ void	draw_mini_map(t_game *game)
 	int			color;
 	t_mm_scale	sc;
 
-	mini_map.radius = fmin(WIN_WIDTH, WIN_HEIGHT) * MINIMAP_SCREEN_SCALE;
+	mini_map.radius = fmin(game->win_w, game->win_h) * MINIMAP_SCREEN_SCALE;
 	mini_map.c.x = mini_map.radius * 1.2;
-	mini_map.c.y = WIN_HEIGHT - mini_map.radius * 1.2;
+	mini_map.c.y = game->win_h - mini_map.radius * 1.2;
 	sc = get_minimap_scale(game, mini_map.radius);
 	p.y = -mini_map.radius - 1;
 	while (++p.y < mini_map.radius)

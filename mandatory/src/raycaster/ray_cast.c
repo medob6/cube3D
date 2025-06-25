@@ -10,6 +10,8 @@
 // cast_rays(game);
 // draw_3d_view(game);
 
+
+//TODO : first make win_h win_w , dynamin in initialize vars, add them to t_game struct
 void	cast_rays(t_game *game)
 {
 	(void)game;

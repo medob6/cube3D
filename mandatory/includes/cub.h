@@ -13,9 +13,6 @@
 # include <string.h>
 # include <unistd.h>
 
-// window config
-# define WIN_WIDTH 1800
-# define WIN_HEIGHT 1500
 # define TILE_SIZE 100
 
 // keys
@@ -35,7 +32,6 @@
 
 // player config
 # define FIELD_SIGHT 170
-# define NUM_RAYS WIN_WIDTH
 # define FOV_ANGLE M_PI / 3
 
 typedef enum e_graphic
@@ -115,11 +111,13 @@ typedef struct s_game
 {
 	void		*mlx;
 	void		*win;
+	int			win_h;
+	int			win_w;
+	t_data		data;
 	t_player	player;
+	t_key		keys[9];
 	t_image		graphics[6];
 	t_image		display;
-	t_data		data;
-	t_key		keys[9];
 }				t_game;
 
 int				handle_close(t_game *game);
@@ -142,9 +140,8 @@ void			my_mlx_pixel_put(t_image fram, int x, int y, int color);
 unsigned int	get_color(t_image img, int x, int y);
 int				get_t(int trgb);
 double			get_distance(t_point a, t_point b);
+void			get_window_dimensions(void);
 
 //! Ray caster functions :
-
-
 
 #endif

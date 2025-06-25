@@ -78,7 +78,8 @@ int	main(int ac, char **av)
 	game->mlx = mlx_init();
 	if (!game->mlx)
 		print_err("Failed to initialize MLX\n");
-	game->win = mlx_new_window(game->mlx, WIN_WIDTH, WIN_HEIGHT, "Cub3D");
+	get_window_dimensions();
+	game->win = mlx_new_window(game->mlx, game->win_w, game->win_h, "Cub3D");
 	if (!game->win)
 		print_err("Failed to create window\n");
 	parse_input(game, ac, av);

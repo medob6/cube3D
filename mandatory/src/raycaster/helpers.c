@@ -6,7 +6,7 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 18:19:30 by mbousset          #+#    #+#             */
-/*   Updated: 2025/06/24 18:20:10 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/06/25 14:52:12 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,17 @@ double	get_distance(t_point a, t_point b)
 					2)));
 	return (dist);
 }
+void	get_window_dimensions(void)
+{
+	t_game	*game;
+	int		w;
+	int		h;
+
+	game = get_game();
+	mlx_get_screen_size(game->mlx, &w, &h);
+	game->win_w = w * 0.8;
+	game->win_h = h * 0.8;
+}
 
 int	get_t(int trgb)
 {
@@ -45,8 +56,10 @@ unsigned int	get_color(t_image img, int x, int y)
 void	my_mlx_pixel_put(t_image fram, int x, int y, int color)
 {
 	char	*dst;
+	t_game	*game;
 
-	if (x < 0 || y < 0 || x >= WIN_WIDTH || y >= WIN_HEIGHT)
+	game = get_game();
+	if (x < 0 || y < 0 || x >= game->win_w || y >= game->win_h)
 		return ;
 	dst = fram.addr + (y * fram.line_len + x * 4);
 	*(unsigned int *)dst = color;
