@@ -14,8 +14,8 @@
 # include <unistd.h>
 
 // window config
-# define WIN_WIDTH 1700
-# define WIN_HEIGHT 1400
+# define WIN_WIDTH 1800
+# define WIN_HEIGHT 1500
 # define TILE_SIZE 100
 
 // keys
@@ -36,7 +36,7 @@
 // player config
 # define FIELD_SIGHT 170
 # define NUM_RAYS WIN_WIDTH
-# define FOV_ANGLE deg_to_rad(60)
+# define FOV_ANGLE M_PI / 3
 
 typedef enum e_graphic
 {
@@ -105,6 +105,12 @@ typedef struct s_circle
 
 }				t_circle;
 
+typedef struct s_mm_scale
+{
+	double		world_zoom;
+	double		px_border;
+}				t_mm_scale;
+
 typedef struct s_game
 {
 	void		*mlx;
@@ -132,10 +138,13 @@ void			print_err(char *msg);
 double			normalize_angle(double angle);
 void			draw_mini_map(t_game *game);
 double			deg_to_rad(double a);
-
 void			my_mlx_pixel_put(t_image fram, int x, int y, int color);
 unsigned int	get_color(t_image img, int x, int y);
 int				get_t(int trgb);
 double			get_distance(t_point a, t_point b);
+
+//! Ray caster functions :
+
+
 
 #endif

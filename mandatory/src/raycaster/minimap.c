@@ -1,28 +1,40 @@
 
 #include "cub.h"
-// TODO:
-//? optimize :  reduce the use of macros make it dynamic depandent on map demonsions ,
-//	and the minimap logic
-//? get_screen size for detemening width and hight of the window
-#define THICKNESS 2.5
-#define MINIMAP_SCREEN_SCALE 0.1
+
+// TODO: the problem is that when the player moves the map shift faster in smaller minimap the n bigger minimap , but the oposit should be
+//?   =>  doing ray casting will make more it vesibale
+
+#define MINIMAP_SCREEN_SCALE 0.08
 #define PLAYER_SCALE 0.2
 #define ICON_SCALE 0.14
-#define MINIMAP_WORLD_ZOOM 0.48
 
-int	get_minimap_pixel_color(t_game *g, double rx, double ry, double a)
+
+static t_mm_scale	get_minimap_scale(t_game *g, double radius)
+{
+	const int	map_w = g->data.map.map_w * TILE_SIZE;
+	const int	map_h = g->data.map.map_h * TILE_SIZE;
+	const int	shortest = fmin(map_w, map_h);
+	t_mm_scale	sc;
+	double		world_units_visible;
+
+	world_units_visible = shortest / 3.0;
+	sc.world_zoom = (radius * 2.0) / world_units_visible;
+	sc.px_border = fmin(fmax(radius * 0.01, 1.0), 6.0);
+	return (sc);
+}
+
+int	get_minimap_pixel_color(t_game *g, double rx, double ry, double a,
+		t_mm_scale sc)
 {
 	t_point	delta;
-	t_point	wp;
-	t_point	f;
-	int		row;
-	int		col;
 	char	cell;
 
+	t_point wp, f;
+	int row, col;
 	delta.x = rx * cos(a) - ry * sin(a);
 	delta.y = rx * sin(a) + ry * cos(a);
-	wp.x = g->player.p.x + delta.x / MINIMAP_WORLD_ZOOM;
-	wp.y = g->player.p.y + delta.y / MINIMAP_WORLD_ZOOM;
+	wp.x = g->player.p.x + delta.x / sc.world_zoom;
+	wp.y = g->player.p.y + delta.y / sc.world_zoom;
 	col = wp.x / TILE_SIZE;
 	row = wp.y / TILE_SIZE;
 	if (row < 0 || row >= g->data.map.map_h || col < 0
@@ -33,8 +45,8 @@ int	get_minimap_pixel_color(t_game *g, double rx, double ry, double a)
 		return (0xeeeeee);
 	f.x = fmod(wp.x, TILE_SIZE);
 	f.y = fmod(wp.y, TILE_SIZE);
-	if (f.x < THICKNESS || f.x > TILE_SIZE - THICKNESS || f.y < THICKNESS
-		|| f.y > TILE_SIZE - THICKNESS)
+	if (f.x < sc.px_border || f.x > TILE_SIZE - sc.px_border
+		|| f.y < sc.px_border || f.y > TILE_SIZE - sc.px_border)
 		return (0x000000);
 	return (0x633974);
 }
@@ -116,13 +128,13 @@ void	draw_player(t_game *game, t_circle minimap)
 	}
 }
 
-int	get_minimap_color(t_point p, double m_radius)
+int	get_minimap_color(t_point p, double m_radius, t_mm_scale sc)
 {
-	int		color;
 	t_game	*game;
+	int		color;
 
 	game = get_game();
-	color = get_minimap_pixel_color(game, p.x, p.y, game->player.angle);
+	color = get_minimap_pixel_color(game, p.x, p.y, game->player.angle, sc);
 	if (pow(p.x, 2) + pow(p.y, 2) > pow(m_radius * 0.94, 2))
 		color = 0xffffff;
 	if (pow(p.x, 2) + pow(p.y, 2) > pow(m_radius * 0.94, 2) && (pow(p.x, 2)
@@ -137,24 +149,22 @@ void	draw_mini_map(t_game *game)
 	t_circle	mini_map;
 	t_point		p;
 	int			color;
+	t_mm_scale	sc;
 
 	mini_map.radius = fmin(WIN_WIDTH, WIN_HEIGHT) * MINIMAP_SCREEN_SCALE;
 	mini_map.c.x = mini_map.radius * 1.2;
 	mini_map.c.y = WIN_HEIGHT - mini_map.radius * 1.2;
-	int px, py;
+	sc = get_minimap_scale(game, mini_map.radius);
 	p.y = -mini_map.radius - 1;
 	while (++p.y < mini_map.radius)
 	{
 		p.x = -mini_map.radius - 1;
 		while (++p.x < mini_map.radius)
 		{
-			color = get_minimap_color(p, mini_map.radius);
+			color = get_minimap_color(p, mini_map.radius, sc);
 			if (pow(p.x, 2) + pow(p.y, 2) <= pow(mini_map.radius, 2))
-			{
-				px = mini_map.c.x + p.x;
-				py = mini_map.c.y + p.y;
-				my_mlx_pixel_put(game->display, px, py, color);
-			}
+				my_mlx_pixel_put(game->display, mini_map.c.x + p.x, mini_map.c.y
+					+ p.y, color);
 		}
 	}
 	put_icon_on_edeg(N_ICONE, mini_map, deg_to_rad(90));
