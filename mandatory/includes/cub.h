@@ -31,7 +31,7 @@
 # define ROTATE_SPEED 0.05
 
 // player config
-# define FIELD_SIGHT 170
+// # define FIELD_SIGHT 170
 # define FOV_ANGLE M_PI / 3
 
 typedef enum e_graphic
