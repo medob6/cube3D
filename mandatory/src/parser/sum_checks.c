@@ -6,7 +6,7 @@
 /*   By: omben-ch <omben-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/15 15:27:03 by omben-ch          #+#    #+#             */
-/*   Updated: 2025/06/24 18:43:49 by omben-ch         ###   ########.fr       */
+/*   Updated: 2025/06/25 09:54:34 by omben-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ int	check_nwes(t_data *data, char *line)
 	return (0);
 }
 
-int	check_val_data(t_data *data)
+int	check_nwes_data(t_data *data)
 {
 	if (!data->n_path || !data->w_path || !data->e_path || !data->s_path
 		|| !data->f_color || !data->c_color)
@@ -105,7 +105,7 @@ int	get_val_nwesfc(t_data *data, int fd)
 	char	*line;
 
 	line = NULL;
-	while (check_val_data(data))
+	while (check_nwes_data(data))
 	{
 		line = get_next_line(fd);
 		if (!line)
@@ -222,6 +222,12 @@ void	get_val_of_element(t_data *data, int fd)
 {
 	if (get_val_nwesfc(data, fd) || get_val_map(data, fd))
 	{
+		freeing_data(data);
+		exit(1);
+	}
+	if (check_nwes_data(data) || !data->map)
+	{
+		ft_putstr_fd("error data\n",2);	
 		freeing_data(data);
 		exit(1);
 	}

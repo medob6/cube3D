@@ -6,7 +6,7 @@
 /*   By: omben-ch <omben-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/16 09:38:42 by omben-ch          #+#    #+#             */
-/*   Updated: 2025/06/24 16:11:20 by omben-ch         ###   ########.fr       */
+/*   Updated: 2025/06/25 09:58:35 by omben-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int check_diget_comma(char *arg)
     
     i = 0;
     j = 0;
-    while (arg[i] && arg[i] != '\n')
+    while (arg[i])
     {
         if (!(arg[i] >= '0' && arg[i] <= '9') && arg[i] != ',')
             return (1);
@@ -27,7 +27,7 @@ int check_diget_comma(char *arg)
             j++;
         i++;
     }
-    if (j > 2)
+    if (j != 2)
     {
         ft_putstr_fd("error more comma\n", 2);
         return (1);
@@ -63,7 +63,10 @@ int check_val(char *arg)
     i = 0;
     j = 0;
     if (check_diget_comma(arg))
+    {
+        ft_putstr_fd("error format\n", 2);
         return (1);
+    }
     args = ft_split(arg, ",");
     if (!args)
     {
@@ -97,7 +100,7 @@ void check_content_fc(t_data *data)
         freeing_data(data);
 		exit(1);
 	}
-    if (check_val(data->f_color))
+    if (check_val(data->c_color))
     {
         freeing_data(data);
 		exit(1);

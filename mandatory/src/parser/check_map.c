@@ -26,14 +26,14 @@ int	counter_line(char *str)
 	return ((int)i);
 }
 
-void print_error_map_and_exit(t_data *data)
+void	print_error_map_and_exit(t_data *data)
 {
-	ft_putstr_fd("error line map\n",2);
+	ft_putstr_fd("error line map\n", 2);
 	freeing_data(data);
 	exit(1);
 }
 
-void check_line_first_last(t_data *data, int last_line)
+void	check_line_first_last(t_data *data, int last_line)
 {
 	int	i;
 
@@ -66,7 +66,7 @@ int	get_size_of_long_line(t_data *data)
 		tmp_size_line = counter_line(data->map[i]);
 		if (tmp_size_line == -1)
 		{
-			ft_putstr_fd("the line is solong\n",2);
+			ft_putstr_fd("the line is solong\n", 2);
 			freeing_data(data);
 			exit(1);
 		}
@@ -106,14 +106,14 @@ void	add_space(t_data *data)
 	}
 }
 
-void position_of_plaer_and_floor_check(t_data *data, char **map, int x , int y)
+void	position_of_plaer_and_floor_check(t_data *data, char **map, int x,
+		int y)
 {
-	if (x && map[x][y]&& map[x + 1] && ft_strchr("0NWSE", map[x][y])
-				&& (!ft_strchr("10NWSE", map[x][y - 1])
-					|| !ft_strchr("10NWSE", map[x][y + 1])
-					|| !ft_strchr("10NWSE", map[x - 1][y])
-					|| !ft_strchr("10NWSE", map[x + 1][y])))
-            	print_error_map_and_exit(data);
+	if (x && map[x][y] && map[x + 1] && ft_strchr("0NWSE", map[x][y])
+		&& (!ft_strchr("10NWSE", map[x][y - 1]) || !ft_strchr("10NWSE", map[x][y
+				+ 1]) || !ft_strchr("10NWSE", map[x - 1][y])
+			|| !ft_strchr("10NWSE", map[x + 1][y])))
+		print_error_map_and_exit(data);
 }
 
 void	check_content_map(t_data *data)
@@ -125,21 +125,21 @@ void	check_content_map(t_data *data)
 	x = 0;
 	position = 0;
 	add_space(data);
-    check_line_first_last(data, nb_args(data->map) - 1);
+	check_line_first_last(data, nb_args(data->map) - 1);
 	while (data->map[++x] && data->map[x + 1])
 	{
-        y = -1;
+		y = -1;
 		while (data->map[x][++y])
 		{
-            if(!ft_strchr(" 10NWSE", data->map[x][y]))
-            	print_error_map_and_exit(data);
-            if(!ft_strchr(" 10NWSE", data->map[x][y]))
-            	print_error_map_and_exit(data);
-			position_of_plaer_and_floor_check(data, data->map, x , y);
+			if (!ft_strchr(" 10NWSE", data->map[x][y]))
+				print_error_map_and_exit(data);
+			if (!ft_strchr(" 10NWSE", data->map[x][y]))
+				print_error_map_and_exit(data);
+			position_of_plaer_and_floor_check(data, data->map, x, y);
 			if (ft_strchr("NWSE", data->map[x][y]))
-                position++;
+				position++;
 		}
 	}
-    if (position != 1)
-    	print_error_map_and_exit(data);
+	if (position != 1)
+		print_error_map_and_exit(data);
 }
