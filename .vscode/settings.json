@@ -1,0 +1,9 @@
+{
+    "files.associations": {
+        "cub.h": "c",
+        "get_next_line.h": "c",
+        "random": "c",
+        "cmath": "c"
+    },
+    "functionHeaderExtension.headerFilePath": "/home/mbousset/Desktop/cub3D/mandatory/includes/cub.h"
+}

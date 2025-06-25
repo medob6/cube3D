@@ -1,16 +1,19 @@
-NAME = cub
+NAME = cub3D
 
 CC = cc
 
-LDFLAGS = #-lmlx -lXext -lX11 -lm
+LDFLAGS = -lmlx -lXext -lX11 -lm
 
-CFLAGS = -g3 -Wall -Wextra -Werror -Iincludes -Ilibft
+CFLAGS = -g3 -Wall -Wextra -Werror -Iincludes -Ilibft -fsanitize=address
 
 MAIN_SRC = main.c
 
 PARSER_SRC = parser.c check_map.c
 
-SRCS = $(addprefix src/, $(MAIN_SRC)) $(addprefix src/parser/, $(PARSER_SRC))
+RAY_CASTER = ray_cast.c init_resorces.c keys_api.c movements.c cleanup.c helpers.c minimap.c
+
+
+SRCS = $(addprefix src/, $(MAIN_SRC)) $(addprefix src/parser/, $(PARSER_SRC)) $(addprefix src/raycaster/, $(RAY_CASTER)) 
 
 OBJS = $(SRCS:.c=.o)
 
@@ -26,10 +29,10 @@ $(LIBFT):
 	@make bonus -C $(LIBFT_PATH)
 
 $(NAME): $(OBJS)
-	@$(CC) $(CFLAGS) $(LDFLAGS) $(OBJS) $(LIBFT) -o $(NAME)
+	@$(CC) $(CFLAGS)  $(OBJS) $(LIBFT) -o $(NAME) $(LDFLAGS)
 
 %.o: %.c $(HEADER_FILES)
-	@$(CC) $(CFLAGS) $(LDFLAGS) -c $< -o $@
+	@$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
 	@rm -rf $(OBJS)
