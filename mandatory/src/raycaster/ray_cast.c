@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ray_cast.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/25 15:39:30 by mbousset          #+#    #+#             */
+/*   Updated: 2025/06/25 17:21:49 by mbousset         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cub.h"
 
 //? NOTES :
@@ -10,8 +22,16 @@
 // cast_rays(game);
 // draw_3d_view(game);
 
-
-void	cast_rays(t_game *game)
+// cast rays will return the distance between the player position and the intersection with the wall
+int	cast_rays(t_game *game)
 {
 	(void)game;
+	// the raycasting is trowing a ray a stright line of light in a derection and checking if it hit a obstacle you know its position
+}
+
+void	draw_3d_view(game)
+{
+	(void)game;
+	// here cast rays sholud be embedded in the while loop loping on rays
+	return ;
 }

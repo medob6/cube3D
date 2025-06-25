@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   init_resorces.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/25 15:39:37 by mbousset          #+#    #+#             */
+/*   Updated: 2025/06/25 18:58:20 by mbousset         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cub.h"
 
 t_game	*get_game(void)
@@ -71,8 +83,8 @@ void	init_player(t_game *game)
 		{
 			if (is_valid_dir(map[y][x]))
 			{
-				game->player.p.x = (x + 0.5) * TILE_SIZE;
-				game->player.p.y = (y + 0.5) * TILE_SIZE;
+				game->player.p.x = (x + 0.5) * TILE_SIZE * UNITE;
+				game->player.p.y = (y + 0.5) * TILE_SIZE * UNITE;
 				game->player.angle = get_view_angel(map[y][x]);
 				return ;
 			}

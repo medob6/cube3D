@@ -1,15 +1,27 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/25 15:39:43 by mbousset          #+#    #+#             */
+/*   Updated: 2025/06/25 17:12:01 by mbousset         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cub.h"
 
-// void	print_map(t_map *map)
-// {
-// 	int	i;
+void	print_map(t_map *map)
+{
+	int	i;
 
-// 	i = 0;
-// 	while (i < map->map_h)
-// 	{
-// 		printf("%s\n", map->arr[i++]);
-// 	}
-// }
+	i = 0;
+	while (i < map->map_h)
+	{
+		printf("%s\n", map->arr[i++]);
+	}
+}
 
 void	parse_input(t_game *game, int ac, char **av)
 {
@@ -30,7 +42,7 @@ void	parse_input(t_game *game, int ac, char **av)
 		i++;
 	}
 	game->data.map.arr[i] = NULL;
-	// print_map(&game->data.map);
+	print_map(&game->data.map);
 	game->data.paths[E_WALL] = "./textures/east.xpm";
 	game->data.paths[W_WALL] = "./textures/west.xpm";
 	game->data.paths[N_WALL] = "./textures/north.xpm";

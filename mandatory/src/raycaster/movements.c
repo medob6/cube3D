@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   movements.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/25 15:39:57 by mbousset          #+#    #+#             */
+/*   Updated: 2025/06/25 18:58:20 by mbousset         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cub.h"
 
 static void	move_forward_backward(t_game *game, double *new_x, double *new_y)
@@ -45,9 +57,9 @@ static void	handle_exit(t_game *game)
 
 static void	apply_movement(t_game *game, double new_x, double new_y)
 {
-	if (game->data.map.arr[(int)(new_y / TILE_SIZE)]
-		&& game->data.map.arr[(int)(new_y / TILE_SIZE)][(int)(new_x
-			/ TILE_SIZE)] != '1')
+	if (game->data.map.arr[(int)(new_y / TILE_SIZE * UNITE)]
+		&& game->data.map.arr[(int)(new_y / TILE_SIZE * UNITE)][(int)(new_x
+			/ TILE_SIZE * UNITE)] != '1')
 	{
 		if (game->player.p.x != new_x || game->player.p.y != new_y)
 			game->player.moving = true;
@@ -60,9 +72,11 @@ static void	apply_movement(t_game *game, double new_x, double new_y)
 
 void	update_player(t_game *game)
 {
-	double new_x = game->player.p.x;
-	double new_y = game->player.p.y;
+	double	new_x;
+	double	new_y;
 
+	new_x = game->player.p.x;
+	new_y = game->player.p.y;
 	move_forward_backward(game, &new_x, &new_y);
 	move_sideways(game, &new_x, &new_y);
 	rotate_player(game);
