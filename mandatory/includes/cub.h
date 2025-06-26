@@ -6,7 +6,7 @@
 /*   By: omben-ch <omben-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 15:39:51 by mbousset          #+#    #+#             */
-/*   Updated: 2025/06/26 17:18:40 by omben-ch         ###   ########.fr       */
+/*   Updated: 2025/06/26 18:00:42 by omben-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,7 +131,7 @@ typedef struct s_game
 }				t_game;
 
 int				handle_close(t_game *game);
-void			cleanup(t_game *game, int code);
+void	cleanup(int code);
 void			update_player(t_game *game);
 t_game			*get_game(void);
 bool			is_valid_dir(char dir);

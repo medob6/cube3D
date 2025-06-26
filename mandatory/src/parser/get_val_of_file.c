@@ -6,7 +6,7 @@
 /*   By: omben-ch <omben-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/15 15:27:03 by omben-ch          #+#    #+#             */
-/*   Updated: 2025/06/26 16:01:36 by omben-ch         ###   ########.fr       */
+/*   Updated: 2025/06/26 18:09:26 by omben-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,13 +120,13 @@ void	get_val_of_element(t_fcub *fcub, int fd)
 	if (get_val_nwesfc(fcub, fd) || get_val_map(fcub, fd))
 	{
 		freeing_data(fcub);
-		exit(1);
+		cleanup(1);
 	}
 	if (check_struct_fcub_val(fcub) || !fcub->map)
 	{
 		print_error_argument();
 		freeing_data(fcub);
-		exit(1);
+		cleanup(1);
 	}
 	sup_newline(fcub);
 }

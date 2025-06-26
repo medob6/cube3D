@@ -6,7 +6,7 @@
 /*   By: omben-ch <omben-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 14:44:04 by omben-ch          #+#    #+#             */
-/*   Updated: 2025/06/26 15:26:57 by omben-ch         ###   ########.fr       */
+/*   Updated: 2025/06/26 18:09:26 by omben-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void	print_error_file_and_exit(void)
 	ft_putstr_fd(RED BOLD "❌ Error File Name: " RESET, 2);
 	ft_putstr_fd("< File Name >", 2);
 	ft_putstr_fd(BOLD ".cub\n" RESET, 2);
-	exit(1);
+	cleanup(1);
 }
 
 void	print_and_exit(char *str)
@@ -60,12 +60,12 @@ void	print_and_exit(char *str)
 	ft_putstr_fd("Error\n", 2);
 	ft_putstr_fd(str, 2);
 	ft_putstr_fd("\n", 2);
-	exit(1);
+	cleanup(1);
 }
 
 void	print_error_map_and_exit(t_fcub *fcub)
 {
 	print_error_argument();
 	freeing_data(fcub);
-	exit(1);
+	cleanup(1);
 }

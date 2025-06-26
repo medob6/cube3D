@@ -6,7 +6,7 @@
 /*   By: omben-ch <omben-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 09:38:33 by omben-ch          #+#    #+#             */
-/*   Updated: 2025/06/26 17:19:24 by omben-ch         ###   ########.fr       */
+/*   Updated: 2025/06/26 18:35:32 by omben-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,39 +23,45 @@
 // 	}
 // }
 
+int get_rgb(t_fcub *fcub, char *color)
+{
+	char **list;
+	int rgb[3];
+
+	list = ft_split(color, ",");
+	if (!list)
+	{
+		freeing_data(fcub);
+		print_and_exit("error malloc\n");
+	}
+	rgb[0] = ft_atoi((const char *)list[0]);
+	rgb[1] = ft_atoi((const char *)list[1]);
+	rgb[2] = ft_atoi((const char *)list[2]);
+	freeing_list(list);
+	return (rgb[0] << 16 | rgb[1] << 8 | rgb[2]);
+}
+
 void	parse_input(t_game *game, int ac, char **av)
 {
-	int			i;
-	static char	*dummy_map[] = {"11111111111", "10000000001", "10111111001",
-			"10100001001", "10101101001", "10001000001", "10101011101",
-			"10101010001", "10001010E01", "10111111101", "11111111111"};
-
-	(void)ac;
-	(void)av;
-	i = 0;
-	game->data.map.map_h = sizeof(dummy_map) / sizeof(dummy_map[0]);
-	game->data.map.map_w = ft_strlen(dummy_map[0]);
-	game->data.map.arr = malloc(sizeof(char *) * (game->data.map.map_h + 1));
-	while (i < game->data.map.map_h)
-	{
-		game->data.map.arr[i] = ft_strdup(dummy_map[i]);
-		i++;
-	}
-	game->data.map.arr[i] = NULL;
-	// print_map(&game->data.map);
-	game->data.paths[E_WALL] = "./textures/east.xpm";
-	game->data.paths[W_WALL] = "./textures/west.xpm";
-	game->data.paths[N_WALL] = "./textures/north.xpm";
-	game->data.paths[S_WALL] = "./textures/south.xpm";
-	game->data.ceiling_clr = 0x87CEEB;
-	game->data.floor_clr = 0x2E2E2E;
+	t_fcub fcub;
+	
+	parse_and_get_data(&fcub,ac,av);
+	game->data.paths[N_WALL] = fcub.n_path;
+	game->data.paths[W_WALL] = fcub.w_path;
+	game->data.paths[E_WALL] = fcub.e_path;
+	game->data.paths[S_WALL] = fcub.s_path;
+	game->data.ceiling_clr = get_rgb(&fcub, fcub.c_color);
+	game->data.floor_clr = get_rgb(&fcub, fcub.f_color);
+	game->data.map.arr = fcub.map;
+	game->data.map.map_h = count_line(fcub.map);
+	game->data.map.map_w = get_size_of_long_line(&fcub);
 }
 
 void	print_err(char *msg)
 {
 	ft_putstr_fd("Error\n", 2);
 	ft_putstr_fd(msg, 2);
-	cleanup(get_game(), EXIT_FAILURE);
+	cleanup(EXIT_FAILURE);
 }
 
 int	game_loop(t_game *game)

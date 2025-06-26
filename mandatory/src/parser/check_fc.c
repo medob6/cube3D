@@ -6,7 +6,7 @@
 /*   By: omben-ch <omben-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/16 09:38:42 by omben-ch          #+#    #+#             */
-/*   Updated: 2025/06/26 15:58:23 by omben-ch         ###   ########.fr       */
+/*   Updated: 2025/06/26 18:09:26 by omben-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,6 @@ void	check_content_fc(t_fcub *fcub)
 	if (check_val_of_fc(fcub->f_color) || check_val_of_fc(fcub->c_color))
 	{
 		freeing_data(fcub);
-		exit(1);
+		cleanup(1);
 	}
 }

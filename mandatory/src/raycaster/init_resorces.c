@@ -49,7 +49,7 @@ void	init_image(t_game *game, t_image *img, char *path)
 	if (!img->img)
 	{
 		perror("Error: Failed to load an image ");
-		exit(1);
+		cleanup(1);
 	}
 	img->addr = mlx_get_data_addr(img->img, &img->bpp, &img->line_len,
 			&img->endian);

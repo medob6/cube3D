@@ -6,7 +6,7 @@
 /*   By: omben-ch <omben-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 15:38:56 by omben-ch          #+#    #+#             */
-/*   Updated: 2025/06/26 15:30:25 by omben-ch         ###   ########.fr       */
+/*   Updated: 2025/06/26 18:09:41 by omben-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	check_name(char *arg)
 		if (!ft_strcmp(arg, "--rules"))
 		{
 			print_cub_rules();
-			exit(0);
+			cleanup(0);
 		}
 		else
 			print_error_file_and_exit();
@@ -56,7 +56,8 @@ void	parse_and_get_data(t_fcub *fcub, int ac, char **av)
 	if (ac != 2)
 	{
 		print_error_argument();
-		exit(1);
+		cleanup(1);
+		cleanup(1);
 	}
 	check_name(av[1]);
 	fd = open(av[1], O_RDONLY);

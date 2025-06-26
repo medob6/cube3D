@@ -6,7 +6,7 @@
 /*   By: omben-ch <omben-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 15:17:02 by omben-ch          #+#    #+#             */
-/*   Updated: 2025/06/26 15:51:07 by omben-ch         ###   ########.fr       */
+/*   Updated: 2025/06/26 18:09:26 by omben-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	sup_newline(t_fcub *fcub)
 		{
 			print_error_argument();
 			freeing_data(fcub);
-			exit(1);
+			cleanup(1);
 		}
 		free(fcub->map[i]);
 		free(tmp_list[1]);

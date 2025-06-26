@@ -21,9 +21,11 @@ void	free_map(t_map *map)
 	free(map->arr);
 }
 
-void	cleanup(t_game *game,int code)
+void	cleanup(int code)
 {
 	int	i;
+	t_game *game;
+	game = get_game();
 
 	i = 0;
 	while (i < 6)
@@ -45,6 +47,6 @@ int	handle_close(t_game *game)
 	write(1, "Window closed.\n", 15);
 	if (game->mlx && game->win)
 		mlx_destroy_window(game->mlx, game->win);
-	cleanup(game,EXIT_SUCCESS);
+	cleanup(EXIT_SUCCESS);
 	return (0);
 }
