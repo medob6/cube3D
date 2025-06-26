@@ -6,7 +6,7 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 15:39:25 by mbousset          #+#    #+#             */
-/*   Updated: 2025/06/25 18:58:20 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/06/26 09:51:03 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static t_mm_scale	get_minimap_scale(t_game *g, double radius)
 	double		world_units_visible;
 
 	world_units_visible = shortest / 3.0;
-	sc.world_zoom = (radius * 2.0) / world_units_visible;
+	sc.world_zoom = (radius * 2.0) / world_units_visible; // change 2.0 , to smaller to make map more visibale
 	sc.px_border = fmin(fmax(radius * 0.01, 1.0), 6.0);
 	return (sc);
 }

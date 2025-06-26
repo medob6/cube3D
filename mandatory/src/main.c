@@ -6,7 +6,7 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 15:39:43 by mbousset          #+#    #+#             */
-/*   Updated: 2025/06/25 17:12:01 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/06/26 13:39:40 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,10 +64,10 @@ int	game_loop(t_game *game)
 	game->player.moving = true;
 	if (game->player.moving)
 	{
-		// cast_rays(game);
-		// draw_3d_view(game);
-		draw_mini_map(game);
+		// draw_3d_view(game); // this for mandatory
+		// draw_object(game);
 		// draw_player(game);
+		draw_mini_map(game);
 	}
 	mlx_put_image_to_window(game->mlx, game->win, game->display.img, 0, 0);
 	return (1);

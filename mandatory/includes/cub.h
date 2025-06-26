@@ -6,7 +6,7 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 15:39:51 by mbousset          #+#    #+#             */
-/*   Updated: 2025/06/25 18:09:51 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/06/26 17:17:59 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,7 +151,5 @@ unsigned int	get_color(t_image img, int x, int y);
 int				get_t(int trgb);
 double			get_distance(t_point a, t_point b);
 void			get_window_dimensions(void);
-
-//! Ray caster functions :
 
 #endif
