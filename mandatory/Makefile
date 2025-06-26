@@ -8,7 +8,7 @@ CFLAGS = -g3 -Wall -Wextra -Werror -Iincludes -Ilibft -fsanitize=address
 
 MAIN_SRC = main.c
 
-PARSER_SRC = parser.c check_map.c
+PARSER_SRC = check_fc.c  check_map.c  errors_msg.c  get_val_of_file.c  parser.c  tools1.c  tools2.c
 
 RAY_CASTER = ray_cast.c init_resorces.c keys_api.c movements.c cleanup.c helpers.c minimap.c
 

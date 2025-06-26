@@ -6,19 +6,24 @@
 /*   By: omben-ch <omben-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 15:38:56 by omben-ch          #+#    #+#             */
-/*   Updated: 2025/06/15 15:43:24 by omben-ch         ###   ########.fr       */
+/*   Updated: 2025/06/26 15:30:25 by omben-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub.h"
 
-void	print_error_map(char *str)
+void	init_data(t_fcub *fcub)
 {
-	printf("%s\n", str);
-	exit(1);
+	fcub->n_path = NULL;
+	fcub->w_path = NULL;
+	fcub->e_path = NULL;
+	fcub->s_path = NULL;
+	fcub->c_color = NULL;
+	fcub->f_color = NULL;
+	fcub->map = NULL;
 }
 
-void	check_name(char *name)
+void	check_name(char *arg)
 {
 	char	*str;
 	int		i;
@@ -27,27 +32,38 @@ void	check_name(char *name)
 	i = 0;
 	j = 0;
 	str = ".cub";
-	while (name[i])
-	{
-		if (i != 0 && name[i] == '.' && name[i + 1] != '.')
-			break ;
+	if (ft_strlen(arg) < 5)
+		print_error_file_and_exit();
+	while (arg[i])
 		i++;
-	}
-	while (str[j])
+	if (arg[--i] != 'b' || arg[--i] != 'u' || arg[--i] != 'c'
+		|| arg[--i] != '.')
 	{
-		if (name[i + j] != str[j])
-			print_error_map("1- file invalide");
-		j++;
+		if (!ft_strcmp(arg, "--rules"))
+		{
+			print_cub_rules();
+			exit(0);
+		}
+		else
+			print_error_file_and_exit();
 	}
-	if (name[i + j])
-		print_error_map("2- file invalide");
 }
 
-int	check(int ac, char **av)
+void	parse_and_get_data(t_fcub *fcub, int ac, char **av)
 {
+	int	fd;
+
 	if (ac != 2)
-		print_error_map("number of args invalid");
+	{
+		print_error_argument();
+		exit(1);
+	}
 	check_name(av[1]);
-    check_element(av[1]);
-	return (1);
+	fd = open(av[1], O_RDONLY);
+	if (fd == -1)
+		print_and_exit(strerror(errno));
+	init_data(fcub);
+	get_val_of_element(fcub, fd);
+	check_content_fc(fcub);
+	check_content_map(fcub);
 }

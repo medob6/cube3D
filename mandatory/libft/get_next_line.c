@@ -1,3 +1,17 @@
+<<<<<<< HEAD
+=======
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: omben-ch <omben-ch@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/26 17:12:52 by omben-ch          #+#    #+#             */
+/*   Updated: 2025/06/25 16:37:34 by omben-ch         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+>>>>>>> omben-ch
 
 #include "get_next_line.h"
 
@@ -30,13 +44,24 @@ char	*checkline_in_rest(char **rest)
 
 char	*proccess_buffer(int fd, char *buf, char **res)
 {
+<<<<<<< HEAD
 	char	*temp;
 	int		n;
 	int		i;
+=======
+	free(buffer);
+	*line = gnl_ft_strjoin(&line[0][0], &mem[0][0], 10, 1);
+	buffer = &mem[0][0];
+	*mem = ft_save_for_next(buffer + gnl_ft_strchr(buffer, '\n'));
+	free(buffer);
+	return (*line);
+}
+>>>>>>> omben-ch
 
 	n = 1;
 	while (n > 0)
 	{
+<<<<<<< HEAD
 		n = read(fd, buf, BUFFER_SIZE);
 		if (read_fails(n, res))
 			return (NULL);
@@ -51,6 +76,26 @@ char	*proccess_buffer(int fd, char *buf, char **res)
 			i++;
 		if ((*res)[i] == '\n')
 			return (jbad_line(res, i, 1));
+=======
+		*line = gnl_ft_strjoin(&mem[0][0], buffer, 10, 1);
+		free((*mem));
+		*mem = ft_save_for_next(buffer + gnl_ft_strchr(buffer, '\n'));
+		free(buffer);
+		return (*line);
+	}
+	else if (check_return(buffer) < 0)
+	{
+		if (check_return(&mem[0][0]) == 0)
+		{
+			*line = ft_save_for_next(&mem[0][0]);
+			free(buffer);
+			free(*mem);
+			*mem = NULL;
+			return (*line);
+		}
+		free(buffer);
+		return (NULL);
+>>>>>>> omben-ch
 	}
 	return (NULL);
 }
@@ -62,6 +107,7 @@ char	*get_next_line(int fd)
 	char		*line;
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
+<<<<<<< HEAD
 		return (free(rest), NULL);
 	buf = malloc(((size_t)BUFFER_SIZE) + 1);
 	if (!buf)
@@ -76,5 +122,25 @@ char	*get_next_line(int fd)
 		return (free(buf), free(rest), rest = NULL, NULL);
 	line = jbad_line(&rest, ft_strlen(rest), 0);
 	free(buf);
+=======
+		return (for_free(NULL, &mem, NULL, 2));
+	buffer = (char *)malloc(BUFFER_SIZE + 1);
+	if (!buffer)
+		return (for_free(NULL, &mem, NULL, 2));
+	if (check_return(mem) > 0)
+		return (cond_one(buffer, &mem, &line));
+	while (!for_free(NULL, NULL, line, 3) && ft_bzero(buffer, BUFFER_SIZE + 1)
+		&& read(fd, buffer, BUFFER_SIZE) > 0 && check_return(buffer) == 0)
+	{
+		line = mem;
+		mem = gnl_ft_strjoin(mem, buffer, 10, 10);
+		if (!mem)
+			for_free(buffer, NULL, NULL, 1);
+	}
+	if (check_return(buffer) > 0)
+		return (cond_two(buffer, &mem, &line));
+	else if (check_return(buffer) < 0)
+		return (cond_two(buffer, &mem, &line));
+>>>>>>> omben-ch
 	return (line);
 }

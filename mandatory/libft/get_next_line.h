@@ -1,4 +1,18 @@
+<<<<<<< HEAD
 
+=======
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: omben-ch <omben-ch@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/26 17:13:24 by omben-ch          #+#    #+#             */
+/*   Updated: 2025/06/25 16:37:36 by omben-ch         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+>>>>>>> omben-ch
 
 #ifndef GET_NEXT_LINE_H
 # define GET_NEXT_LINE_H
@@ -6,7 +20,11 @@
 # include <unistd.h>
 
 # ifndef BUFFER_SIZE
+<<<<<<< HEAD
 #  define BUFFER_SIZE 1024
+=======
+#  define BUFFER_SIZE 1
+>>>>>>> omben-ch
 # endif
 
 char	*get_next_line(int fd);

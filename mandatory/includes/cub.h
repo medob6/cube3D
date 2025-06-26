@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cub.h                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: omben-ch <omben-ch@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/25 15:39:51 by mbousset          #+#    #+#             */
+/*   Updated: 2025/06/26 17:18:40 by omben-ch         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef CUB_H
 # define CUB_H
 # include "get_next_line.h"
@@ -13,6 +25,7 @@
 # include <string.h>
 # include <unistd.h>
 
+# define UNITE 1
 # define TILE_SIZE 100
 
 // keys
@@ -29,10 +42,8 @@
 // speed
 # define MOVE_SPEED 5
 # define ROTATE_SPEED 0.05
-
-// player config
-// # define FIELD_SIGHT 170
-# define FOV_ANGLE M_PI / 3
+# define M_PI_3 1.0471975511965976
+# define FOV_ANGLE M_PI_3
 
 typedef enum e_graphic
 {
@@ -42,7 +53,6 @@ typedef enum e_graphic
 	S_WALL,
 	N_ICONE,
 	ARROW,
-
 }				t_graphic;
 
 typedef struct s_point
