@@ -8,7 +8,7 @@ CFLAGS = -g3 -Wall -Wextra -Werror -Iincludes -Ilibft
 
 MAIN_SRC = main.c
 
-PARSER_SRC = check_fc.c  check_map.c  parser.c  sum_checks.c  utils.c
+PARSER_SRC = check_fc.c  check_map.c  errors_msg.c  get_val_of_file.c  parser.c  tools1.c  tools2.c
 
 SRCS = $(addprefix src/, $(MAIN_SRC)) $(addprefix src/parser/, $(PARSER_SRC))
 

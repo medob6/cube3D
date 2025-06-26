@@ -10,25 +10,40 @@ typedef struct s_data
     char *f_color;    
     char *c_color;    
     char **map;  
-} t_data;
+} t_fcub;
 
 
 void	print_and_exit(char *str);
 void is_only_one_space(char *line);
-int nb_args(char **args);
-//void check_name_of_arg(char *line, char *arg);
 char	*check_newline(int fd);
 void check_nswe(int fd);
-void	get_val_of_element(t_data *data, int fd);
-void check_content_fc(t_data *data);
+void	get_val_of_element(t_fcub *fcub, int fd);
+void check_content_fc(t_fcub *fcub);
 
 
 /* FUNCTIONS */
+int	add_val(t_fcub *fcub, char *line);
+int	check_and_get_val(t_fcub *fcub, char **list);
+void	sup_newline(t_fcub *fcub);
+int	set_line_map(t_fcub *fcub, char *line, int size_of_map);
+int	check_struct_fcub_val(t_fcub *fcub);
+void	print_error_map_and_exit(t_fcub *fcub);
+void	print_and_exit(char *str);
+void	print_error_file_and_exit(void);
+void	print_error_argument(void);
+void	print_cub_rules(void);
+int	count_line(char *str);
+int	get_size_of_long_line(t_fcub *fcub);
+int	check_nwes(t_fcub *fcub, char *line);
+int count_list(char **list);
+void print_error_argument();
+void print_error_argument();
+void	print_cub_rules();
 void freeing_list(char **list);
-void freeing_data(t_data *data);
-int	check_nwes(t_data *data, char *line);
-//int	check_name(t_data *data, char *line);
-void	get_data(t_data *data, int ac, char **av);
-void check_content_map(t_data *data);
+void freeing_data(t_fcub *fcub);
+int	check_nwes(t_fcub *fcub, char *line);
+//int	check_name(t_fcub *fcub, char *line);
+void	parse_and_get_data(t_fcub *fcub, int ac, char **av);
+void check_content_map(t_fcub *fcub);
 
 #endif

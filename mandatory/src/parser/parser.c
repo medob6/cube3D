@@ -6,20 +6,24 @@
 /*   By: omben-ch <omben-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 15:38:56 by omben-ch          #+#    #+#             */
-/*   Updated: 2025/06/24 15:25:27 by omben-ch         ###   ########.fr       */
+/*   Updated: 2025/06/26 15:30:25 by omben-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub.h"
 
-void	print_and_exit(char *str)
+void	init_data(t_fcub *fcub)
 {
-	ft_putstr_fd(str, 2);
-	ft_putstr_fd("\n", 2);
-	exit(1);
+	fcub->n_path = NULL;
+	fcub->w_path = NULL;
+	fcub->e_path = NULL;
+	fcub->s_path = NULL;
+	fcub->c_color = NULL;
+	fcub->f_color = NULL;
+	fcub->map = NULL;
 }
 
-void	check_name(char *name)
+void	check_name(char *arg)
 {
 	char	*str;
 	int		i;
@@ -28,37 +32,38 @@ void	check_name(char *name)
 	i = 0;
 	j = 0;
 	str = ".cub";
-	if (ft_strlen(name) < 5)
-			print_and_exit("1- file invalide");
-	while (name[i])
+	if (ft_strlen(arg) < 5)
+		print_error_file_and_exit();
+	while (arg[i])
 		i++;
-	if (name[--i] != 'b' || name[--i] != 'u'|| name[--i] != 'c' || name[--i] != '.')
-		print_and_exit("2- file invalide");
+	if (arg[--i] != 'b' || arg[--i] != 'u' || arg[--i] != 'c'
+		|| arg[--i] != '.')
+	{
+		if (!ft_strcmp(arg, "--rules"))
+		{
+			print_cub_rules();
+			exit(0);
+		}
+		else
+			print_error_file_and_exit();
+	}
 }
 
-void init_data(t_data *data)
+void	parse_and_get_data(t_fcub *fcub, int ac, char **av)
 {
-    data->n_path = NULL;
-    data->w_path = NULL;
-    data->e_path = NULL;
-    data->s_path = NULL;
-    data->c_color = NULL;
-    data->f_color = NULL;
-    data->map = NULL;
-}
-
-void	get_data(t_data *data, int ac, char **av)
-{
-	int		fd;
+	int	fd;
 
 	if (ac != 2)
-		print_and_exit("number of args invalid");
+	{
+		print_error_argument();
+		exit(1);
+	}
 	check_name(av[1]);
 	fd = open(av[1], O_RDONLY);
 	if (fd == -1)
 		print_and_exit(strerror(errno));
-	init_data(data);
-    get_val_of_element(data ,fd);
-	check_content_fc(data);
-	check_content_map(data);
+	init_data(fcub);
+	get_val_of_element(fcub, fd);
+	check_content_fc(fcub);
+	check_content_map(fcub);
 }

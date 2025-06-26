@@ -1,63 +1,73 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   tools2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: omben-ch <omben-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/16 09:35:56 by omben-ch          #+#    #+#             */
-/*   Updated: 2025/06/24 18:08:16 by omben-ch         ###   ########.fr       */
+/*   Updated: 2025/06/26 15:26:34 by omben-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub.h"
 
-int	nb_args(char **args)
+void	freeing_list(char **list)
 {
 	int	i;
 
 	i = 0;
-	while (args && args[i])
+	while (list && list[i])
+	{
+		free(list[i]);
+		i++;
+	}
+	if (list)
+		free(list[i]);
+	free(list);
+}
+
+int	count_list(char **list)
+{
+	int	i;
+
+	i = 0;
+	while (list && list[i])
 		i++;
 	return (i);
 }
 
-void	is_only_one_space(char *line)
+int	count_line(char *str)
 {
-	int	i;
-	int	j;
+	size_t	i;
 
 	i = 0;
-	j = 0;
-	while (line[i])
+	while (str[i])
 	{
-		if (line[i] == ' ')
-			j++;
+		if (i > 2147483647)
+			return (-1);
 		i++;
 	}
-	if (j == 0 || j > 1)
-	{
-		free(line);
-		print_and_exit("nswe- error extar or no space");
-	}
+	return ((int)i);
 }
 
-char	*check_newline(int fd)
+void	freeing_data(t_fcub *fcub)
 {
-	char	*line;
+	int	i;
 
-	while (1)
+	i = 0;
+	free(fcub->n_path);
+	free(fcub->w_path);
+	free(fcub->e_path);
+	free(fcub->s_path);
+	free(fcub->f_color);
+	free(fcub->c_color);
+	while (fcub->map && fcub->map[i])
 	{
-		line = get_next_line(fd);
-		if (!line || !line[0])
-		{
-			free(line);
-			print_and_exit("1- EOF");
-		}
-		else if (line[0] == '\n')
-			free(line);
-		else
-			return (line);
+		free(fcub->map[i]);
+		i++;
 	}
-	return (NULL);
+	if (fcub->map)
+		free(fcub->map[i]);
+	free(fcub->map);
 }

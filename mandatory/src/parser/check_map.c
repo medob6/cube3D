@@ -1,59 +1,67 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   check_content_map.c                                        :+:      :+:    :+:   */
+/*   check_map.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: omben-ch <omben-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/16 16:57:04 by omben-ch          #+#    #+#             */
-/*   Updated: 2025/06/21 16:08:32 by omben-ch         ###   ########.fr       */
+/*   Created: 2025/06/26 15:14:23 by omben-ch          #+#    #+#             */
+/*   Updated: 2025/06/26 15:26:34 by omben-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub.h"
 
-int	counter_line(char *str)
+void	add_space(t_fcub *fcub)
 {
-	size_t	i;
+	char	*tmp;
+	char	*tmp_two;
+	int		size_line;
+	int		nb_space;
+	int		i;
 
-	i = 0;
-	while (str[i])
+	i = -1;
+	size_line = get_size_of_long_line(fcub);
+	while (fcub->map[++i])
 	{
-		if (i > 2147483647)
-			return (-1);
-		i++;
+		nb_space = size_line - count_line(fcub->map[i]);
+		while (nb_space--)
+		{
+			tmp = fcub->map[i];
+			tmp_two = ft_strjoin(fcub->map[i], " ");
+			if (!tmp_two)
+			{
+				freeing_data(fcub);
+				print_error_argument();
+				exit(1);
+			}
+			fcub->map[i] = tmp_two;
+			free(tmp);
+		}
 	}
-	return ((int)i);
 }
 
-void	print_error_map_and_exit(t_data *data)
-{
-	ft_putstr_fd("error line map\n", 2);
-	freeing_data(data);
-	exit(1);
-}
-
-void	check_line_first_last(t_data *data, int last_line)
+void	check_line_first_last(t_fcub *fcub, int last_line)
 {
 	int	i;
 
 	i = 0;
-	while (data->map[0][i])
+	while (fcub->map[0][i])
 	{
-		if (!ft_strchr("1 ", data->map[0][i]))
-			print_error_map_and_exit(data);
+		if (!ft_strchr("1 ", fcub->map[0][i]))
+			print_error_map_and_exit(fcub);
 		i++;
 	}
 	i = 0;
-	while (data->map[last_line][i])
+	while (fcub->map[last_line][i])
 	{
-		if (!ft_strchr("1 ", data->map[last_line][i]))
-			print_error_map_and_exit(data);
+		if (!ft_strchr("1 ", fcub->map[last_line][i]))
+			print_error_map_and_exit(fcub);
 		i++;
 	}
 }
 
-int	get_size_of_long_line(t_data *data)
+int	get_size_of_long_line(t_fcub *fcub)
 {
 	int	i;
 	int	size_line;
@@ -61,13 +69,13 @@ int	get_size_of_long_line(t_data *data)
 
 	i = 0;
 	size_line = 0;
-	while (data->map[i])
+	while (fcub->map[i])
 	{
-		tmp_size_line = counter_line(data->map[i]);
+		tmp_size_line = count_line(fcub->map[i]);
 		if (tmp_size_line == -1)
 		{
-			ft_putstr_fd("the line is solong\n", 2);
-			freeing_data(data);
+			print_error_argument();
+			freeing_data(fcub);
 			exit(1);
 		}
 		if (tmp_size_line > size_line)
@@ -77,46 +85,17 @@ int	get_size_of_long_line(t_data *data)
 	return (size_line);
 }
 
-void	add_space(t_data *data)
-{
-	char	*tmp;
-	char	*tmp_two;
-	int		size_line;
-	int		nb_space;
-	int		i;
-
-	i = -1;
-	size_line = get_size_of_long_line(data);
-	while (data->map[++i])
-	{
-		nb_space = size_line - counter_line(data->map[i]);
-		while (nb_space--)
-		{
-			tmp = data->map[i];
-			tmp_two = ft_strjoin(data->map[i], " ");
-			if (!tmp_two)
-			{
-				freeing_data(data);
-				ft_putstr_fd("error malloc\n", 2);
-				exit(1);
-			}
-			data->map[i] = tmp_two;
-			free(tmp);
-		}
-	}
-}
-
-void	position_of_plaer_and_floor_check(t_data *data, char **map, int x,
+void	position_of_player_and_floor_check(t_fcub *fcub, char **map, int x,
 		int y)
 {
 	if (x && map[x][y] && map[x + 1] && ft_strchr("0NWSE", map[x][y])
 		&& (!ft_strchr("10NWSE", map[x][y - 1]) || !ft_strchr("10NWSE", map[x][y
 				+ 1]) || !ft_strchr("10NWSE", map[x - 1][y])
 			|| !ft_strchr("10NWSE", map[x + 1][y])))
-		print_error_map_and_exit(data);
+		print_error_map_and_exit(fcub);
 }
 
-void	check_content_map(t_data *data)
+void	check_content_map(t_fcub *fcub)
 {
 	int	x;
 	int	y;
@@ -124,22 +103,22 @@ void	check_content_map(t_data *data)
 
 	x = 0;
 	position = 0;
-	add_space(data);
-	check_line_first_last(data, nb_args(data->map) - 1);
-	while (data->map[++x] && data->map[x + 1])
+	add_space(fcub);
+	check_line_first_last(fcub, count_list(fcub->map) - 1);
+	while (fcub->map[++x] && fcub->map[x + 1])
 	{
 		y = -1;
-		while (data->map[x][++y])
+		while (fcub->map[x][++y])
 		{
-			if (!ft_strchr(" 10NWSE", data->map[x][y]))
-				print_error_map_and_exit(data);
-			if (!ft_strchr(" 10NWSE", data->map[x][y]))
-				print_error_map_and_exit(data);
-			position_of_plaer_and_floor_check(data, data->map, x, y);
-			if (ft_strchr("NWSE", data->map[x][y]))
+			if (!ft_strchr(" 10NWSE", fcub->map[x][y]))
+				print_error_map_and_exit(fcub);
+			if (!ft_strchr(" 10NWSE", fcub->map[x][y]))
+				print_error_map_and_exit(fcub);
+			position_of_player_and_floor_check(fcub, fcub->map, x, y);
+			if (ft_strchr("NWSE", fcub->map[x][y]))
 				position++;
 		}
 	}
 	if (position != 1)
-		print_error_map_and_exit(data);
+		print_error_map_and_exit(fcub);
 }
