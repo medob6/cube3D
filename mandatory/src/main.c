@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: omben-ch <omben-ch@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 09:38:33 by omben-ch          #+#    #+#             */
-/*   Updated: 2025/06/26 18:35:32 by omben-ch         ###   ########.fr       */
+/*   Updated: 2025/06/26 18:48:20 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ int get_rgb(t_fcub *fcub, char *color)
 	rgb[1] = ft_atoi((const char *)list[1]);
 	rgb[2] = ft_atoi((const char *)list[2]);
 	freeing_list(list);
+	free(color);
 	return (rgb[0] << 16 | rgb[1] << 8 | rgb[2]);
 }
 
@@ -53,7 +54,7 @@ void	parse_input(t_game *game, int ac, char **av)
 	game->data.ceiling_clr = get_rgb(&fcub, fcub.c_color);
 	game->data.floor_clr = get_rgb(&fcub, fcub.f_color);
 	game->data.map.arr = fcub.map;
-	game->data.map.map_h = count_line(fcub.map);
+	game->data.map.map_h = count_list(fcub.map);
 	game->data.map.map_w = get_size_of_long_line(&fcub);
 }
 

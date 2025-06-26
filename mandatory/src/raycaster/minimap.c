@@ -11,8 +11,8 @@
 
 static t_mm_scale	get_minimap_scale(t_game *g, double radius)
 {
-	const int	map_w = g->data.map.map_w * TILE_SIZE;
-	const int	map_h = g->data.map.map_h * TILE_SIZE;
+	const int	map_w = g->win_w ;
+	const int	map_h = g->win_h;
 	const int	shortest = fmin(map_w, map_h);
 	t_mm_scale	sc;
 	double		world_units_visible;
@@ -41,8 +41,10 @@ int	get_minimap_pixel_color(t_game *g, double rx, double ry, double a,
 		|| col >= g->data.map.map_w)
 		return (0x000000);
 	cell = g->data.map.arr[row][col];
-	if (cell != '1')
+	if (cell == '0' || is_valid_dir(cell))
 		return (0xeeeeee);
+	else if (cell == ' ')
+		return (0x000000);
 	f.x = fmod(wp.x, TILE_SIZE);
 	f.y = fmod(wp.y, TILE_SIZE);
 	if (f.x < sc.px_border || f.x > TILE_SIZE - sc.px_border

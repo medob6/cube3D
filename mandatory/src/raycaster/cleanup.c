@@ -33,7 +33,7 @@ void	cleanup(int code)
 	destroy_image(game->mlx, game->display.img);
 	// destroy_image(game->mlx, &game->player.sprite);
 	if (game->data.map.arr)
-		free_map(&game->data.map);
+			free_map(&game->data.map);
 	if (game->mlx)
 	{
 		mlx_destroy_display(game->mlx);
