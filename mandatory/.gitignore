@@ -1,0 +1,24 @@
+# === Compiled Object Files ===
+*.o
+*.out
+*.a
+*.so
+*.exe
+*.bin
+
+# === Build Artifacts ===
+cub
+cub.dSYM/
+*.log
+*.tmp
+*.core
+*.swp
+
+# === OS Files ===
+.DS_Store
+Thumbs.db
+
+# === Editor Directories ===
+.vscode/
+.idea/
+*.code-workspace
