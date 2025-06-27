@@ -6,7 +6,7 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 09:38:33 by omben-ch          #+#    #+#             */
-/*   Updated: 2025/06/27 19:05:09 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/06/27 19:06:10 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,10 @@ void	print_map(t_map *map)
 	}
 }
 
-int get_rgb(t_fcub *fcub, char *color)
+int	get_rgb(t_fcub *fcub, char *color)
 {
-	char **list;
-	int rgb[3];
+	char	**list;
+	int		rgb[3];
 
 	list = ft_split(color, ",");
 	if (!list)
@@ -44,9 +44,9 @@ int get_rgb(t_fcub *fcub, char *color)
 
 void	parse_input(t_game *game, int ac, char **av)
 {
-	t_fcub fcub;
-	
-	parse_and_get_data(&fcub,ac,av);
+	t_fcub	fcub;
+
+	parse_and_get_data(&fcub, ac, av);
 	game->data.paths[N_WALL] = fcub.n_path;
 	game->data.paths[W_WALL] = fcub.w_path;
 	game->data.paths[E_WALL] = fcub.e_path;
@@ -102,7 +102,6 @@ int	main(int ac, char **av)
 	game->win = mlx_new_window(game->mlx, game->win_w, game->win_h, "Cub3D");
 	if (!game->win)
 		print_err("Failed to create window\n");
-	
 	initilize_game_resorces(game);
 	lunch_game_hooks(game);
 	return (0);
