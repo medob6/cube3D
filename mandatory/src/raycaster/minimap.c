@@ -5,7 +5,7 @@
 //?   =>  doing ray casting will make more it vesibale
 
 #define MINIMAP_SCREEN_SCALE 0.08
-#define PLAYER_SCALE 0.2
+#define PLAYER_SCALE 0.15
 #define ICON_SCALE 0.14
 
 
