@@ -1,36 +1,17 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   minimap.c                                          :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/25 15:39:25 by mbousset          #+#    #+#             */
-/*   Updated: 2025/06/26 09:51:03 by mbousset         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
-
 #include "cub.h"
-
-// TODO: the problem is that when the player moves the map shift faster in smaller minimap the n bigger minimap , but the oposit should be
-//?   =>  doing ray casting will make more it vesibale
 
 #define MINIMAP_SCREEN_SCALE 0.08
 #define PLAYER_SCALE 0.2
 #define ICON_SCALE 0.14
 
-
 static t_mm_scale	get_minimap_scale(t_game *g, double radius)
 {
-	const int	map_w = g->data.map.map_w * TILE_SIZE * UNITE;
-	const int	map_h = g->data.map.map_h * TILE_SIZE * UNITE;
-	const int	shortest = fmin(map_w, map_h);
+	const int	shortest = fmin(g->win_w, g->win_h);
 	t_mm_scale	sc;
 	double		world_units_visible;
 
 	world_units_visible = shortest / 3.0;
-	sc.world_zoom = (radius * 2.0) / world_units_visible; // change 2.0 , to smaller to make map more visibale
+	sc.world_zoom = (radius * 2.0) / world_units_visible;
 	sc.px_border = fmin(fmax(radius * 0.01, 1.0), 6.0);
 	return (sc);
 }
@@ -43,8 +24,9 @@ int	get_minimap_pixel_color(t_game *g, double rx, double ry, double a,
 
 	t_point wp, f;
 	int row, col;
-	delta.x = rx * cos(a) - ry * sin(a);
-	delta.y = rx * sin(a) + ry * cos(a);
+
+	delta.x = rx * sin(a) - ry * cos(a);
+	delta.y = rx * cos(a) + ry * sin(a);
 	wp.x = g->player.p.x + delta.x / sc.world_zoom;
 	wp.y = g->player.p.y + delta.y / sc.world_zoom;
 	col = wp.x / TILE_SIZE * UNITE;
@@ -80,8 +62,7 @@ void	get_icone_info(t_circle *icn, t_circle minimap, double icon_angle,
 {
 	double	delta;
 
-	delta = atan2(sin(icon_angle - player_angle), cos(icon_angle
-				- player_angle)) + M_PI;
+	delta = player_angle + icon_angle + M_PI_2;
 	icn->radius = minimap.radius * ICON_SCALE;
 	icn->c.x = cos(delta) * minimap.radius * 0.99 + minimap.c.x;
 	icn->c.y = sin(delta) * minimap.radius * 0.99 + minimap.c.y;

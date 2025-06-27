@@ -6,7 +6,7 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 15:39:43 by mbousset          #+#    #+#             */
-/*   Updated: 2025/06/26 13:39:40 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/06/27 19:01:06 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,12 @@ void	print_map(t_map *map)
 void	parse_input(t_game *game, int ac, char **av)
 {
 	int			i;
-	static char	*dummy_map[] = {"11111111111", "10000000001", "10111111001",
-			"10100001001", "10101101001", "10001000001", "10101011101",
-			"10101010001", "10001010E01", "10111111101", "11111111111"};
-
+	static char	*dummy_map[] = {
+		"111111",
+		"1E0101",
+		"100001",
+		"111111"
+	};
 	(void)ac;
 	(void)av;
 	i = 0;
@@ -67,6 +69,7 @@ int	game_loop(t_game *game)
 		// draw_3d_view(game); // this for mandatory
 		// draw_object(game);
 		// draw_player(game);
+		printf("x = %f, y = %f , a = %f\n",game->player.p.x,game->player.p.y,game->player.angle);
 		draw_mini_map(game);
 	}
 	mlx_put_image_to_window(game->mlx, game->win, game->display.img, 0, 0);
