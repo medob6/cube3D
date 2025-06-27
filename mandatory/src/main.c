@@ -6,7 +6,7 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 09:38:33 by omben-ch          #+#    #+#             */
-/*   Updated: 2025/06/26 18:48:20 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/06/27 11:18:41 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,10 +98,11 @@ int	main(int ac, char **av)
 	if (!game->mlx)
 		print_err("Failed to initialize MLX\n");
 	get_window_dimensions();
+	parse_input(game, ac, av);
 	game->win = mlx_new_window(game->mlx, game->win_w, game->win_h, "Cub3D");
 	if (!game->win)
 		print_err("Failed to create window\n");
-	parse_input(game, ac, av);
+	
 	initilize_game_resorces(game);
 	lunch_game_hooks(game);
 	return (0);
