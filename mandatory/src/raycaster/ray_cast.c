@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ray_cast.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/25 15:39:30 by mbousset          #+#    #+#             */
+/*   Updated: 2025/06/26 17:00:10 by mbousset         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cub.h"
 
 //? NOTES :
@@ -10,8 +22,40 @@
 // cast_rays(game);
 // draw_3d_view(game);
 
-
-void	cast_rays(t_game *game)
+// cast rays will return the distance between the player position and the intersection with the wall
+int	cast_rays(t_game *game)
 {
 	(void)game;
+	// the raycasting is trowing a ray a stright line of light in a derection and checking if it hit a obstacle you know its position
+	return (0);
+}
+
+
+// TODO : do a header file for raycaster
+typedef struct s_raycaster
+{
+	int     num_rays;
+	double  fov;
+	double  angle_step;
+	double  start_angle; 
+	double *distances;
+}	t_raycaster;
+
+
+// TODO : make a struct caster that hold all info about casting
+void	draw_3d_view(t_game *game)
+{
+	int		i;
+	double	ray_angel;
+	int		ray_num;
+
+	ray_num = game->win_w;
+	i = 0;
+	// here cast rays sholud be embedded in the while loop loping on rays
+	while (i < ray_num)
+	{
+		ray_angel = (game->player.angle - FOV_ANGLE / 2) + i * FOV_ANGLE / ray_num;
+		i++;
+	}
+	return ;
 }

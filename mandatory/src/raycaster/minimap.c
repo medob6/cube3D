@@ -1,19 +1,12 @@
-
 #include "cub.h"
-
-// TODO: the problem is that when the player moves the map shift faster in smaller minimap the n bigger minimap , but the oposit should be
-//?   =>  doing ray casting will make more it vesibale
 
 #define MINIMAP_SCREEN_SCALE 0.08
 #define PLAYER_SCALE 0.15
 #define ICON_SCALE 0.14
 
-
 static t_mm_scale	get_minimap_scale(t_game *g, double radius)
 {
-	const int	map_w = g->win_w ;
-	const int	map_h = g->win_h;
-	const int	shortest = fmin(map_w, map_h);
+	const int	shortest = fmin(g->win_w, g->win_h);
 	t_mm_scale	sc;
 	double		world_units_visible;
 
@@ -31,24 +24,23 @@ int	get_minimap_pixel_color(t_game *g, double rx, double ry, double a,
 
 	t_point wp, f;
 	int row, col;
-	delta.x = rx * cos(a) - ry * sin(a);
-	delta.y = rx * sin(a) + ry * cos(a);
+
+	delta.x = rx * sin(a) - ry * cos(a);
+	delta.y = rx * cos(a) + ry * sin(a);
 	wp.x = g->player.p.x + delta.x / sc.world_zoom;
 	wp.y = g->player.p.y + delta.y / sc.world_zoom;
-	col = wp.x / TILE_SIZE;
-	row = wp.y / TILE_SIZE;
+	col = wp.x / TILE_SIZE * UNITE;
+	row = wp.y / TILE_SIZE * UNITE;
 	if (row < 0 || row >= g->data.map.map_h || col < 0
 		|| col >= g->data.map.map_w)
 		return (0x000000);
 	cell = g->data.map.arr[row][col];
 	if (cell == '0' || is_valid_dir(cell))
 		return (0xeeeeee);
-	else if (cell == ' ')
-		return (0x000000);
-	f.x = fmod(wp.x, TILE_SIZE);
-	f.y = fmod(wp.y, TILE_SIZE);
-	if (f.x < sc.px_border || f.x > TILE_SIZE - sc.px_border
-		|| f.y < sc.px_border || f.y > TILE_SIZE - sc.px_border)
+	f.x = fmod(wp.x, TILE_SIZE * UNITE);
+	f.y = fmod(wp.y, TILE_SIZE * UNITE);
+	if (f.x < sc.px_border || f.x > TILE_SIZE * UNITE - sc.px_border
+		|| f.y < sc.px_border || f.y > TILE_SIZE * UNITE - sc.px_border)
 		return (0x000000);
 	return (0x633974);
 }
@@ -70,8 +62,7 @@ void	get_icone_info(t_circle *icn, t_circle minimap, double icon_angle,
 {
 	double	delta;
 
-	delta = atan2(sin(icon_angle - player_angle), cos(icon_angle
-				- player_angle)) + M_PI;
+	delta = player_angle + icon_angle + M_PI_2;
 	icn->radius = minimap.radius * ICON_SCALE;
 	icn->c.x = cos(delta) * minimap.radius * 0.99 + minimap.c.x;
 	icn->c.y = sin(delta) * minimap.radius * 0.99 + minimap.c.y;

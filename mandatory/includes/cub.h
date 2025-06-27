@@ -3,10 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   cub.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
+<<<<<<< HEAD
 /*   By: omben-ch <omben-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 15:39:51 by mbousset          #+#    #+#             */
 /*   Updated: 2025/06/26 18:00:42 by omben-ch         ###   ########.fr       */
+=======
+/*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/25 15:39:51 by mbousset          #+#    #+#             */
+/*   Updated: 2025/06/26 17:17:59 by mbousset         ###   ########.fr       */
+>>>>>>> medb6
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,6 +159,10 @@ int				get_t(int trgb);
 double			get_distance(t_point a, t_point b);
 void			get_window_dimensions(void);
 
+<<<<<<< HEAD
 //! Ray caster functions :
 
 #endif
+=======
+#endif
+>>>>>>> medb6

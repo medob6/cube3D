@@ -6,22 +6,22 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 09:38:33 by omben-ch          #+#    #+#             */
-/*   Updated: 2025/06/27 11:18:41 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/06/27 19:05:09 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub.h"
 
-// void	print_map(t_map *map)
-// {
-// 	int	i;
+void	print_map(t_map *map)
+{
+	int	i;
 
-// 	i = 0;
-// 	while (i < map->map_h)
-// 	{
-// 		printf("%s\n", map->arr[i++]);
-// 	}
-// }
+	i = 0;
+	while (i < map->map_h)
+	{
+		printf("%s\n", map->arr[i++]);
+	}
+}
 
 int get_rgb(t_fcub *fcub, char *color)
 {
@@ -71,10 +71,10 @@ int	game_loop(t_game *game)
 	game->player.moving = true;
 	if (game->player.moving)
 	{
-		// cast_rays(game);
-		// draw_3d_view(game);
-		draw_mini_map(game);
+		// draw_3d_view(game); // this for mandatory
+		// draw_object(game);
 		// draw_player(game);
+		draw_mini_map(game);
 	}
 	mlx_put_image_to_window(game->mlx, game->win, game->display.img, 0, 0);
 	return (1);
