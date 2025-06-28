@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minimap.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/28 09:02:20 by mbousset          #+#    #+#             */
+/*   Updated: 2025/06/28 09:02:21 by mbousset         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cub.h"
 
-#define MINIMAP_SCREEN_SCALE 0.08
+#define MINIMAP_SCREEN_SCALE 0.09
 #define PLAYER_SCALE 0.15
 #define ICON_SCALE 0.14
 
@@ -24,7 +36,6 @@ int	get_minimap_pixel_color(t_game *g, double rx, double ry, double a,
 
 	t_point wp, f;
 	int row, col;
-
 	delta.x = rx * sin(a) - ry * cos(a);
 	delta.y = rx * cos(a) + ry * sin(a);
 	wp.x = g->player.p.x + delta.x / sc.world_zoom;
@@ -37,6 +48,8 @@ int	get_minimap_pixel_color(t_game *g, double rx, double ry, double a,
 	cell = g->data.map.arr[row][col];
 	if (cell == '0' || is_valid_dir(cell))
 		return (0xeeeeee);
+	else if (cell == ' ')
+		return (0x000000);
 	f.x = fmod(wp.x, TILE_SIZE * UNITE);
 	f.y = fmod(wp.y, TILE_SIZE * UNITE);
 	if (f.x < sc.px_border || f.x > TILE_SIZE * UNITE - sc.px_border

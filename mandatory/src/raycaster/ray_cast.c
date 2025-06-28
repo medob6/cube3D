@@ -6,7 +6,7 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 15:39:30 by mbousset          #+#    #+#             */
-/*   Updated: 2025/06/26 17:00:10 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/06/28 09:06:15 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,11 +35,18 @@ int	cast_rays(t_game *game)
 typedef struct s_raycaster
 {
 	int     num_rays;
-	double  fov;
 	double  angle_step;
 	double  start_angle; 
 	double *distances;
 }	t_raycaster;
+
+void init_raycaster(t_raycaster *caster)
+{
+	t_game *game;
+	game = get_game();
+	caster->num_rays = game->win_w;
+	caster->angle_step = FOV_ANGLE / caster->num_rays;
+}
 
 
 // TODO : make a struct caster that hold all info about casting
