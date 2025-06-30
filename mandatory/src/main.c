@@ -6,11 +6,12 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 09:38:33 by omben-ch          #+#    #+#             */
-/*   Updated: 2025/06/27 19:06:10 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/06/30 14:54:12 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub.h"
+#include "raycaster.h"
 
 void	print_map(t_map *map)
 {
@@ -71,7 +72,7 @@ int	game_loop(t_game *game)
 	game->player.moving = true;
 	if (game->player.moving)
 	{
-		// draw_3d_view(game); // this for mandatory
+		cast_rays(game); // this for mandatory
 		// draw_object(game);
 		// draw_player(game);
 		draw_mini_map(game);

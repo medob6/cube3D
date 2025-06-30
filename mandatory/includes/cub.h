@@ -6,7 +6,7 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 15:39:51 by mbousset          #+#    #+#             */
-/*   Updated: 2025/06/28 09:04:25 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/06/30 14:51:52 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,7 +131,7 @@ typedef struct s_game
 }				t_game;
 
 int				handle_close(t_game *game);
-void	cleanup(int code);
+void			cleanup(int code);
 void			update_player(t_game *game);
 t_game			*get_game(void);
 bool			is_valid_dir(char dir);
@@ -151,7 +151,5 @@ unsigned int	get_color(t_image img, int x, int y);
 int				get_t(int trgb);
 double			get_distance(t_point a, t_point b);
 void			get_window_dimensions(void);
-
-//! Ray caster functions :
 
 #endif

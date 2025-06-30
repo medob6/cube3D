@@ -6,7 +6,7 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 15:39:33 by mbousset          #+#    #+#             */
-/*   Updated: 2025/06/25 15:39:34 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/06/29 16:00:13 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,22 +35,24 @@ void	free_map(t_map *map)
 
 void	cleanup(int code)
 {
-	int	i;
-	t_game *game;
-	game = get_game();
+	int		i;
+	t_game	*game;
 
+	game = get_game();
 	i = 0;
 	while (i < 6)
 		destroy_image(game->mlx, game->graphics[i++].img);
 	destroy_image(game->mlx, game->display.img);
 	// destroy_image(game->mlx, &game->player.sprite);
 	if (game->data.map.arr)
-			free_map(&game->data.map);
+		free_map(&game->data.map);
 	if (game->mlx)
 	{
+		mlx_do_key_autorepeaton(game->mlx);
 		mlx_destroy_display(game->mlx);
 		free(game->mlx);
 	}
+	
 	exit(code);
 }
 

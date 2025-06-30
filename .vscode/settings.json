@@ -3,7 +3,14 @@
         "cub.h": "c",
         "get_next_line.h": "c",
         "random": "c",
-        "cmath": "c"
+        "cmath": "c",
+        "array": "c",
+        "deque": "c",
+        "string": "c",
+        "unordered_map": "c",
+        "vector": "c",
+        "string_view": "c",
+        "initializer_list": "c"
     },
     "functionHeaderExtension.headerFilePath": "/home/mbousset/Desktop/cub3D/mandatory/includes/cub.h"
 }

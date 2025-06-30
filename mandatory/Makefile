@@ -17,7 +17,7 @@ SRCS = $(addprefix src/, $(MAIN_SRC)) $(addprefix src/parser/, $(PARSER_SRC)) $(
 
 OBJS = $(SRCS:.c=.o)
 
-HEADER_FILES = includes/cub.h
+HEADER_FILES = includes/cub.h includes/raycaster.h
 
 LIBFT_PATH = libft
 LIBFT = $(LIBFT_PATH)/libft.a

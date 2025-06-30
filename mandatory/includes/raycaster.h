@@ -1,9 +1,7 @@
 #ifndef RAYCASTER_H
 # define RAYCASTER_H
 
-# include <stdlib.h>
-# include <math.h>
-
+# include "cub.h"
 typedef struct s_raycaster
 {
 	int     num_rays;
@@ -13,6 +11,7 @@ typedef struct s_raycaster
 	double *distances;
 }	t_raycaster;
 
-
+void cast_rays(t_game *game);
+void draw_3d_view(t_game *game, t_raycaster *caster);
 
 #endif
