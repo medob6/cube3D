@@ -6,7 +6,7 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 18:19:30 by mbousset          #+#    #+#             */
-/*   Updated: 2025/06/25 14:52:12 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/07/01 18:46:44 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,7 @@ double	get_distance(t_point a, t_point b)
 {
 	double	dist;
 
-	dist = fabs(sqrt(pow(b.x, 2) + pow(b.y, 2)) - sqrt(pow(a.x, 2) + pow(a.y,
-					2)));
+	dist = fabs(sqrt(pow(b.x, 2) + pow(b.y, 2)) - sqrt(pow(a.x, 2) + pow(a.y,2)));
 	return (dist);
 }
 void	get_window_dimensions(void)
