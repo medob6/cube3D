@@ -6,7 +6,7 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 15:39:51 by mbousset          #+#    #+#             */
-/*   Updated: 2025/06/30 14:51:52 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/07/02 13:12:00 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@
 
 // speed
 # define MOVE_SPEED 5
-# define ROTATE_SPEED 0.05
+# define ROTATE_SPEED 0.1
 # define M_PI_3 1.0471975511965976
 # define FOV_ANGLE M_PI_3
 

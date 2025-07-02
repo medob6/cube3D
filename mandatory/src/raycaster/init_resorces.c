@@ -6,7 +6,7 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 15:39:37 by mbousset          #+#    #+#             */
-/*   Updated: 2025/06/26 10:07:45 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/07/02 19:37:44 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,11 +35,11 @@ double	get_view_angel(char dir)
 {
 	if (dir == 'E')
 		return (deg_to_rad(0));
-	else if (dir == 'N')
+	else if (dir == 'S')
 		return (deg_to_rad(90));
 	else if (dir == 'W')
 		return (deg_to_rad(180));
-	else if (dir == 'S')
+	else if (dir == 'N')
 		return (deg_to_rad(270));
 	return (1);
 }
@@ -86,7 +86,8 @@ void	init_player(t_game *game)
 				game->player.p.x = (x + 0.5) * TILE_SIZE * UNITE;
 				game->player.p.y = (y + 0.5) * TILE_SIZE * UNITE;
 				game->player.angle = get_view_angel(map[y][x]);
-				return ;
+				game->player.moving = true;
+				return;
 			}
 			x++;
 		}
