@@ -6,7 +6,7 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 15:39:51 by mbousset          #+#    #+#             */
-/*   Updated: 2025/07/02 13:12:00 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/07/05 15:08:42 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,10 @@
 # define ARROW_DOWN 65364
 # define ARROW_LEFT 65361
 # define ARROW_RIGHT 65363
+# define KEY_SPACE 32
 
 // speed
-# define MOVE_SPEED 5
+# define MOVE_SPEED 7
 # define ROTATE_SPEED 0.1
 # define M_PI_3 1.0471975511965976
 # define FOV_ANGLE M_PI_3
@@ -125,7 +126,7 @@ typedef struct s_game
 	int			win_w;
 	t_data		data;
 	t_player	player;
-	t_key		keys[9];
+	t_key		keys[10];
 	t_image		graphics[6];
 	t_image		display;
 }				t_game;

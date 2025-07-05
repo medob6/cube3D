@@ -6,7 +6,7 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 09:38:33 by omben-ch          #+#    #+#             */
-/*   Updated: 2025/07/02 21:27:33 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/07/05 18:54:04 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,18 +68,20 @@ void	print_err(char *msg)
 
 int	game_loop(t_game *game)
 {
-	static int	i = 0;
+	// static int	i = 0;
 
 	if (game->player.moving)
 	{
-		printf("iteration => %d\n", i++);
-		printf("player_x = %f , player_y = %f , palyer_ang = %f\n", game->player.p.x,game->player.p.y,game->player.angle * 180/M_PI);
+		// printf("iteration => %d\n", i++);
+		// printf("player_x = %f , player_y = %f , palyer_ang = %f\n", game->player.p.x,game->player.p.y,game->player.angle * 180/M_PI);
 		cast_rays(game); // this for mandatory
 		// draw_object(game);
 		// draw_player(game);
 		draw_mini_map(game);
 		mlx_put_image_to_window(game->mlx, game->win, game->display.img, 0, 0);
+		
 	}
+	
 	update_player(game);
 	return (1);
 }

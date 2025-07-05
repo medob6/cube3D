@@ -2,9 +2,9 @@ NAME = cub3D
 
 CC = cc
 
-LDFLAGS = -lmlx -lXext -lX11 -lm
+LDFLAGS = -lmlx -lXext -lX11 -lm #-O3
 
-CFLAGS = -g3 -Wall -Wextra -Werror -Iincludes -Ilibft -fsanitize=address
+CFLAGS = -g3 -Wall -Wextra -Werror -Iincludes -Ilibft #-fsanitize=address 
 
 MAIN_SRC = main.c
 

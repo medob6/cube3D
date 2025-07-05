@@ -6,7 +6,7 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 15:39:57 by mbousset          #+#    #+#             */
-/*   Updated: 2025/07/02 21:39:32 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/07/05 16:08:38 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,24 @@ static void	rotate_player(t_game *game)
 	game->player.angle = normalize_angle(game->player.angle);
 }
 
+static void	jump_player(t_game *game)
+{
+	static int	step;
+
+	if (step == 0 && get_key(KEY_SPACE, game)->press)
+		step = 25;
+	else if (game->player.p.z >= 200)
+		step = -30;
+	else if (game->player.p.z <= 0)
+	{
+		step = 0;
+		game->player.p.z = 0;
+	}
+	if (step != 0)
+		game->player.moving = true;
+	game->player.p.z += step;
+}
+
 static void	handle_exit(t_game *game)
 {
 	if (get_key(KEY_ESCAPE, game)->press)
@@ -62,7 +80,8 @@ static void	handle_exit(t_game *game)
 static void	apply_movement(t_game *game, double new_x, double new_y)
 {
 	if (game->data.map.arr[(int)(new_y / TILE_SIZE)][(int)(new_x
-			/ TILE_SIZE)] != '1')
+			/ TILE_SIZE)] != '1' && game->data.map.arr[(int)(new_y
+			/ TILE_SIZE)][(int)(new_x / TILE_SIZE)] != ' ')
 	{
 		game->player.moving = (game->player.p.x != new_x
 				|| game->player.p.y != new_y) || game->player.moving;
@@ -81,6 +100,7 @@ void	update_player(t_game *game)
 	move_forward_backward(game, &new_x, &new_y);
 	move_sideways(game, &new_x, &new_y);
 	rotate_player(game);
+	jump_player(game);
 	handle_exit(game);
 	apply_movement(game, new_x, new_y);
 }

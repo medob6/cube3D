@@ -1,13 +1,9 @@
 // the theme of our game will be a surviver of a nucluar war that destroyed the world in 2030 ,
-<<<<<<< HEAD
-//have been sent by the consile of survivers of radiotion to get the cure for infected ppl amd stop nucluar leakage
-=======
-//	have been sent by the consile of survivers of radiotion to get the cure for infected ppl amd stop nucluar leakage
->>>>>>> medb6
-//
+// have been sent by the consile of survivers of radiotion to get the cure for infected ppl amd stop nucluar leakage
+
 // main game maision
 // stop nucluar power plant leak
-//
+
 // the advanteg of our game will be the quality of the graphics
 
 //  first is we need to get all needed data from .cub file and store it in a structered variables
@@ -22,20 +18,20 @@
 // map image
 // we should have :
 // player :
-//
+
 // 	t_image	player;
 // 	double	x;
 // 	double	y;
 // 	double	angle;
 // texteures :
-//
+
 // hor_wall
 // ver_wall
 // sky color
 // floor color
-//
+
 // game struct :
-//
+
 // 	void	*mlx;
 // 	void	*win;
 // 	t_player	player;
@@ -45,14 +41,14 @@
 //  t_image floor color
 // 	t_image	player_view_buf;
 // 	t_map	*map;
-//
+
 
 
 // the theme of our game will be a surviver of a nucluar war that destroyed the world in 2030 , have been sent by the consile of survivers of rradiotion to get the cure of zombizim 
-//
+
 // main game maision
 // stop nucluar power plant leak 
-// 
+
 
 
 //  first is we need to get all needed data from .cub file and store it in a structered variables
@@ -67,20 +63,20 @@
 // map image
 // we should have :
 // player :
-//
+
 // 	t_image	player;
 // 	double	x;
 // 	double	y;
 // 	double	angle;
 // texteures :
-//
+
 // hor_wall
 // ver_wall
 // sky color
 // floor color
-//
+
 // game struct :
-//
+
 // 	void	*mlx;
 // 	void	*win;
 // 	t_player	player;
@@ -90,4 +86,4 @@
 //  t_image floor color
 // 	t_image	player_view_buf;
 // 	t_map	*map;
-//
+

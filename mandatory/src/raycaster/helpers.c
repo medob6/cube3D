@@ -6,7 +6,7 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 18:19:30 by mbousset          #+#    #+#             */
-/*   Updated: 2025/07/02 18:26:11 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/07/05 18:29:42 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,8 @@ void	get_window_dimensions(void)
 
 	game = get_game();
 	mlx_get_screen_size(game->mlx, &w, &h);
-	game->win_w = w * 0.5;
-	game->win_h = h * 0.5;
+	game->win_w = w * 0.4;
+	game->win_h = h * 0.4;
 }
 
 int	get_t(int trgb)
