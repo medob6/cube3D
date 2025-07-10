@@ -6,7 +6,7 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 15:39:30 by mbousset          #+#    #+#             */
-/*   Updated: 2025/07/05 19:06:12 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/07/10 19:04:24 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,42 +100,6 @@ static double	horiz_dist(double ray_ang, double *wall_x, int *dir)
 	return (INFINITY);
 }
 
-double	closest_hit(double ang, double *wall_x, int *dir)
-{
-	t_game	*g;
-
-	double h, v;
-	double h_x, v_x;
-	int h_dir, v_dir;
-	h_dir = -1;
-	v_dir = -1;
-	g = get_game();
-	h = horiz_dist(ang, &h_x, &h_dir);
-	v = verti_dist(ang, &v_x, &v_dir);
-	if (h < v)
-	{
-		*dir = h_dir;
-		*wall_x = h_x;
-		return (h * cos(normalize_angle(ang - g->player.angle)));
-	}
-	else
-	{
-		*dir = v_dir;
-		*wall_x = v_x;
-		return (v * cos(normalize_angle(ang - g->player.angle)));
-	}
-}
-
-void	init_raycaster(t_raycaster *c)
-{
-	t_game	*g;
-
-	g = get_game();
-	c->num_rays = g->win_w;
-	c->angle_step = FOV_ANGLE / c->num_rays;
-	c->distances = malloc(sizeof(double) * c->num_rays);
-}
-
 unsigned int	get_slice_color(int x, int y, int dir, int section)
 {
 	if (section == 1)
@@ -162,17 +126,17 @@ void	draw_section(int start, int end, int num, t_sec_inf *section)
 
 	int tex_x, tex_y;
 	i = start;
-	if (section->wall != -1)
-		tex = get_game()->graphics[section->wall];
+	if (section->sec.dir != -1)
+		tex = get_game()->graphics[section->sec.dir];
 	while (i <= end)
 	{
-		if (num == 2 && section->wall != -1)
+		if (num == 2 && section->sec.dir != -1)
 		{
 			d_from_top = i - start + section->tex_offset;
-			tex_y = (d_from_top / section->wall_h) * tex.h;
-			tex_x = fmod(section->wall_x, TILE_SIZE) / TILE_SIZE * tex.w;
+			tex_y = (d_from_top / section->sec.wall_h) * tex.h;
+			tex_x = fmod(section->sec.wall_x, TILE_SIZE) / TILE_SIZE * tex.w;
 		}
-		color = get_slice_color(tex_x, tex_y, section->wall, num);
+		color = get_slice_color(tex_x, tex_y, section->sec.dir, num);
 		my_mlx_pixel_put(get_game()->display, section->win_x, i, color);
 		i++;
 	}
@@ -183,23 +147,45 @@ t_sec_inf	*init_section(int w_x, double wall_h, int x, t_graphic dir)
 	t_sec_inf	*section;
 
 	section = malloc(sizeof(t_sec_inf));
-	section->wall_h = wall_h;
-	section->wall = dir;
-	section->wall_x = x;
+	section->sec.wall_h = wall_h;
+	section->sec.dir = dir;
+	section->sec.wall_x = x;
 	section->win_x = w_x;
 	section->tex_offset = 0;
 	return (section);
 }
 
-void	draw_wall_slice(int w_x, double wall_h, int x, int dir)
+bool	in_minimap_range(int w_x)
+{
+	int	minimap_r;
+	int	minima_c;
+	int	var;
+
+	minimap_r = get_game()->win_h * MINIMAP_SCREEN_SCALE;
+	minima_c = minimap_r * 1.2;
+	var = minimap_r + minimap_r * ICON_SCALE;
+	if (w_x < minima_c + var && w_x > minima_c - var)
+		return (true);
+	return (false);
+}
+
+void	draw_wall_slice(int w_x, t_sec *slice, int old_wh)
 {
 	int			wall_top;
 	t_sec_inf	*section;
 	int			wall_bottom;
+	int			old_wt;
+	int			old_wb;
 
-	section = init_section(w_x, wall_h, x, dir);
-	wall_top = get_game()->win_h / 2 - wall_h / 2 + get_game()->player.p.z;
-	wall_bottom = wall_top + wall_h;
+	old_wt = (get_game()->win_h / 2 - old_wh / 2) * (old_wh != 0)
+		+ get_game()->player.p.z - 1;
+	old_wb = old_wt + old_wh;
+	if (old_wh == 0 || in_minimap_range(w_x))
+		old_wb = get_game()->win_h;
+	section = init_section(w_x, slice[w_x].wall_h, slice[w_x].wall_x,slice[w_x].dir);
+	wall_top = get_game()->win_h / 2 - slice[w_x].wall_h / 2
+		+ get_game()->player.p.z;
+	wall_bottom = wall_top + slice[w_x].wall_h;
 	if (wall_top < 0)
 	{
 		section->tex_offset = -wall_top;
@@ -207,9 +193,13 @@ void	draw_wall_slice(int w_x, double wall_h, int x, int dir)
 	}
 	if (wall_bottom > get_game()->win_h)
 		wall_bottom = get_game()->win_h;
-	draw_section(0, wall_top, 1, section);
+	if (old_wt < 0)
+		old_wt = 0;
+	if (old_wt < wall_top)
+		draw_section(old_wt, wall_top, 1, section);
 	draw_section(wall_top, wall_bottom, 2, section);
-	draw_section(wall_bottom, get_game()->win_h, 3, section);
+	if (wall_bottom < old_wb)
+		draw_section(wall_bottom, old_wb, 3, section);
 	free(section);
 }
 
@@ -234,38 +224,137 @@ bool	check_position(t_game *g)
 		return (false);
 }
 
+double	get_old_angel(t_game *g)
+{
+	static double	old_ang = -1;
+	double			tmp;
+
+	if (old_ang == -1)
+	{
+		old_ang = g->player.angle;
+		return (g->player.angle);
+	}
+	else
+	{
+		tmp = old_ang;
+		old_ang = g->player.angle;
+		return (tmp);
+	}
+}
+
+bool	check_in_range(int ray, int offset, int max_rays)
+{
+	if (offset > 0)
+	{
+		if (ray < max_rays - offset)
+			return (true);
+	}
+	else if (offset < 0)
+	{
+		if (ray >= -offset)
+			return (true);
+	}
+	return (false);
+}
+
+static inline void	swap_buffers(t_raycaster *c)
+{
+	t_sec	*tmp;
+
+	tmp = c->prev_lines;
+	c->prev_lines = c->lines;
+	c->lines = tmp;
+}
+
+double	closest_hit(double ang, t_sec *line)
+{
+	t_game	*g;
+	double	raw_dist;
+
+	double h, v;
+	double h_x, v_x;
+	int h_dir, v_dir;
+	h_dir = -1;
+	v_dir = -1;
+	g = get_game();
+	h = horiz_dist(ang, &h_x, &h_dir);
+	v = verti_dist(ang, &v_x, &v_dir);
+	if (h < v)
+	{
+		line->dir = h_dir;
+		line->wall_x = h_x;
+		raw_dist = h;
+	}
+	else
+	{
+		line->dir = v_dir;
+		line->wall_x = v_x;
+		raw_dist = v;
+	}
+	line->raw_dist = raw_dist;
+	return (raw_dist * cos(normalize_angle(ang - g->player.angle)));
+}
+
 void	draw_3d_view(t_game *g, t_raycaster *c)
 {
 	int		i;
 	double	ray_ang;
 	double	proj_dist;
-	double	proj_wall;
-	double	wall_x;
-	int		dir;
 	bool	pos_changed;
+	int		ray_offset;
+	double	old_ang;
+	double	d;
+	double	corrected_dist;
+	double	old_wh;
 
+	ray_offset = 0;
 	pos_changed = check_position(g);
-	dir = -1;
+	old_ang = get_old_angel(g);
+	if (old_ang != g->player.angle)
+		ray_offset = (g->player.angle - old_ang) / c->angle_step;
 	c->start_angle = g->player.angle - FOV_ANGLE / 2;
 	proj_dist = (g->win_w / 2) / tan(FOV_ANGLE / 2);
 	i = -1;
 	while (++i < c->num_rays)
 	{
-		if (pos_changed)
+		old_wh = c->prev_lines[i].wall_h;
+		ray_ang = normalize_angle(c->start_angle + i * c->angle_step);
+		if (!pos_changed && check_in_range(i, ray_offset, c->num_rays))
 		{
-			printf("here\n"); // fix here
-			ray_ang = normalize_angle(c->start_angle + i * c->angle_step);
-			c->distances[i] = closest_hit(ray_ang, &wall_x, &dir);
+			c->lines[i] = c->prev_lines[i + ray_offset];
+			corrected_dist = c->lines[i].raw_dist * cos(normalize_angle(ray_ang
+						- g->player.angle));
+			c->lines[i].wall_h = (WALL_HIGHT / corrected_dist) * proj_dist;
 		}
-		proj_wall = (WALL_HIGHT / c->distances[i]) * proj_dist;
-		draw_wall_slice(i, proj_wall, wall_x, dir);
+		else
+		{
+			d = closest_hit(ray_ang, &c->lines[i]);
+			c->lines[i].wall_h = (WALL_HIGHT / d) * proj_dist;
+		}
+		draw_wall_slice(i, c->lines, old_wh);
 	}
+	swap_buffers(c);
 }
 
+void	init_raycaster(t_raycaster *c)
+{
+	t_game	*g;
+
+	g = get_game();
+	c->num_rays = g->win_w;
+	c->angle_step = FOV_ANGLE / c->num_rays;
+	c->lines = malloc(sizeof(t_sec) * c->num_rays);
+	c->prev_lines = malloc(sizeof(t_sec) * c->num_rays);
+}
 void	cast_rays(t_game *game)
 {
-	t_raycaster	caster;
+	static bool			first = true;
+	static t_raycaster	caster;
 
-	init_raycaster(&caster);
+	if (first)
+	{
+		init_raycaster(&caster);
+		first = false;
+	}
 	draw_3d_view(game, &caster);
 }

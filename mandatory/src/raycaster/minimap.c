@@ -6,15 +6,13 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/28 09:02:20 by mbousset          #+#    #+#             */
-/*   Updated: 2025/07/05 16:42:56 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/07/10 18:57:57 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub.h"
 
-#define MINIMAP_SCREEN_SCALE 0.09
 #define PLAYER_SCALE 0.20
-#define ICON_SCALE 0.14
 
 static t_mm_scale	get_minimap_scale(t_game *g, double radius)
 {
@@ -75,12 +73,45 @@ void	get_icone_info(t_circle *icn, t_circle minimap, double icon_angle,
 {
 	double	delta;
 
-	delta =  normalize_angle(icon_angle - player_angle + M_PI_2);
+	delta = normalize_angle(icon_angle - player_angle + M_PI_2);
 	icn->radius = minimap.radius * ICON_SCALE;
 	icn->c.x = cos(delta) * minimap.radius * 0.99 + minimap.c.x;
 	icn->c.y = sin(delta) * minimap.radius * 0.99 + minimap.c.y;
 }
 
+// void	clear_old_icon(t_circle mini_map, double icon_angle, double old_ang)
+// {
+// 	t_game		*game;
+// 	t_circle	icn;
+// 	t_point		p;
+// 	int			color;
+// 	double		dist_to_center;
+// 	double		draw_x;
+// 	double		draw_y;
+
+// 	game = get_game();
+// 	get_icone_info(&icn, mini_map, icon_angle, old_ang);
+// 	p.y = -icn.radius;
+// 	while (p.y <= icn.radius)
+// 	{
+// 		p.x = -icn.radius;
+// 		while (p.x <= icn.radius)
+// 		{
+// 			draw_x = icn.c.x + p.x;
+// 			draw_y = icn.c.y + p.y;
+// 			dist_to_center = pow(draw_x - mini_map.c.x, 2) + pow(draw_y
+// 					- mini_map.c.y, 2);
+// 			if (pow(p.x, 2) + pow(p.y, 2) <= pow(icn.radius, 2)
+// 				&& dist_to_center >= pow(mini_map.radius * 0.99, 2))
+// 			{
+// 				color = game->data.floor_clr;
+// 				my_mlx_pixel_put(game->display, draw_x, draw_y, color);
+// 			}
+// 			p.x++;
+// 		}
+// 		p.y++;
+// 	}
+// }
 void	put_icon_on_edeg(t_graphic icone, t_circle minimap, double icon_angle)
 {
 	t_game		*game;
@@ -157,7 +188,7 @@ void	draw_mini_map(t_game *game)
 	int			color;
 	t_mm_scale	sc;
 
-	mini_map.radius = fmin(game->win_w, game->win_h) * MINIMAP_SCREEN_SCALE;
+	mini_map.radius = game->win_h * MINIMAP_SCREEN_SCALE;
 	mini_map.c.x = mini_map.radius * 1.2;
 	mini_map.c.y = game->win_h - mini_map.radius * 1.2;
 	sc = get_minimap_scale(game, mini_map.radius);

@@ -6,7 +6,7 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 15:39:51 by mbousset          #+#    #+#             */
-/*   Updated: 2025/07/05 15:08:42 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/07/10 18:58:07 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,10 +41,15 @@
 # define KEY_SPACE 32
 
 // speed
-# define MOVE_SPEED 7
-# define ROTATE_SPEED 0.1
+# define MOVE_SPEED 9
+# define ROTATE_SPEED 0.101
+# define JUMP_SPEED 100
 # define M_PI_3 1.0471975511965976
 # define FOV_ANGLE M_PI_3
+
+// minimp
+# define MINIMAP_SCREEN_SCALE 0.09
+# define ICON_SCALE 0.14
 
 typedef enum e_graphic
 {
@@ -152,5 +157,8 @@ unsigned int	get_color(t_image img, int x, int y);
 int				get_t(int trgb);
 double			get_distance(t_point a, t_point b);
 void			get_window_dimensions(void);
+
+/* FUNCTIONS */
+double			get_old_angel(t_game *g);
 
 #endif
