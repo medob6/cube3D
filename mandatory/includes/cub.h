@@ -6,7 +6,7 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 15:39:51 by mbousset          #+#    #+#             */
-/*   Updated: 2025/07/10 18:58:07 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/07/11 18:38:23 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,9 @@
 # define KEY_SPACE 32
 
 // speed
-# define MOVE_SPEED 9
+# define MOVE_SPEED 32
 # define ROTATE_SPEED 0.101
-# define JUMP_SPEED 100
+# define JUMP_SPEED 40
 # define M_PI_3 1.0471975511965976
 # define FOV_ANGLE M_PI_3
 
@@ -86,6 +86,7 @@ typedef struct s_player
 	double		angle;
 	double		hieght;
 	bool		moving;
+	bool		jumping;
 }				t_player;
 
 typedef struct s_map

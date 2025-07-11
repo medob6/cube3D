@@ -6,7 +6,7 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 15:39:30 by mbousset          #+#    #+#             */
-/*   Updated: 2025/07/10 19:04:24 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/07/11 19:05:37 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,6 +128,7 @@ void	draw_section(int start, int end, int num, t_sec_inf *section)
 	i = start;
 	if (section->sec.dir != -1)
 		tex = get_game()->graphics[section->sec.dir];
+	end = fmin(end, get_game()->win_h);
 	while (i <= end)
 	{
 		if (num == 2 && section->sec.dir != -1)
@@ -169,20 +170,23 @@ bool	in_minimap_range(int w_x)
 	return (false);
 }
 
+// TODO : this function make view slow cus wl_h is big
 void	draw_wall_slice(int w_x, t_sec *slice, int old_wh)
 {
-	int			wall_top;
-	t_sec_inf	*section;
-	int			wall_bottom;
-	int			old_wt;
-	int			old_wb;
+	int				wall_top;
+	t_sec_inf		*section;
+	int				wall_bottom;
+	int				old_wt;
+	int				old_wb;
+	static double	prev_z = 0;
 
-	old_wt = (get_game()->win_h / 2 - old_wh / 2) * (old_wh != 0)
-		+ get_game()->player.p.z - 1;
+	old_wt = (get_game()->win_h / 2 - old_wh / 2 + (get_game()->player.p.z
+				- prev_z) - 1) * (old_wh != 0);
 	old_wb = old_wt + old_wh;
 	if (old_wh == 0 || in_minimap_range(w_x))
 		old_wb = get_game()->win_h;
-	section = init_section(w_x, slice[w_x].wall_h, slice[w_x].wall_x,slice[w_x].dir);
+	section = init_section(w_x, slice[w_x].wall_h, slice[w_x].wall_x,
+			slice[w_x].dir);
 	wall_top = get_game()->win_h / 2 - slice[w_x].wall_h / 2
 		+ get_game()->player.p.z;
 	wall_bottom = wall_top + slice[w_x].wall_h;
@@ -200,6 +204,10 @@ void	draw_wall_slice(int w_x, t_sec *slice, int old_wh)
 	draw_section(wall_top, wall_bottom, 2, section);
 	if (wall_bottom < old_wb)
 		draw_section(wall_bottom, old_wb, 3, section);
+	if (get_game()->player.jumping)
+		draw_section(wall_bottom, old_wb + get_game()->player.p.z + JUMP_SPEED
+			+ 5, 3, section);
+	prev_z = get_game()->player.p.z;
 	free(section);
 }
 
