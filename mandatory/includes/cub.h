@@ -6,7 +6,7 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 15:39:51 by mbousset          #+#    #+#             */
-/*   Updated: 2025/07/11 18:38:23 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/07/12 10:01:21 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,9 @@
 # define KEY_SPACE 32
 
 // speed
-# define MOVE_SPEED 32
-# define ROTATE_SPEED 0.101
-# define JUMP_SPEED 40
+# define MOVE_SPEED 10
+# define ROTATE_SPEED 0.04
+# define JUMP_SPEED 15
 # define M_PI_3 1.0471975511965976
 # define FOV_ANGLE M_PI_3
 

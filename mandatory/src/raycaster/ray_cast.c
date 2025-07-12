@@ -6,7 +6,7 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 15:39:30 by mbousset          #+#    #+#             */
-/*   Updated: 2025/07/11 19:05:37 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/07/12 10:00:42 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,18 +170,15 @@ bool	in_minimap_range(int w_x)
 	return (false);
 }
 
-// TODO : this function make view slow cus wl_h is big
 void	draw_wall_slice(int w_x, t_sec *slice, int old_wh)
 {
-	int				wall_top;
-	t_sec_inf		*section;
-	int				wall_bottom;
-	int				old_wt;
-	int				old_wb;
-	static double	prev_z = 0;
+	int			wall_top;
+	t_sec_inf	*section;
+	int			wall_bottom;
+	int			old_wt;
+	int			old_wb;
 
-	old_wt = (get_game()->win_h / 2 - old_wh / 2 + (get_game()->player.p.z
-				- prev_z) - 1) * (old_wh != 0);
+	old_wt = (get_game()->win_h / 2 - old_wh / 2 + -1) * (old_wh != 0);
 	old_wb = old_wt + old_wh;
 	if (old_wh == 0 || in_minimap_range(w_x))
 		old_wb = get_game()->win_h;
@@ -207,7 +204,6 @@ void	draw_wall_slice(int w_x, t_sec *slice, int old_wh)
 	if (get_game()->player.jumping)
 		draw_section(wall_bottom, old_wb + get_game()->player.p.z + JUMP_SPEED
 			+ 5, 3, section);
-	prev_z = get_game()->player.p.z;
 	free(section);
 }
 

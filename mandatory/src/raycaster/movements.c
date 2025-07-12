@@ -6,7 +6,7 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 15:39:57 by mbousset          #+#    #+#             */
-/*   Updated: 2025/07/11 16:44:15 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/07/12 09:31:55 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ static void	jump_player(t_game *game)
 	if (step == 0 && get_key(KEY_SPACE, game)->press)
 		step = JUMP_SPEED;
 	else if (game->player.p.z >= 200)
-		step = -JUMP_SPEED - 5;
+		step = -JUMP_SPEED;
 	else if (game->player.p.z <= 0)
 	{
 		step = 0;
