@@ -6,7 +6,7 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 15:39:51 by mbousset          #+#    #+#             */
-/*   Updated: 2025/07/12 10:01:21 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/07/12 14:47:38 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@
 // minimp
 # define MINIMAP_SCREEN_SCALE 0.09
 # define ICON_SCALE 0.14
+# define PLAYER_SCALE 0.20
 
 typedef enum e_graphic
 {
@@ -67,6 +68,12 @@ typedef struct s_point
 	double		y;
 	double		z;
 }				t_point;
+
+typedef struct s_pair
+{
+	double		x;
+	double		y;
+}				t_pair;
 
 typedef struct s_image
 {
@@ -160,6 +167,7 @@ double			get_distance(t_point a, t_point b);
 void			get_window_dimensions(void);
 
 /* FUNCTIONS */
+double			pow_2(double n);
 double			get_old_angel(t_game *g);
 
 #endif

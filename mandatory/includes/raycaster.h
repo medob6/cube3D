@@ -28,6 +28,15 @@ typedef struct s_sec_inf
 	int		tex_offset;
 }			t_sec_inf;
 
+typedef struct s_frame_state
+{
+	bool	pos_changed;
+	int		ray_offset;
+	double	old_ang;
+	double	start_angle;
+	double	proj_dist;
+}			t_frame_state;
+
 void		cast_rays(t_game *game);
 void		draw_3d_view(t_game *game, t_raycaster *caster);
 

@@ -6,11 +6,16 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 18:19:30 by mbousset          #+#    #+#             */
-/*   Updated: 2025/07/12 09:58:09 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/07/12 15:25:27 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub.h"
+
+double	pow_2(double n)
+{
+	return (n * n);
+}
 
 double	normalize_angle(double angle)
 {
@@ -20,14 +25,6 @@ double	normalize_angle(double angle)
 	return (angle);
 }
 
-double	get_distance(t_point a, t_point b)
-{
-	double	dist;
-
-	dist = fabs(sqrt(pow(b.x, 2) + pow(b.y, 2)) - sqrt(pow(a.x, 2) + pow(a.y,
-					2)));
-	return (dist);
-}
 void	get_window_dimensions(void)
 {
 	t_game	*game;
@@ -36,8 +33,8 @@ void	get_window_dimensions(void)
 
 	game = get_game();
 	mlx_get_screen_size(game->mlx, &w, &h);
-	game->win_w = w;
-	game->win_h = h;
+	game->win_w = w * 0.7;
+	game->win_h = h * 0.7;
 }
 
 int	get_t(int trgb)

@@ -6,13 +6,11 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/28 09:02:20 by mbousset          #+#    #+#             */
-/*   Updated: 2025/07/10 18:57:57 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/07/12 10:53:25 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub.h"
-
-#define PLAYER_SCALE 0.20
 
 static t_mm_scale	get_minimap_scale(t_game *g, double radius)
 {
@@ -26,16 +24,24 @@ static t_mm_scale	get_minimap_scale(t_game *g, double radius)
 	return (sc);
 }
 
-int	get_minimap_pixel_color(t_game *g, double rx, double ry, double a,
-		t_mm_scale sc)
+bool	in_border(t_point f, t_mm_scale sc)
+{
+	if (f.x < sc.px_border || f.x > TILE_SIZE * UNITE - sc.px_border
+		|| f.y < sc.px_border || f.y > TILE_SIZE * UNITE - sc.px_border)
+		return (true);
+	return (false);
+}
+
+int	get_minimap_pixel_color(t_game *g, double rx, double ry, t_mm_scale sc)
 {
 	t_point	delta;
-	char	cell;
+	t_point	wp;
+	t_point	f;
+	int		row;
+	int		col;
 
-	t_point wp, f;
-	int row, col;
-	delta.x = -rx * sin(a) - ry * cos(a);
-	delta.y = rx * cos(a) - ry * sin(a);
+	delta.x = -rx * sin(g->player.angle) - ry * cos(g->player.angle);
+	delta.y = rx * cos(g->player.angle) - ry * sin(g->player.angle);
 	wp.x = g->player.p.x + delta.x / sc.world_zoom;
 	wp.y = g->player.p.y + delta.y / sc.world_zoom;
 	col = wp.x / TILE_SIZE * UNITE;
@@ -43,15 +49,14 @@ int	get_minimap_pixel_color(t_game *g, double rx, double ry, double a,
 	if (row < 0 || row >= g->data.map.map_h || col < 0
 		|| col >= g->data.map.map_w)
 		return (0x000000);
-	cell = g->data.map.arr[row][col];
-	if (cell == '0' || is_valid_dir(cell))
+	if (g->data.map.arr[row][col] == '0'
+		|| is_valid_dir(g->data.map.arr[row][col]))
 		return (0xeeeeee);
-	else if (cell == ' ')
+	else if (g->data.map.arr[row][col] == ' ')
 		return (0x000000);
 	f.x = fmod(wp.x, TILE_SIZE * UNITE);
 	f.y = fmod(wp.y, TILE_SIZE * UNITE);
-	if (f.x < sc.px_border || f.x > TILE_SIZE * UNITE - sc.px_border
-		|| f.y < sc.px_border || f.y > TILE_SIZE * UNITE - sc.px_border)
+	if (in_border(f, sc))
 		return (0x000000);
 	return (0x633974);
 }
@@ -79,39 +84,6 @@ void	get_icone_info(t_circle *icn, t_circle minimap, double icon_angle,
 	icn->c.y = sin(delta) * minimap.radius * 0.99 + minimap.c.y;
 }
 
-// void	clear_old_icon(t_circle mini_map, double icon_angle, double old_ang)
-// {
-// 	t_game		*game;
-// 	t_circle	icn;
-// 	t_point		p;
-// 	int			color;
-// 	double		dist_to_center;
-// 	double		draw_x;
-// 	double		draw_y;
-
-// 	game = get_game();
-// 	get_icone_info(&icn, mini_map, icon_angle, old_ang);
-// 	p.y = -icn.radius;
-// 	while (p.y <= icn.radius)
-// 	{
-// 		p.x = -icn.radius;
-// 		while (p.x <= icn.radius)
-// 		{
-// 			draw_x = icn.c.x + p.x;
-// 			draw_y = icn.c.y + p.y;
-// 			dist_to_center = pow(draw_x - mini_map.c.x, 2) + pow(draw_y
-// 					- mini_map.c.y, 2);
-// 			if (pow(p.x, 2) + pow(p.y, 2) <= pow(icn.radius, 2)
-// 				&& dist_to_center >= pow(mini_map.radius * 0.99, 2))
-// 			{
-// 				color = game->data.floor_clr;
-// 				my_mlx_pixel_put(game->display, draw_x, draw_y, color);
-// 			}
-// 			p.x++;
-// 		}
-// 		p.y++;
-// 	}
-// }
 void	put_icon_on_edeg(t_graphic icone, t_circle minimap, double icon_angle)
 {
 	t_game		*game;
@@ -128,7 +100,7 @@ void	put_icon_on_edeg(t_graphic icone, t_circle minimap, double icon_angle)
 		while (p.x < icn.radius)
 		{
 			color = get_icone_color(icone, icn.radius, p.x, p.y);
-			if (pow(p.x, 2) + pow(p.y, 2) <= pow(icn.radius, 2))
+			if (pow_2(p.x) + pow_2(p.y) <= pow_2(icn.radius))
 				my_mlx_pixel_put(game->display, icn.c.x + p.x, icn.c.y + p.y,
 					color);
 			p.x++;
@@ -171,12 +143,12 @@ int	get_minimap_color(t_point p, double m_radius, t_mm_scale sc)
 	int		color;
 
 	game = get_game();
-	color = get_minimap_pixel_color(game, p.x, p.y, game->player.angle, sc);
-	if (pow(p.x, 2) + pow(p.y, 2) > pow(m_radius * 0.94, 2))
+	color = get_minimap_pixel_color(game, p.x, p.y, sc);
+	if (pow_2(p.x) + pow_2(p.y) > pow_2(m_radius * 0.94))
 		color = 0xffffff;
-	if (pow(p.x, 2) + pow(p.y, 2) > pow(m_radius * 0.94, 2) && (pow(p.x, 2)
-			+ pow(p.y, 2) < pow(m_radius * 0.96, 2) || pow(p.x, 2) + pow(p.y,
-				2) > pow(m_radius * 0.99, 2)))
+	if (pow_2(p.x) + pow_2(p.y) > pow_2(m_radius * 0.94) && (pow_2(p.x)
+			+ pow_2(p.y) < pow_2(m_radius * 0.96) || pow_2(p.x)
+			+ pow_2(p.y) > pow_2(m_radius * 0.99)))
 		color = 0xe866bb;
 	return (color);
 }
@@ -199,7 +171,7 @@ void	draw_mini_map(t_game *game)
 		while (++p.x < mini_map.radius)
 		{
 			color = get_minimap_color(p, mini_map.radius, sc);
-			if (pow(p.x, 2) + pow(p.y, 2) <= pow(mini_map.radius, 2))
+			if (pow_2(p.x) + pow_2(p.y) <= pow_2(mini_map.radius))
 				my_mlx_pixel_put(game->display, mini_map.c.x + p.x, mini_map.c.y
 					+ p.y, color);
 		}

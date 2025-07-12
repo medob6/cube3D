@@ -6,7 +6,7 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 15:39:33 by mbousset          #+#    #+#             */
-/*   Updated: 2025/07/12 10:04:00 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/07/12 10:06:31 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,6 @@ void	cleanup(int code)
 		mlx_destroy_display(game->mlx);
 		free(game->mlx);
 	}
-	
 	exit(code);
 }
 

@@ -6,24 +6,12 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 09:38:33 by omben-ch          #+#    #+#             */
-/*   Updated: 2025/07/11 18:46:03 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/07/12 10:05:39 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub.h"
 #include "raycaster.h"
-#include <sys/time.h>
-
-void	print_map(t_map *map)
-{
-	int	i;
-
-	i = 0;
-	while (i < map->map_h)
-	{
-		printf("%s\n", map->arr[i++]);
-	}
-}
 
 int	get_rgb(t_fcub *fcub, char *color)
 {
