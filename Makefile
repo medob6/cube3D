@@ -4,7 +4,7 @@ CC = cc
 
 LDFLAGS = -lmlx -lXext -lX11 -lm -Ofast
 
-CFLAGS = -g3 -Wall -Wextra -Werror -Imandatory/includes -Imandatory/libft #-fsanitize=address 
+CFLAGS = -g3 -Wall -Wextra -Werror -Imandatory/includes -Imandatory/libft -fsanitize=address 
 
 MAIN_SRC = main.c
 
