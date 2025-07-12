@@ -6,16 +6,11 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 18:19:30 by mbousset          #+#    #+#             */
-/*   Updated: 2025/07/12 15:25:27 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/07/12 15:57:59 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub.h"
-
-double	pow_2(double n)
-{
-	return (n * n);
-}
 
 double	normalize_angle(double angle)
 {

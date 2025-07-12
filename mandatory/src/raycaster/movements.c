@@ -6,13 +6,13 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 15:39:57 by mbousset          #+#    #+#             */
-/*   Updated: 2025/07/12 09:31:55 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/07/12 16:22:00 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub.h"
 
-static void	move_forward_backward(t_game *game, double *new_x, double *new_y)
+static void	move_along_axes(t_game *game, double *new_x, double *new_y)
 {
 	if (get_key(KEY_UP, game)->press || get_key(ARROW_UP, game)->press)
 	{
@@ -24,10 +24,6 @@ static void	move_forward_backward(t_game *game, double *new_x, double *new_y)
 		*new_x -= cos(game->player.angle) * MOVE_SPEED;
 		*new_y -= sin(game->player.angle) * MOVE_SPEED;
 	}
-}
-
-static void	move_sideways(t_game *game, double *new_x, double *new_y)
-{
 	if (get_key(KEY_LEFT, game)->press)
 	{
 		*new_x += sin(game->player.angle) * MOVE_SPEED;
@@ -75,12 +71,6 @@ static void	jump_player(t_game *game)
 	game->player.p.z += step;
 }
 
-static void	handle_exit(t_game *game)
-{
-	if (get_key(KEY_ESCAPE, game)->press)
-		handle_close(game);
-}
-
 static void	apply_movement(t_game *game, double new_x, double new_y)
 {
 	if (game->data.map.arr[(int)(new_y / TILE_SIZE)][(int)(new_x
@@ -101,8 +91,7 @@ void	update_player(t_game *game)
 
 	new_x = game->player.p.x;
 	new_y = game->player.p.y;
-	move_forward_backward(game, &new_x, &new_y);
-	move_sideways(game, &new_x, &new_y);
+	move_along_axes(game, &new_x, &new_y);
 	rotate_player(game);
 	jump_player(game);
 	handle_exit(game);

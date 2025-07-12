@@ -6,30 +6,11 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 15:39:37 by mbousset          #+#    #+#             */
-/*   Updated: 2025/07/12 10:17:54 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/07/12 16:03:35 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub.h"
-
-t_game	*get_game(void)
-{
-	static t_game	game;
-
-	return (&game);
-}
-
-bool	is_valid_dir(char dir)
-{
-	if (dir == 'N' || dir == 'S' || dir == 'E' || dir == 'W')
-		return (true);
-	return (false);
-}
-
-double	deg_to_rad(double a)
-{
-	return (a * M_PI / 180.0);
-}
 
 double	get_view_angel(char dir)
 {

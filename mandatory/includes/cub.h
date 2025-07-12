@@ -6,7 +6,7 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 15:39:51 by mbousset          #+#    #+#             */
-/*   Updated: 2025/07/12 14:47:38 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/07/12 16:18:35 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -163,11 +163,17 @@ double			deg_to_rad(double a);
 void			my_mlx_pixel_put(t_image fram, int x, int y, int color);
 unsigned int	get_color(t_image img, int x, int y);
 int				get_t(int trgb);
-double			get_distance(t_point a, t_point b);
 void			get_window_dimensions(void);
-
-/* FUNCTIONS */
 double			pow_2(double n);
 double			get_old_angel(t_game *g);
+int				get_icone_color(t_graphic icone, double raidus, double x,
+					double y);
+int				get_minimap_color(t_point p, double m_radius, t_mm_scale sc);
+t_mm_scale		get_minimap_scale(t_game *g, double radius);
+int				get_minimap_pixel_color(t_game *g, double rx, double ry,
+					t_mm_scale sc);
+void			get_icone_info(t_circle *icn, t_circle minimap,
+					double icon_angle, double player_angle);
+void			handle_exit(t_game *game);
 
 #endif

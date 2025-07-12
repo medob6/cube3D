@@ -6,31 +6,11 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 09:38:33 by omben-ch          #+#    #+#             */
-/*   Updated: 2025/07/12 10:05:39 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/07/12 16:05:58 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub.h"
 #include "raycaster.h"
-
-int	get_rgb(t_fcub *fcub, char *color)
-{
-	char	**list;
-	int		rgb[3];
-
-	list = ft_split(color, ",");
-	if (!list)
-	{
-		freeing_data(fcub);
-		print_and_exit("error malloc\n");
-	}
-	rgb[0] = ft_atoi((const char *)list[0]);
-	rgb[1] = ft_atoi((const char *)list[1]);
-	rgb[2] = ft_atoi((const char *)list[2]);
-	freeing_list(list);
-	free(color);
-	return (rgb[0] << 16 | rgb[1] << 8 | rgb[2]);
-}
 
 void	parse_input(t_game *game, int ac, char **av)
 {
@@ -57,10 +37,9 @@ void	print_err(char *msg)
 
 int	game_loop(t_game *game)
 {
-
 	if (game->player.moving)
 	{
-		cast_rays(game);
+		display_scean(game);
 		draw_mini_map(game);
 		mlx_put_image_to_window(game->mlx, game->win, game->display.img, 0, 0);
 	}

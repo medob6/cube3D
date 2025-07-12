@@ -4,13 +4,15 @@ CC = cc
 
 LDFLAGS = -lmlx -lXext -lX11 -lm -Ofast
 
-CFLAGS = -g3 -Wall -Wextra -Werror -Imandatory/includes -Imandatory/libft -fsanitize=address 
+CFLAGS = -g3 -Wall -Wextra -Werror -Imandatory/includes -Imandatory/libft #-fsanitize=address 
 
 MAIN_SRC = main.c
 
 PARSER_SRC = check_fc.c  check_map.c  errors_msg.c  get_val_of_file.c  parser.c  tools1.c  tools2.c
 
-RAY_CASTER = ray_cast.c init_resorces.c keys_api.c movements.c cleanup.c helpers.c minimap.c
+RAY_CASTER = cleanup.c draw_wall_slice.c  geometry_utils.c  helpers.c  init_resorces2.c  keys_api.c  minimap_utils.c  ray_cast.c \
+			wall_color.c draw_sections.c  frame_utils.c  helpers2.c  horizontal_raycast.c  init_resorces.c   minimap.c \
+			movements.c  vertical_raycast.c
 
 
 SRCS = $(addprefix mandatory/src/, $(MAIN_SRC)) $(addprefix mandatory/src/parser/, $(PARSER_SRC)) $(addprefix mandatory/src/raycaster/, $(RAY_CASTER)) 

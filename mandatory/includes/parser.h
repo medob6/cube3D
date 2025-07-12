@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: omben-ch <omben-ch@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 17:18:08 by omben-ch          #+#    #+#             */
-/*   Updated: 2025/06/26 17:22:58 by omben-ch         ###   ########.fr       */
+/*   Updated: 2025/07/12 15:41:04 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,6 @@ void	print_cub_rules();
 void freeing_list(char **list);
 void freeing_data(t_fcub *fcub);
 int	check_nwes(t_fcub *fcub, char *line);
-//int	check_name(t_fcub *fcub, char *line);
 void	parse_and_get_data(t_fcub *fcub, int ac, char **av);
 void check_content_map(t_fcub *fcub);
 
