@@ -6,7 +6,7 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 15:39:57 by mbousset          #+#    #+#             */
-/*   Updated: 2025/07/12 16:22:00 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/07/12 19:02:53 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,9 +73,9 @@ static void	jump_player(t_game *game)
 
 static void	apply_movement(t_game *game, double new_x, double new_y)
 {
-	if (game->data.map.arr[(int)(new_y / TILE_SIZE)][(int)(new_x
-			/ TILE_SIZE)] != '1' && game->data.map.arr[(int)(new_y
-			/ TILE_SIZE)][(int)(new_x / TILE_SIZE)] != ' ')
+	if (game->data.map.arr[(int)(new_y / WALL_WIDTH)][(int)(new_x
+			/ WALL_WIDTH)] != '1' && game->data.map.arr[(int)(new_y
+			/ WALL_WIDTH)][(int)(new_x / WALL_WIDTH)] != ' ')
 	{
 		game->player.moving = (game->player.p.x != new_x
 				|| game->player.p.y != new_y) || game->player.moving;

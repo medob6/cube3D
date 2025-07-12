@@ -6,7 +6,7 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 15:39:37 by mbousset          #+#    #+#             */
-/*   Updated: 2025/07/12 16:03:35 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/07/12 19:02:39 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,8 +64,8 @@ void	init_player(t_game *game)
 		{
 			if (is_valid_dir(map[y][x]))
 			{
-				game->player.p.x = (x + 0.5) * TILE_SIZE * UNITE;
-				game->player.p.y = (y + 0.5) * TILE_SIZE * UNITE;
+				game->player.p.x = (x + 0.5) * WALL_WIDTH;
+				game->player.p.y = (y + 0.5) * WALL_WIDTH;
 				game->player.p.z = 0;
 				game->player.angle = get_view_angel(map[y][x]);
 				game->player.moving = true;

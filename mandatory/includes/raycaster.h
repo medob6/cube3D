@@ -6,7 +6,7 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 16:22:34 by mbousset          #+#    #+#             */
-/*   Updated: 2025/07/12 16:22:35 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/07/12 19:02:45 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,6 @@
 # define RAYCASTER_H
 
 # include "cub.h"
-
-# define WALL_HIGHT 64
 
 typedef struct s_sec
 {

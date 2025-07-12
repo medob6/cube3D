@@ -6,7 +6,7 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 16:07:13 by mbousset          #+#    #+#             */
-/*   Updated: 2025/07/12 16:14:42 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/07/12 19:02:23 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,16 +18,16 @@ t_mm_scale	get_minimap_scale(t_game *g, double radius)
 	t_mm_scale	sc;
 	double		world_units_visible;
 
-	world_units_visible = shortest / 3.0;
-	sc.world_zoom = (radius * 1.4) / world_units_visible;
+	world_units_visible = shortest * (1.2 / 3.0);
+	sc.world_zoom = radius / world_units_visible;
 	sc.px_border = fmin(fmax(radius * 0.01, 1.0), 6.0);
 	return (sc);
 }
 
 bool	in_border(t_point f, t_mm_scale sc)
 {
-	if (f.x < sc.px_border || f.x > TILE_SIZE * UNITE - sc.px_border
-		|| f.y < sc.px_border || f.y > TILE_SIZE * UNITE - sc.px_border)
+	if (f.x < sc.px_border || f.x > WALL_WIDTH - sc.px_border
+		|| f.y < sc.px_border || f.y > WALL_WIDTH - sc.px_border)
 		return (true);
 	return (false);
 }
@@ -44,8 +44,8 @@ int	get_minimap_pixel_color(t_game *g, double rx, double ry, t_mm_scale sc)
 	delta.y = rx * cos(g->player.angle) - ry * sin(g->player.angle);
 	wp.x = g->player.p.x + delta.x / sc.world_zoom;
 	wp.y = g->player.p.y + delta.y / sc.world_zoom;
-	col = wp.x / TILE_SIZE * UNITE;
-	row = wp.y / TILE_SIZE * UNITE;
+	col = wp.x / WALL_WIDTH;
+	row = wp.y / WALL_WIDTH;
 	if (row < 0 || row >= g->data.map.map_h || col < 0
 		|| col >= g->data.map.map_w)
 		return (0x000000);
@@ -54,8 +54,8 @@ int	get_minimap_pixel_color(t_game *g, double rx, double ry, t_mm_scale sc)
 		return (0xeeeeee);
 	else if (g->data.map.arr[row][col] == ' ')
 		return (0x000000);
-	f.x = fmod(wp.x, TILE_SIZE * UNITE);
-	f.y = fmod(wp.y, TILE_SIZE * UNITE);
+	f.x = fmod(wp.x, WALL_WIDTH);
+	f.y = fmod(wp.y, WALL_WIDTH);
 	if (in_border(f, sc))
 		return (0x000000);
 	return (0x633974);
