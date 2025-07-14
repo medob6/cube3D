@@ -6,7 +6,7 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 15:51:51 by mbousset          #+#    #+#             */
-/*   Updated: 2025/07/12 18:51:29 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/07/14 10:18:52 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,19 +49,22 @@ void	draw_section(int start, int end, int num, t_sec_inf *section)
 	double	d_from_top;
 	int		color;
 	t_point	tex_p;
+	double	hight_factur;
+	int		offset;
 
+	offset = -start + section->tex_offset;
+	hight_factur = tex.h / section->sec.wall_h;
 	i = start;
 	if (section->sec.dir != -1)
 		tex = get_game()->graphics[section->sec.dir];
 	end = fmin(end, get_game()->win_h);
+	tex_p.x = fmod(section->sec.wall_x, WALL_WIDTH) / WALL_WIDTH * tex.w;
 	while (i <= end)
 	{
 		if (num == 2 && section->sec.dir != -1)
 		{
-			d_from_top = i - start + section->tex_offset;
-			tex_p.y = (d_from_top / section->sec.wall_h) * tex.h;
-			tex_p.x = fmod(section->sec.wall_x, WALL_WIDTH) / WALL_WIDTH
-				* tex.w;
+			d_from_top = i + offset;
+			tex_p.y = (double)(d_from_top * tex.h / section->sec.wall_h);
 		}
 		color = get_slice_color(tex_p.x, tex_p.y, section->sec.dir, num);
 		my_mlx_pixel_put(get_game()->display, section->win_x, i, color);
