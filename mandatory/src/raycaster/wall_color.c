@@ -6,7 +6,7 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 15:51:51 by mbousset          #+#    #+#             */
-/*   Updated: 2025/07/14 13:17:14 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/07/14 13:18:37 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ unsigned int	get_slice_color(int x, int y, int dir, int section)
 		return (get_game()->data.ceiling_clr);
 	else if (section == 2)
 	{
+		return (0x000000);
 		if (dir == -1)
 			return (0x000000);
 		if ((x >= 0 && x < get_game()->graphics[dir].w) && (y >= 0
