@@ -1,47 +1,75 @@
-#include "cub_bns.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/20 09:38:33 by omben-ch          #+#    #+#             */
+/*   Updated: 2025/07/14 16:10:17 by mbousset         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-void run_sound_file(const char *file)
+#include "raycaster.h"
+
+void	parse_input(t_game *game, int ac, char **av)
 {
-    if (SDL_Init(SDL_INIT_AUDIO) < 0)
-    {
-        fprintf(stderr, "SDL_Init Error: %s\n", SDL_GetError());
-        return;
-    }
+	t_fcub	fcub;
 
-    SDL_AudioSpec wav_spec;
-    Uint32 wav_length;
-    Uint8 *wav_buffer;
-
-    if (SDL_LoadWAV(file, &wav_spec, &wav_buffer, &wav_length) == NULL)
-    {
-        fprintf(stderr, "Could not load %s: %s\n", file, SDL_GetError());
-        SDL_Quit();
-        return;
-    }
-
-    if (SDL_OpenAudio(&wav_spec, NULL) < 0)
-    {
-        fprintf(stderr, "SDL_OpenAudio Error: %s\n", SDL_GetError());
-        SDL_FreeWAV(wav_buffer);
-        SDL_Quit();
-        return;
-    }
-
-    SDL_PauseAudio(0); // start playing
-    SDL_QueueAudio(1, wav_buffer, wav_length);
-
-    // Wait until audio finishes
-    SDL_Delay(wav_length / (wav_spec.freq * wav_spec.channels / 2) * 1000);
-
-    SDL_CloseAudio();
-    SDL_FreeWAV(wav_buffer);
-    SDL_Quit();
+	parse_and_get_data(&fcub, ac, av);
+	game->data.paths[N_WALL] = fcub.n_path;
+	game->data.paths[W_WALL] = fcub.w_path;
+	game->data.paths[E_WALL] = fcub.e_path;
+	game->data.paths[S_WALL] = fcub.s_path;
+	game->data.ceiling_clr = get_rgb(&fcub, fcub.c_color);
+	game->data.floor_clr = get_rgb(&fcub, fcub.f_color);
+	game->data.map.arr = fcub.map;
+	game->data.map.map_h = count_list(fcub.map);
+	game->data.map.map_w = get_size_of_long_line(&fcub);
 }
 
-int main(void)
+void	print_err(char *msg)
 {
-    run_sound_file("bonus/audio/gunshot.wav"); 
-    run_sound_file("bonus/audio/machine-gun.wav"); 
+	ft_putstr_fd("Error\n", 2);
+	ft_putstr_fd(msg, 2);
+	cleanup(EXIT_FAILURE);
+}
 
-    return 0;
+int	game_loop(t_game *game)
+{
+	if (game->player.moving)
+	{
+		display_scean(game);
+		draw_mini_map(game);
+		mlx_put_image_to_window(game->mlx, game->win, game->display.img, 0, 0);
+	}
+	update_player(game);
+	return (1);
+}
+
+void	lunch_game_hooks(t_game *game)
+{
+	mlx_do_key_autorepeatoff(game->mlx);
+	mlx_hook(game->win, 2, 1L << 0, key_press, game);
+	mlx_hook(game->win, 3, 1L << 1, key_release, game);
+	mlx_loop_hook(game->mlx, game_loop, game);
+	mlx_loop(game->mlx);
+}
+
+int	main(int ac, char **av)
+{
+	t_game	*game;
+
+	game = get_game();
+	game->mlx = mlx_init();
+	if (!game->mlx)
+		print_err("Failed to initialize MLX\n");
+	get_window_dimensions();
+	parse_input(game, ac, av);
+	game->win = mlx_new_window(game->mlx, game->win_w, game->win_h, "Cub3D");
+	if (!game->win)
+		print_err("Failed to create window\n");
+	initilize_game_resorces(game);
+	lunch_game_hooks(game);
+	return (0);
 }

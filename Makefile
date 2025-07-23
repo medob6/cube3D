@@ -32,7 +32,9 @@ SRCS           := $(addprefix $(MANDATORY_DIR)/src/, $(MAIN_SRC)) \
 
 OBJS           := $(SRCS:.c=.o)
 
-SRCS_BNS       := $(addprefix $(BONUS_DIR)/src/, $(MAIN_SRC))
+SRCS_BNS       := $(addprefix $(BONUS_DIR)/src/, $(MAIN_SRC)) \
+                  $(addprefix $(BONUS_DIR)/src/parser/, $(PARSER_SRC)) \
+                  $(addprefix $(BONUS_DIR)/src/raycaster/, $(RAYCASTER_SRC))
 OBJS_BNS       := $(SRCS_BNS:.c=.o)
 
 HEADER_FILES   := $(MANDATORY_DIR)/includes/cub.h $(MANDATORY_DIR)/includes/raycaster.h
