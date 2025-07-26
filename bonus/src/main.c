@@ -6,11 +6,12 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 09:38:33 by omben-ch          #+#    #+#             */
-/*   Updated: 2025/07/26 16:15:39 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/07/26 19:03:19 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "raycaster.h"
+#include "video.h"
 
 void	parse_input(t_game *game, int ac, char **av)
 {
@@ -38,27 +39,54 @@ void	print_err(char *msg)
 int	game_loop(t_game *game)
 {
 	static bool	start = true;
+	static int	video_result = 0;
+	static bool	paused = false;
+	bool		space_is_pressed;
 
+	static bool space_was_pressed = false; // Track previous state
 	if (start)
 	{
-		// play_intro(game, "Videos/intro.mkv");
-		// display_menu(game);
-		start = false;
+		// Get current space key state
+		space_is_pressed = get_key(KEY_SPACE, get_game())->press;
+		// Only toggle pause on key press (not release)
+		if (space_is_pressed && !space_was_pressed)
+		{
+			paused = !paused; // Toggle pause state
+			printf("Video %s\n", paused ? "paused" : "unpaused");
+		}
+		// Update previous state for next frame
+		space_was_pressed = space_is_pressed;
+		if (!paused)
+		{
+			video_result = play_video("bonus/video/intro.mp4");
+			if (video_result == 1) // Video finished successfully
+			{
+				usleep(300000);
+				start = false;
+			}
+			else if (video_result == -1) // Error occurred
+			{
+				printf("err while opening the video file\nproceeding to menu...\n");
+				usleep(3000000);
+				start = false;
+			}
+		}
+		// If paused, don't call play_video at all
 	}
 	else
 	{
-	if (game->player.moving)
-	{
-		display_scean(game);
-		draw_mini_map(game);
-		mlx_put_image_to_window(game->mlx, game->win, game->display.img, 0, 0);
-	}
+		if (game->player.moving)
+		{
+			display_scean(game);
+			draw_mini_map(game);
+			mlx_put_image_to_window(game->mlx, game->win, game->display.img, 0,
+				0);
+		}
 		update_player(game);
 	}
 	handle_exit(game);
 	return (1);
 }
-
 void	lunch_game_hooks(t_game *game)
 {
 	mlx_do_key_autorepeatoff(game->mlx);

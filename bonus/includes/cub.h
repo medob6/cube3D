@@ -6,7 +6,7 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 15:39:51 by mbousset          #+#    #+#             */
-/*   Updated: 2025/07/26 16:19:52 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/07/26 18:24:41 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 # include "get_next_line.h"
 # include "libft.h"
 # include "parser.h"
+# include <SDL2/SDL.h>
 # include <errno.h>
 # include <fcntl.h>
 # include <math.h>
@@ -174,6 +175,7 @@ int				get_minimap_pixel_color(t_game *g, double rx, double ry,
 					t_mm_scale sc);
 void			get_icone_info(t_circle *icn, t_circle minimap,
 					double icon_angle, double player_angle);
+
 void			handle_exit(t_game *game);
 
 #endif

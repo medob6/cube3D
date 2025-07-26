@@ -176,4 +176,9 @@ void			get_icone_info(t_circle *icn, t_circle minimap,
 					double icon_angle, double player_angle);
 void			handle_exit(t_game *game);
 
+
+/* FUNCTIONS */
+void	play_intro(char *path)
+;
+
 #endif

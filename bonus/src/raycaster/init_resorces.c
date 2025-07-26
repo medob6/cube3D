@@ -6,7 +6,7 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 15:39:37 by mbousset          #+#    #+#             */
-/*   Updated: 2025/07/12 19:02:39 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/07/26 18:43:43 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,8 @@ void	init_player(t_game *game)
 
 void	initilize_game_resorces(t_game *game)
 {
+	if (SDL_Init(SDL_INIT_AUDIO) < 0)
+		return ;
 	init_keys(game);
 	init_player(game);
 	init_image_fram(game, &game->display);
@@ -86,7 +88,7 @@ void	initilize_game_resorces(t_game *game)
 	init_image(game, &game->graphics[N_WALL], game->data.paths[N_WALL]);
 	init_image(game, &game->graphics[W_WALL], game->data.paths[W_WALL]);
 	init_image(game, &game->graphics[S_WALL], game->data.paths[S_WALL]);
-	init_image(game, &game->graphics[N_ICONE], "mandatory/textures/N_icon.xpm");
+	init_image(game, &game->graphics[N_ICONE], "bonus/textures/N_icon.xpm");
 	init_image(game, &game->graphics[ARROW],
-		"mandatory/textures/minimap_player.xpm");
+		"bonus/textures/minimap_player.xpm");
 }

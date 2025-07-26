@@ -14,7 +14,10 @@
         "time.h": "c",
         "raycaster.h": "c",
         "cub_bns.h": "c",
-        "libft.h": "c"
+        "libft.h": "c",
+        "sdl.h": "c",
+        "parser.h": "c",
+        "video.h": "c"
     },
     "functionHeaderExtension.headerFilePath": "/home/mbousset/Desktop/cub3D/mandatory/includes/cub.h"
 }

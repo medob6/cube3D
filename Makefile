@@ -12,19 +12,35 @@ LIBFT         := $(LIBFT_PATH)/libft.a
 LIBFT_BNS     := $(LIBFT_BONUS_PATH)/libft.a
 
 INCLUDES       := -I$(MANDATORY_DIR)/includes -I$(MANDATORY_DIR)/libft
-INCLUDES_BNS   := -I$(BONUS_DIR)/includes -I$(BONUS_DIR)/libft -g $(shell sdl2-config --cflags)
+INCLUDES_BNS   := -I$(BONUS_DIR)/includes -I$(BONUS_DIR)/libft  $(shell sdl2-config --cflags) -I$(HOME)/goinfre/ffmpeg_build/include 
 
 CFLAGS         := -Wall -Wextra -Werror $(INCLUDES)
-CFLAGS_BNS     := -Wall -Wextra -Werror $(INCLUDES_BNS)
 
-LDFLAGS        := -lmlx -lXext -lX11 -lm -Ofast -fsanitize=address
-LDFLAGS_BNS    := $(LDFLAGS) $(shell sdl2-config --libs)
+CFLAGS_BNS     := -Wall -Wextra -Werror $(INCLUDES_BNS)
+OPENSSL_CFLAGS := $(shell pkg-config --cflags openssl)
+SDL2_CFLAGS := $(shell pkg-config --cflags sdl2)
+CFLAGS_BNS += $(OPENSSL_CFLAGS) $(SDL2_CFLAGS)
+
+LDFLAGS        := -lmlx -lXext -lX11 -lm -Ofast -g3 -fsanitize=address
+
+
+OPENSSL_LIBS := $(shell pkg-config --libs openssl)
+SDL2_LIBS := $(shell pkg-config --libs sdl2)
+LDFLAGS_BNS    :=-L$(HOME)/goinfre/ffmpeg_build/lib \
+	-Wl,--start-group \
+	-lavformat -lavcodec -lswscale -lavutil -lswresample \
+	-Wl,--end-group \
+	$(OPENSSL_LIBS) \
+	$(SDL2_LIBS) \
+	-lz -lpthread -ldl -lm -llzma \
+	-lmlx -lX11 -lXext -g3 -fsanitize=address
 
 MAIN_SRC       := main.c
 PARSER_SRC     := check_fc.c check_map.c errors_msg.c get_val_of_file.c parser.c tools1.c tools2.c
 RAYCASTER_SRC  := cleanup.c draw_wall_slice.c geometry_utils.c helpers.c init_resorces2.c keys_api.c minimap_utils.c \
                   ray_cast.c wall_color.c draw_sections.c frame_utils.c helpers2.c horizontal_raycast.c init_resorces.c \
                   minimap.c movements.c vertical_raycast.c
+VIDEO_PLAYER := intro_play.c
 
 SRCS           := $(addprefix $(MANDATORY_DIR)/src/, $(MAIN_SRC)) \
                   $(addprefix $(MANDATORY_DIR)/src/parser/, $(PARSER_SRC)) \
@@ -34,7 +50,9 @@ OBJS           := $(SRCS:.c=.o)
 
 SRCS_BNS       := $(addprefix $(BONUS_DIR)/src/, $(MAIN_SRC)) \
                   $(addprefix $(BONUS_DIR)/src/parser/, $(PARSER_SRC)) \
-                  $(addprefix $(BONUS_DIR)/src/raycaster/, $(RAYCASTER_SRC))
+                  $(addprefix $(BONUS_DIR)/src/raycaster/, $(RAYCASTER_SRC)) \
+				  $(addprefix $(BONUS_DIR)/src/play_video/, $(VIDEO_PLAYER))
+
 OBJS_BNS       := $(SRCS_BNS:.c=.o)
 
 HEADER_FILES   := $(MANDATORY_DIR)/includes/cub.h $(MANDATORY_DIR)/includes/raycaster.h
