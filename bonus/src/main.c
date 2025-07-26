@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
+/*   By: omben-ch <omben-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 09:38:33 by omben-ch          #+#    #+#             */
-/*   Updated: 2025/07/14 16:10:17 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/07/26 18:16:21 by omben-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,15 +35,50 @@ void	print_err(char *msg)
 	cleanup(EXIT_FAILURE);
 }
 
+int	mouse_move(int x, int y, void *param)
+{
+	t_game	*game;
+	
+	game = (t_game *)param;
+	(void)game;
+	if ((x >= game->list[0].start_x && x <= game->list[0].end_x)
+		&& (y >= game->list[0].start_y && y <= game->list[0].end_y))
+			game->list[0].img = &game->graphics[H_START];
+	else
+		game->list[0].img = &game->graphics[START];
+	if ((x >= game->list[1].start_x && x <= game->list[1].end_x)
+		&& (y >= game->list[1].start_y && y <= game->list[1].end_y))
+		game->list[1].img = &game->graphics[H_CONTROL];
+	else
+		game->list[1].img = &game->graphics[CONTROL];
+	if ((x >= game->list[2].start_x && x <= game->list[2].end_x)
+		&& (y >= game->list[2].start_y && y <= game->list[2].end_y))
+		game->list[2].img = &game->graphics[H_EXIT];
+	else
+		game->list[2].img = &game->graphics[EXIT];
+	put_bg(game, &game->graphics[BG]);	
+	put_imag(game, &game->list[0]);
+	put_imag(game, &game->list[1]);
+	put_imag(game, &game->list[2]);
+	mlx_put_image_to_window(game->mlx, game->win, game->display.img, 0, 0);
+	return 0;
+}
+
 int	game_loop(t_game *game)
 {
-	if (game->player.moving)
-	{
-		display_scean(game);
-		draw_mini_map(game);
-		mlx_put_image_to_window(game->mlx, game->win, game->display.img, 0, 0);
-	}
-	update_player(game);
+	init_img_menu(game);
+	put_bg(game, &game->graphics[BG]);
+	put_imag(game, &game->list[0]);
+	put_imag(game, &game->list[1]);
+	put_imag(game, &game->list[2]);
+	mlx_put_image_to_window(game->mlx, game->win, game->display.img, 0, 0);
+	// if (game->player.moving)
+	// {
+	// 	display_scean(game);
+	// 	draw_mini_map(game);
+	// 	mlx_put_image_to_window(game->mlx, game->win, game->display.img, 0, 0);
+	// }
+	// update_player(game);
 	return (1);
 }
 
@@ -52,6 +87,7 @@ void	lunch_game_hooks(t_game *game)
 	mlx_do_key_autorepeatoff(game->mlx);
 	mlx_hook(game->win, 2, 1L << 0, key_press, game);
 	mlx_hook(game->win, 3, 1L << 1, key_release, game);
+	mlx_hook(game->win, 6, 1L << 6, mouse_move, game);
 	mlx_loop_hook(game->mlx, game_loop, game);
 	mlx_loop(game->mlx);
 }

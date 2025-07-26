@@ -24,7 +24,7 @@ MAIN_SRC       := main.c
 PARSER_SRC     := check_fc.c check_map.c errors_msg.c get_val_of_file.c parser.c tools1.c tools2.c
 RAYCASTER_SRC  := cleanup.c draw_wall_slice.c geometry_utils.c helpers.c init_resorces2.c keys_api.c minimap_utils.c \
                   ray_cast.c wall_color.c draw_sections.c frame_utils.c helpers2.c horizontal_raycast.c init_resorces.c \
-                  minimap.c movements.c vertical_raycast.c
+                  minimap.c movements.c vertical_raycast.c menu.c
 
 SRCS           := $(addprefix $(MANDATORY_DIR)/src/, $(MAIN_SRC)) \
                   $(addprefix $(MANDATORY_DIR)/src/parser/, $(PARSER_SRC)) \
@@ -42,33 +42,33 @@ HEADER_FILES   := $(MANDATORY_DIR)/includes/cub.h $(MANDATORY_DIR)/includes/rayc
 all: $(LIBFT) $(NAME)
 
 bonus: $(OBJS_BNS) $(LIBFT_BNS)
-	$(CC) $(CFLAGS_BNS) $(OBJS_BNS) $(LIBFT_BNS) -o $(NAME) $(LDFLAGS_BNS)
+	@$(CC) $(CFLAGS_BNS) $(OBJS_BNS) $(LIBFT_BNS) -o $(NAME) $(LDFLAGS_BNS)
 
 $(LIBFT_BNS):
-	make -C $(LIBFT_BONUS_PATH)
+	@make -C $(LIBFT_BONUS_PATH)
 
 $(LIBFT):
-	make -C $(LIBFT_PATH)
+	@make -C $(LIBFT_PATH)
 
 
 $(NAME): $(OBJS)
-	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) -o $(NAME) $(LDFLAGS)
+	@$(CC) $(CFLAGS) $(OBJS) $(LIBFT) -o $(NAME) $(LDFLAGS)
 
 bonus/%.o: bonus/%.c
-	$(CC) $(CFLAGS_BNS) -c $< -o $@
+	@$(CC) $(CFLAGS_BNS) -c $< -o $@
 
 %.o: %.c $(HEADER_FILES)
-	$(CC) $(CFLAGS) -c $< -o $@
+	@$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
-	rm -rf $(OBJS) $(OBJS_BNS)
-	make -C $(LIBFT_PATH) clean
-	make -C $(LIBFT_BONUS_PATH) clean
+	@rm -rf $(OBJS) $(OBJS_BNS)
+#	make -C $(LIBFT_PATH) clean
+	@make -C $(LIBFT_BONUS_PATH) clean
 
 fclean: clean
-	rm -rf $(NAME)
-	make -C $(LIBFT_PATH) fclean
-	make -C $(LIBFT_BONUS_PATH) fclean
+	@rm -rf $(NAME)
+#	make -C $(LIBFT_PATH) fclean
+	@make -C $(LIBFT_BONUS_PATH) fclean
 
 re: fclean all
 

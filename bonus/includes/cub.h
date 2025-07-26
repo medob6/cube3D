@@ -6,7 +6,7 @@
 /*   By: omben-ch <omben-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 15:39:51 by mbousset          #+#    #+#             */
-/*   Updated: 2025/07/25 17:07:39 by omben-ch         ###   ########.fr       */
+/*   Updated: 2025/07/26 18:14:14 by omben-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 # include "get_next_line.h"
 # include "libft.h"
 # include "parser.h"
+# include "menu.h"
 # include <errno.h>
 # include <fcntl.h>
 # include <math.h>
@@ -60,7 +61,15 @@ typedef enum e_graphic
 	S_WALL,
 	N_ICONE,
 	ARROW,
+	BG,
+	START,
+	CONTROL,
+	EXIT,
+	H_START,
+	H_CONTROL,
+	H_EXIT
 }				t_graphic;
+
 
 typedef struct s_point
 {
@@ -131,6 +140,18 @@ typedef struct s_mm_scale
 	double		px_border;
 }				t_mm_scale;
 
+typedef struct s_put_img_info
+{
+    t_image *img;
+	int name;
+    int start_x;
+    int start_y;
+    int end_x;
+    int end_y;
+    int width;
+    int height;
+} t_put_img_info;
+
 typedef struct s_game
 {
 	void		*mlx;
@@ -140,10 +161,17 @@ typedef struct s_game
 	t_data		data;
 	t_player	player;
 	t_key		keys[10];
-	t_image		graphics[6];
+	t_image		graphics[13];
 	t_image		display;
+	t_put_img_info list[3];
 }				t_game;
-
+ 
+/////////////////////////////
+void put_bg(t_game *game, t_image *img);
+void put_imag(t_game *game, t_put_img_info *img_info);
+void init_img_menu(t_game *game);
+/////////////////////////////
+ 
 int				handle_close(t_game *game);
 void			cleanup(int code);
 void			update_player(t_game *game);
