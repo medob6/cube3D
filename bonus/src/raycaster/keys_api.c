@@ -17,7 +17,7 @@ t_key	*get_key(int keycode, t_game *game)
 	int	i;
 
 	i = 0;
-	while (i < 10)
+	while (i < 11)
 	{
 		if (game->keys[i].code == keycode)
 			return (&game->keys[i]);

@@ -44,6 +44,7 @@ int	game_loop(t_game *game)
 		mlx_put_image_to_window(game->mlx, game->win, game->display.img, 0, 0);
 	}
 	update_player(game);
+	handle_exit(game);
 	return (1);
 }
 
@@ -52,6 +53,7 @@ void	lunch_game_hooks(t_game *game)
 	mlx_do_key_autorepeatoff(game->mlx);
 	mlx_hook(game->win, 2, 1L << 0, key_press, game);
 	mlx_hook(game->win, 3, 1L << 1, key_release, game);
+	mlx_hook(game->win, 17, 0, handle_close, NULL);
 	mlx_loop_hook(game->mlx, game_loop, game);
 	mlx_loop(game->mlx);
 }

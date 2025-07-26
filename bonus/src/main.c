@@ -6,7 +6,7 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 09:38:33 by omben-ch          #+#    #+#             */
-/*   Updated: 2025/07/14 16:10:17 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/07/26 16:15:39 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,13 +37,25 @@ void	print_err(char *msg)
 
 int	game_loop(t_game *game)
 {
+	static bool	start = true;
+
+	if (start)
+	{
+		// play_intro(game, "Videos/intro.mkv");
+		// display_menu(game);
+		start = false;
+	}
+	else
+	{
 	if (game->player.moving)
 	{
 		display_scean(game);
 		draw_mini_map(game);
 		mlx_put_image_to_window(game->mlx, game->win, game->display.img, 0, 0);
 	}
-	update_player(game);
+		update_player(game);
+	}
+	handle_exit(game);
 	return (1);
 }
 
@@ -52,6 +64,7 @@ void	lunch_game_hooks(t_game *game)
 	mlx_do_key_autorepeatoff(game->mlx);
 	mlx_hook(game->win, 2, 1L << 0, key_press, game);
 	mlx_hook(game->win, 3, 1L << 1, key_release, game);
+	mlx_hook(game->win, 17, 0, handle_close, NULL);
 	mlx_loop_hook(game->mlx, game_loop, game);
 	mlx_loop(game->mlx);
 }

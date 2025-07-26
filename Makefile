@@ -17,7 +17,7 @@ INCLUDES_BNS   := -I$(BONUS_DIR)/includes -I$(BONUS_DIR)/libft -g $(shell sdl2-c
 CFLAGS         := -Wall -Wextra -Werror $(INCLUDES)
 CFLAGS_BNS     := -Wall -Wextra -Werror $(INCLUDES_BNS)
 
-LDFLAGS        := -lmlx -lXext -lX11 -lm -Ofast
+LDFLAGS        := -lmlx -lXext -lX11 -lm -Ofast -fsanitize=address
 LDFLAGS_BNS    := $(LDFLAGS) $(shell sdl2-config --libs)
 
 MAIN_SRC       := main.c
@@ -38,6 +38,7 @@ SRCS_BNS       := $(addprefix $(BONUS_DIR)/src/, $(MAIN_SRC)) \
 OBJS_BNS       := $(SRCS_BNS:.c=.o)
 
 HEADER_FILES   := $(MANDATORY_DIR)/includes/cub.h $(MANDATORY_DIR)/includes/raycaster.h
+HEADER_FILES_BNS := $(BONUS_DIR)/includes/cub.h $(BONUS_DIR)/includes/raycaster.h
 
 all: $(LIBFT) $(NAME)
 
@@ -52,9 +53,9 @@ $(LIBFT):
 
 
 $(NAME): $(OBJS)
-	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) -o $(NAME) $(LDFLAGS)
+	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) -o $(NAME) $(LDFLAGS) 
 
-bonus/%.o: bonus/%.c
+bonus/%.o: bonus/%.c $(HEADER_FILES_BNS)
 	$(CC) $(CFLAGS_BNS) -c $< -o $@
 
 %.o: %.c $(HEADER_FILES)

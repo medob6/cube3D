@@ -6,7 +6,7 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 15:39:51 by mbousset          #+#    #+#             */
-/*   Updated: 2025/07/14 13:27:04 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/07/26 16:19:52 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,7 +144,7 @@ typedef struct s_game
 	t_image		display;
 }				t_game;
 
-int				handle_close(t_game *game);
+int				handle_close(void);
 void			cleanup(int code);
 void			update_player(t_game *game);
 t_game			*get_game(void);

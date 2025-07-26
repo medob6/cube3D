@@ -54,11 +54,9 @@ void	cleanup(int code)
 	exit(code);
 }
 
-int	handle_close(t_game *game)
+int	handle_close()
 {
 	write(1, "Window closed.\n", 15);
-	if (game->mlx && game->win)
-		mlx_destroy_window(game->mlx, game->win);
 	cleanup(EXIT_SUCCESS);
 	return (0);
 }

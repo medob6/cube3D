@@ -94,6 +94,5 @@ void	update_player(t_game *game)
 	move_along_axes(game, &new_x, &new_y);
 	rotate_player(game);
 	jump_player(game);
-	handle_exit(game);
 	apply_movement(game, new_x, new_y);
 }

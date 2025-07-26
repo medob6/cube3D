@@ -6,7 +6,7 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 15:39:57 by mbousset          #+#    #+#             */
-/*   Updated: 2025/07/12 19:02:53 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/07/26 15:18:28 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,5 @@ void	update_player(t_game *game)
 	move_along_axes(game, &new_x, &new_y);
 	rotate_player(game);
 	jump_player(game);
-	handle_exit(game);
 	apply_movement(game, new_x, new_y);
 }

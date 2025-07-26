@@ -144,7 +144,7 @@ typedef struct s_game
 	t_image		display;
 }				t_game;
 
-int				handle_close(t_game *game);
+int				handle_close();
 void			cleanup(int code);
 void			update_player(t_game *game);
 t_game			*get_game(void);

@@ -13,7 +13,8 @@
         "initializer_list": "c",
         "time.h": "c",
         "raycaster.h": "c",
-        "cub_bns.h": "c"
+        "cub_bns.h": "c",
+        "libft.h": "c"
     },
     "functionHeaderExtension.headerFilePath": "/home/mbousset/Desktop/cub3D/mandatory/includes/cub.h"
 }
