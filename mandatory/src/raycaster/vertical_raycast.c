@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vertical_raycast.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
+/*   By: omben-ch <omben-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 15:49:58 by mbousset          #+#    #+#             */
-/*   Updated: 2025/07/12 19:02:31 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/07/25 16:29:19 by omben-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,9 @@ void	process_ray(t_raycaster *c, t_frame_state *state, int ray_index)
 	double	ray_ang;
 
 	ray_ang = calculate_ray_angle(state, c, ray_index);
-	if (can_reuse_ray(state, c, ray_index))
-		reuse_ray_data(c, state, ray_index, ray_ang);
-	else
+	// if (can_reuse_ray(state, c, ray_index))
+	// 	reuse_ray_data(c, state, ray_index, ray_ang);
+	// else
 		cast_new_ray(c, state, ray_index, ray_ang);
 }
 
