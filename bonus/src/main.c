@@ -6,7 +6,7 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 09:38:33 by omben-ch          #+#    #+#             */
-/*   Updated: 2025/07/27 15:25:50 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/07/27 17:19:16 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ int	game_loop(t_game *game)
 {
 	static bool	start = true;
 	static int	video_result = 0;
+
 	if (start)
 	{
 		video_result = play_video("bonus/video/intro.mp4");
@@ -50,8 +51,8 @@ int	game_loop(t_game *game)
 		}
 		else if (video_result == -1)
 		{
-			printf("err while opening the video file\nproceeding to menu...\n");
-			usleep(3000000);
+			usleep(300000);
+			printf("err while procceig video file , dispalying menu ... \n");
 			start = false;
 		}
 	}

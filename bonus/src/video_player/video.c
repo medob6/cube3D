@@ -6,7 +6,7 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/27 16:03:45 by mbousset          #+#    #+#             */
-/*   Updated: 2025/07/27 16:27:00 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/07/27 16:56:31 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,14 +122,46 @@ double	get_audio_clock(t_vdata *vdata)
 	return (vdata->audio.audio_time_written - seconds_queued);
 }
 
+static enum AVPixelFormat	normalize_pix_fmt(enum AVPixelFormat fmt,
+		int *range)
+{
+	if (fmt == AV_PIX_FMT_YUVJ420P)
+	{
+		*range = AVCOL_RANGE_JPEG;
+		return (AV_PIX_FMT_YUV420P);
+	}
+	if (fmt == AV_PIX_FMT_YUVJ422P)
+	{
+		*range = AVCOL_RANGE_JPEG;
+		return (AV_PIX_FMT_YUV422P);
+	}
+	if (fmt == AV_PIX_FMT_YUVJ444P)
+	{
+		*range = AVCOL_RANGE_JPEG;
+		return (AV_PIX_FMT_YUV444P);
+	}
+	if (fmt == AV_PIX_FMT_YUVJ440P)
+	{
+		*range = AVCOL_RANGE_JPEG;
+		return (AV_PIX_FMT_YUV440P);
+	}
+	*range = AVCOL_RANGE_MPEG;
+	return (fmt);
+}
+
 static int	initialize_sws_context(t_vdata *vdata)
 {
+	enum AVPixelFormat	src_pix_fmt;
+	int					range;
+
 	if (!vdata->video.sws_ctx)
 	{
+		src_pix_fmt = normalize_pix_fmt(vdata->video.frame->format, &range);
+		vdata->video.frame->color_range = range;
 		vdata->video.sws_ctx = sws_getContext(vdata->video.frame->width,
-				vdata->video.frame->height, vdata->video.frame->format,
-				vdata->inf->win_w, vdata->inf->win_h, AV_PIX_FMT_BGR24,
-				SWS_BILINEAR, NULL, NULL, NULL);
+				vdata->video.frame->height, src_pix_fmt, vdata->inf->win_w,
+				vdata->inf->win_h, AV_PIX_FMT_BGR24, SWS_BILINEAR, NULL, NULL,
+				NULL);
 	}
 	return (vdata->video.sws_ctx != NULL);
 }
@@ -184,8 +216,11 @@ static void	process_frame_with_pts(t_vdata *vdata)
 
 static int	process_decoded_video_frame(t_vdata *vdata)
 {
+	enum AVPixelFormat	src_pix_fmt;
+
 	if (!initialize_sws_context(vdata))
 		return (-1);
+	src_pix_fmt = vdata->video.frame->format;
 	scale_video_frame(vdata);
 	process_frame_with_pts(vdata);
 	return (0);
