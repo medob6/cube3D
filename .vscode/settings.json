@@ -17,7 +17,9 @@
         "libft.h": "c",
         "sdl.h": "c",
         "parser.h": "c",
-        "video.h": "c"
+        "video.h": "c",
+        "swresample.h": "c",
+        "swscale.h": "c"
     },
     "functionHeaderExtension.headerFilePath": "/home/mbousset/Desktop/cub3D/mandatory/includes/cub.h"
 }

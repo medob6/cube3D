@@ -6,7 +6,7 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 09:38:33 by omben-ch          #+#    #+#             */
-/*   Updated: 2025/07/26 19:03:19 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/07/27 15:25:50 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,38 +40,20 @@ int	game_loop(t_game *game)
 {
 	static bool	start = true;
 	static int	video_result = 0;
-	static bool	paused = false;
-	bool		space_is_pressed;
-
-	static bool space_was_pressed = false; // Track previous state
 	if (start)
 	{
-		// Get current space key state
-		space_is_pressed = get_key(KEY_SPACE, get_game())->press;
-		// Only toggle pause on key press (not release)
-		if (space_is_pressed && !space_was_pressed)
+		video_result = play_video("bonus/video/intro.mp4");
+		if (video_result == 1)
 		{
-			paused = !paused; // Toggle pause state
-			printf("Video %s\n", paused ? "paused" : "unpaused");
+			usleep(30000);
+			start = false;
 		}
-		// Update previous state for next frame
-		space_was_pressed = space_is_pressed;
-		if (!paused)
+		else if (video_result == -1)
 		{
-			video_result = play_video("bonus/video/intro.mp4");
-			if (video_result == 1) // Video finished successfully
-			{
-				usleep(300000);
-				start = false;
-			}
-			else if (video_result == -1) // Error occurred
-			{
-				printf("err while opening the video file\nproceeding to menu...\n");
-				usleep(3000000);
-				start = false;
-			}
+			printf("err while opening the video file\nproceeding to menu...\n");
+			usleep(3000000);
+			start = false;
 		}
-		// If paused, don't call play_video at all
 	}
 	else
 	{
@@ -87,6 +69,7 @@ int	game_loop(t_game *game)
 	handle_exit(game);
 	return (1);
 }
+
 void	lunch_game_hooks(t_game *game)
 {
 	mlx_do_key_autorepeatoff(game->mlx);

@@ -40,7 +40,7 @@ PARSER_SRC     := check_fc.c check_map.c errors_msg.c get_val_of_file.c parser.c
 RAYCASTER_SRC  := cleanup.c draw_wall_slice.c geometry_utils.c helpers.c init_resorces2.c keys_api.c minimap_utils.c \
                   ray_cast.c wall_color.c draw_sections.c frame_utils.c helpers2.c horizontal_raycast.c init_resorces.c \
                   minimap.c movements.c vertical_raycast.c
-VIDEO_PLAYER := intro_play.c
+VIDEO_PLAYER :=  video.c  video_audio.c  video_cleanup.c  video_codec.c  video_utils.c
 
 SRCS           := $(addprefix $(MANDATORY_DIR)/src/, $(MAIN_SRC)) \
                   $(addprefix $(MANDATORY_DIR)/src/parser/, $(PARSER_SRC)) \
@@ -51,7 +51,7 @@ OBJS           := $(SRCS:.c=.o)
 SRCS_BNS       := $(addprefix $(BONUS_DIR)/src/, $(MAIN_SRC)) \
                   $(addprefix $(BONUS_DIR)/src/parser/, $(PARSER_SRC)) \
                   $(addprefix $(BONUS_DIR)/src/raycaster/, $(RAYCASTER_SRC)) \
-				  $(addprefix $(BONUS_DIR)/src/play_video/, $(VIDEO_PLAYER))
+				  $(addprefix $(BONUS_DIR)/src/video_player/, $(VIDEO_PLAYER))
 
 OBJS_BNS       := $(SRCS_BNS:.c=.o)
 
