@@ -6,7 +6,7 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/01 00:00:00 by user              #+#    #+#             */
-/*   Updated: 2025/07/27 16:30:46 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/07/27 17:47:35 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,6 +123,43 @@ Uint32	calculate_max_queue_size(t_vdata *vdata)
 	return (max_queue);
 }
 
+#define MAX_URL_LEN 2048
+
+char			resolved_url[MAX_URL_LEN];
+
+char	*resolve_youtube_url(const char *input_url)
+{
+	char	command[MAX_URL_LEN + 128];
+	FILE	*fp;
+
+	if (strstr(input_url, "youtu.be") || strstr(input_url, "youtube.com"))
+	{
+		printf("YouTube URL detected. Extracting direct stream URL using yt-dlp...\n");
+		snprintf(command,
+					sizeof(command),
+					"yt-dlp --no-playlist -f best \
+			-g \"%s\" 2>/dev/null",
+					input_url);
+		fp = popen(command, "r");
+		if (fp == NULL)
+		{
+			fprintf(stderr, "Error: Could not run yt-dlp.\n");
+			return (NULL);
+		}
+		if (fgets(resolved_url, sizeof(resolved_url), fp) == NULL)
+		{
+			fprintf(stderr,
+				"Error: Could not extract stream URL from yt-dlp.\n");
+			pclose(fp);
+			return (NULL);
+		}
+		pclose(fp);
+		resolved_url[strcspn(resolved_url, "\n")] = '\0';
+		return (resolved_url);
+	}
+	return ((char *)input_url);
+}
+
 int	initialize_player_data(t_vdata **vdata, char *path)
 {
 	*vdata = malloc(sizeof(t_vdata));
@@ -130,7 +167,7 @@ int	initialize_player_data(t_vdata **vdata, char *path)
 		return (-1);
 	memset(*vdata, 0, sizeof(t_vdata));
 	(*vdata)->inf = get_game();
-	(*vdata)->video_path = path;
+	(*vdata)->video_path = resolve_youtube_url(path);
 	if (initialize_video_player(*vdata) < 0)
 	{
 		cleanup_video_player(*vdata);
