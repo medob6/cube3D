@@ -6,7 +6,7 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/01 00:00:00 by user              #+#    #+#             */
-/*   Updated: 2025/07/27 18:41:11 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/07/27 18:45:25 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,13 @@ static int	should_queue_audio(t_vdata *vdata)
 
 void	handle_decoded_audio(t_vdata *vdata, uint8_t *audio_buf, int got)
 {
+	Uint32	queued_bytes;
+	Uint64	played_bytes;
+	int		bps;
+	int		channels;
+	int		sr;
+	double	seconds_played;
+
 	if (vdata->audio.frame->pts != AV_NOPTS_VALUE)
 		update_audio_timestamp_with_pts(vdata);
 	else
@@ -108,7 +115,17 @@ void	handle_decoded_audio(t_vdata *vdata, uint8_t *audio_buf, int got)
 	if (should_queue_audio(vdata))
 	{
 		SDL_QueueAudio(vdata->audio.audio_dev, audio_buf, got);
-        vdata->audio.total_audio_bytes_sent += got;
+		vdata->audio.total_audio_bytes_sent += got;
+		// Debugging:
+		queued_bytes = SDL_GetQueuedAudioSize(vdata->audio.audio_dev);
+		played_bytes = vdata->audio.total_audio_bytes_sent - queued_bytes;
+		bps = av_get_bytes_per_sample(vdata->audio.codec_ctx->sample_fmt);
+		channels = vdata->audio.codec_ctx->ch_layout.nb_channels;
+		sr = vdata->audio.codec_ctx->sample_rate;
+		seconds_played = (double)played_bytes / (bps * channels * sr);
+		printf("total_audio_bytes_sent=%llu queued_bytes=%u played_bytes=%llu seconds_played=%.3f\n",
+			vdata->audio.total_audio_bytes_sent, queued_bytes, played_bytes,
+			seconds_played);
 	}
 }
 
