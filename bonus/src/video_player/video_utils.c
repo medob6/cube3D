@@ -6,7 +6,7 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/01 00:00:00 by user              #+#    #+#             */
-/*   Updated: 2025/07/27 18:45:25 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/07/27 19:03:10 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,7 +123,7 @@ void	handle_decoded_audio(t_vdata *vdata, uint8_t *audio_buf, int got)
 		channels = vdata->audio.codec_ctx->ch_layout.nb_channels;
 		sr = vdata->audio.codec_ctx->sample_rate;
 		seconds_played = (double)played_bytes / (bps * channels * sr);
-		printf("total_audio_bytes_sent=%llu queued_bytes=%u played_bytes=%llu seconds_played=%.3f\n",
+		printf("total_audio_bytes_sent=%lu queued_bytes=%u played_bytes=%lu seconds_played=%.3f\n",
 			vdata->audio.total_audio_bytes_sent, queued_bytes, played_bytes,
 			seconds_played);
 	}
@@ -143,43 +143,6 @@ Uint32	calculate_max_queue_size(t_vdata *vdata)
 	return (max_queue);
 }
 
-#define MAX_URL_LEN 2048
-
-char			resolved_url[MAX_URL_LEN];
-
-char	*resolve_youtube_url(const char *input_url)
-{
-	char	command[MAX_URL_LEN + 128];
-	FILE	*fp;
-
-	if (strstr(input_url, "youtu.be") || strstr(input_url, "youtube.com"))
-	{
-		printf("YouTube URL detected. Extracting direct stream URL using yt-dlp...\n");
-		snprintf(command,
-					sizeof(command),
-					"yt-dlp --no-playlist -f best \
-			-g \"%s\" 2>/dev/null",
-					input_url);
-		fp = popen(command, "r");
-		if (fp == NULL)
-		{
-			fprintf(stderr, "Error: Could not run yt-dlp.\n");
-			return (NULL);
-		}
-		if (fgets(resolved_url, sizeof(resolved_url), fp) == NULL)
-		{
-			fprintf(stderr,
-				"Error: Could not extract stream URL from yt-dlp.\n");
-			pclose(fp);
-			return (NULL);
-		}
-		pclose(fp);
-		resolved_url[strcspn(resolved_url, "\n")] = '\0';
-		return (resolved_url);
-	}
-	return ((char *)input_url);
-}
-
 int	initialize_player_data(t_vdata **vdata, char *path)
 {
 	*vdata = malloc(sizeof(t_vdata));
@@ -187,9 +150,7 @@ int	initialize_player_data(t_vdata **vdata, char *path)
 		return (-1);
 	memset(*vdata, 0, sizeof(t_vdata));
 	(*vdata)->inf = get_game();
-	(*vdata)->video_path = resolve_youtube_url(path);
-	(*vdata)->total_audio_bytes_sent = 0;
-	(*vdata)->audio.total_audio_bytes_sent = 0;
+	(*vdata)->video_path = path;
 	if (initialize_video_player(*vdata) < 0)
 	{
 		cleanup_video_player(*vdata);
