@@ -6,7 +6,7 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/27 16:03:45 by mbousset          #+#    #+#             */
-/*   Updated: 2025/07/27 18:36:10 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/07/27 18:41:31 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,7 +137,7 @@ double	get_audio_clock(t_vdata *vdata)
 	channels = vdata->audio.codec_ctx->ch_layout.nb_channels;
 	sample_rate = vdata->audio.codec_ctx->sample_rate;
 	queued_bytes = SDL_GetQueuedAudioSize(vdata->audio.audio_dev);
-	played_bytes = vdata->total_audio_bytes_sent - queued_bytes;
+	played_bytes = vdata->audio.total_audio_bytes_sent - queued_bytes;
 	seconds_played = (double)played_bytes / (bytes_per_sample * channels
 			* sample_rate);
 	return (seconds_played);
@@ -216,9 +216,12 @@ static void	handle_video_sync(t_vdata *vdata, double video_pts_sec)
 		diff = video_pts_sec - audio_clock;
 	}
 	if (waited == max_wait && diff > 0.010)
-		fprintf(stderr,\
-			"Warning: video waited too long for audio sync (diff=%.3f,\
-			audio=%.3f, video=%.3f)\n", diff, audio_clock, video_pts_sec);
+		fprintf(stderr,
+				"Warning: video waited too long for audio sync (diff=%.3f,\
+			audio=%.3f, video=%.3f)\n",
+				diff,
+				audio_clock,
+				video_pts_sec);
 }
 
 // static void	handle_video_sync(t_vdata *vdata, double video_pts_sec)
