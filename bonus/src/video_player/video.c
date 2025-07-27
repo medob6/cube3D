@@ -6,7 +6,7 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/27 16:03:45 by mbousset          #+#    #+#             */
-/*   Updated: 2025/07/27 16:56:31 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/07/27 17:31:39 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -209,6 +209,7 @@ static void	process_frame_with_pts(t_vdata *vdata)
 	}
 	else
 	{
+		printf("here i am \n");
 		usleep(30000);
 		display_video_frame(vdata);
 	}
