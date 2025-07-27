@@ -58,6 +58,7 @@ typedef struct s_audio_state
 	SDL_AudioDeviceID	audio_dev;
 	double				audio_time_written;
 	AVRational			time_base;
+	Uint64				total_audio_bytes_sent;
 
 }						t_audio_state;
 
@@ -69,6 +70,7 @@ typedef struct s_vdata
 	t_video_state		video;
 	t_audio_state		audio;
 	t_image				image;
+	uint64_t			total_audio_bytes_sent;
 }						t_vdata;
 
 /* Main functions - video.c */

@@ -6,7 +6,7 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/01 00:00:00 by user              #+#    #+#             */
-/*   Updated: 2025/07/27 17:47:35 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/07/27 18:39:12 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,10 @@ void	handle_decoded_audio(t_vdata *vdata, uint8_t *audio_buf, int got)
 	else
 		update_audio_timestamp_estimated(vdata, got);
 	if (should_queue_audio(vdata))
+	{
 		SDL_QueueAudio(vdata->audio.audio_dev, audio_buf, got);
+		vdata->total_audio_bytes_sent += got;
+	}
 }
 
 Uint32	calculate_max_queue_size(t_vdata *vdata)
@@ -168,6 +171,8 @@ int	initialize_player_data(t_vdata **vdata, char *path)
 	memset(*vdata, 0, sizeof(t_vdata));
 	(*vdata)->inf = get_game();
 	(*vdata)->video_path = resolve_youtube_url(path);
+	(*vdata)->total_audio_bytes_sent = 0;
+	(*vdata)->audio.total_audio_bytes_sent = 0;
 	if (initialize_video_player(*vdata) < 0)
 	{
 		cleanup_video_player(*vdata);
