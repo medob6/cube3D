@@ -97,9 +97,6 @@ int	setup_audio_codec(t_vdata *vdata)
 
 int	init_format_context(const char *url, AVFormatContext **fmt_ctx)
 {
-	AVDictionary	*opts;
-
-	opts = NULL;
 	avformat_network_init();
 	if (avformat_open_input(fmt_ctx, url, NULL, NULL) != 0)
 		return (-1);

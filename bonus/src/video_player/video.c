@@ -66,13 +66,9 @@ static int	send_packet_to_decoder(AVCodecContext *ctx, AVPacket *pkt)
 
 static int	convert_audio_frame(t_audio_convert *conv)
 {
-	int	dst_nb_samples;
 	int	len2;
 	int	data_size;
 
-	dst_nb_samples = av_rescale_rnd(swr_get_delay(conv->swr_ctx,
-				conv->ctx->sample_rate) + conv->frame->nb_samples,
-			conv->ctx->sample_rate, conv->ctx->sample_rate, AV_ROUND_UP);
 	len2 = swr_convert(conv->swr_ctx, &conv->out_buf, conv->out_buf_size / 2,
 			(const uint8_t **)conv->frame->data, conv->frame->nb_samples);
 	data_size = len2 * 2 * 2;
@@ -217,11 +213,8 @@ static void process_frame_with_pts(t_vdata *vdata)
 
 static int	process_decoded_video_frame(t_vdata *vdata)
 {
-	enum AVPixelFormat	src_pix_fmt;
-
 	if (!initialize_sws_context(vdata))
 		return (-1);
-	src_pix_fmt = vdata->video.frame->format;
 	scale_video_frame(vdata);
 	process_frame_with_pts(vdata);
 	return (0);
