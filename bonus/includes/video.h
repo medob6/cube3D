@@ -11,6 +11,8 @@
 # include <libswscale/swscale.h>
 
 #define INITIAL_BUFFER_SIZE 5
+#define SYNC_THRESHOLD 0.040  /* 40ms sync threshold */
+#define MAX_AUDIO_DIFF 1.0    /* Maximum audio difference before correction */
 
 typedef struct s_audio_convert
 {
@@ -74,6 +76,8 @@ typedef struct s_vdata
 	t_image				image;
 	uint64_t			total_audio_bytes_sent;
 	int 				av_synced;
+	int					initial_buffering;
+	int					buffered_frames;
 }						t_vdata;
 
 /* Main functions - video.c */

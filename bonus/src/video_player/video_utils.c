@@ -106,8 +106,10 @@ void	handle_decoded_audio(t_vdata *vdata, uint8_t *audio_buf, int got)
 		update_audio_timestamp_estimated(vdata, got);
 
 	if (should_queue_audio(vdata))
+	{
 		SDL_QueueAudio(vdata->audio.audio_dev, audio_buf, got);
-	vdata->audio.total_audio_bytes_sent += got; 
+		vdata->audio.total_audio_bytes_sent += got; 
+	}
 }
 
 
@@ -133,6 +135,8 @@ int	initialize_player_data(t_vdata **vdata, char *path)
 	memset(*vdata, 0, sizeof(t_vdata));
 	(*vdata)->inf = get_game();
 	(*vdata)->video_path = path;
+	(*vdata)->initial_buffering = 1;  /* Start in buffering mode */
+	(*vdata)->buffered_frames = 0;
 	if (initialize_video_player(*vdata) < 0)
 	{
 		cleanup_video_player(*vdata);
@@ -157,12 +161,11 @@ int	process_packet_by_type(t_vdata *vdata, AVPacket *pkt)
 	if (pkt->stream_index == vdata->video.video_index)
 	{
 		process_video_packet(vdata, pkt);
-		// printf("puting to window video fram \n");
+		vdata->buffered_frames++;  /* Count video frames for buffering */
 	}
 	else if (pkt->stream_index == vdata->audio.audio_index)
 	{
 		process_audio_packet(vdata, pkt);
-		// printf("puting audio fram \n");
 	}
 	return (0);
 }
