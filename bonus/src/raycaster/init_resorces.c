@@ -6,7 +6,7 @@
 /*   By: omben-ch <omben-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 15:39:37 by mbousset          #+#    #+#             */
-/*   Updated: 2025/07/26 17:14:47 by omben-ch         ###   ########.fr       */
+/*   Updated: 2025/07/28 17:22:59 by omben-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,18 +89,26 @@ void	initilize_game_resorces(t_game *game)
 	init_image(game, &game->graphics[N_ICONE], "/home/omben-ch/Desktop/cube3D/bonus/textures/N_icon.xpm");
 	init_image(game, &game->graphics[ARROW],
 		"/home/omben-ch/Desktop/cube3D/bonus/textures/minimap_player.xpm");
-	init_image(game, &game->graphics[BG],
+	init_image(game, &game->graphic_menu[BG_IMG],
 		"/home/omben-ch/Desktop/cube3D/bonus/textures/bg.xpm");
-	init_image(game, &game->graphics[START],
+	init_image(game, &game->graphic_menu[START_IMG],
 		"/home/omben-ch/Desktop/cube3D/bonus/textures/start.xpm");
-	init_image(game, &game->graphics[CONTROL],
+	init_image(game, &game->graphic_menu[CONTROL_IMG],
 		"/home/omben-ch/Desktop/cube3D/bonus/textures/control.xpm");
-	init_image(game, &game->graphics[EXIT],
+	init_image(game, &game->graphic_menu[EXIT_IMG],
 		"/home/omben-ch/Desktop/cube3D/bonus/textures/exit.xpm");
-	init_image(game, &game->graphics[H_START],
+	init_image(game, &game->graphic_menu[H_START_IMG],
 		"/home/omben-ch/Desktop/cube3D/bonus/textures/h_start.xpm");
-	init_image(game, &game->graphics[H_CONTROL],
+	init_image(game, &game->graphic_menu[H_CONTROL_IMG],
 		"/home/omben-ch/Desktop/cube3D/bonus/textures/h_control.xpm");
-	init_image(game, &game->graphics[H_EXIT],
+	init_image(game, &game->graphic_menu[H_EXIT_IMG],
 		"/home/omben-ch/Desktop/cube3D/bonus/textures/h_exit.xpm");
+	init_image(game, &game->graphic_menu[CONTROL_PAGE_IMG],
+		"/home/omben-ch/Desktop/cube3D/bonus/textures/control_page.xpm");
+	init_image(game, &game->graphic_menu[EXIT_PAGE_IMG],
+		"/home/omben-ch/Desktop/cube3D/bonus/textures/exit_page.xpm");
+	init_image(game, &game->graphic_menu[NO_IMG],
+		"/home/omben-ch/Desktop/cube3D/bonus/textures/yes.xpm");
+	init_image(game, &game->graphic_menu[YES_IMG],
+		"/home/omben-ch/Desktop/cube3D/bonus/textures/no.xpm");
 }

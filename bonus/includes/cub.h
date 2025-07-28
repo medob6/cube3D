@@ -6,7 +6,7 @@
 /*   By: omben-ch <omben-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 15:39:51 by mbousset          #+#    #+#             */
-/*   Updated: 2025/07/26 18:14:14 by omben-ch         ###   ########.fr       */
+/*   Updated: 2025/07/28 17:23:51 by omben-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,10 @@
 # define ICON_SCALE 0.14
 # define PLAYER_SCALE 0.20
 
+//menu
+# define NB_BUTTON 5
+# define NB_IMG_MENU 11
+
 typedef enum e_graphic
 {
 	E_WALL,
@@ -60,16 +64,32 @@ typedef enum e_graphic
 	W_WALL,
 	S_WALL,
 	N_ICONE,
-	ARROW,
-	BG,
+	ARROW
+}				t_graphic;
+
+typedef enum e_graphic_menu
+{
+	BG_IMG,
+	START_IMG,
+	CONTROL_IMG,
+	EXIT_IMG,
+	H_START_IMG,
+	H_CONTROL_IMG,
+	H_EXIT_IMG,
+	CONTROL_PAGE_IMG,
+	EXIT_PAGE_IMG,
+	NO_IMG,
+	YES_IMG
+}				t_graphic_menu;
+
+typedef enum e_button_name
+{
 	START,
 	CONTROL,
 	EXIT,
-	H_START,
-	H_CONTROL,
-	H_EXIT
-}				t_graphic;
-
+	NO,
+	YES
+}				t_button_name;
 
 typedef struct s_point
 {
@@ -140,7 +160,9 @@ typedef struct s_mm_scale
 	double		px_border;
 }				t_mm_scale;
 
-typedef struct s_put_img_info
+typedef struct s_game t_game;
+
+typedef struct s_button
 {
     t_image *img;
 	int name;
@@ -150,7 +172,9 @@ typedef struct s_put_img_info
     int end_y;
     int width;
     int height;
-} t_put_img_info;
+	void (*on_click)(t_game* game,int button);
+	void (*on_hover)(t_game* game,int button);
+} t_button;
 
 typedef struct s_game
 {
@@ -158,17 +182,27 @@ typedef struct s_game
 	void		*win;
 	int			win_h;
 	int			win_w;
+	int			end_start_menu;
 	t_data		data;
 	t_player	player;
 	t_key		keys[10];
-	t_image		graphics[13];
+	t_image		graphics[6];
+	t_image		graphic_menu[NB_IMG_MENU];
 	t_image		display;
-	t_put_img_info list[3];
+	t_button	buttons[NB_BUTTON];
 }				t_game;
  
 /////////////////////////////
+void create_yes_button(t_game *game,t_button *button);
+void create_no_button(t_game *game,t_button *button);
+void create_exit_button(t_game *game,t_button *button);
+void create_start_button(t_game *game,t_button *button);
+void create_control_button(t_game *game,t_button *button);
+int check_button(t_game *game, int x ,int y);
+int	game_loop(t_game *game);
+void draw_menu(t_game *game);
 void put_bg(t_game *game, t_image *img);
-void put_imag(t_game *game, t_put_img_info *img_info);
+void put_imag(t_game *game, t_button *img_info);
 void init_img_menu(t_game *game);
 /////////////////////////////
  

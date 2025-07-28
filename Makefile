@@ -24,8 +24,8 @@ MAIN_SRC       := main.c
 PARSER_SRC     := check_fc.c check_map.c errors_msg.c get_val_of_file.c parser.c tools1.c tools2.c
 RAYCASTER_SRC  := cleanup.c draw_wall_slice.c geometry_utils.c helpers.c init_resorces2.c keys_api.c minimap_utils.c \
                   ray_cast.c wall_color.c draw_sections.c frame_utils.c helpers2.c horizontal_raycast.c init_resorces.c \
-                  minimap.c movements.c vertical_raycast.c menu.c
-
+                  minimap.c movements.c vertical_raycast.c
+MENU_SRC	   := exit.c start.c control.c menu.c no.c yes.c
 SRCS           := $(addprefix $(MANDATORY_DIR)/src/, $(MAIN_SRC)) \
                   $(addprefix $(MANDATORY_DIR)/src/parser/, $(PARSER_SRC)) \
                   $(addprefix $(MANDATORY_DIR)/src/raycaster/, $(RAYCASTER_SRC))
@@ -34,7 +34,8 @@ OBJS           := $(SRCS:.c=.o)
 
 SRCS_BNS       := $(addprefix $(BONUS_DIR)/src/, $(MAIN_SRC)) \
                   $(addprefix $(BONUS_DIR)/src/parser/, $(PARSER_SRC)) \
-                  $(addprefix $(BONUS_DIR)/src/raycaster/, $(RAYCASTER_SRC))
+                  $(addprefix $(BONUS_DIR)/src/raycaster/, $(RAYCASTER_SRC))\
+                  $(addprefix $(BONUS_DIR)/src/menu/, $(MENU_SRC))
 OBJS_BNS       := $(SRCS_BNS:.c=.o)
 
 HEADER_FILES   := $(MANDATORY_DIR)/includes/cub.h $(MANDATORY_DIR)/includes/raycaster.h
