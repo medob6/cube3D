@@ -66,13 +66,9 @@ static int	send_packet_to_decoder(AVCodecContext *ctx, AVPacket *pkt)
 
 static int	convert_audio_frame(t_audio_convert *conv)
 {
-	int	dst_nb_samples;
 	int	len2;
 	int	data_size;
 
-	dst_nb_samples = av_rescale_rnd(swr_get_delay(conv->swr_ctx,
-				conv->ctx->sample_rate) + conv->frame->nb_samples,
-			conv->ctx->sample_rate, conv->ctx->sample_rate, AV_ROUND_UP);
 	len2 = swr_convert(conv->swr_ctx, &conv->out_buf, conv->out_buf_size / 2,
 			(const uint8_t **)conv->frame->data, conv->frame->nb_samples);
 	data_size = len2 * 2 * 2;
@@ -104,6 +100,10 @@ double get_audio_clock(t_vdata *vdata)
 	Uint64  played_bytes;
 	double  seconds_played;
 
+	/* Safety check: ensure audio context is valid */
+	if (!vdata || !vdata->audio.codec_ctx || !vdata->audio.audio_dev)
+		return 0.0;
+
 	bytes_per_sample = av_get_bytes_per_sample(vdata->audio.codec_ctx->sample_fmt);
 	channels = vdata->audio.codec_ctx->ch_layout.nb_channels;
 	sample_rate = vdata->audio.codec_ctx->sample_rate;
@@ -112,7 +112,12 @@ double get_audio_clock(t_vdata *vdata)
 		return 0.0;
 
 	queued_bytes = SDL_GetQueuedAudioSize(vdata->audio.audio_dev);
-	played_bytes = vdata->audio.total_audio_bytes_sent - queued_bytes;
+	
+	/* Ensure we don't underflow */
+	if (vdata->audio.total_audio_bytes_sent < queued_bytes)
+		played_bytes = 0;
+	else
+		played_bytes = vdata->audio.total_audio_bytes_sent - queued_bytes;
 
 	seconds_played = (double)played_bytes / (bytes_per_sample * channels * sample_rate);
 
@@ -172,21 +177,69 @@ static void	scale_video_frame(t_vdata *vdata)
 		vdata->video.frame_rgb->data, vdata->video.frame_rgb->linesize);
 }
 
-static void	handle_video_sync(t_vdata *vdata, double video_pts_sec)
+/* Check if initial buffering is complete */
+static int	is_buffering_complete(t_vdata *vdata)
+{
+	Uint32	queued_bytes;
+	double	buffered_seconds;
+
+	if (!vdata->initial_buffering)
+		return (1);  /* Not in buffering mode */
+
+	/* Check if we have enough audio buffered */
+	queued_bytes = SDL_GetQueuedAudioSize(vdata->audio.audio_dev);
+	buffered_seconds = calculate_seconds_queued(vdata, queued_bytes);
+	
+	/* Need at least INITIAL_BUFFER_SIZE frames and 0.5 seconds of audio */
+	if (vdata->buffered_frames >= INITIAL_BUFFER_SIZE && buffered_seconds >= 0.5)
+	{
+		vdata->initial_buffering = 0;  /* Exit buffering mode */
+		return (1);
+	}
+	
+	return (0);  /* Still buffering */
+}
+
+/* Audio-video synchronization using audio clock as master (dranger.com tutorial06 method) */
+static int	should_display_frame(t_vdata *vdata, double video_pts_sec)
 {
 	double	audio_clock;
 	double	diff;
 
 	audio_clock = get_audio_clock(vdata);
 	diff = video_pts_sec - audio_clock;
-	if (diff >= 0.040)
+	
+	/* Frame is ready to display if video PTS <= audio clock */
+	if (diff <= 0.0)
+		return (1);
+	
+	/* Frame is too early - check if we should wait or skip */
+	if (diff <= SYNC_THRESHOLD)  /* Within sync threshold - wait briefly */
+		return (1);
+	
+	/* Frame is too early - skip it */
+	return (0);
+}
+
+static void	sync_video_to_audio(t_vdata *vdata, double video_pts_sec)
+{
+	double	audio_clock;
+	double	diff;
+
+	audio_clock = get_audio_clock(vdata);
+	diff = video_pts_sec - audio_clock;
+	
+	/* Only wait if frame is slightly early (within sync threshold) */
+	if (diff > 0.0 && diff <= SYNC_THRESHOLD)
 	{
-		if (diff > 1.0)
-			diff = 1.0;
-		usleep((diff) * 10000);
-		// audio_clock = get_audio_clock(vdata);
-		// diff = video_pts_sec - audio_clock;
-		// printf("diff2 = %f \n",diff);
+		/* Wait proportionally to the difference, capped at sync threshold */
+		usleep((int)(diff * 1000000));
+	}
+	else if (diff > MAX_AUDIO_DIFF)
+	{
+		/* Audio is way behind video - this shouldn't happen often but handle it */
+		/* In this case we just display the frame without waiting */
+		return;
 	}
 }
 
@@ -200,28 +253,39 @@ static void	display_video_frame(t_vdata *vdata)
 static void process_frame_with_pts(t_vdata *vdata)
 {
     double video_pts_sec;
+    
+    /* Don't display frames during initial buffering - build up buffer first */
+    if (vdata->initial_buffering && !is_buffering_complete(vdata))
+        return;
+    
     if (vdata->video.frame->pts != AV_NOPTS_VALUE)
 	{
+        /* Calculate video frame timestamp in seconds */
         video_pts_sec = vdata->video.frame->pts * av_q2d(vdata->video.time_base);
-        // printf("video pts = %f \n",video_pts_sec);
-        handle_video_sync(vdata, video_pts_sec);
-		usleep(vdata->video.frame->best_effort_timestamp);
-		display_video_frame(vdata);
+        
+        /* 
+         * Dranger.com FFmpeg tutorial06 method:
+         * Only display frame if video PTS <= audio clock (master)
+         * This ensures video stays synchronized to audio playback
+         */
+        if (should_display_frame(vdata, video_pts_sec))
+        {
+            sync_video_to_audio(vdata, video_pts_sec);
+            display_video_frame(vdata);
+        }
+        /* If frame is too early, it will be skipped (no display) to maintain sync */
 	} 
 	else
 	{
-        usleep(30000);
+        /* No PTS available - display immediately (fallback behavior) */
         display_video_frame(vdata);
     }
 }
 
 static int	process_decoded_video_frame(t_vdata *vdata)
 {
-	enum AVPixelFormat	src_pix_fmt;
-
 	if (!initialize_sws_context(vdata))
 		return (-1);
-	src_pix_fmt = vdata->video.frame->format;
 	scale_video_frame(vdata);
 	process_frame_with_pts(vdata);
 	return (0);
