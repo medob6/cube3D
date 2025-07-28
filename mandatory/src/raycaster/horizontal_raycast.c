@@ -19,8 +19,8 @@ void	init_raycaster(t_raycaster *c)
 	g = get_game();
 	c->num_rays = g->win_w;
 	c->angle_step = FOV_ANGLE / c->num_rays;
-	c->lines = malloc(sizeof(t_sec) * c->num_rays);
-	c->prev_lines = malloc(sizeof(t_sec) * c->num_rays);
+	c->lines = ft_calloc(c->num_rays, sizeof(t_sec));
+	c->prev_lines = ft_calloc(c->num_rays, sizeof(t_sec));
 }
 
 void	get_h_inter(t_point *next, bool facing_up, double ray_ang)

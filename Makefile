@@ -33,7 +33,7 @@ LDFLAGS_BNS    :=-L$(HOME)/goinfre/ffmpeg_build/lib \
 	$(OPENSSL_LIBS) \
 	$(SDL2_LIBS) \
 	-lz -lpthread -ldl -lm -llzma \
-	-lmlx -lX11 -lXext #-g3 -fsanitize=address
+	-lmlx -lX11 -lXext -g3 -fsanitize=address
 
 MAIN_SRC       := main.c
 PARSER_SRC     := check_fc.c check_map.c errors_msg.c get_val_of_file.c parser.c tools1.c tools2.c
