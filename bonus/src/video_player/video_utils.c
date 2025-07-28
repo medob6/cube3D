@@ -6,7 +6,7 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/01 00:00:00 by user              #+#    #+#             */
-/*   Updated: 2025/07/28 09:43:24 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/07/28 10:12:53 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,25 +155,28 @@ int	handle_video_end(t_vdata **vdata, int *video_initialized)
 
 int	process_packet_by_type(t_vdata *vdata, AVPacket *pkt)
 {
+
+	t_image *vid_frams;
+	int i = 0;
+
+	vid_frams = malloc(sizeof(t_image) * 100);
 	if (pkt->stream_index == vdata->video.video_index)
 	{
-		process_video_packet(vdata, pkt);
-		// printf("1\n");
+		while (pkt->stream_index == vdata->video.video_index)
+		{
+			 vid_frams[i] = process_video_packet(vdata, pkt);
+			 i++;
+		}
+
 	}
 	else if (pkt->stream_index == vdata->audio.audio_index)
 	{
 		process_audio_packet(vdata, pkt);
-		// printf("2\n");
-	}
-	while (!vdata->av_synced) {
-    // process packets as you do (using process_packet_by_type, etc.)
-    // Do NOT display video or play audio yet, just fill up the buffers!
-    if (vdata->video_frames_buffered >= INITIAL_BUFFER_SIZE &&
-        vdata->audio_frames_buffered >= INITIAL_BUFFER_SIZE) {
-        // Set both clocks to the first pts if needed
-        vdata->av_synced = 1;
-        // Start audio playback here if you have paused it
-    }
-}
+		printf("puting audio fram \n");
+		while (i--)
+		{
+			mlx_put_image_to_window(vdata->inf->mlx);
+		}
+		}
 	return (0);
 }

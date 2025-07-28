@@ -6,7 +6,7 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/27 16:03:45 by mbousset          #+#    #+#             */
-/*   Updated: 2025/07/28 09:42:41 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/07/28 10:07:30 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -190,13 +190,17 @@ static void	handle_video_sync(t_vdata *vdata, double video_pts_sec)
 		// diff = video_pts_sec - audio_clock;
 		// printf("diff2 = %f \n",diff);
 	}
+	else
+	{
+		usleep(30000);
+	}
 }
 
 static void	display_video_frame(t_vdata *vdata)
 {
 	draw_frame_to_mlx(&vdata->image, vdata->video.frame_rgb);
-	mlx_put_image_to_window(vdata->inf->mlx, vdata->inf->win, vdata->image.img,
-		0, 0);
+	// mlx_put_image_to_window(vdata->inf->mlx, vdata->inf->win, vdata->image.img,
+	// 	0, 0);
 }
 
 static void process_frame_with_pts(t_vdata *vdata)
@@ -206,14 +210,12 @@ static void process_frame_with_pts(t_vdata *vdata)
         video_pts_sec = vdata->video.frame->pts * av_q2d(vdata->video.time_base);
         printf("video pts = %f \n",video_pts_sec);
         handle_video_sync(vdata, video_pts_sec);
-
-        // Only display if we're synced and the video pts <= audio clock
-        if (vdata->av_synced && video_pts_sec <= get_audio_clock(vdata)) {
-            display_video_frame(vdata);
-        }
-    } else {
-        printf("nnnn \n");
+        display_video_frame(vdata);
+    } 
+	else
+	{
         usleep(30000);
+        display_video_frame(vdata);
     }
 }
 
@@ -229,66 +231,37 @@ static int	process_decoded_video_frame(t_vdata *vdata)
 	return (0);
 }
 
-// int	process_video_packet(t_vdata *vdata, AVPacket *pkt)
-// {
-// 	int	ret;
-
-// 	ret = avcodec_send_packet(vdata->video.codec_ctx, pkt);
-// 	if (ret < 0)
-// 		return (ret);
-// 	ret = avcodec_receive_frame(vdata->video.codec_ctx, vdata->video.frame);
-// 	while (ret == 0)
-// 	{
-// 		if (process_decoded_video_frame(vdata) < 0)
-// 			return (-1);
-// 		ret = avcodec_receive_frame(vdata->video.codec_ctx, vdata->video.frame);
-// 	}
-// 	return (0);
-// }
-
-int process_video_packet(t_vdata *vdata, AVPacket *pkt)
+int	process_video_packet(t_vdata *vdata, AVPacket *pkt)
 {
-    int ret;
-    ret = avcodec_send_packet(vdata->video.codec_ctx, pkt);
-    if (ret < 0)
-        return (ret);
-    ret = avcodec_receive_frame(vdata->video.codec_ctx, vdata->video.frame);
-    while (ret == 0)
-    {
-        if (!vdata->av_synced)
-            vdata->video_frames_buffered++;
-        if (process_decoded_video_frame(vdata) < 0)
-            return (-1);
-        ret = avcodec_receive_frame(vdata->video.codec_ctx, vdata->video.frame);
-    }
-    return (0);
+	int	ret;
+
+	ret = avcodec_send_packet(vdata->video.codec_ctx, pkt);
+	if (ret < 0)
+		return (ret);
+	ret = avcodec_receive_frame(vdata->video.codec_ctx, vdata->video.frame);
+	while (ret == 0)
+	{
+		if (process_decoded_video_frame(vdata) < 0)
+			return (-1);
+		ret = avcodec_receive_frame(vdata->video.codec_ctx, vdata->video.frame);
+	}
+	return (0);
 }
 
 
-int process_audio_packet(t_vdata *vdata, AVPacket *pkt)
+int	process_audio_packet(t_vdata *vdata, AVPacket *pkt)
 {
-    t_audio_process proc;
-    int got = decode_audio_frame_wrapper(vdata, pkt, &proc);
-    if (!vdata->av_synced && got > 0)
-        vdata->audio_frames_buffered++;
-    if (got > 0)
-        handle_decoded_audio(vdata, proc.audio_buf, got);
-    return got;
+	t_audio_process	proc;
+	int				got;
+
+	proc.out_size = sizeof(proc.audio_buf);
+	if (vdata->audio.audio_index == -1)
+		return (0);
+	got = decode_audio_frame_wrapper(vdata, pkt, &proc);
+	if (got > 0)
+		handle_decoded_audio(vdata, proc.audio_buf, got);
+	return (0);
 }
-
-// int	process_audio_packet(t_vdata *vdata, AVPacket *pkt)
-// {
-// 	t_audio_process	proc;
-// 	int				got;
-
-// 	proc.out_size = sizeof(proc.audio_buf);
-// 	if (vdata->audio.audio_index == -1)
-// 		return (0);
-// 	got = decode_audio_frame_wrapper(vdata, pkt, &proc);
-// 	if (got > 0)
-// 		handle_decoded_audio(vdata, proc.audio_buf, got);
-// 	return (0);
-// }
 
 static void	free_existing_frames(t_vdata *vdata)
 {
@@ -366,6 +339,7 @@ int	play_video(char *path)
 	AVPacket		pkt;
 	static int		video_initialized = 0;
 	static t_vdata	*vdata = NULL;
+	static int i;
 
 	if (!video_initialized)
 	{
@@ -375,7 +349,9 @@ int	play_video(char *path)
 	}
 	if (av_read_frame(vdata->video.fmt_ctx, &pkt) < 0)
 		return (handle_video_end(&vdata, &video_initialized));
+	printf("iter %d\n",i);
 	process_packet_by_type(vdata, &pkt);
 	av_packet_unref(&pkt);
+	i++;
 	return (0);
 }
