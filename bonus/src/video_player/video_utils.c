@@ -6,7 +6,7 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/01 00:00:00 by user              #+#    #+#             */
-/*   Updated: 2025/07/28 09:26:31 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/07/28 09:43:24 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,5 +165,15 @@ int	process_packet_by_type(t_vdata *vdata, AVPacket *pkt)
 		process_audio_packet(vdata, pkt);
 		// printf("2\n");
 	}
+	while (!vdata->av_synced) {
+    // process packets as you do (using process_packet_by_type, etc.)
+    // Do NOT display video or play audio yet, just fill up the buffers!
+    if (vdata->video_frames_buffered >= INITIAL_BUFFER_SIZE &&
+        vdata->audio_frames_buffered >= INITIAL_BUFFER_SIZE) {
+        // Set both clocks to the first pts if needed
+        vdata->av_synced = 1;
+        // Start audio playback here if you have paused it
+    }
+}
 	return (0);
 }

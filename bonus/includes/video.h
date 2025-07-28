@@ -10,6 +10,8 @@
 # include <libswresample/swresample.h>
 # include <libswscale/swscale.h>
 
+#define INITIAL_BUFFER_SIZE 5
+
 typedef struct s_audio_convert
 {
 	AVCodecContext		*ctx;
@@ -71,6 +73,10 @@ typedef struct s_vdata
 	t_audio_state		audio;
 	t_image				image;
 	uint64_t			total_audio_bytes_sent;
+	int av_synced;              // Set to 1 when initial A/V sync is reached
+    int video_frames_buffered;  // Counter: video frames buffered before playback
+    int audio_frames_buffered;  // Counter: audio frames buffered before playback
+
 }						t_vdata;
 
 /* Main functions - video.c */
