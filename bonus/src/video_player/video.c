@@ -6,7 +6,7 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/27 16:03:45 by mbousset          #+#    #+#             */
-/*   Updated: 2025/07/28 08:50:30 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/07/28 09:29:35 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -179,13 +179,13 @@ static void	handle_video_sync(t_vdata *vdata, double video_pts_sec)
 
 	audio_clock = get_audio_clock(vdata);
 	diff = video_pts_sec - audio_clock;
-	// printf("diff1 = %f \n",diff);
+	printf("audio_Clock = %f \n",audio_clock);
 	if (diff >= 0.010)
 	{
-		if (diff > 1.0)
-			diff = 1.0;
+		// if (diff > 1.0)
+		// 	diff = 1.0;
 		// printf("diff1 = %f \n",diff);
-		usleep((diff) * 20000);
+		usleep((diff) * 10000);
 		// audio_clock = get_audio_clock(vdata);
 		// diff = video_pts_sec - audio_clock;
 		// printf("diff2 = %f \n",diff);
@@ -203,16 +203,17 @@ static void	process_frame_with_pts(t_vdata *vdata)
 {
 	double	video_pts_sec;
 
-	if (vdata->video.frame->pts != AV_NOPTS_VALUE && 0)
+	if (vdata->video.frame->pts != AV_NOPTS_VALUE )
 	{
 		video_pts_sec = vdata->video.frame->pts * av_q2d(vdata->video.time_base);
-		// printf("video pts = %f \n",video_pts_sec);
+		printf("video pts = %f \n",video_pts_sec);
 		handle_video_sync(vdata, video_pts_sec);
 		display_video_frame(vdata);
 	}
 	else
 	{
-		usleep(40000);
+		printf("nnnn \n");
+		usleep(30000);
 		display_video_frame(vdata);
 	}
 }

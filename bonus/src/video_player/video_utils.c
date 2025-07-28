@@ -6,7 +6,7 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/01 00:00:00 by user              #+#    #+#             */
-/*   Updated: 2025/07/28 08:31:38 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/07/28 09:26:31 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,8 +156,14 @@ int	handle_video_end(t_vdata **vdata, int *video_initialized)
 int	process_packet_by_type(t_vdata *vdata, AVPacket *pkt)
 {
 	if (pkt->stream_index == vdata->video.video_index)
+	{
 		process_video_packet(vdata, pkt);
+		// printf("1\n");
+	}
 	else if (pkt->stream_index == vdata->audio.audio_index)
+	{
 		process_audio_packet(vdata, pkt);
+		// printf("2\n");
+	}
 	return (0);
 }
