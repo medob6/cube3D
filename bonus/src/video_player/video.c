@@ -6,7 +6,7 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/27 16:03:45 by mbousset          #+#    #+#             */
-/*   Updated: 2025/07/27 19:09:14 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/07/28 08:50:30 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,24 +95,30 @@ int	decode_audio_frame(t_audio_decode *decode)
 	return (data_size);
 }
 
-double	get_audio_clock(t_vdata *vdata)
+double get_audio_clock(t_vdata *vdata)
 {
-	int		bytes_per_sample;
-	int		channels;
-	int		sample_rate;
-	Uint32	queued_bytes;
-	Uint64	played_bytes;
-	double	seconds_played;
+	int     bytes_per_sample;
+	int     channels;
+	int     sample_rate;
+	Uint32  queued_bytes;
+	Uint64  played_bytes;
+	double  seconds_played;
 
 	bytes_per_sample = av_get_bytes_per_sample(vdata->audio.codec_ctx->sample_fmt);
 	channels = vdata->audio.codec_ctx->ch_layout.nb_channels;
 	sample_rate = vdata->audio.codec_ctx->sample_rate;
+
+	if (bytes_per_sample <= 0 || channels <= 0 || sample_rate <= 0)
+		return 0.0;
+
 	queued_bytes = SDL_GetQueuedAudioSize(vdata->audio.audio_dev);
 	played_bytes = vdata->audio.total_audio_bytes_sent - queued_bytes;
-	seconds_played = (double)played_bytes / (bytes_per_sample * channels
-			* sample_rate);
-	return (seconds_played);
+
+	seconds_played = (double)played_bytes / (bytes_per_sample * channels * sample_rate);
+
+	return seconds_played;
 }
+
 
 static enum AVPixelFormat	normalize_pix_fmt(enum AVPixelFormat fmt,
 		int *range)
@@ -173,11 +179,16 @@ static void	handle_video_sync(t_vdata *vdata, double video_pts_sec)
 
 	audio_clock = get_audio_clock(vdata);
 	diff = video_pts_sec - audio_clock;
-	if (diff > 0.010)
+	// printf("diff1 = %f \n",diff);
+	if (diff >= 0.010)
 	{
 		if (diff > 1.0)
 			diff = 1.0;
-		usleep(diff * 10000);
+		// printf("diff1 = %f \n",diff);
+		usleep((diff) * 20000);
+		// audio_clock = get_audio_clock(vdata);
+		// diff = video_pts_sec - audio_clock;
+		// printf("diff2 = %f \n",diff);
 	}
 }
 
@@ -192,17 +203,16 @@ static void	process_frame_with_pts(t_vdata *vdata)
 {
 	double	video_pts_sec;
 
-	if (vdata->video.frame->pts != AV_NOPTS_VALUE)
+	if (vdata->video.frame->pts != AV_NOPTS_VALUE && 0)
 	{
-		video_pts_sec = vdata->video.frame->pts
-			* av_q2d(vdata->video.time_base);
+		video_pts_sec = vdata->video.frame->pts * av_q2d(vdata->video.time_base);
+		// printf("video pts = %f \n",video_pts_sec);
 		handle_video_sync(vdata, video_pts_sec);
 		display_video_frame(vdata);
 	}
 	else
 	{
-		printf("here i am \n");
-		usleep(30000);
+		usleep(40000);
 		display_video_frame(vdata);
 	}
 }

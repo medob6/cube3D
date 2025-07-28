@@ -6,7 +6,7 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/01 00:00:00 by user              #+#    #+#             */
-/*   Updated: 2025/07/27 19:08:06 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/07/28 08:31:38 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,9 +105,12 @@ void	handle_decoded_audio(t_vdata *vdata, uint8_t *audio_buf, int got)
 		update_audio_timestamp_with_pts(vdata);
 	else
 		update_audio_timestamp_estimated(vdata, got);
+
 	if (should_queue_audio(vdata))
 		SDL_QueueAudio(vdata->audio.audio_dev, audio_buf, got);
+	vdata->audio.total_audio_bytes_sent += got; 
 }
+
 
 Uint32	calculate_max_queue_size(t_vdata *vdata)
 {
