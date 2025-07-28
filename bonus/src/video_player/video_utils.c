@@ -6,7 +6,7 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/01 00:00:00 by user              #+#    #+#             */
-/*   Updated: 2025/07/28 10:12:53 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/07/28 14:39:29 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,7 @@ double	calculate_seconds_queued(t_vdata *vdata, Uint32 bytes_queued)
 	return ((double)bytes_queued / (sample_rate * bytes_per_sample * channels));
 }
 
-int	decode_audio_frame_wrapper(t_vdata *vdata, AVPacket *pkt,
-		t_audio_process *proc)
+int	decode_audio_frame_wrapper(t_vdata *vdata, AVPacket *pkt,t_audio_process *proc)
 {
 	t_audio_decode	decode;
 
@@ -155,28 +154,15 @@ int	handle_video_end(t_vdata **vdata, int *video_initialized)
 
 int	process_packet_by_type(t_vdata *vdata, AVPacket *pkt)
 {
-
-	t_image *vid_frams;
-	int i = 0;
-
-	vid_frams = malloc(sizeof(t_image) * 100);
 	if (pkt->stream_index == vdata->video.video_index)
 	{
-		while (pkt->stream_index == vdata->video.video_index)
-		{
-			 vid_frams[i] = process_video_packet(vdata, pkt);
-			 i++;
-		}
-
+		process_video_packet(vdata, pkt);
+		// printf("puting to window video fram \n");
 	}
 	else if (pkt->stream_index == vdata->audio.audio_index)
 	{
 		process_audio_packet(vdata, pkt);
-		printf("puting audio fram \n");
-		while (i--)
-		{
-			mlx_put_image_to_window(vdata->inf->mlx);
-		}
-		}
+		// printf("puting audio fram \n");
+	}
 	return (0);
 }
