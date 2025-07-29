@@ -1,3 +1,11 @@
 {
-    "functionHeaderExtension.headerFilePath": "/home/omben-ch/Desktop/cube3D/bonus/includes/cub.h"
+    "functionHeaderExtension.headerFilePath": "/home/omben-ch/Desktop/cube3D/bonus/includes/cub.h",
+    "files.associations": {
+        "cub.h": "c",
+        "mlx.h": "c",
+        "stdbool.h": "c",
+        "stdio.h": "c",
+        "get_next_line.h": "c",
+        "cmath": "c"
+    }
 }
