@@ -6,7 +6,7 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 15:39:37 by mbousset          #+#    #+#             */
-/*   Updated: 2025/07/27 16:32:46 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/07/30 11:06:10 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ void	initilize_game_resorces(t_game *game)
 	init_image(game, &game->graphics[N_WALL], game->data.paths[N_WALL]);
 	init_image(game, &game->graphics[W_WALL], game->data.paths[W_WALL]);
 	init_image(game, &game->graphics[S_WALL], game->data.paths[S_WALL]);
+	init_image(game, &game->graphics[DOOR], "bonus/textures/door.xpm");
 	init_image(game, &game->graphics[N_ICONE], "bonus/textures/N_icon.xpm");
-	init_image(game, &game->graphics[ARROW],
-		"bonus/textures/minimap_player.xpm");
+	init_image(game, &game->graphics[ARROW],"bonus/textures/minimap_player.xpm");
 }

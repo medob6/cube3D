@@ -6,7 +6,7 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 16:22:34 by mbousset          #+#    #+#             */
-/*   Updated: 2025/07/12 19:02:45 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/07/30 11:02:29 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ typedef struct s_sec
 	double		wall_h;
 	double		wall_x;
 	double		raw_dist;
-
 	int			dir;
 }				t_sec;
 

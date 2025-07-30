@@ -6,7 +6,7 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 15:39:57 by mbousset          #+#    #+#             */
-/*   Updated: 2025/07/26 15:18:28 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/07/30 18:57:06 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,17 +73,22 @@ static void	jump_player(t_game *game)
 
 static void	apply_movement(t_game *game, double new_x, double new_y)
 {
-	if (game->data.map.arr[(int)(new_y / WALL_WIDTH)][(int)(new_x
-			/ WALL_WIDTH)] != '1' && game->data.map.arr[(int)(new_y
-			/ WALL_WIDTH)][(int)(new_x / WALL_WIDTH)] != ' ')
+	char	cell;
+
+	cell = game->data.map.arr[(int)(new_y / WALL_WIDTH)][(int)(new_x
+			/ WALL_WIDTH)];
+
+	if (cell == '0' || is_valid_dir(cell) || (cell == 'D' && ((fmod(new_x, WALL_WIDTH) < ((WALL_WIDTH / 2.0) - MOVE_SPEED)) || fmod(new_x, WALL_WIDTH) > ((WALL_WIDTH / 2.0) + MOVE_SPEED))) )
 	{
 		game->player.moving = (game->player.p.x != new_x
 				|| game->player.p.y != new_y) || game->player.moving;
 		game->player.p.x = new_x;
 		game->player.p.y = new_y;
 	}
+	// else if (cell == 'D')
+	// 	return ;
+	// printf("player ,x,y (%f,%f)\n", game->player.p.x / WALL_WIDTH,(game->player.p.y / WALL_WIDTH));
 }
-
 void	update_player(t_game *game)
 {
 	double	new_x;

@@ -19,7 +19,12 @@
         "parser.h": "c",
         "video.h": "c",
         "swresample.h": "c",
-        "swscale.h": "c"
+        "swscale.h": "c",
+        "string.h": "c",
+        "stdbool.h": "c",
+        "math.h": "c",
+        "mlx.h": "c",
+        "keysymdef.h": "c"
     },
     "functionHeaderExtension.headerFilePath": "/home/mbousset/Desktop/cub3D/mandatory/includes/cub.h"
 }

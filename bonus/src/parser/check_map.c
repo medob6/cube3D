@@ -6,7 +6,7 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 15:14:23 by omben-ch          #+#    #+#             */
-/*   Updated: 2025/07/14 13:10:29 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/07/30 10:50:05 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,10 +92,13 @@ void	position_of_player_and_floor_check(t_fcub *fcub, char **map, int x,
 			&& !map[x][y + 1]))
 		print_error_map_and_exit(fcub);
 	if (x && map[x][y] && map[x + 1] && ft_strchr("0NWSE", map[x][y])
-		&& (!ft_strchr("10NWSE", map[x][y - 1]) || !ft_strchr("10NWSE", map[x][y
-				+ 1]) || !ft_strchr("10NWSE", map[x - 1][y])
-			|| !ft_strchr("10NWSE", map[x + 1][y])))
+		&& (!ft_strchr("1D0NWSE", map[x][y - 1]) || !ft_strchr("1D0NWSE", map[x][y
+				+ 1]) || !ft_strchr("1D0NWSE", map[x - 1][y])
+			|| !ft_strchr("1D0NWSE", map[x + 1][y])))
+	{
+		printf("here\n");
 		print_error_map_and_exit(fcub);
+	}
 }
 
 void	check_content_map(t_fcub *fcub)
@@ -113,7 +116,7 @@ void	check_content_map(t_fcub *fcub)
 		y = -1;
 		while (fcub->map[x][++y])
 		{
-			if (!ft_strchr(" 10NWSE", fcub->map[x][y]))
+			if (!ft_strchr(" 10NWSED", fcub->map[x][y]))
 				print_error_map_and_exit(fcub);
 			position_of_player_and_floor_check(fcub, fcub->map, x, y);
 			if (ft_strchr("NWSE", fcub->map[x][y]))

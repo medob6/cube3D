@@ -6,7 +6,7 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/27 16:03:45 by mbousset          #+#    #+#             */
-/*   Updated: 2025/07/28 14:39:23 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/07/29 12:15:41 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,30 +95,26 @@ int	decode_audio_frame(t_audio_decode *decode)
 	return (data_size);
 }
 
-double get_audio_clock(t_vdata *vdata)
+double	get_audio_clock(t_vdata *vdata)
 {
-	int     bytes_per_sample;
-	int     channels;
-	int     sample_rate;
-	Uint32  queued_bytes;
-	Uint64  played_bytes;
-	double  seconds_played;
+	int		bytes_per_sample;
+	int		channels;
+	int		sample_rate;
+	Uint32	queued_bytes;
+	Uint64	played_bytes;
+	double	seconds_played;
 
 	bytes_per_sample = av_get_bytes_per_sample(vdata->audio.codec_ctx->sample_fmt);
 	channels = vdata->audio.codec_ctx->ch_layout.nb_channels;
 	sample_rate = vdata->audio.codec_ctx->sample_rate;
-
 	if (bytes_per_sample <= 0 || channels <= 0 || sample_rate <= 0)
-		return 0.0;
-
+		return (0.0);
 	queued_bytes = SDL_GetQueuedAudioSize(vdata->audio.audio_dev);
 	played_bytes = vdata->audio.total_audio_bytes_sent - queued_bytes;
-
-	seconds_played = (double)played_bytes / (bytes_per_sample * channels * sample_rate);
-
-	return seconds_played;
+	seconds_played = (double)played_bytes / (bytes_per_sample * channels
+			* sample_rate);
+	return (seconds_played);
 }
-
 
 static enum AVPixelFormat	normalize_pix_fmt(enum AVPixelFormat fmt,
 		int *range)
@@ -172,21 +168,20 @@ static void	scale_video_frame(t_vdata *vdata)
 		vdata->video.frame_rgb->data, vdata->video.frame_rgb->linesize);
 }
 
-static void	handle_video_sync(t_vdata *vdata, double video_pts_sec)
+void	handle_video_sync(t_vdata *vdata, double video_pts_sec)
 {
 	double	audio_clock;
 	double	diff;
 
 	audio_clock = get_audio_clock(vdata);
 	diff = video_pts_sec - audio_clock;
-	if (diff >= 0.040)
+	if (diff > 0.040)
 	{
 		if (diff > 1.0)
+		{
 			diff = 1.0;
-		usleep((diff) * 10000);
-		// audio_clock = get_audio_clock(vdata);
-		// diff = video_pts_sec - audio_clock;
-		// printf("diff2 = %f \n",diff);
+		}
+		usleep(diff * 10000);
 	}
 }
 
@@ -197,22 +192,25 @@ static void	display_video_frame(t_vdata *vdata)
 		0, 0);
 }
 
-static void process_frame_with_pts(t_vdata *vdata)
+static void	process_frame_with_pts(t_vdata *vdata)
 {
-    double video_pts_sec;
-    if (vdata->video.frame->pts != AV_NOPTS_VALUE)
+	double		video_pts_sec;
+	static int	i;
+
+	if (vdata->video.frame->pts != AV_NOPTS_VALUE && 0)
 	{
-        video_pts_sec = vdata->video.frame->pts * av_q2d(vdata->video.time_base);
-        // printf("video pts = %f \n",video_pts_sec);
-        handle_video_sync(vdata, video_pts_sec);
-		usleep(vdata->video.frame->best_effort_timestamp);
+		video_pts_sec = vdata->video.frame->pts
+			* av_q2d(vdata->video.time_base);
+		handle_video_sync(vdata, video_pts_sec);
 		display_video_frame(vdata);
-	} 
+	}
 	else
 	{
-        usleep(30000);
-        display_video_frame(vdata);
-    }
+		// usleep(30000);
+		SDL_Delay(25);
+		display_video_frame(vdata);
+	}
+	i++;
 }
 
 static int	process_decoded_video_frame(t_vdata *vdata)
@@ -243,7 +241,6 @@ int	process_video_packet(t_vdata *vdata, AVPacket *pkt)
 	}
 	return (0);
 }
-
 
 int	process_audio_packet(t_vdata *vdata, AVPacket *pkt)
 {
@@ -335,12 +332,13 @@ int	play_video(char *path)
 	AVPacket		pkt;
 	static int		video_initialized = 0;
 	static t_vdata	*vdata = NULL;
-	// static int i;
 
+	// static int i;
 	if (!video_initialized)
 	{
 		if (initialize_player_data(&vdata, path) < 0)
 			return (-1);
+		av_dump_format(vdata->video.fmt_ctx, 0, vdata->video_path, 0);
 		video_initialized = 1;
 	}
 	if (av_read_frame(vdata->video.fmt_ctx, &pkt) < 0)

@@ -6,7 +6,7 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 15:39:51 by mbousset          #+#    #+#             */
-/*   Updated: 2025/07/14 13:27:04 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/07/30 11:31:57 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 # include "get_next_line.h"
 # include "libft.h"
 # include "parser.h"
+# include <X11/keysymdef.h>
 # include <errno.h>
 # include <fcntl.h>
 # include <math.h>
@@ -39,6 +40,7 @@
 # define ARROW_LEFT 65361
 # define ARROW_RIGHT 65363
 # define KEY_SPACE 32
+# define KEY_O 111
 
 // speed
 # define MOVE_SPEED 5
@@ -58,6 +60,7 @@ typedef enum e_graphic
 	N_WALL,
 	W_WALL,
 	S_WALL,
+	DOOR,
 	N_ICONE,
 	ARROW,
 }				t_graphic;
@@ -139,12 +142,12 @@ typedef struct s_game
 	int			win_w;
 	t_data		data;
 	t_player	player;
-	t_key		keys[10];
-	t_image		graphics[6];
+	t_key		keys[11];
+	t_image		graphics[7];
 	t_image		display;
 }				t_game;
 
-int				handle_close();
+int				handle_close(void);
 void			cleanup(int code);
 void			update_player(t_game *game);
 t_game			*get_game(void);
@@ -176,9 +179,7 @@ void			get_icone_info(t_circle *icn, t_circle minimap,
 					double icon_angle, double player_angle);
 void			handle_exit(t_game *game);
 
-
 /* FUNCTIONS */
-void	play_intro(char *path)
-;
+void			play_intro(char *path);
 
 #endif

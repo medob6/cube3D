@@ -10,7 +10,7 @@
 # include <libswresample/swresample.h>
 # include <libswscale/swscale.h>
 
-#define INITIAL_BUFFER_SIZE 5
+# define INITIAL_BUFFER_SIZE 5
 
 typedef struct s_audio_convert
 {
@@ -73,7 +73,7 @@ typedef struct s_vdata
 	t_audio_state		audio;
 	t_image				image;
 	uint64_t			total_audio_bytes_sent;
-	int 				av_synced;
+	int					av_synced;
 }						t_vdata;
 
 /* Main functions - video.c */

@@ -6,7 +6,7 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 15:40:06 by mbousset          #+#    #+#             */
-/*   Updated: 2025/07/05 15:10:38 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/07/30 11:33:27 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,4 +58,5 @@ void	init_keys(t_game *game)
 	game->keys[7] = (t_key){ARROW_LEFT, false};
 	game->keys[8] = (t_key){ARROW_RIGHT, false};
 	game->keys[9] = (t_key){KEY_SPACE, false};
+	game->keys[10] = (t_key){KEY_O, false};
 }

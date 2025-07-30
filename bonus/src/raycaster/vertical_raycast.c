@@ -6,7 +6,7 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 15:49:58 by mbousset          #+#    #+#             */
-/*   Updated: 2025/07/12 19:02:31 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/07/30 19:35:36 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,10 @@ void	process_ray(t_raycaster *c, t_frame_state *state, int ray_index)
 	double	ray_ang;
 
 	ray_ang = calculate_ray_angle(state, c, ray_index);
-	if (can_reuse_ray(state, c, ray_index))
-		reuse_ray_data(c, state, ray_index, ray_ang);
-	else
-		cast_new_ray(c, state, ray_index, ray_ang);
+	// if (can_reuse_ray(state, c, ray_index))
+	// 	reuse_ray_data(c, state, ray_index, ray_ang);
+	// else
+	cast_new_ray(c, state, ray_index, ray_ang);
 }
 
 void	get_steps_v(t_pair *step, bool left, double ray_ang)
@@ -55,9 +55,26 @@ double	verti_dist(double ray_ang, double *wall_x, int *dir)
 		map_p.y = next.y / WALL_WIDTH;
 		if (outside_map(map_p.x, map_p.y))
 			break ;
+		if (g->data.map.arr[(int)g->player.p.y / WALL_WIDTH][(int)g->player.p.x
+			/ WALL_WIDTH] == 'D')
+		{
+			if ((fmod(g->player.p.x, WALL_WIDTH) <= WALL_WIDTH / 2) ^ left)
+			{
+				next.y -= WALL_WIDTH / 2 * tan(ray_ang * (-left + !left));
+				next.x -= WALL_WIDTH / 2 * (-left + !left);
+				return (*wall_x = next.y, *dir = DOOR, get_dist(g->player.p,
+						next));
+			}
+		}
 		if (g->data.map.arr[(int)map_p.y][(int)map_p.x] == '1')
 			return (*wall_x = next.y, *dir = W_WALL * left + E_WALL * !left,
 				get_dist(g->player.p, next));
+		else if (g->data.map.arr[(int)map_p.y][(int)map_p.x] == 'D')
+		{
+			next.y += WALL_WIDTH / 2 * tan(ray_ang * (-left + !left));
+			next.x += WALL_WIDTH / 2 * (-left + !left);
+			return (*wall_x = next.y, *dir = DOOR, get_dist(g->player.p, next));
+		}
 		next.x += step.x;
 		next.y += step.y;
 	}

@@ -6,7 +6,7 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 16:07:13 by mbousset          #+#    #+#             */
-/*   Updated: 2025/07/14 12:25:43 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/07/30 10:58:41 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,11 +49,12 @@ int	get_minimap_pixel_color(t_game *g, double rx, double ry, t_mm_scale sc)
 	if (row < 0 || row >= g->data.map.map_h || col < 0
 		|| col >= g->data.map.map_w)
 		return (0x000000);
-	if (g->data.map.arr[row][col] == '0'
-		|| is_valid_dir(g->data.map.arr[row][col]))
+	if (g->data.map.arr[row][col] == '0' || is_valid_dir(g->data.map.arr[row][col]))
 		return (0xeeeeee);
 	else if (g->data.map.arr[row][col] == ' ')
 		return (0x000000);
+	else if (g->data.map.arr[row][col] == 'D')
+		return (0x4D03A0);
 	f.x = fmod(wp.x, WALL_WIDTH);
 	f.y = fmod(wp.y, WALL_WIDTH);
 	if (in_border(f, sc))

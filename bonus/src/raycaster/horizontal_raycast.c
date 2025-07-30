@@ -6,7 +6,7 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 15:50:02 by mbousset          #+#    #+#             */
-/*   Updated: 2025/07/27 17:28:41 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/07/30 19:14:51 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,12 @@ double	horiz_dist(double ray_ang, double *wall_x, int *dir)
 		if (g->data.map.arr[(int)map_p.y][(int)map_p.x] == '1')
 			return (*wall_x = next.x, *dir = N_WALL * up + S_WALL * !up,
 				get_dist(g->player.p, next));
+		else if (g->data.map.arr[(int)map_p.y][(int)map_p.x] == 'D')
+		{
+			next.y += WALL_WIDTH / 2 * (-up + !up);
+			next.x += WALL_WIDTH / 2 / tan(ray_ang * (-up + !up));
+			return (*wall_x = next.x, *dir = DOOR, get_dist(g->player.p, next));
+		}
 		next.x += step.x;
 		next.y += step.y;
 	}

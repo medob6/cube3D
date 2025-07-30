@@ -6,7 +6,7 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 16:07:07 by mbousset          #+#    #+#             */
-/*   Updated: 2025/07/14 09:49:52 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/07/30 12:36:32 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ bool	check_in_range(int ray, int offset, int max_rays)
 	}
 	else if (offset < 0)
 	{
-		if (ray >= -offset)
+		if (ray > -offset)
 			return (true);
 	}
 	return (false);
@@ -73,6 +73,7 @@ double	closest_hit(double ang, t_sec *line)
 	int		h_dir;
 	int		v_dir;
 
+	// static int n;
 	h_dir = -1;
 	v_dir = -1;
 	distance.x = horiz_dist(ang, &h_x, &h_dir);
@@ -81,6 +82,13 @@ double	closest_hit(double ang, t_sec *line)
 		fill_line_inf(line, h_dir, h_x, distance.x);
 	else
 		fill_line_inf(line, v_dir, v_x, distance.y);
+	// if (line->dir == DOOR)
+	// {
+	// 	printf("ray_angle is = %f \n",ang);
+	// 	if (fmod(line->wall_x, WALL_WIDTH) <= WALL_WIDTH / 2)
+	// 		printf("ray hit wall at pos = %f x \n", fmod(line->wall_x,WALL_WIDTH));
+	// 	// printf("player is seeing the door %d\n",n++);
+	// }
 	return (line->raw_dist * cos(normalize_angle(ang
 				- get_game()->player.angle)));
 }
