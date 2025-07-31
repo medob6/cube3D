@@ -6,11 +6,11 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 15:39:57 by mbousset          #+#    #+#             */
-/*   Updated: 2025/07/30 18:57:06 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/07/31 10:04:19 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub.h"
+#include "cub_bs.h"
 
 static void	move_along_axes(t_game *game, double *new_x, double *new_y)
 {
@@ -71,23 +71,58 @@ static void	jump_player(t_game *game)
 	game->player.p.z += step;
 }
 
+bool	valid_door_pos(double new_x, double new_y)
+{
+	char	cell;
+	char	u_cell;
+	char	d_cell;
+	char	l_cell;
+	char	r_cell;
+
+	cell = get_game()->data.map.arr[(int)(new_y / WALL_WIDTH)][(int)(new_x
+			/ WALL_WIDTH)];
+	u_cell = get_game()->data.map.arr[(int)(new_y / WALL_WIDTH) + 1][(int)(new_x
+			/ WALL_WIDTH)];
+	d_cell = get_game()->data.map.arr[(int)(new_y / WALL_WIDTH) - 1][(int)(new_x
+			/ WALL_WIDTH)];
+	l_cell = get_game()->data.map.arr[(int)(new_y / WALL_WIDTH)][(int)(new_x
+			/ WALL_WIDTH) + 1];
+	r_cell = get_game()->data.map.arr[(int)(new_y / WALL_WIDTH)][(int)(new_x
+			/ WALL_WIDTH) - 1];
+	if (cell == 'D')
+	{
+		if (u_cell == '1' && d_cell == '1')
+		{
+			if (((fmod(new_x, WALL_WIDTH) < ((WALL_WIDTH / 2.0) - WALL_WIDTH
+							* 0.1)) || fmod(new_x, WALL_WIDTH) > ((WALL_WIDTH
+							/ 2.0) + WALL_WIDTH * 0.1)))
+				return (true);
+		}
+		else if (r_cell == '1' && l_cell == '1')
+		{
+			if (((fmod(new_y, WALL_WIDTH) < ((WALL_WIDTH / 2.0) - WALL_WIDTH
+							* 0.1)) || fmod(new_y, WALL_WIDTH) > ((WALL_WIDTH
+							/ 2.0) + WALL_WIDTH * 0.1)))
+				return (true);
+		}
+	}
+	return (false);
+}
+
 static void	apply_movement(t_game *game, double new_x, double new_y)
 {
 	char	cell;
 
 	cell = game->data.map.arr[(int)(new_y / WALL_WIDTH)][(int)(new_x
 			/ WALL_WIDTH)];
-
-	if (cell == '0' || is_valid_dir(cell) || (cell == 'D' && ((fmod(new_x, WALL_WIDTH) < ((WALL_WIDTH / 2.0) - MOVE_SPEED)) || fmod(new_x, WALL_WIDTH) > ((WALL_WIDTH / 2.0) + MOVE_SPEED))) )
+	if (cell == '0' || is_valid_dir(cell) || (cell == 'D'
+			&& valid_door_pos(new_x, new_y)))
 	{
 		game->player.moving = (game->player.p.x != new_x
 				|| game->player.p.y != new_y) || game->player.moving;
 		game->player.p.x = new_x;
 		game->player.p.y = new_y;
 	}
-	// else if (cell == 'D')
-	// 	return ;
-	// printf("player ,x,y (%f,%f)\n", game->player.p.x / WALL_WIDTH,(game->player.p.y / WALL_WIDTH));
 }
 void	update_player(t_game *game)
 {

@@ -6,11 +6,11 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 15:39:33 by mbousset          #+#    #+#             */
-/*   Updated: 2025/07/26 16:18:49 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/07/31 10:04:19 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub.h"
+#include "cub_bs.h"
 
 void	destroy_image(void *mlx, void *image)
 {

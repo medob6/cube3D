@@ -6,12 +6,12 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 09:38:33 by omben-ch          #+#    #+#             */
-/*   Updated: 2025/07/30 18:06:38 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/07/31 10:06:57 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "raycaster.h"
-#include "video.h"
+#include "raycaster_bs.h"
+#include "video_bs.h"
 
 void	parse_input(t_game *game, int ac, char **av)
 {
@@ -135,3 +135,17 @@ int	main(int ac, char **av)
 	lunch_game_hooks(game);
 	return (0);
 }
+
+// TODO:
+
+// DOOR :
+
+// DOOR COLISION fixed
+// DOOR RAYCASTING fixed
+// DOOR dedection not fixed
+// DOOR if door open a littel bet not fixed
+// DOOR animation not fixed
+// DOOR in minimap
+// DOOR CHECK beteen two walls in parsing not fixed  // for omar
+
+// 

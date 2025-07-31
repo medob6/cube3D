@@ -6,11 +6,11 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 16:07:07 by mbousset          #+#    #+#             */
-/*   Updated: 2025/07/30 12:36:32 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/07/31 10:09:49 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "raycaster.h"
+#include "raycaster_bs.h"
 
 void	draw_jump_floor_section(t_sec_inf *section, int wall_bottom, int old_wb)
 {
@@ -82,13 +82,10 @@ double	closest_hit(double ang, t_sec *line)
 		fill_line_inf(line, h_dir, h_x, distance.x);
 	else
 		fill_line_inf(line, v_dir, v_x, distance.y);
-	// if (line->dir == DOOR)
-	// {
-	// 	printf("ray_angle is = %f \n",ang);
-	// 	if (fmod(line->wall_x, WALL_WIDTH) <= WALL_WIDTH / 2)
-	// 		printf("ray hit wall at pos = %f x \n", fmod(line->wall_x,WALL_WIDTH));
-	// 	// printf("player is seeing the door %d\n",n++);
-	// }
+	if (line->dir == DOOR)
+	{
+		
+	}
 	return (line->raw_dist * cos(normalize_angle(ang
 				- get_game()->player.angle)));
 }

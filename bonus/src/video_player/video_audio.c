@@ -6,11 +6,11 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/01 00:00:00 by user              #+#    #+#             */
-/*   Updated: 2025/07/27 18:30:28 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/07/31 10:05:24 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "video.h"
+#include "video_bs.h"
 
 static int	open_audio_device(t_vdata *vdata, SDL_AudioSpec *wanted_spec,
 		SDL_AudioSpec *obtained_spec)

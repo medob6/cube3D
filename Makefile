@@ -55,8 +55,8 @@ SRCS_BNS       := $(addprefix $(BONUS_DIR)/src/, $(MAIN_SRC)) \
 
 OBJS_BNS       := $(SRCS_BNS:.c=.o)
 
-HEADER_FILES   := $(MANDATORY_DIR)/includes/cub.h $(MANDATORY_DIR)/includes/raycaster.h
-HEADER_FILES_BNS := $(BONUS_DIR)/includes/cub.h $(BONUS_DIR)/includes/raycaster.h
+HEADER_FILES   := $(MANDATORY_DIR)/includes/cub_bs.h $(MANDATORY_DIR)/includes/raycaster_bs.h
+HEADER_FILES_BNS := $(BONUS_DIR)/includes/cub_bs.h $(BONUS_DIR)/includes/raycaster_bs.h
 
 all: $(LIBFT) $(NAME)
 

@@ -6,11 +6,11 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 16:07:04 by mbousset          #+#    #+#             */
-/*   Updated: 2025/07/14 13:22:54 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/07/31 10:04:57 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "raycaster.h"
+#include "raycaster_bs.h"
 
 void	calculate_wall_boundaries(t_sec *slice, int w_x, int *wall_top,
 		int *wall_bottom)

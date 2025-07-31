@@ -1,20 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cub.h                                              :+:      :+:    :+:   */
+/*   cub_bs.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 15:39:51 by mbousset          #+#    #+#             */
-/*   Updated: 2025/07/30 17:06:56 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/07/31 09:52:40 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CUB_H
-# define CUB_H
+#ifndef CUB_BS_H
+# define CUB_BS_H
 # include "get_next_line.h"
 # include "libft.h"
-# include "parser.h"
+# include "parser_bs.h"
 # include <SDL2/SDL.h>
 # include <errno.h>
 # include <fcntl.h>
@@ -43,7 +43,7 @@
 # define KEY_O 111
 
 // speed
-# define MOVE_SPEED 10
+# define MOVE_SPEED 2
 # define ROTATE_SPEED 0.01
 # define JUMP_SPEED 10
 # define M_PI_3 1.0471975511965976
@@ -97,6 +97,7 @@ typedef struct s_player
 	double		hieght;
 	bool		moving;
 	bool		jumping;
+	bool		can_open_door;
 }				t_player;
 
 typedef struct s_map

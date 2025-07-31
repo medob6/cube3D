@@ -6,11 +6,11 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 15:51:51 by mbousset          #+#    #+#             */
-/*   Updated: 2025/07/30 11:03:05 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/07/31 10:04:57 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "raycaster.h"
+#include "raycaster_bs.h"
 
 t_sec_inf	*init_section(int w_x, double wall_h, int x, t_graphic dir)
 {
@@ -33,7 +33,8 @@ unsigned int	get_slice_color(int x, int y, int dir, int section)
 	{
 		if (dir == -1)
 			return (0x000000);
-		if ((x >= 0 && x < get_game()->graphics[dir].w) && (y >= 0&& y < get_game()->graphics[dir].h))
+		if ((x >= 0 && x < get_game()->graphics[dir].w) && (y >= 0
+				&& y < get_game()->graphics[dir].h))
 			return (get_color(get_game()->graphics[dir], x, y));
 	}
 	else if (section == 3)

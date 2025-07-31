@@ -6,11 +6,11 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/01 00:00:00 by user              #+#    #+#             */
-/*   Updated: 2025/07/28 14:39:29 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/07/31 10:05:24 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "video.h"
+#include "video_bs.h"
 
 int	create_color(uint8_t *src, int x)
 {
@@ -50,7 +50,8 @@ double	calculate_seconds_queued(t_vdata *vdata, Uint32 bytes_queued)
 	return ((double)bytes_queued / (sample_rate * bytes_per_sample * channels));
 }
 
-int	decode_audio_frame_wrapper(t_vdata *vdata, AVPacket *pkt,t_audio_process *proc)
+int	decode_audio_frame_wrapper(t_vdata *vdata, AVPacket *pkt,
+		t_audio_process *proc)
 {
 	t_audio_decode	decode;
 
@@ -104,12 +105,10 @@ void	handle_decoded_audio(t_vdata *vdata, uint8_t *audio_buf, int got)
 		update_audio_timestamp_with_pts(vdata);
 	else
 		update_audio_timestamp_estimated(vdata, got);
-
 	if (should_queue_audio(vdata))
 		SDL_QueueAudio(vdata->audio.audio_dev, audio_buf, got);
-	vdata->audio.total_audio_bytes_sent += got; 
+	vdata->audio.total_audio_bytes_sent += got;
 }
-
 
 Uint32	calculate_max_queue_size(t_vdata *vdata)
 {

@@ -6,11 +6,11 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/27 16:03:45 by mbousset          #+#    #+#             */
-/*   Updated: 2025/07/29 12:15:41 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/07/31 10:05:24 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "video.h"
+#include "video_bs.h"
 
 int	find_stream_index(AVFormatContext *fmt_ctx, enum AVMediaType type)
 {

@@ -6,11 +6,11 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 15:47:40 by mbousset          #+#    #+#             */
-/*   Updated: 2025/07/12 15:47:41 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/07/31 10:04:57 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "raycaster.h"
+#include "raycaster_bs.h"
 
 bool	outside_map(int x, int y)
 {

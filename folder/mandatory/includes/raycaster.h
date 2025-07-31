@@ -6,7 +6,7 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 16:22:34 by mbousset          #+#    #+#             */
-/*   Updated: 2025/07/30 11:02:29 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/07/31 09:28:26 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,14 @@
 # define RAYCASTER_H
 
 # include "cub.h"
+
+typedef struct s_rayinfo
+{
+	t_point		next;
+	t_point		map_p;
+	double		ray_ang;
+	bool		left;
+}				t_rayinfo;
 
 typedef struct s_sec
 {

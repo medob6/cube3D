@@ -6,11 +6,11 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/01 00:00:00 by user              #+#    #+#             */
-/*   Updated: 2025/07/27 16:07:56 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/07/31 10:05:24 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "video.h"
+#include "video_bs.h"
 
 static void	cleanup_video_resources(t_vdata *vdata)
 {

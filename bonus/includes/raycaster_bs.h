@@ -1,19 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   raycaster.h                                        :+:      :+:    :+:   */
+/*   raycaster_bs.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 16:22:34 by mbousset          #+#    #+#             */
-/*   Updated: 2025/07/12 19:02:45 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/07/31 10:11:31 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef RAYCASTER_H
-# define RAYCASTER_H
+#ifndef RAYCASTER_BS_H
+# define RAYCASTER_BS_H
 
-# include "cub.h"
+# include "cub_bs.h"
+
+typedef struct s_rayinfo
+{
+	t_point		next;
+	t_point		map_p;
+	double		ray_ang;
+	bool		left;
+}				t_rayinfo;
 
 typedef struct s_sec
 {

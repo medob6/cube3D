@@ -1,7 +1,7 @@
-#ifndef VIDEO_H
-# define VIDEO_H
+#ifndef VIDEO_BS_H
+# define VIDEO_BS_H
 
-# include "cub.h"
+# include "cub_bs.h"
 # include <libavcodec/avcodec.h>
 # include <libavformat/avformat.h>
 # include <libavutil/channel_layout.h>
