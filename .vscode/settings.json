@@ -24,7 +24,8 @@
         "stdbool.h": "c",
         "math.h": "c",
         "mlx.h": "c",
-        "keysymdef.h": "c"
+        "keysymdef.h": "c",
+        "raycaster_bs.h": "c"
     },
     "functionHeaderExtension.headerFilePath": "/home/mbousset/Desktop/cub3D/mandatory/includes/cub.h"
 }

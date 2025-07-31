@@ -6,7 +6,7 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 09:38:33 by omben-ch          #+#    #+#             */
-/*   Updated: 2025/07/31 10:06:57 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/07/31 19:05:13 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,18 @@ bool	try_open_door(t_game *game)
 	return (true);
 }
 
+void	draw_vert_line(t_image img, int y)
+{
+	int	x;
+
+	x = 0;
+	while (x < get_game()->win_h)
+	{
+		my_mlx_pixel_put(img, y, x, 0xFF0000);
+		x++;
+	}
+}
+
 int	game_loop(t_game *game)
 {
 	static bool	start = true;
@@ -95,13 +107,16 @@ int	game_loop(t_game *game)
 		{
 			display_scean(game);
 			draw_mini_map(game);
+			draw_vert_line(game->display, game->win_w / 3);
+			draw_vert_line(game->display, 2 * game->win_w / 3);
 			mlx_put_image_to_window(game->mlx, game->win, game->display.img, 0,
 				0);
 		}
 		update_player(game);
 		if (get_key(KEY_O, game)->press)
 		{
-			game->player.moving = game->player.moving || try_open_door(game);
+			game->player.moving = game->player.moving || get_game()->player.can_open_door;
+			get_game()->player.can_open_door = false;
 		}
 	}
 	handle_exit(game);
@@ -148,4 +163,4 @@ int	main(int ac, char **av)
 // DOOR in minimap
 // DOOR CHECK beteen two walls in parsing not fixed  // for omar
 
-// 
+//

@@ -6,7 +6,7 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 15:49:58 by mbousset          #+#    #+#             */
-/*   Updated: 2025/07/31 10:04:57 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/07/31 15:51:15 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,56 +38,15 @@ void	get_v_inter(t_point *next, bool left, double ray_ang)
 		* tan(ray_ang);
 }
 
-// double	verti_dist(double ray_ang, double *wall_x, int *dir)
-// {
-// 	t_point			map_p;
-// 	t_point			next;
-// 	t_pair			step;
-// 	bool			left;
-// 	const t_game	*g = get_game();
-
-// 	left = cos(ray_ang) < 0;
-// 	get_v_inter(&next, left, ray_ang);
-// 	get_steps_v(&step, left, ray_ang);
-// 	while (true)
-// 	{
-// 		map_p.x = ((next.x - 1) * (left) + next.x * (!left)) / WALL_WIDTH;
-// 		map_p.y = next.y / WALL_WIDTH;
-// 		if (outside_map(map_p.x, map_p.y))
-// 			break ;
-// 		if (g->data.map.arr[(int)g->player.p.y / WALL_WIDTH][(int)g->player.p.x
-// 			/ WALL_WIDTH] == 'D')
-// 		{
-// 			if ((fmod(g->player.p.x, WALL_WIDTH) <= WALL_WIDTH / 2) ^ left)
-// 			{
-// 				next.y -= WALL_WIDTH / 2 * tan(ray_ang * (-left + !left));
-// 				next.x -= WALL_WIDTH / 2 * (-left + !left);
-// 				return (*wall_x = next.y, *dir = DOOR, get_dist(g->player.p,
-// 						next));
-// 			}
-// 		}
-// 		if (g->data.map.arr[(int)map_p.y][(int)map_p.x] == 'D')
-// 		{
-// 			next.y += WALL_WIDTH / 2 * tan(ray_ang * (-left + !left));
-// 			next.x += WALL_WIDTH / 2 * (-left + !left);
-// 			return (*wall_x = next.y, *dir = DOOR, get_dist(g->player.p, next));
-// 		}
-// 		else if (g->data.map.arr[(int)map_p.y][(int)map_p.x] == '1')
-// 			return (*wall_x = next.y, *dir = W_WALL * left + E_WALL * !left,
-// 				get_dist(g->player.p, next));
-// 		next.x += step.x;
-// 		next.y += step.y;
-// 	}
-// 	return (INFINITY);
-// }
-
 double	check_door_vhit(t_rayinfo ray, double *wall_x, int *dir)
 {
 	const t_game	*g = get_game();
 
 	if (g->data.map.arr[(int)(g->player.p.y / WALL_WIDTH)][(int)(g->player.p.x
-			/ WALL_WIDTH)] == 'D' && g->data.map.arr[(int)(g->player.p.y/ WALL_WIDTH) + 1][(int)(g->player.p.x / WALL_WIDTH)] == '1'
-		&& g->data.map.arr[(int)(g->player.p.y / WALL_WIDTH)- 1][(int)(g->player.p.x / WALL_WIDTH)] == '1')
+			/ WALL_WIDTH)] == 'D' && g->data.map.arr[(int)(g->player.p.y
+			/ WALL_WIDTH) + 1][(int)(g->player.p.x / WALL_WIDTH)] == '1'
+		&& g->data.map.arr[(int)(g->player.p.y / WALL_WIDTH)
+		- 1][(int)(g->player.p.x / WALL_WIDTH)] == '1')
 	{
 		if ((fmod(g->player.p.x, WALL_WIDTH) <= WALL_WIDTH / 2) ^ ray.left)
 		{

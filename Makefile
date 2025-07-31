@@ -14,9 +14,9 @@ LIBFT_BNS     := $(LIBFT_BONUS_PATH)/libft.a
 INCLUDES       := -I$(MANDATORY_DIR)/includes -I$(MANDATORY_DIR)/libft
 INCLUDES_BNS   := -I$(BONUS_DIR)/includes -I$(BONUS_DIR)/libft  $(shell sdl2-config --cflags) -I$(HOME)/goinfre/ffmpeg_build/include 
 
-CFLAGS         := -Wall -Wextra -Werror -Wuninitialized $(INCLUDES)
+CFLAGS         := -Wall -Wextra -Werror -g -Wuninitialized $(INCLUDES) 
 
-CFLAGS_BNS     := -Wall -Wextra -Werror -Wuninitialized $(INCLUDES_BNS)
+CFLAGS_BNS     := -Wall -Wextra -Werror -g -Wuninitialized $(INCLUDES_BNS)
 OPENSSL_CFLAGS := $(shell pkg-config --cflags openssl)
 SDL2_CFLAGS := $(shell pkg-config --cflags sdl2)
 CFLAGS_BNS += $(OPENSSL_CFLAGS) $(SDL2_CFLAGS)
@@ -81,12 +81,10 @@ bonus/%.o: bonus/%.c $(HEADER_FILES_BNS)
 
 clean:
 	rm -rf $(OBJS) $(OBJS_BNS)
-	make -C $(LIBFT_PATH) clean
 	make -C $(LIBFT_BONUS_PATH) clean
 
 fclean: clean
 	rm -rf $(NAME)
-	make -C $(LIBFT_PATH) fclean
 	make -C $(LIBFT_BONUS_PATH) fclean
 
 re: fclean all

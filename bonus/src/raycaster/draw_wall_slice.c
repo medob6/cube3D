@@ -6,7 +6,7 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 16:07:07 by mbousset          #+#    #+#             */
-/*   Updated: 2025/07/31 10:09:49 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/07/31 19:02:58 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,13 +67,13 @@ void	fill_line_inf(t_sec *line, int dir, double wall_x, double dist)
 
 double	closest_hit(double ang, t_sec *line)
 {
-	t_pair	distance;
-	double	h_x;
-	double	v_x;
-	int		h_dir;
-	int		v_dir;
+	t_pair		distance;
+	double		h_x;
+	double		v_x;
+	int			h_dir;
+	int			v_dir;
+	static int	n;
 
-	// static int n;
 	h_dir = -1;
 	v_dir = -1;
 	distance.x = horiz_dist(ang, &h_x, &h_dir);
@@ -82,10 +82,24 @@ double	closest_hit(double ang, t_sec *line)
 		fill_line_inf(line, h_dir, h_x, distance.x);
 	else
 		fill_line_inf(line, v_dir, v_x, distance.y);
-	if (line->dir == DOOR)
+	if (line->dir == DOOR && !get_game()->player.can_open_door)
 	{
-		
+		if (ang > (get_game()->player.angle - FOV_ANGLE / 6)
+			&& ang < (get_game()->player.angle + FOV_ANGLE / 6))
+		{
+			if ((line->raw_dist * cos(normalize_angle(ang
+							- get_game()->player.angle))) <= WALL_WIDTH)
+			{
+				if (fmod(line->wall_x, WALL_WIDTH) <= WALL_WIDTH / 3 * 2
+					&& fmod(line->wall_x, WALL_WIDTH) >= WALL_WIDTH / 3)
+				{
+					get_game()->player.can_open_door = true;
+				}
+			}
+		}
 	}
+	else
+		n = 0;
 	return (line->raw_dist * cos(normalize_angle(ang
 				- get_game()->player.angle)));
 }

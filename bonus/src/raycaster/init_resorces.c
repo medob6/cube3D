@@ -6,7 +6,7 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 15:39:37 by mbousset          #+#    #+#             */
-/*   Updated: 2025/07/31 10:04:19 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/07/31 15:59:11 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,8 @@ void	init_player(t_game *game)
 				game->player.p.z = 0;
 				game->player.angle = get_view_angel(map[y][x]);
 				game->player.moving = true;
-				return ;
+				map[y][x] = '0';
+				return;
 			}
 			x++;
 		}

@@ -6,7 +6,7 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 15:50:02 by mbousset          #+#    #+#             */
-/*   Updated: 2025/07/31 10:04:57 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/07/31 16:23:19 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,9 @@ double	check_door_hhit(t_rayinfo ray, double *wall_x, int *dir)
 	bool up = ray.left; // Rename `left` to `facing_up` ideally
 	if (g->data.map.arr[(int)(g->player.p.y / WALL_WIDTH)][(int)(g->player.p.x
 			/ WALL_WIDTH)] == 'D' && g->data.map.arr[(int)(g->player.p.y
-			/ WALL_WIDTH) ][(int)(g->player.p.x / WALL_WIDTH)+ 1] == '1'
-		&& g->data.map.arr[(int)(g->player.p.y / WALL_WIDTH)
-		][(int)(g->player.p.x / WALL_WIDTH)- 1] == '1')
+			/ WALL_WIDTH)][(int)(g->player.p.x / WALL_WIDTH) + 1] == '1'
+		&& g->data.map.arr[(int)(g->player.p.y
+			/ WALL_WIDTH)][(int)(g->player.p.x / WALL_WIDTH) - 1] == '1')
 	{
 		if ((fmod(g->player.p.y, WALL_WIDTH) <= WALL_WIDTH / 2) ^ up)
 		{

@@ -6,7 +6,7 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 15:39:57 by mbousset          #+#    #+#             */
-/*   Updated: 2025/07/31 10:04:19 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/07/31 16:48:41 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ bool	valid_door_pos(double new_x, double new_y)
 	char	l_cell;
 	char	r_cell;
 
+	// static int n;
 	cell = get_game()->data.map.arr[(int)(new_y / WALL_WIDTH)][(int)(new_x
 			/ WALL_WIDTH)];
 	u_cell = get_game()->data.map.arr[(int)(new_y / WALL_WIDTH) + 1][(int)(new_x
@@ -106,6 +107,7 @@ bool	valid_door_pos(double new_x, double new_y)
 				return (true);
 		}
 	}
+	// printf("n %d\n",n++);
 	return (false);
 }
 
@@ -113,10 +115,13 @@ static void	apply_movement(t_game *game, double new_x, double new_y)
 {
 	char	cell;
 
+	if (fmod(new_y, WALL_WIDTH) == 0)
+		new_y -= 0.001;
+	if (fmod(new_x, WALL_WIDTH) == 0)
+		new_x -= 0.001;
 	cell = game->data.map.arr[(int)(new_y / WALL_WIDTH)][(int)(new_x
 			/ WALL_WIDTH)];
-	if (cell == '0' || is_valid_dir(cell) || (cell == 'D'
-			&& valid_door_pos(new_x, new_y)))
+	if (cell == '0' || (cell == 'D' && valid_door_pos(new_x, new_y)))
 	{
 		game->player.moving = (game->player.p.x != new_x
 				|| game->player.p.y != new_y) || game->player.moving;
