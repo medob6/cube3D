@@ -6,7 +6,7 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 09:38:33 by omben-ch          #+#    #+#             */
-/*   Updated: 2025/07/31 19:05:13 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/08/01 10:04:32 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,30 +38,18 @@ void	print_err(char *msg)
 	cleanup(EXIT_FAILURE);
 }
 
-bool	try_open_door(t_game *game)
+bool	open_door(t_game *game)
 {
 	int	x;
 	int	y;
 	int	map_width;
 	int	map_height;
 
-	x = (int)(game->player.p.x / WALL_WIDTH);
-	y = (int)(game->player.p.y / WALL_WIDTH);
+	x = game->player.door_x;
+	y = game->player.door_y;
 	map_width = game->data.map.map_w;
 	map_height = game->data.map.map_h;
-	// Check right
-	if (x + 1 < map_width && game->data.map.arr[y][x + 1] == 'D')
-		game->data.map.arr[y][x + 1] = '0';
-	// Check left
-	else if (x - 1 >= 0 && game->data.map.arr[y][x - 1] == 'D')
-		game->data.map.arr[y][x - 1] = '0';
-	// Check down
-	else if (y + 1 < map_height && game->data.map.arr[y + 1][x] == 'D')
-		game->data.map.arr[y + 1][x] = '0';
-	// Check up
-	else if (y - 1 >= 0 && game->data.map.arr[y - 1][x] == 'D')
-		game->data.map.arr[y - 1][x] = '0';
-	else if (game->data.map.arr[y][x] == 'D')
+	if (x < map_width && map_height > y && game->data.map.arr[y][x] == 'D')
 		game->data.map.arr[y][x] = '0';
 	else
 		return (false);
@@ -105,6 +93,7 @@ int	game_loop(t_game *game)
 	{
 		if (game->player.moving)
 		{
+			get_game()->player.can_open_door = false;
 			display_scean(game);
 			draw_mini_map(game);
 			draw_vert_line(game->display, game->win_w / 3);
@@ -115,8 +104,14 @@ int	game_loop(t_game *game)
 		update_player(game);
 		if (get_key(KEY_O, game)->press)
 		{
-			game->player.moving = game->player.moving || get_game()->player.can_open_door;
-			get_game()->player.can_open_door = false;
+			// game->player.moving = game->player.moving|| get_game()->player.can_open_door;
+			if (get_game()->player.can_open_door)
+			{
+				game->player.moving = true;
+				printf("player can open door he is seeing now %d\n",
+					video_result++);
+				open_door(game);
+			}
 		}
 	}
 	handle_exit(game);

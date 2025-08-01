@@ -98,6 +98,8 @@ typedef struct s_player
 	bool		moving;
 	bool		jumping;
 	bool		can_open_door;
+	int			door_x;
+	int			door_y;
 }				t_player;
 
 typedef struct s_map

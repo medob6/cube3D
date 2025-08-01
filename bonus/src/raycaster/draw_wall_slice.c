@@ -6,7 +6,7 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 16:07:07 by mbousset          #+#    #+#             */
-/*   Updated: 2025/07/31 19:02:58 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/08/01 09:54:40 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,8 +82,9 @@ double	closest_hit(double ang, t_sec *line)
 		fill_line_inf(line, h_dir, h_x, distance.x);
 	else
 		fill_line_inf(line, v_dir, v_x, distance.y);
-	if (line->dir == DOOR && !get_game()->player.can_open_door)
+	if (line->dir == DOOR)
 	{
+		// get_game()->player.can_open_door = false;
 		if (ang > (get_game()->player.angle - FOV_ANGLE / 6)
 			&& ang < (get_game()->player.angle + FOV_ANGLE / 6))
 		{
@@ -94,6 +95,25 @@ double	closest_hit(double ang, t_sec *line)
 					&& fmod(line->wall_x, WALL_WIDTH) >= WALL_WIDTH / 3)
 				{
 					get_game()->player.can_open_door = true;
+					if (distance.x > distance.y)
+					{	get_game()->player.door_y = floor(line->wall_x / WALL_WIDTH);
+						if (get_game()->data.map.arr[(int)get_game()->player.p.y/ WALL_WIDTH][(int)get_game()->player.p.x/ WALL_WIDTH] == 'D')
+							get_game()->player.door_x = get_game()->player.p.x/ WALL_WIDTH;
+						else
+							get_game()->player.door_x = get_game()->player.p.x/ WALL_WIDTH - (cos(ang) < 0) + (cos(ang) >= 0);
+						printf("door x ,y = %d, %d / player %d ,%d \n",get_game()->player.door_x,get_game()->player.door_y,(int)get_game()->player.p.x/ WALL_WIDTH,(int)get_game()->player.p.y/ WALL_WIDTH);
+					}
+					else
+					{
+						get_game()->player.door_x = floor(line->wall_x / WALL_WIDTH);
+						if (get_game()->data.map.arr[(int)get_game()->player.p.y/ WALL_WIDTH][(int)get_game()->player.p.x/ WALL_WIDTH] == 'D')
+							get_game()->player.door_y = get_game()->player.p.y/ WALL_WIDTH;
+						else
+							get_game()->player.door_y = get_game()->player.p.y/ WALL_WIDTH - (sin(ang) < 0) + (sin(ang) >= 0);
+						printf("door x ,y = %d, %d / player %d ,%d \n",get_game()->player.door_x,get_game()->player.door_y,(int)get_game()->player.p.x/ WALL_WIDTH,(int)get_game()->player.p.y/ WALL_WIDTH);
+
+					}
+					
 				}
 			}
 		}
