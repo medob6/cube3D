@@ -6,7 +6,7 @@
 /*   By: omben-ch <omben-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 16:53:42 by omben-ch          #+#    #+#             */
-/*   Updated: 2025/07/28 17:00:02 by omben-ch         ###   ########.fr       */
+/*   Updated: 2025/08/01 08:58:02 by omben-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,13 +30,15 @@ void on_hover_yes(t_game *game, int button)
 
 void create_yes_button(t_game *game,t_button *button)
 {
-    button->img = &game->graphic_menu[YES_IMG];
-	button->start_x = 11*(game->win_w/ 20);
-	button->start_y = (game->win_h/ 20)*10;
-    button->width = game->win_w *2/ 20;
-	button->height = game->win_h/ 20;
+    
+    button->img = &game->graphic_menu[NO_IMG];
+	button->start_x = 7.35 * (game->win_w / 21);
+	button->start_y = 11.2 * (game->win_h/ 21);
+    button->width = game->win_w * 0.98 / 21;
+	button->height = game->win_h * 1.5 / 21;
 	button->end_x = button->start_x + button->width;
 	button->end_y = button->start_y + button->height;
     button->on_click = on_click_yes;
     button->on_hover = on_hover_yes;
+
 }

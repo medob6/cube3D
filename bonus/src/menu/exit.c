@@ -6,7 +6,7 @@
 /*   By: omben-ch <omben-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 15:25:13 by omben-ch          #+#    #+#             */
-/*   Updated: 2025/07/28 19:08:28 by omben-ch         ###   ########.fr       */
+/*   Updated: 2025/08/01 09:00:18 by omben-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ void on_click_exit(t_game *game, int button)
 	if (button == EXIT)
 	{
 		game->end_start_menu = EXIT;
+		game->buttons[EXIT].img = &game->graphic_menu[EXIT_IMG];
 		put_bg(game, &game->graphic_menu[EXIT_PAGE_IMG]);
 		put_imag(game,&game->buttons[YES]);
 		put_imag(game,&game->buttons[NO]);

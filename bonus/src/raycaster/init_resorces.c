@@ -6,7 +6,7 @@
 /*   By: omben-ch <omben-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 15:39:37 by mbousset          #+#    #+#             */
-/*   Updated: 2025/07/28 17:22:59 by omben-ch         ###   ########.fr       */
+/*   Updated: 2025/08/01 08:49:50 by omben-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ void	initilize_game_resorces(t_game *game)
 	init_image(game, &game->graphic_menu[EXIT_PAGE_IMG],
 		"/home/omben-ch/Desktop/cube3D/bonus/textures/exit_page.xpm");
 	init_image(game, &game->graphic_menu[NO_IMG],
-		"/home/omben-ch/Desktop/cube3D/bonus/textures/yes.xpm");
-	init_image(game, &game->graphic_menu[YES_IMG],
 		"/home/omben-ch/Desktop/cube3D/bonus/textures/no.xpm");
+	init_image(game, &game->graphic_menu[YES_IMG],
+		"/home/omben-ch/Desktop/cube3D/bonus/textures/yes.xpm");
 }
