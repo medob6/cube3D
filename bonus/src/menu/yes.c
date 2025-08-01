@@ -6,7 +6,7 @@
 /*   By: omben-ch <omben-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 16:53:42 by omben-ch          #+#    #+#             */
-/*   Updated: 2025/08/01 08:58:02 by omben-ch         ###   ########.fr       */
+/*   Updated: 2025/08/01 16:20:26 by omben-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 void on_click_yes(t_game *game, int button)
 {
+    if (game->end_start_menu != EXIT)
+        return;
     if (button == YES)
     {
         handle_close(game);
@@ -22,6 +24,8 @@ void on_click_yes(t_game *game, int button)
 
 void on_hover_yes(t_game *game, int button)
 {
+    if (game->end_start_menu != EXIT)
+        return;
     if (button == YES)
 			game->buttons[YES].img = &game->graphic_menu[H_START_IMG];
 	else

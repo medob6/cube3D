@@ -6,7 +6,7 @@
 /*   By: omben-ch <omben-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 15:19:53 by omben-ch          #+#    #+#             */
-/*   Updated: 2025/07/28 16:29:00 by omben-ch         ###   ########.fr       */
+/*   Updated: 2025/08/01 17:59:10 by omben-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,19 @@
 
 void on_click_control(t_game *game, int button)
 {
+	if (game->end_start_menu != START)
+        return;
 	if (button == CONTROL)
 	{
-		game->end_start_menu = 1;
-		put_bg(game, &game->graphic_menu[CONTROL_PAGE_IMG]);
-		mlx_put_image_to_window(game->mlx, game->win, game->display.img, 0, 0);
-	}	
+		game->end_start_menu = CONTROL;
+		game->buttons[CONTROL].img = &game->graphic_menu[CONTROL_IMG];
+	}
 }
 
 void on_hover_control(t_game *game, int button)
 {
+	if (game->end_start_menu != START)
+        return;
     if (button == CONTROL)
 			game->buttons[CONTROL].img = &game->graphic_menu[H_CONTROL_IMG];
 	else

@@ -6,7 +6,7 @@
 /*   By: omben-ch <omben-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 09:38:33 by omben-ch          #+#    #+#             */
-/*   Updated: 2025/07/29 10:25:23 by omben-ch         ###   ########.fr       */
+/*   Updated: 2025/08/01 16:53:09 by omben-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,6 @@ int	mouse_move(int x, int y, t_game *game)
 
 	i = -1;
 	button = check_button(game,x,y);
-	if (game->end_start_menu)
-		return (0);
 	while (++i < NB_BUTTON)
 		game->buttons[i].on_hover(game,button);
 	draw_menu(game);
@@ -69,15 +67,11 @@ int mouse_click(int code, int x,int y ,t_game *game)
 
 	i = -1;
 	button = check_button(game,x,y);
-	if (code == 1 && !game->end_start_menu)
+	if (code == 1)
 	{
 		while (++i < NB_BUTTON)
 			game->buttons[i].on_click(game, button);
-	}
-	if (code == 1 && game->end_start_menu == EXIT)
-	{
-		game->buttons[YES].on_click(game, button);
-		game->buttons[NO].on_click(game, button);
+		draw_menu(game);
 	}
 	return (0);
 }

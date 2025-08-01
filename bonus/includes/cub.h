@@ -6,7 +6,7 @@
 /*   By: omben-ch <omben-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 15:39:51 by mbousset          #+#    #+#             */
-/*   Updated: 2025/07/28 17:23:51 by omben-ch         ###   ########.fr       */
+/*   Updated: 2025/08/01 16:01:41 by omben-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,8 @@
 # define PLAYER_SCALE 0.20
 
 //menu
-# define NB_BUTTON 5
-# define NB_IMG_MENU 11
+# define NB_BUTTON 6
+# define NB_IMG_MENU 13
 
 typedef enum e_graphic
 {
@@ -79,7 +79,9 @@ typedef enum e_graphic_menu
 	CONTROL_PAGE_IMG,
 	EXIT_PAGE_IMG,
 	NO_IMG,
-	YES_IMG
+	YES_IMG,
+	RETURN_IMG,
+	H_RETURN_IMG
 }				t_graphic_menu;
 
 typedef enum e_button_name
@@ -88,7 +90,8 @@ typedef enum e_button_name
 	CONTROL,
 	EXIT,
 	NO,
-	YES
+	YES,
+	RETURN
 }				t_button_name;
 
 typedef struct s_point
@@ -194,6 +197,7 @@ typedef struct s_game
  
 /////////////////////////////
 void create_yes_button(t_game *game,t_button *button);
+void create_return_button(t_game *game,t_button *button);
 void create_no_button(t_game *game,t_button *button);
 void create_exit_button(t_game *game,t_button *button);
 void create_start_button(t_game *game,t_button *button);

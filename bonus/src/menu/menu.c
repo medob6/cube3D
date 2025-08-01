@@ -6,7 +6,7 @@
 /*   By: omben-ch <omben-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/26 09:49:46 by omben-ch          #+#    #+#             */
-/*   Updated: 2025/07/28 17:24:56 by omben-ch         ###   ########.fr       */
+/*   Updated: 2025/08/01 17:28:11 by omben-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,21 +28,36 @@ int check_button(t_game *game, int x ,int y)
 
 void draw_menu(t_game *game)
 {
-    put_bg(game, &game->graphic_menu[BG_IMG]);
-	put_imag(game, &game->buttons[START]);
-	put_imag(game, &game->buttons[CONTROL]);
-	put_imag(game, &game->buttons[EXIT]);
+    if (game->end_start_menu == START)
+    {
+        put_bg(game, &game->graphic_menu[BG_IMG]);
+        put_imag(game, &game->buttons[START]);
+        put_imag(game, &game->buttons[CONTROL]);
+        put_imag(game, &game->buttons[EXIT]);
+    }
+    if (game->end_start_menu == CONTROL)
+    {
+        put_bg(game, &game->graphic_menu[CONTROL_PAGE_IMG]);
+        put_imag(game, &game->buttons[RETURN]);
+    }
+    if (game->end_start_menu == EXIT)
+    {
+        put_bg(game, &game->graphic_menu[EXIT_PAGE_IMG]);
+        put_imag(game, &game->buttons[YES]);
+        put_imag(game, &game->buttons[NO]);
+    }
 	mlx_put_image_to_window(game->mlx, game->win, game->display.img, 0, 0);
 }
 
 void init_img_menu(t_game *game)
 {
+    game->end_start_menu = START;
     create_yes_button(game, &game->buttons[YES]);
+    create_return_button(game, &game->buttons[RETURN]);
     create_no_button(game, &game->buttons[NO]);
     create_start_button(game, &game->buttons[START]);
     create_control_button(game, &game->buttons[CONTROL]);
     create_exit_button(game, &game->buttons[EXIT]);
-    game->end_start_menu = 0;
 }
 
 void	put_pixel(t_game *game, int x, int y, int color)

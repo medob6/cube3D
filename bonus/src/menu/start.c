@@ -6,7 +6,7 @@
 /*   By: omben-ch <omben-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 14:39:47 by omben-ch          #+#    #+#             */
-/*   Updated: 2025/07/28 16:30:07 by omben-ch         ###   ########.fr       */
+/*   Updated: 2025/08/01 17:29:06 by omben-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,15 @@ void on_click_start(t_game *game, int button)
 {
     if (button == START)
     {
-        game->end_start_menu = 1;
+        game->end_start_menu = -1;
         mlx_loop_hook(game->mlx, game_loop, game);
     }    
 }
 
 void on_hover_start(t_game *game, int button)
 {
+    if (game->end_start_menu != START)
+        return;
     if (button == START)
 			game->buttons[START].img = &game->graphic_menu[H_START_IMG];
 	else

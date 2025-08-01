@@ -25,7 +25,7 @@ PARSER_SRC     := check_fc.c check_map.c errors_msg.c get_val_of_file.c parser.c
 RAYCASTER_SRC  := cleanup.c draw_wall_slice.c geometry_utils.c helpers.c init_resorces2.c keys_api.c minimap_utils.c \
                   ray_cast.c wall_color.c draw_sections.c frame_utils.c helpers2.c horizontal_raycast.c init_resorces.c \
                   minimap.c movements.c vertical_raycast.c
-MENU_SRC	   := exit.c start.c control.c menu.c no.c yes.c
+MENU_SRC	   := exit.c start.c control.c menu.c no.c yes.c return.c
 SRCS           := $(addprefix $(MANDATORY_DIR)/src/, $(MAIN_SRC)) \
                   $(addprefix $(MANDATORY_DIR)/src/parser/, $(PARSER_SRC)) \
                   $(addprefix $(MANDATORY_DIR)/src/raycaster/, $(RAYCASTER_SRC))
