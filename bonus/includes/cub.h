@@ -6,7 +6,7 @@
 /*   By: omben-ch <omben-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 15:39:51 by mbousset          #+#    #+#             */
-/*   Updated: 2025/08/01 16:01:41 by omben-ch         ###   ########.fr       */
+/*   Updated: 2025/08/02 08:41:11 by omben-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@
 
 //menu
 # define NB_BUTTON 6
-# define NB_IMG_MENU 13
+# define NB_IMG_MENU 15
 
 typedef enum e_graphic
 {
@@ -80,6 +80,8 @@ typedef enum e_graphic_menu
 	EXIT_PAGE_IMG,
 	NO_IMG,
 	YES_IMG,
+	H_NO_IMG,
+	H_YES_IMG,
 	RETURN_IMG,
 	H_RETURN_IMG
 }				t_graphic_menu;

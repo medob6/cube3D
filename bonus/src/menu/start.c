@@ -6,7 +6,7 @@
 /*   By: omben-ch <omben-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 14:39:47 by omben-ch          #+#    #+#             */
-/*   Updated: 2025/08/01 17:29:06 by omben-ch         ###   ########.fr       */
+/*   Updated: 2025/08/02 09:52:17 by omben-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 void on_click_start(t_game *game, int button)
 {
+    if (game->end_start_menu != START)
+        return;
     if (button == START)
     {
         game->end_start_menu = -1;

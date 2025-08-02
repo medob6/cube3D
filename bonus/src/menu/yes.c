@@ -6,7 +6,7 @@
 /*   By: omben-ch <omben-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 16:53:42 by omben-ch          #+#    #+#             */
-/*   Updated: 2025/08/01 16:20:26 by omben-ch         ###   ########.fr       */
+/*   Updated: 2025/08/02 09:50:21 by omben-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void on_hover_yes(t_game *game, int button)
     if (game->end_start_menu != EXIT)
         return;
     if (button == YES)
-			game->buttons[YES].img = &game->graphic_menu[H_START_IMG];
+			game->buttons[YES].img = &game->graphic_menu[H_YES_IMG];
 	else
 		game->buttons[YES].img = &game->graphic_menu[YES_IMG];
 }
@@ -35,7 +35,7 @@ void on_hover_yes(t_game *game, int button)
 void create_yes_button(t_game *game,t_button *button)
 {
     
-    button->img = &game->graphic_menu[NO_IMG];
+    button->img = &game->graphic_menu[YES_IMG];
 	button->start_x = 7.35 * (game->win_w / 21);
 	button->start_y = 11.2 * (game->win_h/ 21);
     button->width = game->win_w * 0.98 / 21;
