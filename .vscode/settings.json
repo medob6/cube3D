@@ -6,6 +6,7 @@
         "stdbool.h": "c",
         "stdio.h": "c",
         "get_next_line.h": "c",
-        "cmath": "c"
+        "cmath": "c",
+        "menu.h": "c"
     }
 }

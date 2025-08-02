@@ -6,7 +6,7 @@
 /*   By: omben-ch <omben-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 17:18:08 by omben-ch          #+#    #+#             */
-/*   Updated: 2025/07/12 16:31:46 by omben-ch         ###   ########.fr       */
+/*   Updated: 2025/08/02 13:09:06 by omben-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,10 @@
 # define CYAN "\033[1;36m"
 # define BOLD "\033[1m"
 
+#include "cub.h"
+
+typedef struct s_door t_door;
+
 typedef struct s_fcub
 {
 	char	*n_path;
@@ -31,6 +35,7 @@ typedef struct s_fcub
 	char	*f_color;
 	char	*c_color;
 	char	**map;
+	t_door	*door;
 }			t_fcub;
 
 void		print_and_exit(char *str);

@@ -6,7 +6,7 @@
 /*   By: omben-ch <omben-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 15:39:51 by mbousset          #+#    #+#             */
-/*   Updated: 2025/08/02 08:41:11 by omben-ch         ###   ########.fr       */
+/*   Updated: 2025/08/02 13:06:51 by omben-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,12 +96,20 @@ typedef enum e_button_name
 	RETURN
 }				t_button_name;
 
+
 typedef struct s_point
 {
 	double		x;
 	double		y;
 	double		z;
 }				t_point;
+
+typedef struct s_door
+{
+    t_point        pos;
+    bool        open;
+    int            frame;
+}                t_door;
 
 typedef struct s_pair
 {
