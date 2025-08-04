@@ -6,7 +6,7 @@
 /*   By: omben-ch <omben-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 15:38:56 by omben-ch          #+#    #+#             */
-/*   Updated: 2025/06/26 18:09:41 by omben-ch         ###   ########.fr       */
+/*   Updated: 2025/08/03 10:20:43 by omben-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,72 @@ void	check_name(char *arg)
 			print_error_file_and_exit();
 	}
 }
+int count_char_in_map(char **map, char c)
+{
+	int count;
+	int x;
+	int y;
+
+	x = 0;
+	count = 0;
+	while (map[x])
+	{
+		y = 0;
+		while (map[x][y])
+		{
+			if (map[x][y] == c)
+				count++;		
+			y++;
+		}
+		x++;
+	}
+	return (count);
+}
+
+void init_door(t_fcub *fcub)
+{
+	int size;
+
+	size = count_char_in_map(fcub->map, 'D');
+	fcub->door = NULL;
+	fcub->nb_door = size;
+	if (!size)
+		return ;
+	fcub->door = malloc(size * sizeof(t_door));
+	if (fcub->door == NULL)
+	{
+		ft_putstr_fd("Malloc error\n", 2);
+		cleanup(0);
+	}
+}
+
+void get_info_of_door(t_fcub *fcub)
+{
+	int door;
+	int x;
+	int y;
+	
+	init_door(fcub);
+	door = 0;
+	y = 0;
+	while (fcub->map[y] && fcub->door)
+	{
+		x = 0;
+		while (fcub->map[y][x])
+		{
+			if (fcub->map[y][x] == 'D')
+			{
+				fcub->door[door].pos.x = x;
+				fcub->door[door].pos.y = y;
+				fcub->door[door].open = false;
+				fcub->door[door].frame = 0;
+				door++;
+			}
+			x++;
+		}
+		y++;
+	}
+}
 
 void	parse_and_get_data(t_fcub *fcub, int ac, char **av)
 {
@@ -67,4 +133,5 @@ void	parse_and_get_data(t_fcub *fcub, int ac, char **av)
 	get_val_of_element(fcub, fd);
 	check_content_fc(fcub);
 	check_content_map(fcub);
+	get_info_of_door(fcub);
 }

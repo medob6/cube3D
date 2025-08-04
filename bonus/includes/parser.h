@@ -6,7 +6,7 @@
 /*   By: omben-ch <omben-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 17:18:08 by omben-ch          #+#    #+#             */
-/*   Updated: 2025/08/02 13:09:06 by omben-ch         ###   ########.fr       */
+/*   Updated: 2025/08/02 15:48:28 by omben-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ typedef struct s_fcub
 	char	*c_color;
 	char	**map;
 	t_door	*door;
+	int     nb_door;
 }			t_fcub;
 
 void		print_and_exit(char *str);

@@ -6,7 +6,7 @@
 /*   By: omben-ch <omben-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 15:39:51 by mbousset          #+#    #+#             */
-/*   Updated: 2025/08/02 13:06:51 by omben-ch         ###   ########.fr       */
+/*   Updated: 2025/08/04 16:25:31 by omben-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@
 # include <stdlib.h>
 # include <string.h>
 # include <unistd.h>
+# include <sys/time.h>
+#include <time.h>
 
 # define WALL_HIGHT 64
 # define WALL_WIDTH 128
@@ -55,7 +57,7 @@
 
 //menu
 # define NB_BUTTON 6
-# define NB_IMG_MENU 15
+# define NB_IMG_MENU 16
 
 typedef enum e_graphic
 {
@@ -83,7 +85,8 @@ typedef enum e_graphic_menu
 	H_NO_IMG,
 	H_YES_IMG,
 	RETURN_IMG,
-	H_RETURN_IMG
+	H_RETURN_IMG,
+	NUMBERS_IMG
 }				t_graphic_menu;
 
 typedef enum e_button_name
@@ -95,7 +98,6 @@ typedef enum e_button_name
 	YES,
 	RETURN
 }				t_button_name;
-
 
 typedef struct s_point
 {
@@ -157,7 +159,7 @@ typedef struct s_data
 	char		*paths[4];
 	int			ceiling_clr;
 	int			floor_clr;
-
+	int         nb_door;
 }				t_data;
 
 typedef struct s_circle
@@ -189,6 +191,20 @@ typedef struct s_button
 	void (*on_hover)(t_game* game,int button);
 } t_button;
 
+typedef struct s_timer
+{
+    t_image *img;
+	int name;
+    int start_x;
+    int start_y;
+    int end_x;
+    int end_y;
+    int width;
+    int height;
+	int sec;
+	int min;
+} t_timer;
+
 typedef struct s_game
 {
 	void		*mlx;
@@ -203,8 +219,10 @@ typedef struct s_game
 	t_image		graphic_menu[NB_IMG_MENU];
 	t_image		display;
 	t_button	buttons[NB_BUTTON];
+	t_door      *door;
+	t_timer		timer;
 }				t_game;
- 
+
 /////////////////////////////
 void create_yes_button(t_game *game,t_button *button);
 void create_return_button(t_game *game,t_button *button);
@@ -251,5 +269,11 @@ int				get_minimap_pixel_color(t_game *g, double rx, double ry,
 void			get_icone_info(t_circle *icn, t_circle minimap,
 					double icon_angle, double player_angle);
 void			handle_exit(t_game *game);
+
+
+/* FUNCTIONS */
+void	put_pixel(t_game *game, int x, int y, int color);
+void put_time_imag(t_game *game, t_timer *img_info , int index);
+int get_time_sec();
 
 #endif
