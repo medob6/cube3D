@@ -6,7 +6,7 @@
 /*   By: omben-ch <omben-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 09:38:33 by omben-ch          #+#    #+#             */
-/*   Updated: 2025/08/04 16:32:07 by omben-ch         ###   ########.fr       */
+/*   Updated: 2025/08/05 18:52:26 by omben-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,6 @@ void	lunch_game_hooks(t_game *game)
 	mlx_hook(game->win, 6, 1L << 6, mouse_move, game);
 	mlx_mouse_hook(game->win,mouse_click,game);
 	mlx_loop(game->mlx);
-	
 }
 
 int	main(int ac, char **av)

@@ -6,20 +6,10 @@
 /*   By: omben-ch <omben-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/03 18:25:30 by omben-ch          #+#    #+#             */
-/*   Updated: 2025/08/04 15:09:58 by omben-ch         ###   ########.fr       */
+/*   Updated: 2025/08/05 18:38:16 by omben-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub.h"
 
-void put_spirit(t_game *game, int index)
-{
-    
 
-    x = gettimeofday();
-    while ()
-    {
-        /* code */
-    }
-    
-}

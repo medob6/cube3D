@@ -6,7 +6,7 @@
 /*   By: omben-ch <omben-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/03 18:25:34 by omben-ch          #+#    #+#             */
-/*   Updated: 2025/08/05 15:41:21 by omben-ch         ###   ########.fr       */
+/*   Updated: 2025/08/05 18:34:19 by omben-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,6 @@ void put_time_imag(t_game *game, t_timer *img_info , int index)
     int y;
     int end;
     int x;
-    /////////////////////////////////
-    
-
-    
-    /////////////////////////////////
     end = index * ((double)img_info->img->w / 10.0);
     start_x = (index-1)*((double)img_info->img->w / 10.0);
     scale_x = (double)((double)img_info->img->w / 10.0)  / (double)img_info->width;

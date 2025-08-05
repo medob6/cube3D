@@ -28,7 +28,7 @@ RAYCASTER_SRC  := cleanup.c draw_wall_slice.c geometry_utils.c helpers.c init_re
 
 MENU_SRC	   := exit.c start.c control.c menu.c no.c yes.c return.c
 
-COUNTER_TIME_SRC	   :=   tools.c #time_of_player.c
+COUNTER_TIME_SRC	   :=   design.c  init_res.c  tools.c#time_of_player.c
 
 SRCS           := $(addprefix $(MANDATORY_DIR)/src/, $(MAIN_SRC)) \
                   $(addprefix $(MANDATORY_DIR)/src/parser/, $(PARSER_SRC)) \
