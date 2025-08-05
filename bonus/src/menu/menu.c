@@ -6,7 +6,7 @@
 /*   By: omben-ch <omben-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/26 09:49:46 by omben-ch          #+#    #+#             */
-/*   Updated: 2025/08/04 19:05:09 by omben-ch         ###   ########.fr       */
+/*   Updated: 2025/08/05 15:05:26 by omben-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void draw_menu(t_game *game)
         put_imag(game, &game->buttons[START]);
         put_imag(game, &game->buttons[CONTROL]);
         put_imag(game, &game->buttons[EXIT]);
-        put_time_imag(game, &game->timer,  10);
+        put_time_imag(game, &game->timer,1);
     }
     if (game->end_start_menu == CONTROL)
     {

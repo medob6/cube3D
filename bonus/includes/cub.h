@@ -6,7 +6,7 @@
 /*   By: omben-ch <omben-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 15:39:51 by mbousset          #+#    #+#             */
-/*   Updated: 2025/08/04 16:25:31 by omben-ch         ###   ########.fr       */
+/*   Updated: 2025/08/05 16:05:27 by omben-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@
 
 //menu
 # define NB_BUTTON 6
-# define NB_IMG_MENU 16
+# define NB_IMG_MENU 17
 
 typedef enum e_graphic
 {
@@ -68,6 +68,15 @@ typedef enum e_graphic
 	N_ICONE,
 	ARROW
 }				t_graphic;
+
+typedef enum e_timer_num
+{
+	FP_MIN,
+	SP_MIN,
+	POINT,
+	FP_SEC,
+	SP_SEC
+}				t_timer_num;
 
 typedef enum e_graphic_menu
 {
@@ -86,7 +95,8 @@ typedef enum e_graphic_menu
 	H_YES_IMG,
 	RETURN_IMG,
 	H_RETURN_IMG,
-	NUMBERS_IMG
+	NUMBERS_IMG,
+	POINT_IMG
 }				t_graphic_menu;
 
 typedef enum e_button_name
@@ -220,7 +230,7 @@ typedef struct s_game
 	t_image		display;
 	t_button	buttons[NB_BUTTON];
 	t_door      *door;
-	t_timer		timer;
+	t_timer		timer[5];
 }				t_game;
 
 /////////////////////////////
@@ -272,6 +282,7 @@ void			handle_exit(t_game *game);
 
 
 /* FUNCTIONS */
+void init_timer_pic(t_game *game);
 void	put_pixel(t_game *game, int x, int y, int color);
 void put_time_imag(t_game *game, t_timer *img_info , int index);
 int get_time_sec();
