@@ -6,7 +6,7 @@
 /*   By: omben-ch <omben-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/26 09:49:46 by omben-ch          #+#    #+#             */
-/*   Updated: 2025/08/05 18:40:03 by omben-ch         ###   ########.fr       */
+/*   Updated: 2025/08/06 08:33:30 by omben-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ void draw_menu(t_game *game)
         put_imag(game, &game->buttons[START]);
         put_imag(game, &game->buttons[CONTROL]);
         put_imag(game, &game->buttons[EXIT]);
-        draw_timer(game);
     }
     if (game->end_start_menu == CONTROL)
     {
@@ -48,6 +47,7 @@ void draw_menu(t_game *game)
         put_imag(game, &game->buttons[NO]);
     }
 	mlx_put_image_to_window(game->mlx, game->win, game->display.img, 0, 0);
+    draw_timer(game);
 }
 
 void init_img_menu(t_game *game)

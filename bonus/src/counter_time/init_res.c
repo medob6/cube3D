@@ -6,7 +6,7 @@
 /*   By: omben-ch <omben-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 15:58:30 by omben-ch          #+#    #+#             */
-/*   Updated: 2025/08/05 18:57:57 by omben-ch         ###   ########.fr       */
+/*   Updated: 2025/08/06 08:31:12 by omben-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void init_min_part(t_game *game)
 	game->timer[FP_MIN].end_y = (game->win_h / 30);
 	game->timer[FP_MIN].width = game->timer[FP_MIN].end_x - game->timer[FP_MIN].start_x;
 	game->timer[FP_MIN].height = game->timer[FP_MIN].end_y - game->timer[FP_MIN].start_y;
-	game->timer[FP_MIN].min = 2;
+	game->timer[FP_MIN].min = 0;
     
 	game->timer[SP_MIN].img = &game->graphic_menu[NUMBERS_IMG];
 	game->timer[SP_MIN].start_x = game->win_w / 35;
@@ -40,7 +40,7 @@ void init_min_part(t_game *game)
 	game->timer[SP_MIN].end_y = (game->win_h / 30);
 	game->timer[SP_MIN].width = game->timer[SP_MIN].end_x - game->timer[SP_MIN].start_x;
 	game->timer[SP_MIN].height = game->timer[SP_MIN].end_y - game->timer[SP_MIN].start_y;
-	game->timer[SP_MIN].min = 4;
+	game->timer[SP_MIN].min = 0;
 }
 
 void init_point_part(t_game *game)
@@ -63,7 +63,7 @@ void init_sec_part(t_game *game)
 	game->timer[FP_SEC].end_y = (game->win_h / 30);
 	game->timer[FP_SEC].width = game->timer[FP_SEC].end_x - game->timer[FP_SEC].start_x;
 	game->timer[FP_SEC].height = game->timer[FP_SEC].end_y - game->timer[FP_SEC].start_y;
-	game->timer[FP_SEC].sec = 9;
+	game->timer[FP_SEC].sec = 0;
 
     game->timer[SP_SEC].img = &game->graphic_menu[NUMBERS_IMG];
 	game->timer[SP_SEC].start_x = game->win_w * 4/ 35;
@@ -72,7 +72,7 @@ void init_sec_part(t_game *game)
 	game->timer[SP_SEC].end_y = (game->win_h / 30);
 	game->timer[SP_SEC].width = game->timer[SP_SEC].end_x - game->timer[SP_SEC].start_x;
 	game->timer[SP_SEC].height = game->timer[SP_SEC].end_y - game->timer[SP_SEC].start_y;
-	game->timer[SP_SEC].sec = 1;
+	game->timer[SP_SEC].sec = 0;
 }
 
 void init_timer_pic(t_game *game)

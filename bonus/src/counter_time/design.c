@@ -6,7 +6,7 @@
 /*   By: omben-ch <omben-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 15:13:48 by omben-ch          #+#    #+#             */
-/*   Updated: 2025/08/05 18:58:39 by omben-ch         ###   ########.fr       */
+/*   Updated: 2025/08/06 08:56:32 by omben-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,36 @@
 
 void draw_timer(t_game *game)
 {
+    long int time;
+    long int tmp_time;
+
+    
     init_timer_pic(game);
-    put_imag(game,(t_button *)&game->timer[TIMER_BG]);
-    put_time_imag(game,&game->timer[FP_MIN],game->timer[FP_MIN].min / 10 + 1);
-    put_time_imag(game,&game->timer[SP_MIN],game->timer[SP_MIN].min % 10 + 1);
-    put_imag(game,(t_button *)&game->timer[POINT]);
-    put_time_imag(game,&game->timer[FP_SEC],game->timer[FP_MIN].min / 10 + 1);
-    put_time_imag(game,&game->timer[SP_SEC],game->timer[FP_MIN].min % 10 + 1);
+    tmp_time = get_time_sec();
+    while (1)
+    {
+        time = get_time_sec();
+        if (time - tmp_time == 1 )
+        {
+            game->timer[FP_SEC].sec++;
+            tmp_time = time;
+            put_time_imag(game,&game->timer[FP_MIN],game->timer[FP_MIN].min / 10 + 1);
+            put_time_imag(game,&game->timer[SP_MIN],game->timer[FP_MIN].min % 10 + 1);
+            put_imag(game,(t_button *)&game->timer[POINT]);
+            put_time_imag(game,&game->timer[FP_SEC],game->timer[FP_SEC].sec / 10 + 1);
+            put_time_imag(game,&game->timer[SP_SEC],game->timer[FP_SEC].sec % 10 + 1);
+            mlx_put_image_to_window(game->mlx, game->win, game->display.img, 0, 0);
+        }
+        if (game->timer[FP_SEC].sec == 60)
+        {
+            game->timer[FP_SEC].sec=0;
+            game->timer[FP_MIN].min++;
+                put_time_imag(game,&game->timer[FP_MIN],game->timer[FP_MIN].min / 10 + 1);
+            put_time_imag(game,&game->timer[SP_MIN],game->timer[FP_MIN].min % 10 + 1);
+            put_imag(game,(t_button *)&game->timer[POINT]);
+            put_time_imag(game,&game->timer[FP_SEC],game->timer[FP_SEC].sec / 10 + 1);
+            put_time_imag(game,&game->timer[SP_SEC],game->timer[FP_SEC].sec % 10 + 1);
+            mlx_put_image_to_window(game->mlx, game->win, game->display.img, 0, 0);
+        }
+    }
 }

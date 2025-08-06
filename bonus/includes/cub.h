@@ -6,7 +6,7 @@
 /*   By: omben-ch <omben-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 15:39:51 by mbousset          #+#    #+#             */
-/*   Updated: 2025/08/05 18:53:51 by omben-ch         ###   ########.fr       */
+/*   Updated: 2025/08/06 08:48:09 by omben-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -288,6 +288,6 @@ void draw_timer(t_game *game);
 void init_timer_pic(t_game *game);
 void	put_pixel(t_game *game, int x, int y, int color);
 void put_time_imag(t_game *game, t_timer *img_info , int index);
-int get_time_sec();
+long int get_time_sec();
 
 #endif

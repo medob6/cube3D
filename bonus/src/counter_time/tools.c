@@ -6,7 +6,7 @@
 /*   By: omben-ch <omben-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/03 18:25:34 by omben-ch          #+#    #+#             */
-/*   Updated: 2025/08/05 18:34:19 by omben-ch         ###   ########.fr       */
+/*   Updated: 2025/08/06 08:48:01 by omben-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,10 +44,10 @@ void put_time_imag(t_game *game, t_timer *img_info , int index)
     }
 }
 
-int get_time_sec()
+long int get_time_sec()
 {
  	struct timeval time;
 
     gettimeofday(&time,NULL);
-    return ((int)(time.tv_sec + (time.tv_usec / 10)));
+    return ((int)(time.tv_sec));
 }
