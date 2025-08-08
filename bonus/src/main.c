@@ -6,7 +6,7 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 09:38:33 by omben-ch          #+#    #+#             */
-/*   Updated: 2025/08/01 10:04:32 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/08/08 19:06:35 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,9 @@ void	parse_input(t_game *game, int ac, char **av)
 	game->data.map.arr = fcub.map;
 	game->data.map.map_h = count_list(fcub.map);
 	game->data.map.map_w = get_size_of_long_line(&fcub);
+	game->doors = fcub.door;
+	game->nb_of_doors = fcub.nb_door;
 }
-
-// lets add door logic and player sprite animation
 
 void	print_err(char *msg)
 {
@@ -38,44 +38,95 @@ void	print_err(char *msg)
 	cleanup(EXIT_FAILURE);
 }
 
-bool	open_door(t_game *game)
-{
-	int	x;
-	int	y;
-	int	map_width;
-	int	map_height;
+// bool	open_door(t_game *game)
+// {
+// 	int	x;
+// 	int	y;
+// 	int	map_width;
+// 	int	map_height;
 
-	x = game->player.door_x;
-	y = game->player.door_y;
-	map_width = game->data.map.map_w;
-	map_height = game->data.map.map_h;
-	if (x < map_width && map_height > y && game->data.map.arr[y][x] == 'D')
-		game->data.map.arr[y][x] = '0';
-	else
-		return (false);
-	return (true);
+// 	x = game->player.door_x;
+// 	y = game->player.door_y;
+// 	map_width = game->data.map.map_w;
+// 	map_height = game->data.map.map_h;
+// 	if (x < map_width && map_height > y && game->data.map.arr[y][x] == 'D')
+// 		game->data.map.arr[y][x] = '0';
+// 	else
+// 		return (false);
+// 	return (true);
+// }
+
+// void	draw_vert_line(t_image *img, int x, int len)
+// {
+// 	int	y;
+
+// 	y = 0;
+// 	while (y <= len)
+// 	{
+// 		printf("x == %d\n", x);
+// 		my_mlx_pixel_put(*img, x, y, 0xFF0000);
+// 		y++;
+// 	}
+// }
+
+#include <math.h> // If needed for cos/sin
+#include <stdbool.h> // For bool type
+#include <stdio.h> // For printf
+#include <sys/time.h> // For gettimeofday
+#include <unistd.h> // For usleep
+
+long	get_time_diff_ms(struct timeval *last)
+{
+	struct timeval	now;
+
+	gettimeofday(&now, NULL);
+	return ((now.tv_sec - last->tv_sec) * 1000L + (now.tv_usec - last->tv_usec)
+		/ 1000L);
 }
 
-void	draw_vert_line(t_image img, int y)
-{
-	int	x;
 
-	x = 0;
-	while (x < get_game()->win_h)
+void	update_door_animation(t_game *game, t_door *door)
+{
+	long	elapsed;
+
+	const int frame_interval_ms = 300; // 30 FPS
+	if (door->opening || door->closing)
 	{
-		my_mlx_pixel_put(img, y, x, 0xFF0000);
-		x++;
+		elapsed = get_time_diff_ms(&door->last_update);
+		if (elapsed >= frame_interval_ms)
+		{
+			gettimeofday(&door->last_update, NULL); // reset timer
+			if (door->opening)
+			{
+				game->player.moving = true;
+				door->closing = false;
+				if (door->frame < 8)
+					door->frame++;
+				else
+					door->opening = false;
+			}
+			else if (door->closing)
+			{
+				game->player.moving = true;
+				if (door->frame > 0)
+					door->frame--;
+				else
+					door->closing = false;
+			}
+		}
 	}
 }
+
 
 int	game_loop(t_game *game)
 {
 	static bool	start = true;
 	static int	video_result = 0;
+	int			n;
 
 	if (start)
 	{
-		start = false;
+		start = false; // this line should be removed
 		video_result = play_video("bonus/video/intro.mp4");
 		if (video_result == 1)
 		{
@@ -85,7 +136,7 @@ int	game_loop(t_game *game)
 		else if (video_result == -1)
 		{
 			usleep(300000);
-			printf("err while procceig video file , dispalying menu ... \n");
+			printf("err while processing video file, displaying menu...\n");
 			start = false;
 		}
 	}
@@ -93,30 +144,235 @@ int	game_loop(t_game *game)
 	{
 		if (game->player.moving)
 		{
-			get_game()->player.can_open_door = false;
+			n = -1;
+			while (++n < game->nb_of_doors)
+				game->doors[n].open = false;
 			display_scean(game);
 			draw_mini_map(game);
-			draw_vert_line(game->display, game->win_w / 3);
-			draw_vert_line(game->display, 2 * game->win_w / 3);
 			mlx_put_image_to_window(game->mlx, game->win, game->display.img, 0,
 				0);
 		}
 		update_player(game);
 		if (get_key(KEY_O, game)->press)
 		{
-			// game->player.moving = game->player.moving|| get_game()->player.can_open_door;
-			if (get_game()->player.can_open_door)
+			n = 0;
+			while (n < game->nb_of_doors)
 			{
-				game->player.moving = true;
-				printf("player can open door he is seeing now %d\n",
-					video_result++);
-				open_door(game);
+				if (game->doors[n].open && game->doors[n].frame == 8)
+				{
+					// Close only if not already closing
+					if (!game->doors[n].closing)
+					{
+						game->doors[n].closing = true;
+						game->doors[n].opening = false;
+					}
+				}
+				else if (game->doors[n].open && !game->doors[n].closing
+					&& !game->doors[n].opening)
+				{
+					// Open only if not already opening or closing
+					game->doors[n].opening = true;
+					game->doors[n].closing = false;
+				}
+				n++;
 			}
+		}
+		// 🔄 Animate all doors with real-time-based animation
+		n = 0;
+		while (n < game->nb_of_doors)
+		{
+			update_door_animation(game, &game->doors[n]);
+			n++;
 		}
 	}
 	handle_exit(game);
 	return (1);
 }
+
+// int	game_loop(t_game *game)
+// {
+// 	static bool	start = true;
+// 	static int	video_result = 0;
+// 	static int	i = 0;
+// 	int			n;
+
+// 	if (start)
+// 	{
+// 		start = false;
+// 		video_result = play_video("bonus/video/intro.mp4");
+// 		if (video_result == 1)
+// 		{
+// 			usleep(30000);
+// 			start = false;
+// 		}
+// 		else if (video_result == -1)
+// 		{
+// 			usleep(300000);
+// 			printf("err while procceig video file , dispalying menu ... \n");
+// 			start = false;
+// 		}
+// 	}
+// 	else
+// 	{
+// 		if (game->player.moving)
+// 		{
+// 			n = -1;
+// 			while (++n < game->nb_of_doors)
+// 				game->doors[n].open = false;
+// 			display_scean(game);
+// 			draw_mini_map(game);
+// 			mlx_put_image_to_window(game->mlx, game->win, game->display.img, 0,
+// 				0);
+// 		}
+// 		update_player(game);
+// 		if (get_key(KEY_O, game)->press)
+// 		{
+// 			n = 0;
+// 			while (n < game->nb_of_doors)
+// 			{
+// 				if (game->doors[n].open && game->doors[n].frame == 8)
+// 				{
+// 					game->doors[n].closing = true;
+// 				}
+// 				else if (game->doors[n].open)
+// 				{
+// 					game->doors[n].opening = true;
+// 				}
+// 				n++;
+// 			}
+// 		}
+// 		n = 0;
+// 		while (n < game->nb_of_doors)
+// 		{
+// 			if (game->doors[n].opening)
+// 			{
+// 				game->player.moving = true;
+// 				game->doors[n].closing = false;
+// 				if (i++ % 80 == 0)
+// 				{
+// 					if (game->doors[n].frame < 8)
+// 						game->doors[n].frame++;
+// 					else
+// 						game->doors[n].opening = false;
+// 				}
+// 			}
+// 			else if (game->doors[n].closing)
+// 			{
+// 				game->player.moving = true;
+// 				if (i++ % 80 == 0)
+// 				{
+// 					if (game->doors[n].frame > 0)
+// 						game->doors[n].frame--;
+// 					else
+// 						game->doors[n].closing = false;
+// 				}
+// 			}
+// 			n++;
+// 		}
+// 	}
+// 	handle_exit(game);
+// 	return (1);
+// }
+
+// static bool handle_intro_video(void)
+// {
+// 	static bool	start = true;
+// 	static int	video_result = 0;
+
+// 	if (!start)
+// 		return (false);
+
+// 	start = false;
+// 	video_result = play_video("bonus/video/intro.mp4");
+
+// 	if (video_result == 1)
+// 		usleep(30000);
+// 	else if (video_result == -1)
+// 	{
+// 		usleep(300000);
+// 		printf("err while processing video file, displaying menu...\n");
+// 	}
+// 	return (true);
+// }
+
+// static void handle_player_movement(t_game *game)
+// {
+// 	int	n;
+
+// 	if (!game->player.moving)
+// 		return ;
+
+// 	for (n = 0; n < game->nb_of_doors; ++n)
+// 		game->doors[n].open = false;
+
+// 	display_scean(game);
+// 	// draw_mini_map(game);
+// 	mlx_put_image_to_window(game->mlx, game->win, game->display.img, 0, 0);
+// }
+
+// static void handle_door_interaction(t_game *game)
+// {
+// 	int	n = 0;
+
+// 	if (!get_key(KEY_O, game)->press)
+// 		return ;
+
+// 	while (n < game->nb_of_doors)
+// 	{
+// 		if (game->doors[n].open && game->doors[n].frame == 8)
+// 			game->doors[n].closing = true;
+// 		else if (game->doors[n].open)
+// 			game->doors[n].opening = true;
+// 		n++;
+// 	}
+// }
+
+// static void animate_doors(t_game *game)
+// {
+// 	static int	i = 0;
+// 	int			n = 0;
+
+// 	while (n < game->nb_of_doors)
+// 	{
+// 		if (game->doors[n].opening)
+// 		{
+// 			game->player.moving = true;
+// 			if (i++ % 10 == 0)
+// 			{
+// 				if (game->doors[n].frame < 8)
+// 					game->doors[n].frame++;
+// 				else
+// 					game->doors[n].opening = false;
+// 			}
+// 		}
+// 		if (game->doors[n].closing)
+// 		{
+// 			game->player.moving = true;
+// 			if (i++ % 10 == 0)
+// 			{
+// 				if (game->doors[n].frame > 0)
+// 					game->doors[n].frame--;
+// 				else
+// 					game->doors[n].closing = false;
+// 			}
+// 		}
+// 		n++;
+// 	}
+// }
+
+// int	game_loop(t_game *game)
+// {
+// 	if (handle_intro_video())
+// 		return (1);
+
+// 	handle_player_movement(game);
+// 	update_player(game);
+// 	handle_door_interaction(game);
+// 	animate_doors(game);
+// 	handle_exit(game);
+
+// 	return (1);
+// }
 
 void	lunch_game_hooks(t_game *game)
 {
@@ -152,10 +408,15 @@ int	main(int ac, char **av)
 
 // DOOR COLISION fixed
 // DOOR RAYCASTING fixed
-// DOOR dedection not fixed
-// DOOR if door open a littel bet not fixed
+// DOOR dedection fixed
+// DOOR if door open  fixed
+
 // DOOR animation not fixed
 // DOOR in minimap
+
 // DOOR CHECK beteen two walls in parsing not fixed  // for omar
+// DOOR
 
 //
+
+// today i should fix door animation best way possible

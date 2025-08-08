@@ -6,7 +6,7 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 16:22:34 by mbousset          #+#    #+#             */
-/*   Updated: 2025/07/31 16:26:09 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/08/08 09:04:03 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,9 @@ typedef struct s_sec
 	double		wall_h;
 	double		wall_x;
 	double		raw_dist;
-
 	int			dir;
+	t_door		door;
+	int			n;
 }				t_sec;
 
 typedef struct s_raycaster
@@ -59,7 +60,7 @@ typedef struct s_frame_state
 
 void			display_scean(t_game *game);
 void			draw_3d_view(t_game *game, t_raycaster *caster);
-t_sec_inf		*init_section(int w_x, double wall_h, int x, t_graphic dir);
+t_sec_inf		*init_section(int w_x, double wall_h, int x, t_graphic dir,t_door door);
 unsigned int	get_slice_color(int x, int y, int dir, int section);
 void			draw_section(int start, int end, int num, t_sec_inf *section);
 bool			in_minimap_range(int w_x);

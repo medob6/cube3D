@@ -6,7 +6,7 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 15:39:57 by mbousset          #+#    #+#             */
-/*   Updated: 2025/07/31 16:48:41 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/08/02 14:37:03 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,8 @@ static void	jump_player(t_game *game)
 	game->player.p.z += step;
 }
 
+t_door		get_door(int x, int y);
+
 bool	valid_door_pos(double new_x, double new_y)
 {
 	char	cell;
@@ -80,6 +82,10 @@ bool	valid_door_pos(double new_x, double new_y)
 	char	r_cell;
 
 	// static int n;
+	// here if the door is in last frame we can move through it
+	if (get_door((int)(new_x / WALL_WIDTH), (int)(new_y
+				/ WALL_WIDTH)).frame == 8)
+		return (true);
 	cell = get_game()->data.map.arr[(int)(new_y / WALL_WIDTH)][(int)(new_x
 			/ WALL_WIDTH)];
 	u_cell = get_game()->data.map.arr[(int)(new_y / WALL_WIDTH) + 1][(int)(new_x
@@ -109,6 +115,21 @@ bool	valid_door_pos(double new_x, double new_y)
 	}
 	// printf("n %d\n",n++);
 	return (false);
+}
+
+t_door	get_door(int x, int y)
+{
+	// int	i;
+	// i = 0;
+	// while (1)
+	// {
+	if (get_game()->doors[0].pos.x == x && get_game()->doors[0].pos.y == y)
+		// {
+		return (get_game()->doors[0]);
+	// }
+	// 	i++;
+	// }
+	return (get_game()->doors[0]);
 }
 
 static void	apply_movement(t_game *game, double new_x, double new_y)
@@ -141,3 +162,19 @@ void	update_player(t_game *game)
 	jump_player(game);
 	apply_movement(game, new_x, new_y);
 }
+
+
+
+
+// i should do this
+
+// lunch ray folow it until you found a wall save all door intersections in one array
+
+// in drawing calculate slice hight for each door door per door and map the pixel from fram sprite for the specific door if the x pixel is transparent go to next
+//  until you find a hit that is not transparnet then draw it
+// do it for each piwel in the hight , if the last door pix is transparent just draw wall 
+
+// so we should have an array of distences ro door from the ray casting , loop over it 
+
+
+// task after it refactor all the code clean it merge and do next tasks 

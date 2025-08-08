@@ -13,6 +13,8 @@
 #ifndef PARSER_BS_H
 # define PARSER_BS_H
 
+#include "cub_bs.h"
+
 # define RESET "\033[0m"
 # define RED "\033[1;31m"
 # define GREEN "\033[1;32m"
@@ -21,6 +23,8 @@
 # define MAGENTA "\033[1;35m"
 # define CYAN "\033[1;36m"
 # define BOLD "\033[1m"
+
+typedef struct s_door t_door;
 
 typedef struct s_fcub
 {
@@ -31,7 +35,9 @@ typedef struct s_fcub
 	char	*f_color;
 	char	*c_color;
 	char	**map;
-}			t_fcub;
+	t_door *door;
+	int nb_door;
+} t_fcub;
 
 void		print_and_exit(char *str);
 void		get_val_of_element(t_fcub *fcub, int fd);

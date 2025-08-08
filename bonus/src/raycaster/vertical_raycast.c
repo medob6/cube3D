@@ -6,10 +6,11 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 15:49:58 by mbousset          #+#    #+#             */
-/*   Updated: 2025/07/31 15:51:15 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/08/03 12:49:50 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "array.h"
 #include "raycaster_bs.h"
 
 void	process_ray(t_raycaster *c, t_frame_state *state, int ray_index)
@@ -80,6 +81,7 @@ double	verti_dist(double ray_ang, double *wall_x, int *dir)
 	t_rayinfo		ray;
 	double			door_hit;
 
+	// t_array			*arr;
 	left = cos(ray_ang) < 0;
 	get_v_inter(&next, left, ray_ang);
 	get_steps_v(&step, left, ray_ang);

@@ -6,7 +6,7 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/01 00:00:00 by user              #+#    #+#             */
-/*   Updated: 2025/07/31 10:05:24 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/08/08 12:50:52 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,9 +97,9 @@ int	setup_audio_codec(t_vdata *vdata)
 
 int	init_format_context(const char *url, AVFormatContext **fmt_ctx)
 {
-	AVDictionary	*opts;
+	// AVDictionary	*opts;
 
-	opts = NULL;
+	// opts = NULL;
 	avformat_network_init();
 	if (avformat_open_input(fmt_ctx, url, NULL, NULL) != 0)
 		return (-1);

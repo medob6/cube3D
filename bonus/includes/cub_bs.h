@@ -72,6 +72,17 @@ typedef struct s_point
 	double		z;
 }				t_point;
 
+typedef struct s_door
+{
+	t_point		pos;
+	bool		opening;
+	bool		closing;
+	bool		animating;
+	bool		open;
+	int			frame;
+	struct timeval last_update; // 🆕 Add this
+}				t_door;
+
 typedef struct s_pair
 {
 	double		x;
@@ -87,6 +98,7 @@ typedef struct s_image
 	int			bpp;
 	int			line_len;
 	int			endian;
+	int			frames;
 }				t_image;
 
 typedef struct s_player
@@ -121,7 +133,8 @@ typedef struct s_data
 	char		*paths[4];
 	int			ceiling_clr;
 	int			floor_clr;
-
+	t_door		*door;
+	int			nb_door;
 }				t_data;
 
 typedef struct s_circle
@@ -143,10 +156,12 @@ typedef struct s_game
 	void		*win;
 	int			win_h;
 	int			win_w;
+	int			nb_of_doors;
 	t_data		data;
 	t_player	player;
 	t_key		keys[11];
 	t_image		graphics[7];
+	t_door		*doors;
 	t_image		display;
 }				t_game;
 
@@ -182,5 +197,8 @@ void			get_icone_info(t_circle *icn, t_circle minimap,
 					double icon_angle, double player_angle);
 
 void			handle_exit(t_game *game);
+
+// debugin
+// void			draw_vert_line(t_image *img, int y, int len);
 
 #endif

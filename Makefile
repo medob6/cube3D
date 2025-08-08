@@ -1,6 +1,6 @@
 NAME        = cub3D
 
-CC          := cc
+CC          := gcc
 
 MANDATORY_DIR := mandatory
 BONUS_DIR     := bonus
@@ -15,13 +15,13 @@ INCLUDES       := -I$(MANDATORY_DIR)/includes -I$(MANDATORY_DIR)/libft
 INCLUDES_BNS   := -I$(BONUS_DIR)/includes -I$(BONUS_DIR)/libft  $(shell sdl2-config --cflags) -I$(HOME)/goinfre/ffmpeg_build/include 
 
 CFLAGS         := -Wall -Wextra -Werror -g -Wuninitialized $(INCLUDES) 
-
-CFLAGS_BNS     := -Wall -Wextra -Werror -g -Wuninitialized $(INCLUDES_BNS)
+#-Wall -Wextra -Werror
+CFLAGS_BNS     :=  -g -Wuninitialized $(INCLUDES_BNS)
 OPENSSL_CFLAGS := $(shell pkg-config --cflags openssl)
 SDL2_CFLAGS := $(shell pkg-config --cflags sdl2)
 CFLAGS_BNS += $(OPENSSL_CFLAGS) $(SDL2_CFLAGS)
 
-LDFLAGS        := -lmlx -lXext -lX11 -lm -Ofast -g3 -fsanitize=address
+LDFLAGS        := -lmlx -lXext -lX11 -lm  -g3 #-fsanitize=address -Ofast
 
 
 OPENSSL_LIBS := $(shell pkg-config --libs openssl)
@@ -33,7 +33,7 @@ LDFLAGS_BNS    :=-L$(HOME)/goinfre/ffmpeg_build/lib \
 	$(OPENSSL_LIBS) \
 	$(SDL2_LIBS) \
 	-lz -lpthread -ldl -lm -llzma \
-	-lmlx -lX11 -lXext -g3 -fsanitize=address
+	-lmlx -lX11 -lXext -g3 -O0  #-fsanitize=address
 
 MAIN_SRC       := main.c
 PARSER_SRC     := check_fc.c check_map.c errors_msg.c get_val_of_file.c parser.c tools1.c tools2.c
@@ -51,7 +51,7 @@ OBJS           := $(SRCS:.c=.o)
 SRCS_BNS       := $(addprefix $(BONUS_DIR)/src/, $(MAIN_SRC)) \
                   $(addprefix $(BONUS_DIR)/src/parser/, $(PARSER_SRC)) \
                   $(addprefix $(BONUS_DIR)/src/raycaster/, $(RAYCASTER_SRC)) \
-				  $(addprefix $(BONUS_DIR)/src/video_player/, $(VIDEO_PLAYER))
+				  $(addprefix $(BONUS_DIR)/src/video_player/, $(VIDEO_PLAYER)) \
 
 OBJS_BNS       := $(SRCS_BNS:.c=.o)
 
@@ -61,31 +61,31 @@ HEADER_FILES_BNS := $(BONUS_DIR)/includes/cub_bs.h $(BONUS_DIR)/includes/raycast
 all: $(LIBFT) $(NAME)
 
 bonus: $(OBJS_BNS) $(LIBFT_BNS)
-	$(CC) $(CFLAGS_BNS) $(OBJS_BNS) $(LIBFT_BNS) -o $(NAME) $(LDFLAGS_BNS)
+	@$(CC) $(CFLAGS_BNS) $(OBJS_BNS) $(LIBFT_BNS) -o $(NAME) $(LDFLAGS_BNS)
 
 $(LIBFT_BNS):
-	make -C $(LIBFT_BONUS_PATH)
+	@make -C $(LIBFT_BONUS_PATH)
 
 $(LIBFT):
-	make -C $(LIBFT_PATH)
+	@make -C $(LIBFT_PATH)
 
 
 $(NAME): $(OBJS)
-	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) -o $(NAME) $(LDFLAGS) 
+	@$(CC) $(CFLAGS) $(OBJS) $(LIBFT) -o $(NAME) $(LDFLAGS) 
 
 bonus/%.o: bonus/%.c $(HEADER_FILES_BNS)
-	$(CC) $(CFLAGS_BNS) -c $< -o $@
+	@$(CC) $(CFLAGS_BNS) -c $< -o $@
 
 %.o: %.c $(HEADER_FILES)
-	$(CC) $(CFLAGS) -c $< -o $@
+	@$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
-	rm -rf $(OBJS) $(OBJS_BNS)
-	make -C $(LIBFT_BONUS_PATH) clean
+	@rm -rf $(OBJS) $(OBJS_BNS)
+	@make -C $(LIBFT_BONUS_PATH) clean
 
 fclean: clean
-	rm -rf $(NAME)
-	make -C $(LIBFT_BONUS_PATH) fclean
+	@rm -rf $(NAME)
+	@make -C $(LIBFT_BONUS_PATH) fclean
 
 re: fclean all
 

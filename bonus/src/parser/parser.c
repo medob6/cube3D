@@ -6,7 +6,7 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 15:38:56 by omben-ch          #+#    #+#             */
-/*   Updated: 2025/07/31 10:04:19 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/08/08 13:07:07 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,9 @@ void	init_data(t_fcub *fcub)
 
 void	check_name(char *arg)
 {
-	char	*str;
 	int		i;
-	int		j;
 
 	i = 0;
-	j = 0;
-	str = ".cub";
 	if (ft_strlen(arg) < 5)
 		print_error_file_and_exit();
 	while (arg[i])
@@ -46,6 +42,76 @@ void	check_name(char *arg)
 		}
 		else
 			print_error_file_and_exit();
+	}
+}
+int count_char_in_map(char **map, char c)
+{
+	int count;
+	int x;
+	int y;
+
+	x = 0;
+	count = 0;
+	while (map[x])
+	{
+		y = 0;
+		while (map[x][y])
+		{
+			if (map[x][y] == c)
+				count++;		
+			y++;
+		}
+		x++;
+	}
+	return (count);
+}
+
+void init_door(t_fcub *fcub)
+{
+	int size;
+
+	size = count_char_in_map(fcub->map, 'D');
+	fcub->door = NULL;
+	fcub->nb_door = size;
+	
+	if (!size)
+		return ;
+	fcub->door = malloc(size * sizeof(t_door));	
+	if (fcub->door == NULL)
+	{
+		ft_putstr_fd("Malloc error\n", 2);
+		cleanup(0);
+	}
+}
+
+void get_info_of_door(t_fcub *fcub)
+{
+	int door;
+	int x;
+	int y;
+	
+	init_door(fcub);
+	door = 0;
+	y = 0;
+	while (fcub->map[y] && fcub->door)
+	{
+		x = 0;
+		while (fcub->map[y][x])
+		{
+			if (fcub->map[y][x] == 'D')
+			{
+				fcub->door[door].pos.x = x;
+				fcub->door[door].pos.y = y;
+				fcub->door[door].open = false;
+				fcub->door[door].frame = 0;
+				fcub->door[door].closing = false;
+				fcub->door[door].opening = false;
+				fcub->door[door].animating = false;
+				door++;
+			}
+			x++;
+		}
+		y++;
 	}
 }
 
@@ -67,4 +133,5 @@ void	parse_and_get_data(t_fcub *fcub, int ac, char **av)
 	get_val_of_element(fcub, fd);
 	check_content_fc(fcub);
 	check_content_map(fcub);
+	get_info_of_door(fcub);
 }

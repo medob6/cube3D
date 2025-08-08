@@ -6,7 +6,7 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/27 16:03:45 by mbousset          #+#    #+#             */
-/*   Updated: 2025/07/31 10:05:24 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/08/08 12:50:39 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,11 +66,10 @@ static int	send_packet_to_decoder(AVCodecContext *ctx, AVPacket *pkt)
 
 static int	convert_audio_frame(t_audio_convert *conv)
 {
-	int	dst_nb_samples;
 	int	len2;
 	int	data_size;
 
-	dst_nb_samples = av_rescale_rnd(swr_get_delay(conv->swr_ctx,
+	av_rescale_rnd(swr_get_delay(conv->swr_ctx,
 				conv->ctx->sample_rate) + conv->frame->nb_samples,
 			conv->ctx->sample_rate, conv->ctx->sample_rate, AV_ROUND_UP);
 	len2 = swr_convert(conv->swr_ctx, &conv->out_buf, conv->out_buf_size / 2,
@@ -194,8 +193,7 @@ static void	display_video_frame(t_vdata *vdata)
 
 static void	process_frame_with_pts(t_vdata *vdata)
 {
-	double		video_pts_sec;
-	static int	i;
+	double	video_pts_sec;
 
 	if (vdata->video.frame->pts != AV_NOPTS_VALUE && 0)
 	{
@@ -206,20 +204,18 @@ static void	process_frame_with_pts(t_vdata *vdata)
 	}
 	else
 	{
-		// usleep(30000);
 		SDL_Delay(25);
 		display_video_frame(vdata);
 	}
-	i++;
 }
 
 static int	process_decoded_video_frame(t_vdata *vdata)
 {
-	enum AVPixelFormat	src_pix_fmt;
+	// enum AVPixelFormat	src_pix_fmt;
 
 	if (!initialize_sws_context(vdata))
 		return (-1);
-	src_pix_fmt = vdata->video.frame->format;
+	// src_pix_fmt = vdata->video.frame->format;
 	scale_video_frame(vdata);
 	process_frame_with_pts(vdata);
 	return (0);
@@ -333,19 +329,18 @@ int	play_video(char *path)
 	static int		video_initialized = 0;
 	static t_vdata	*vdata = NULL;
 
-	// static int i;
 	if (!video_initialized)
 	{
 		if (initialize_player_data(&vdata, path) < 0)
 			return (-1);
-		av_dump_format(vdata->video.fmt_ctx, 0, vdata->video_path, 0);
+		// av_dump_format(vdata->video.fmt_ctx, 0, vdata->video_path, 0);
 		video_initialized = 1;
 	}
 	if (av_read_frame(vdata->video.fmt_ctx, &pkt) < 0)
+	{
 		return (handle_video_end(&vdata, &video_initialized));
-	// printf("iter %d\n",i);
+	}
 	process_packet_by_type(vdata, &pkt);
 	av_packet_unref(&pkt);
-	// i++;
 	return (0);
 }

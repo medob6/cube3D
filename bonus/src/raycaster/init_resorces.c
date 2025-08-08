@@ -6,7 +6,7 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 15:39:37 by mbousset          #+#    #+#             */
-/*   Updated: 2025/07/31 15:59:11 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/08/02 09:52:13 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ void	init_image(t_game *game, t_image *img, char *path)
 	}
 	img->addr = mlx_get_data_addr(img->img, &img->bpp, &img->line_len,
 			&img->endian);
+	img->frames = 1;
 }
 
 void	init_player(t_game *game)
@@ -70,7 +71,7 @@ void	init_player(t_game *game)
 				game->player.angle = get_view_angel(map[y][x]);
 				game->player.moving = true;
 				map[y][x] = '0';
-				return;
+				return ;
 			}
 			x++;
 		}
@@ -90,6 +91,10 @@ void	initilize_game_resorces(t_game *game)
 	init_image(game, &game->graphics[W_WALL], game->data.paths[W_WALL]);
 	init_image(game, &game->graphics[S_WALL], game->data.paths[S_WALL]);
 	init_image(game, &game->graphics[DOOR], "bonus/textures/door.xpm");
+	// draw_vert_line(&game->graphics[DOOR], (164) ,game->graphics[DOOR].h);
+	// draw_vert_line(&game->graphics[DOOR], (game->graphics[DOOR].w /3  * 2) ,game->graphics[DOOR].w);
+	game->graphics[DOOR].frames = 10;
 	init_image(game, &game->graphics[N_ICONE], "bonus/textures/N_icon.xpm");
-	init_image(game, &game->graphics[ARROW],"bonus/textures/minimap_player.xpm");
+	init_image(game, &game->graphics[ARROW],
+		"bonus/textures/minimap_player.xpm");
 }

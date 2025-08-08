@@ -85,21 +85,27 @@ int	get_size_of_long_line(t_fcub *fcub)
 	return (size_line);
 }
 
-void	position_of_player_and_floor_check(t_fcub *fcub, char **map, int x,
-		int y)
+void    position_of_player_and_floor_check(t_fcub *fcub, char **map, int x,
+        int y)
 {
-	if ((!y && ft_strchr("0NWSE", map[x][y])) || (ft_strchr("0NWSE", map[x][y])
-			&& !map[x][y + 1]))
-		print_error_map_and_exit(fcub);
-	if (x && map[x][y] && map[x + 1] && ft_strchr("0NWSE", map[x][y])
-		&& (!ft_strchr("1D0NWSE", map[x][y - 1]) || !ft_strchr("1D0NWSE",
-				map[x][y + 1]) || !ft_strchr("1D0NWSE", map[x - 1][y])
-			|| !ft_strchr("1D0NWSE", map[x + 1][y])))
-	{
-		printf("here\n");
-		print_error_map_and_exit(fcub);
-	}
+    if ((!y && ft_strchr("D0NWSE", map[x][y])) || (ft_strchr("D0NWSE",
+                map[x][y]) && !map[x][y + 1]))
+        print_error_map_and_exit(fcub);
+    if (x && map[x][y] && map[x + 1] && ft_strchr("D0NWSE", map[x][y])
+        && (!ft_strchr("10DNWSE", map[x][y - 1]) || !ft_strchr("10DNWSE",
+                map[x][y + 1]) || !ft_strchr("10DNWSE", map[x - 1][y])
+            || !ft_strchr("10DNWSE", map[x + 1][y])))
+        print_error_map_and_exit(fcub);
+    if (x && map[x][y] && map[x + 1] && ft_strchr("D", map[x][y])
+        && !(((ft_strchr("0NWSE", map[x][y - 1]) && ft_strchr("0NWSE", map[x][y
+                        + 1])) && (ft_strchr("1", map[x - 1][y])
+                    && ft_strchr("1", map[x + 1][y]))) || (((ft_strchr("1",
+                            map[x][y - 1]) && ft_strchr("1", map[x][y + 1]))
+                    && (ft_strchr("0NWSE", map[x - 1][y]) && ft_strchr("0NWSE",
+                            map[x + 1][y]))))))
+        print_error_map_and_exit(fcub);
 }
+
 
 void	check_content_map(t_fcub *fcub)
 {

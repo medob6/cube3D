@@ -6,7 +6,7 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 15:39:30 by mbousset          #+#    #+#             */
-/*   Updated: 2025/07/31 15:04:40 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/08/08 09:08:10 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,9 @@ void	process_all_rays(t_raycaster *c, t_frame_state *state)
 	while (++i < c->num_rays)
 	{
 		old_wh = get_previous_wall_height(c, i);
-		// printf("old_wh = %f\n",old_wh);
 		process_ray(c, state, i);
+		// if (c->lines->dir == DOOR)
+		// 	printf("ggg2 frame nbr = %d\n", c->lines->door.frame);
 		draw_wall_slice(i, c->lines, old_wh);
 	}
 }

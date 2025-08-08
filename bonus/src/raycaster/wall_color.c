@@ -6,13 +6,14 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 15:51:51 by mbousset          #+#    #+#             */
-/*   Updated: 2025/07/31 14:59:03 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/08/08 18:42:12 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "raycaster_bs.h"
 
-t_sec_inf	*init_section(int w_x, double wall_h, int x, t_graphic dir)
+t_sec_inf	*init_section(int w_x, double wall_h, int x, t_graphic dir,
+		t_door door)
 {
 	t_sec_inf	*section;
 
@@ -20,6 +21,8 @@ t_sec_inf	*init_section(int w_x, double wall_h, int x, t_graphic dir)
 	section->sec.wall_h = wall_h;
 	section->sec.dir = dir;
 	section->sec.wall_x = x;
+	section->sec.n = -1;
+	section->sec.door = door;
 	section->win_x = w_x;
 	section->tex_offset = 0;
 	return (section);
@@ -57,7 +60,10 @@ void	draw_section(int start, int end, int num, t_sec_inf *section)
 		tex = get_game()->graphics[section->sec.dir];
 		offset = -start + section->tex_offset;
 		hight_factur = tex.h / section->sec.wall_h;
-		tex_p.x = fmod(section->sec.wall_x, WALL_WIDTH) / WALL_WIDTH * tex.w;
+		if (section->sec.dir == DOOR)
+			tex_p.x = fmod(section->sec.wall_x, WALL_WIDTH) / WALL_WIDTH* (tex.w / 9) + ((tex.w / 9) * (section->sec.door.frame));
+		else
+			tex_p.x = fmod(section->sec.wall_x, WALL_WIDTH) / WALL_WIDTH * tex.w;
 	}
 	i = start--;
 	end = fmin(end, get_game()->win_h);
@@ -69,6 +75,7 @@ void	draw_section(int start, int end, int num, t_sec_inf *section)
 			tex_p.y = d_from_top * hight_factur;
 		}
 		color = get_slice_color(tex_p.x, tex_p.y, section->sec.dir, num);
+		// if (!get_t(color))
 		my_mlx_pixel_put(get_game()->display, section->win_x, i, color);
 	}
 }
