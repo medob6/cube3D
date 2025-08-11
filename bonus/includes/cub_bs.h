@@ -24,10 +24,11 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
+# include <sys/time.h>
 # include <unistd.h>
 
 # define WALL_HIGHT 64
-# define WALL_WIDTH 128
+# define WALL_WIDTH 120
 
 // keys
 # define KEY_ESCAPE 65307
@@ -48,6 +49,8 @@
 # define JUMP_SPEED 10
 # define M_PI_3 1.0471975511965976
 # define FOV_ANGLE M_PI_3
+
+# define FRAME_DURATION_MS 40
 
 // minimp
 # define MINIMAP_SCREEN_SCALE 0.09
@@ -78,9 +81,9 @@ typedef struct s_door
 	bool		opening;
 	bool		closing;
 	bool		animating;
-	bool		open;
+	bool		in_range;
 	int			frame;
-	struct timeval last_update; // 🆕 Add this
+	long long	last_update;
 }				t_door;
 
 typedef struct s_pair
@@ -165,6 +168,7 @@ typedef struct s_game
 	t_image		display;
 }				t_game;
 
+t_door			get_door(int x, int y);
 int				handle_close(void);
 void			cleanup(int code);
 void			update_player(t_game *game);

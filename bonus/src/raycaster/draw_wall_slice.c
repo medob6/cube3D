@@ -6,7 +6,7 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 16:07:07 by mbousset          #+#    #+#             */
-/*   Updated: 2025/08/08 18:41:07 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/08/09 16:38:17 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,54 +78,28 @@ double	closest_hit(double ang, t_sec *line)
 	int			v_dir;
 	int			n;
 	bool		can_open;
+	t_door		next_door_x;
+	t_door		next_door_y;
 
+	next_door_x = (t_door){.pos.x = -1};
+	next_door_y = (t_door){.pos.x = -1};
 	int door_x, door_y;
 	can_open = false;
 	h_dir = -1;
 	v_dir = -1;
-	distance.x = horiz_dist(ang, &h_x, &h_dir);
-	distance.y = verti_dist(ang, &v_x, &v_dir);
+	distance.x = horiz_dist(ang, &h_x, &h_dir, &next_door_x);
+	distance.y = verti_dist(ang, &v_x, &v_dir, &next_door_y);
 	if (distance.x < distance.y)
-		fill_line_inf(line, h_dir, h_x, distance.x);
-	else
-		fill_line_inf(line, v_dir, v_x, distance.y);
-	if (line->dir == DOOR)
 	{
-		if (ang > (get_game()->player.angle - FOV_ANGLE / 6)
-			&& ang < (get_game()->player.angle + FOV_ANGLE / 6))
-		{
-			if ((line->raw_dist * cos(normalize_angle(ang
-							- get_game()->player.angle))) <= WALL_WIDTH)
-			{
-				if (fmod(line->wall_x, WALL_WIDTH) <= WALL_WIDTH / 3 * 2
-					&& fmod(line->wall_x, WALL_WIDTH) >= WALL_WIDTH / 3)
-					can_open = true;
-			}
-		}
-		if (distance.x < distance.y)
-		{
-			door_x = (int)(line->wall_x / WALL_WIDTH);
-			door_y = (int)((get_game()->player.p.y + distance.x * sin(ang))
-					/ WALL_WIDTH);
-		}
-		else
-		{
-			door_y = (int)(line->wall_x / WALL_WIDTH);
-			door_x = (int)((get_game()->player.p.x + distance.y * cos(ang))
-					/ WALL_WIDTH);
-		}
-		n = 0;
-		while (n < get_game()->nb_of_doors)
-		{
-			if ((door_y == (int)get_game()->doors[n].pos.y)
-				&& (door_x == (int)get_game()->doors[n].pos.x))
-			{
-				line->door = get_game()->doors[n];
-				get_game()->doors[n].open = get_game()->doors[n].open
-					|| can_open;
-			}
-			n++;
-		}
+		fill_line_inf(line, h_dir, h_x, distance.x);
+		if (next_door_x.pos.x != -1)
+			line->door = next_door_x;
+	}
+	else
+	{
+		fill_line_inf(line, v_dir, v_x, distance.y);
+		if (next_door_y.pos.y != -1)
+			line->door = next_door_y;
 	}
 	return (line->raw_dist * cos(normalize_angle(ang
 				- get_game()->player.angle)));

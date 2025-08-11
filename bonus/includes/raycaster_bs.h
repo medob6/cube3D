@@ -6,7 +6,7 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 16:22:34 by mbousset          #+#    #+#             */
-/*   Updated: 2025/08/08 09:04:03 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/08/09 16:21:50 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,10 +68,10 @@ void			calculate_old_boundaries(int old_wh, int w_x, int *old_wt,
 					int *old_wb);
 void			process_ray(t_raycaster *c, t_frame_state *state,
 					int ray_index);
-double			verti_dist(double ray_ang, double *wall_x, int *dir);
+double			verti_dist(double ray_ang, double *wall_x, int *dir,t_door *next_door);
 void			init_raycaster(t_raycaster *c);
 void			get_steps_h(t_pair *step, bool up, double ray_ang);
-double			horiz_dist(double ray_ang, double *wall_x, int *dir);
+double			horiz_dist(double ray_ang, double *wall_x, int *dir,t_door *next_door);
 void			update_player(t_game *game);
 double			pow_2(double n);
 double			get_old_angel(t_game *g);

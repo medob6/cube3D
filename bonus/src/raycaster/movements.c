@@ -6,7 +6,7 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 15:39:57 by mbousset          #+#    #+#             */
-/*   Updated: 2025/08/02 14:37:03 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/08/09 09:08:57 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,17 +119,17 @@ bool	valid_door_pos(double new_x, double new_y)
 
 t_door	get_door(int x, int y)
 {
-	// int	i;
-	// i = 0;
-	// while (1)
-	// {
-	if (get_game()->doors[0].pos.x == x && get_game()->doors[0].pos.y == y)
-		// {
-		return (get_game()->doors[0]);
-	// }
-	// 	i++;
-	// }
-	return (get_game()->doors[0]);
+	int	i;
+
+	i = 0;
+	while (i < get_game()->nb_of_doors)
+	{
+		if (get_game()->doors[i].pos.x == x && get_game()->doors[i].pos.y == y)
+		{
+			return (get_game()->doors[i]);
+		}
+		i++;
+	}
 }
 
 static void	apply_movement(t_game *game, double new_x, double new_y)
@@ -163,18 +163,16 @@ void	update_player(t_game *game)
 	apply_movement(game, new_x, new_y);
 }
 
-
-
-
 // i should do this
 
 // lunch ray folow it until you found a wall save all door intersections in one array
 
 // in drawing calculate slice hight for each door door per door and map the pixel from fram sprite for the specific door if the x pixel is transparent go to next
 //  until you find a hit that is not transparnet then draw it
-// do it for each piwel in the hight , if the last door pix is transparent just draw wall 
+// do it for each piwel in the hight ,
+	//if the last door pix is transparent just draw wall
 
-// so we should have an array of distences ro door from the ray casting , loop over it 
+// so we should have an array of distences ro door from the ray casting ,
+	//loop over it
 
-
-// task after it refactor all the code clean it merge and do next tasks 
+// task after it refactor all the code clean it merge and do next tasks

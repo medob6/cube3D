@@ -6,7 +6,7 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 15:38:56 by omben-ch          #+#    #+#             */
-/*   Updated: 2025/08/08 13:07:07 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/08/09 13:04:31 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ void get_info_of_door(t_fcub *fcub)
 			{
 				fcub->door[door].pos.x = x;
 				fcub->door[door].pos.y = y;
-				fcub->door[door].open = false;
+				fcub->door[door].in_range = false;
 				fcub->door[door].frame = 0;
 				fcub->door[door].closing = false;
 				fcub->door[door].opening = false;
