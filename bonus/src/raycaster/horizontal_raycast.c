@@ -6,7 +6,7 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 15:50:02 by mbousset          #+#    #+#             */
-/*   Updated: 2025/08/11 16:08:11 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/08/11 17:42:40 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ double	check_door_hhit(t_rayinfo *ray, double *wall_x, int *dir, int *door_x,
 	bool			up;
 	int				player_tile_x;
 	int				player_tile_y;
+	static int		j;
 
 	player_tile_x = (int)(g->player.p.x / WALL_WIDTH);
 	player_tile_y = (int)(g->player.p.y / WALL_WIDTH);
@@ -55,25 +56,32 @@ double	check_door_hhit(t_rayinfo *ray, double *wall_x, int *dir, int *door_x,
 		&& g->data.map.arr[(int)(g->player.p.y
 			/ WALL_WIDTH)][(int)(g->player.p.x / WALL_WIDTH) - 1] == '1')
 	{
-		if ((fmod(g->player.p.y, WALL_WIDTH) < WALL_WIDTH / 2) ^ up)
+		if ((fmod(g->player.p.y, WALL_WIDTH) <= WALL_WIDTH / 2) ^ up)
 		{
 			ray->next.y -= WALL_WIDTH / 2 * (-up + !up);
 			ray->next.x -= (WALL_WIDTH / 2) / tan(ray->ray_ang) * (-up + !up);
-			ray->map_p.x = (int)(ray->next.x / WALL_WIDTH);
-			ray->map_p.y = (int)(ray->next.y / WALL_WIDTH);
-			if ((ray->map_p.x == player_tile_x
-					&& ray->map_p.y == player_tile_y))
+			if (((int)(ray->next.x / WALL_WIDTH) == player_tile_x
+					&& (int)(ray->next.y / WALL_WIDTH) == player_tile_y))
 			{
+				ray->map_p.x = (int)(ray->next.x / WALL_WIDTH);
+				ray->map_p.y = (int)(ray->next.y / WALL_WIDTH);
 				*door_x = ray->map_p.x;
 				*door_y = ray->map_p.y;
 				*wall_x = ray->next.x;
 				*dir = DOOR;
 				return (get_dist(g->player.p, ray->next));
 			}
+			else
+			{
+				ray->next.y += WALL_WIDTH / 2 * (-up + !up);
+				ray->next.x += (WALL_WIDTH / 2) / tan(ray->ray_ang) * (-up
+						+ !up);
+			}
 		}
 	}
 	if (g->data.map.arr[(int)ray->map_p.y][(int)ray->map_p.x] == 'D')
 	{
+		// printf("herr %d\n", j++);
 		ray->next.y += WALL_WIDTH / 2 * (-up + !up);
 		ray->next.x += (WALL_WIDTH / 2) / tan(ray->ray_ang) * (-up + !up);
 		ray->map_p.x = (int)(ray->next.x / WALL_WIDTH);

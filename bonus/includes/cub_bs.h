@@ -45,7 +45,7 @@
 
 // speed
 # define MOVE_SPEED 2.5
-# define ROTATE_SPEED 0.03
+# define ROTATE_SPEED 0.02
 # define JUMP_SPEED 10
 # define M_PI_3 1.0471975511965976
 # define FOV_ANGLE M_PI_3

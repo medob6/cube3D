@@ -6,7 +6,7 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 15:49:58 by mbousset          #+#    #+#             */
-/*   Updated: 2025/08/11 16:27:16 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/08/11 17:44:08 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,16 +68,22 @@ double	check_door_vhit(t_rayinfo *ray, double *wall_x, int *dir, int *door_x,
 			ray->next.y -= WALL_WIDTH / 2 * tan(ray->ray_ang * (-ray->left
 						+ !ray->left));
 			ray->next.x -= WALL_WIDTH / 2 * (-ray->left + !ray->left);
-			ray->map_p.x = (int)(ray->next.x / WALL_WIDTH);
-			ray->map_p.y = (int)(ray->next.y / WALL_WIDTH);
-			if ((ray->map_p.x == player_tile_x
-					&& ray->map_p.y == player_tile_y))
+			if (((int)(ray->next.x / WALL_WIDTH) == player_tile_x
+					&& (int)(ray->next.y / WALL_WIDTH) == player_tile_y))
 			{
+				ray->map_p.x = (int)(ray->next.x / WALL_WIDTH);
+				ray->map_p.y = (int)(ray->next.y / WALL_WIDTH);
 				*door_x = ray->map_p.x;
 				*door_y = ray->map_p.y;
 				*wall_x = ray->next.y;
 				*dir = DOOR;
 				return (get_dist(g->player.p, ray->next));
+			}
+			else
+			{
+				ray->next.y += WALL_WIDTH / 2 * tan(ray->ray_ang * (-ray->left
+							+ !ray->left));
+				ray->next.x += WALL_WIDTH / 2 * (-ray->left + !ray->left);
 			}
 		}
 	}
