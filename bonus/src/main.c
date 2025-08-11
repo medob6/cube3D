@@ -6,7 +6,7 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 09:38:33 by omben-ch          #+#    #+#             */
-/*   Updated: 2025/08/11 10:16:14 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/08/11 16:25:02 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -171,47 +171,104 @@ void	reste_door_rang(t_game *game)
 		game->doors[n].in_range = false;
 }
 
+bool	angle_between(double angle, double start, double end)
+{
+	angle = normalize_angle(angle);
+	start = normalize_angle(start);
+	end = normalize_angle(end);
+	if (start < end)
+		return (angle > start && angle < end);
+	else
+		return (angle > start || angle < end);
+}
+
 static void	update_doors_in_range(void)
 {
 	const t_game	*g = get_game();
-	t_point			player_pos = g->player.p;
-	double			player_angle = g->player.angle;
-	char **map = g->data.map.arr;
-	int i;
+	t_point			player_pos;
+	double			player_angle;
+	char			**map;
+	int				i;
+	bool			loking_at_door_center;
+	bool			close_enough;
+	t_door			*door;
+	bool			door_is_horizontale;
+	t_point			door_center;
+	bool			up;
+	t_point			door_p1;
+	t_point			door_p2;
+	double			vertical_dist;
+	double			p1_player_angle;
+	double			p2_player_angle;
+	bool			right;
+	double			horizontal_dist;
 
+	player_pos = g->player.p;
+	player_angle = g->player.angle;
+	map = g->data.map.arr;
 	i = -1;
 	while (++i < g->nb_of_doors)
 	{
-		t_door	*door = &g->doors[i];
-
-		bool door_is_horizontale = (map[(int)door->pos.y - 1][(int)door->pos.x] == '1');
-
+		door = &g->doors[i];
+		door_is_horizontale = (map[(int)door->pos.y][(int)door->pos.x
+				- 1] == '1');
+		door_center = (t_point){.x = (door->pos.x + 0.5) * WALL_WIDTH,
+			.y = (door->pos.y + 0.5) * WALL_WIDTH};
 		if (door_is_horizontale)
 		{
-
-			
-			t_point door_center = {
-				.x = (door->pos.x + 0.5) * WALL_WIDTH,
+			up = (player_pos.y > door_center.y);
+			if (player_pos.y == door_center.y)
+			{
+				door->in_range = false;
+				return ;
+			}
+			door_p1 = (t_point){.x = (door->pos.x + 1.0 / 4.0) * WALL_WIDTH,
 				.y = (door->pos.y + 0.5) * WALL_WIDTH};
-			bool up = (player_pos.y < door_center.y);
-			t_point door_p1 = {
-				.x = (door->pos.x + 1 / 3) * WALL_WIDTH,
+			door_p2 = (t_point){.x = (door->pos.x + 3.0 / 4.0) * WALL_WIDTH,
 				.y = (door->pos.y + 0.5) * WALL_WIDTH};
-			t_point door_p2 = {
-				.x = (door->pos.x + 2 / 3) * WALL_WIDTH,
-				.y = (door->pos.y + 0.5) * WALL_WIDTH};
-
-			double dist = get_dist(door_center, player_pos);
-			double dist_to_p1 = get_dist(door_p1, player_pos);
-			double dist_to_p2 = get_dist(door_p2, player_pos);
-			double vertical_dist = fabs(player_pos.y - door_center.y);
-			bool close_enough = (vertical_dist < 3/2 *WALL_WIDTH) && ( door_center.x - WALL_WIDTH/2  < player_pos.x && player_pos.x <   door_center.x + WALL_WIDTH/2 );
-			double p1_player_angle = asin((vertical_dist/dist_to_p1));
-			double p2_player_angle = asin((vertical_dist/dist_to_p1));
-			bool loking_at_door_center = player_angle > p1_player_angle && player_angle < p2_player_angle;
-			door->in_range = (loking_at_door_center && close_enough);
+			vertical_dist = fabs(player_pos.y - door_center.y);
+			close_enough = (vertical_dist < (1.5 * WALL_WIDTH))
+				&& (door_center.x - WALL_WIDTH / 2 < player_pos.x
+					&& player_pos.x < door_center.x + WALL_WIDTH / 2);
+			p1_player_angle = normalize_angle(atan2(door_p1.y - player_pos.y,
+						door_p1.x - player_pos.x));
+			p2_player_angle = normalize_angle(atan2(door_p2.y - player_pos.y,
+						door_p2.x - player_pos.x));
+			if (up)
+				loking_at_door_center = angle_between(player_angle,
+						p1_player_angle, p2_player_angle);
+			else
+				loking_at_door_center = angle_between(player_angle,
+						p2_player_angle, p1_player_angle);
 		}
-
+		else
+		{
+			right = (player_pos.x < door_center.x);
+			door_p1 = (t_point){.x = (door->pos.x + 0.5) * WALL_WIDTH,
+				.y = (door->pos.y + 1.0 / 3.0) * WALL_WIDTH};
+			door_p2 = (t_point){.x = (door->pos.x + 0.5) * WALL_WIDTH,
+				.y = (door->pos.y + 2.0 / 3.0) * WALL_WIDTH};
+			horizontal_dist = fabs(player_pos.x - door_center.x);
+			close_enough = (horizontal_dist < (1.5 * WALL_WIDTH))
+				&& (door_center.y - WALL_WIDTH / 2 < player_pos.y
+					&& player_pos.y < door_center.y + WALL_WIDTH / 2);
+			p1_player_angle = normalize_angle(atan2(door_p1.y - player_pos.y,
+						door_p1.x - player_pos.x));
+			p2_player_angle = normalize_angle(atan2(door_p2.y - player_pos.y,
+						door_p2.x - player_pos.x));
+			if (right)
+				loking_at_door_center = angle_between(player_angle,
+						p1_player_angle, p2_player_angle);
+			else
+				loking_at_door_center = angle_between(player_angle,
+						p2_player_angle, p1_player_angle);
+			if (player_pos.x == door_center.x)
+			{
+				door->in_range = false;
+				return ;
+			}
+		}
+		door->in_range = (loking_at_door_center && close_enough);
 	}
 }
 

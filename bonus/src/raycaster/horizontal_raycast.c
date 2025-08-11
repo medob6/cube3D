@@ -6,7 +6,7 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 15:50:02 by mbousset          #+#    #+#             */
-/*   Updated: 2025/08/09 17:13:52 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/08/11 16:08:11 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,11 @@ double	check_door_hhit(t_rayinfo *ray, double *wall_x, int *dir, int *door_x,
 {
 	const t_game	*g = get_game();
 	bool			up;
+	int				player_tile_x;
+	int				player_tile_y;
 
+	player_tile_x = (int)(g->player.p.x / WALL_WIDTH);
+	player_tile_y = (int)(g->player.p.y / WALL_WIDTH);
 	up = ray->left;
 	if (g->data.map.arr[(int)(g->player.p.y / WALL_WIDTH)][(int)(g->player.p.x
 			/ WALL_WIDTH)] == 'D' && g->data.map.arr[(int)(g->player.p.y
@@ -51,17 +55,21 @@ double	check_door_hhit(t_rayinfo *ray, double *wall_x, int *dir, int *door_x,
 		&& g->data.map.arr[(int)(g->player.p.y
 			/ WALL_WIDTH)][(int)(g->player.p.x / WALL_WIDTH) - 1] == '1')
 	{
-		if ((fmod(g->player.p.y, WALL_WIDTH) <= WALL_WIDTH / 2) ^ up)
+		if ((fmod(g->player.p.y, WALL_WIDTH) < WALL_WIDTH / 2) ^ up)
 		{
 			ray->next.y -= WALL_WIDTH / 2 * (-up + !up);
 			ray->next.x -= (WALL_WIDTH / 2) / tan(ray->ray_ang) * (-up + !up);
 			ray->map_p.x = (int)(ray->next.x / WALL_WIDTH);
 			ray->map_p.y = (int)(ray->next.y / WALL_WIDTH);
-			*door_x = ray->map_p.x;
-			*door_y = ray->map_p.y;
-			*wall_x = ray->next.x;
-			*dir = DOOR;
-			return (get_dist(g->player.p, ray->next));
+			if ((ray->map_p.x == player_tile_x
+					&& ray->map_p.y == player_tile_y))
+			{
+				*door_x = ray->map_p.x;
+				*door_y = ray->map_p.y;
+				*wall_x = ray->next.x;
+				*dir = DOOR;
+				return (get_dist(g->player.p, ray->next));
+			}
 		}
 	}
 	if (g->data.map.arr[(int)ray->map_p.y][(int)ray->map_p.x] == 'D')
@@ -110,10 +118,9 @@ double	horiz_dist(double ray_ang, double *wall_x, int *dir, t_door *next_door)
 			tex_x = fmod(*wall_x, WALL_WIDTH) / WALL_WIDTH
 				* (g->graphics[DOOR].w / 9) + ((g->graphics[DOOR].w / 9)
 					* door.frame);
-			
 			if (!get_t(get_slice_color(tex_x, g->graphics[DOOR].h / 2, DOOR,
 						2)))
-				return (*next_door = door,door_hit);
+				return (*next_door = door, door_hit);
 		}
 		if (g->data.map.arr[(int)map_p.y][(int)map_p.x] == '1')
 			return (*wall_x = next.x, *dir = N_WALL * up + S_WALL * !up,

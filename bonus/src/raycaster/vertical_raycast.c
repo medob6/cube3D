@@ -6,7 +6,7 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 15:49:58 by mbousset          #+#    #+#             */
-/*   Updated: 2025/08/09 18:25:55 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/08/11 16:27:16 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,10 @@ void	process_ray(t_raycaster *c, t_frame_state *state, int ray_index)
 	double	ray_ang;
 
 	ray_ang = calculate_ray_angle(state, c, ray_index);
-	// if (can_reuse_ray(state, c, ray_index))
-	// 	reuse_ray_data(c, state, ray_index, ray_ang);
-	// else
-	cast_new_ray(c, state, ray_index, ray_ang);
+	if (can_reuse_ray(state, c, ray_index))
+		reuse_ray_data(c, state, ray_index, ray_ang);
+	else
+		cast_new_ray(c, state, ray_index, ray_ang);
 }
 
 void	get_steps_v(t_pair *step, bool left, double ray_ang)
@@ -53,7 +53,11 @@ double	check_door_vhit(t_rayinfo *ray, double *wall_x, int *dir, int *door_x,
 {
 	const t_game	*g = get_game();
 	t_pair			p;
+	int				player_tile_x;
+	int				player_tile_y;
 
+	player_tile_x = (int)(g->player.p.x / WALL_WIDTH);
+	player_tile_y = (int)(g->player.p.y / WALL_WIDTH);
 	p.x = (g->player.p.x / WALL_WIDTH);
 	p.y = (g->player.p.y / WALL_WIDTH);
 	if (g->data.map.arr[(int)p.y][(int)p.x] == 'D' && g->data.map.arr[(int)p.y
@@ -66,11 +70,15 @@ double	check_door_vhit(t_rayinfo *ray, double *wall_x, int *dir, int *door_x,
 			ray->next.x -= WALL_WIDTH / 2 * (-ray->left + !ray->left);
 			ray->map_p.x = (int)(ray->next.x / WALL_WIDTH);
 			ray->map_p.y = (int)(ray->next.y / WALL_WIDTH);
-			*door_x = ray->map_p.x;
-			*door_y = ray->map_p.y;
-			*wall_x = ray->next.y;
-			*dir = DOOR;
-			return (get_dist(g->player.p, ray->next));
+			if ((ray->map_p.x == player_tile_x
+					&& ray->map_p.y == player_tile_y))
+			{
+				*door_x = ray->map_p.x;
+				*door_y = ray->map_p.y;
+				*wall_x = ray->next.y;
+				*dir = DOOR;
+				return (get_dist(g->player.p, ray->next));
+			}
 		}
 	}
 	if (g->data.map.arr[(int)ray->map_p.y][(int)ray->map_p.x] == 'D')

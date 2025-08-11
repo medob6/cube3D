@@ -6,7 +6,7 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 16:07:07 by mbousset          #+#    #+#             */
-/*   Updated: 2025/08/09 16:38:17 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/08/11 15:34:13 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,15 +33,13 @@ void	draw_wall_slice(int w_x, t_sec *slice, int old_wh)
 
 	calculate_old_boundaries(old_wh, w_x, &old_wt, &old_wb);
 	calculate_wall_boundaries(slice, w_x, &wall_top, &wall_bottom);
-	// printf("slice2 frame nbr = %d \n", slice->door.frame);
 	section = init_section(w_x, slice[w_x].wall_h, slice[w_x].wall_x,
 			slice[w_x].dir, slice[w_x].door);
 	apply_texture_offset(section, &wall_top);
 	draw_ceiling_section(section, old_wt, wall_top);
 	draw_wall_section(section, wall_top, wall_bottom);
 	draw_floor_section(section, wall_bottom, old_wb);
-	// if (player view intersect with door)
-	// 	render door
+
 	draw_jump_floor_section(section, wall_bottom, old_wb);
 	free(section);
 }
