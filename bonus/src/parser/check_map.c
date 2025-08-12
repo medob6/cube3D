@@ -6,7 +6,7 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 15:14:23 by omben-ch          #+#    #+#             */
-/*   Updated: 2025/07/31 10:04:19 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/08/12 09:06:22 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,27 +85,26 @@ int	get_size_of_long_line(t_fcub *fcub)
 	return (size_line);
 }
 
-void    position_of_player_and_floor_check(t_fcub *fcub, char **map, int x,
-        int y)
+void	position_of_player_and_floor_check(t_fcub *fcub, char **map, int x,
+		int y)
 {
-    if ((!y && ft_strchr("D0NWSE", map[x][y])) || (ft_strchr("D0NWSE",
-                map[x][y]) && !map[x][y + 1]))
-        print_error_map_and_exit(fcub);
-    if (x && map[x][y] && map[x + 1] && ft_strchr("D0NWSE", map[x][y])
-        && (!ft_strchr("10DNWSE", map[x][y - 1]) || !ft_strchr("10DNWSE",
-                map[x][y + 1]) || !ft_strchr("10DNWSE", map[x - 1][y])
-            || !ft_strchr("10DNWSE", map[x + 1][y])))
-        print_error_map_and_exit(fcub);
-    if (x && map[x][y] && map[x + 1] && ft_strchr("D", map[x][y])
-        && !(((ft_strchr("0NWSE", map[x][y - 1]) && ft_strchr("0NWSE", map[x][y
-                        + 1])) && (ft_strchr("1", map[x - 1][y])
-                    && ft_strchr("1", map[x + 1][y]))) || (((ft_strchr("1",
-                            map[x][y - 1]) && ft_strchr("1", map[x][y + 1]))
-                    && (ft_strchr("0NWSE", map[x - 1][y]) && ft_strchr("0NWSE",
-                            map[x + 1][y]))))))
-        print_error_map_and_exit(fcub);
+	if ((!y && ft_strchr("XD0NWSE", map[x][y])) || (ft_strchr("XD0NWSE",
+				map[x][y]) && !map[x][y + 1]))
+		print_error_map_and_exit(fcub);
+	if (x && map[x][y] && map[x + 1] && ft_strchr("XD0NWSE", map[x][y])
+		&& (!ft_strchr("10XDNWSE", map[x][y - 1]) || !ft_strchr("10XDNWSE",
+				map[x][y + 1]) || !ft_strchr("10XDNWSE", map[x - 1][y])
+			|| !ft_strchr("10XDNWSE", map[x + 1][y])))
+		print_error_map_and_exit(fcub);
+	if (x && map[x][y] && map[x + 1] && (ft_strchr("D", map[x][y]) || ft_strchr("X", map[x][y]))
+		&& !(((ft_strchr("0NWSE", map[x][y - 1]) && ft_strchr("0NWSE", map[x][y
+						+ 1])) && (ft_strchr("1", map[x - 1][y])
+					&& ft_strchr("1", map[x + 1][y]))) || (((ft_strchr("1",
+							map[x][y - 1]) && ft_strchr("1", map[x][y + 1]))
+					&& (ft_strchr("0NWSE", map[x - 1][y]) && ft_strchr("0NWSE",
+							map[x + 1][y]))))))
+		print_error_map_and_exit(fcub);
 }
-
 
 void	check_content_map(t_fcub *fcub)
 {
@@ -122,7 +121,7 @@ void	check_content_map(t_fcub *fcub)
 		y = -1;
 		while (fcub->map[x][++y])
 		{
-			if (!ft_strchr(" 10NWSED", fcub->map[x][y]))
+			if (!ft_strchr(" 10NWSEXD", fcub->map[x][y]))
 				print_error_map_and_exit(fcub);
 			position_of_player_and_floor_check(fcub, fcub->map, x, y);
 			if (ft_strchr("NWSE", fcub->map[x][y]))

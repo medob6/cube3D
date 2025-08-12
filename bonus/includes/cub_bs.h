@@ -27,8 +27,9 @@
 # include <sys/time.h>
 # include <unistd.h>
 
-# define WALL_HIGHT 64
-# define WALL_WIDTH 120
+# define WALL_HIGHT 20
+
+# define WALL_WIDTH 64
 
 // keys
 # define KEY_ESCAPE 65307

@@ -6,7 +6,7 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 09:38:33 by omben-ch          #+#    #+#             */
-/*   Updated: 2025/08/11 16:25:02 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/08/12 09:22:51 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -323,3 +323,5 @@ int	main(int ac, char **av)
 	lunch_game_hooks(game);
 	return (0);
 }
+
+// i added a X character in map its like a door but when its open fully a portal like a black hole appears and spins when you enetr game ends

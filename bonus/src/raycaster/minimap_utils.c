@@ -6,7 +6,7 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 16:07:13 by mbousset          #+#    #+#             */
-/*   Updated: 2025/07/31 10:04:19 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/08/12 08:56:59 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,12 +49,17 @@ int	get_minimap_pixel_color(t_game *g, double rx, double ry, t_mm_scale sc)
 	if (row < 0 || row >= g->data.map.map_h || col < 0
 		|| col >= g->data.map.map_w)
 		return (0x000000);
-	if (g->data.map.arr[row][col] == '0' || is_valid_dir(g->data.map.arr[row][col]))
+	if (g->data.map.arr[row][col] == '0'
+		|| is_valid_dir(g->data.map.arr[row][col]))
 		return (0xeeeeee);
 	else if (g->data.map.arr[row][col] == ' ')
 		return (0x000000);
 	else if (g->data.map.arr[row][col] == 'D')
-		return (0x4D03A0);
+	{
+		if (get_door(col, row).frame != 8) // last frame is 8 in this sprit case
+			return (0x4D03A0);
+		return (0xeeeeee);
+	}
 	f.x = fmod(wp.x, WALL_WIDTH);
 	f.y = fmod(wp.y, WALL_WIDTH);
 	if (in_border(f, sc))
