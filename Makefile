@@ -17,23 +17,24 @@ INCLUDES_BNS   := -I$(BONUS_DIR)/includes -I$(BONUS_DIR)/libft  $(shell sdl2-con
 CFLAGS         := -Wall -Wextra -Werror -g -Wuninitialized $(INCLUDES) 
 #-Wall -Wextra -Werror
 CFLAGS_BNS     :=  -g -Wuninitialized $(INCLUDES_BNS)
-OPENSSL_CFLAGS := $(shell pkg-config --cflags openssl)
-SDL2_CFLAGS := $(shell pkg-config --cflags sdl2)
-CFLAGS_BNS += $(OPENSSL_CFLAGS) $(SDL2_CFLAGS)
+#OPENSSL_CFLAGS := $(shell pkg-config --cflags openssl)
+#SDL2_CFLAGS := $(shell pkg-config --cflags sdl2)
+#CFLAGS_BNS += $(OPENSSL_CFLAGS) $(SDL2_CFLAGS)
 
 LDFLAGS        := -lmlx -lXext -lX11 -lm  -g3 #-fsanitize=address -Ofast
 
 
-OPENSSL_LIBS := $(shell pkg-config --libs openssl)
-SDL2_LIBS := $(shell pkg-config --libs sdl2)
-LDFLAGS_BNS    :=-L$(HOME)/goinfre/ffmpeg_build/lib \
-	-Wl,--start-group \
-	-lavformat -lavcodec -lswscale -lavutil -lswresample \
-	-Wl,--end-group \
-	$(OPENSSL_LIBS) \
-	$(SDL2_LIBS) \
-	-lz -lpthread -ldl -lm -llzma \
-	-lmlx -lX11 -lXext -g3  -fsanitize=address
+#OPENSSL_LIBS := $(shell pkg-config --libs openssl)
+#SDL2_LIBS := $(shell pkg-config --libs sdl2)
+# LDFLAGS_BNS    :=-L$(HOME)/goinfre/ffmpeg_build/lib \
+# 	-Wl,--start-group \
+# 	-lavformat -lavcodec -lswscale -lavutil -lswresample \
+# 	-Wl,--end-group \
+# 	$(OPENSSL_LIBS) \
+# 	$(SDL2_LIBS) \
+# 	-lz -lpthread -ldl -lm -llzma \
+# 	-lmlx -lX11 -lXext -g3  -fsanitize=address
+LDFLAGS_BNS    := -lz -lpthread -lm -lmlx -lX11 -lXext -g3  -fsanitize=address
 
 MAIN_SRC       := main.c
 PARSER_SRC     := check_fc.c check_map.c errors_msg.c get_val_of_file.c parser.c tools1.c tools2.c
@@ -51,7 +52,7 @@ OBJS           := $(SRCS:.c=.o)
 SRCS_BNS       := $(addprefix $(BONUS_DIR)/src/, $(MAIN_SRC)) \
                   $(addprefix $(BONUS_DIR)/src/parser/, $(PARSER_SRC)) \
                   $(addprefix $(BONUS_DIR)/src/raycaster/, $(RAYCASTER_SRC)) \
-				  $(addprefix $(BONUS_DIR)/src/video_player/, $(VIDEO_PLAYER)) \
+				  #$(addprefix $(BONUS_DIR)/src/video_player/, $(VIDEO_PLAYER)) \
 
 OBJS_BNS       := $(SRCS_BNS:.c=.o)
 

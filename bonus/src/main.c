@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
+/*   By: omben-ch <omben-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 09:38:33 by omben-ch          #+#    #+#             */
-/*   Updated: 2025/08/12 09:22:51 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/08/20 12:52:53 by omben-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,23 +47,23 @@ void	print_err(char *msg)
 
 static bool	handle_intro_video(void)
 {
-	static bool	start = true;
-	static int	video_result = 0;
+	// static bool	start = true;
+	// static int	video_result = 0;
 
-	if (!start)
-		return (false);
-	video_result = play_video("bonus/video/intro.mp4");
-	if (video_result == 1)
-	{
-		start = false;
-		usleep(30000);
-	}
-	else if (video_result == -1)
-	{
-		usleep(30000);
-		printf("Error:\n err while processing video n");
-	}
-	return (true);
+	// if (!start)
+	// 	return (false);
+	// video_result = play_video("bonus/video/intro.mp4");
+	// if (video_result == 1)
+	// {
+	// 	start = false;
+	// 	usleep(30000);
+	// }
+	// else if (video_result == -1)
+	// {
+	// 	usleep(30000);
+	// 	printf("Error:\n err while processing video n");
+	// }
+	// return (true);
 }
 
 bool	door_is_closed(t_door door)

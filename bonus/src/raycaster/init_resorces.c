@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_resorces.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
+/*   By: omben-ch <omben-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 15:39:37 by mbousset          #+#    #+#             */
-/*   Updated: 2025/08/02 09:52:13 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/08/20 12:58:15 by omben-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,8 +81,8 @@ void	init_player(t_game *game)
 
 void	initilize_game_resorces(t_game *game)
 {
-	if (SDL_Init(SDL_INIT_AUDIO) < 0)
-		return ;
+	// if (SDL_Init(SDL_INIT_AUDIO) < 0)
+	// 	return ;
 	init_keys(game);
 	init_player(game);
 	init_image_fram(game, &game->display);
