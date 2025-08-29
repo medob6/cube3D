@@ -6,7 +6,7 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 09:38:33 by omben-ch          #+#    #+#             */
-/*   Updated: 2025/08/29 17:07:24 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/08/29 17:10:29 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,7 +145,7 @@ static void	update_closing_door(t_door *door, long long current_time)
 	}
 }
 
-bool angle_between(double angle, double start, double end);
+bool		angle_between(double angle, double start, double end);
 
 bool	looking_at_open_portal(t_game *g)
 {
@@ -161,22 +161,21 @@ bool	looking_at_open_portal(t_game *g)
 	double	p2_player_angle;
 	double	angle;
 	double	angle_step;
+	int		x;
 
 	player_pos = g->player.p;
 	player_angle = g->player.angle;
 	map = g->data.map.arr;
 	door = &g->exit;
-
 	// --- compute door orientation and corners ---
 	door_is_horizontale = (map[(int)door->pos.y][(int)door->pos.x - 1] == '1'
 			&& map[(int)door->pos.y][(int)door->pos.x + 1] == '1');
 	door_center = (t_point){.x = (door->pos.x + 0.5) * WALL_WIDTH,
 		.y = (door->pos.y + 0.5) * WALL_WIDTH};
-
 	if (door_is_horizontale)
 	{
-		door_p1 = (t_point){.x = (door->pos.x) * WALL_WIDTH,
-			.y = (door->pos.y + 0.5) * WALL_WIDTH};
+		door_p1 = (t_point){.x = (door->pos.x) * WALL_WIDTH, .y = (door->pos.y
+				+ 0.5) * WALL_WIDTH};
 		door_p2 = (t_point){.x = (door->pos.x + 1) * WALL_WIDTH,
 			.y = (door->pos.y + 0.5) * WALL_WIDTH};
 	}
@@ -187,23 +186,21 @@ bool	looking_at_open_portal(t_game *g)
 		door_p2 = (t_point){.x = (door->pos.x + 0.5) * WALL_WIDTH,
 			.y = (door->pos.y + 1) * WALL_WIDTH};
 	}
-
 	// --- precompute door bounding angles relative to player ---
-	p1_player_angle = normalize_angle(atan2(door_p1.y - player_pos.y,
-				door_p1.x - player_pos.x));
-	p2_player_angle = normalize_angle(atan2(door_p2.y - player_pos.y,
-				door_p2.x - player_pos.x));
-
+	p1_player_angle = normalize_angle(atan2(door_p1.y - player_pos.y, door_p1.x
+				- player_pos.x));
+	p2_player_angle = normalize_angle(atan2(door_p2.y - player_pos.y, door_p2.x
+				- player_pos.x));
 	// --- sweep through the FOV and check if door lies inside ---
 	angle_step = FOV_ANGLE / (double)g->win_w;
 	angle = player_angle - FOV_ANGLE / 2.0;
-
-	for (int x = 0; x < g->win_w; x++, angle = normalize_angle(angle + angle_step))
+	x = -1;
+	while (++x < g->win_w)
 	{
+		angle = normalize_angle(angle + angle_step);
 		if (angle_between(angle, p1_player_angle, p2_player_angle))
 			return (true);
 	}
-
 	return (false);
 }
 
