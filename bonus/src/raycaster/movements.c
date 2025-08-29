@@ -6,7 +6,7 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 15:39:57 by mbousset          #+#    #+#             */
-/*   Updated: 2025/08/09 09:08:57 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/08/27 15:38:03 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,23 +80,23 @@ bool	valid_door_pos(double new_x, double new_y)
 	char	d_cell;
 	char	l_cell;
 	char	r_cell;
+	char	**map;
 
+	map = get_game()->data.map.arr;
+	cell = map[(int)(new_y / WALL_WIDTH)][(int)(new_x / WALL_WIDTH)];
 	// static int n;
 	// here if the door is in last frame we can move through it
 	if (get_door((int)(new_x / WALL_WIDTH), (int)(new_y
 				/ WALL_WIDTH)).frame == 8)
-		return (true);
-	cell = get_game()->data.map.arr[(int)(new_y / WALL_WIDTH)][(int)(new_x
-			/ WALL_WIDTH)];
-	u_cell = get_game()->data.map.arr[(int)(new_y / WALL_WIDTH) + 1][(int)(new_x
-			/ WALL_WIDTH)];
-	d_cell = get_game()->data.map.arr[(int)(new_y / WALL_WIDTH) - 1][(int)(new_x
-			/ WALL_WIDTH)];
-	l_cell = get_game()->data.map.arr[(int)(new_y / WALL_WIDTH)][(int)(new_x
-			/ WALL_WIDTH) + 1];
-	r_cell = get_game()->data.map.arr[(int)(new_y / WALL_WIDTH)][(int)(new_x
-			/ WALL_WIDTH) - 1];
-	if (cell == 'D')
+	{
+		if (cell == 'D')
+			return (true);
+	}
+	u_cell = map[(int)(new_y / WALL_WIDTH) + 1][(int)(new_x / WALL_WIDTH)];
+	d_cell = map[(int)(new_y / WALL_WIDTH) - 1][(int)(new_x / WALL_WIDTH)];
+	l_cell = map[(int)(new_y / WALL_WIDTH)][(int)(new_x / WALL_WIDTH) + 1];
+	r_cell = map[(int)(new_y / WALL_WIDTH)][(int)(new_x / WALL_WIDTH) - 1];
+	if (ft_strchr("DX", cell))
 	{
 		if (u_cell == '1' && d_cell == '1')
 		{
@@ -113,6 +113,9 @@ bool	valid_door_pos(double new_x, double new_y)
 				return (true);
 		}
 	}
+	if (cell == 'X' && get_door((int)(new_x / WALL_WIDTH), (int)(new_y
+				/ WALL_WIDTH)).frame == 8)
+		get_game()->passed = true;
 	// printf("n %d\n",n++);
 	return (false);
 }
@@ -122,6 +125,8 @@ t_door	get_door(int x, int y)
 	int	i;
 
 	i = 0;
+	if (get_game()->exit.pos.x == x && get_game()->exit.pos.y == y)
+		return (get_game()->exit);
 	while (i < get_game()->nb_of_doors)
 	{
 		if (get_game()->doors[i].pos.x == x && get_game()->doors[i].pos.y == y)
@@ -142,7 +147,7 @@ static void	apply_movement(t_game *game, double new_x, double new_y)
 		new_x -= 0.001;
 	cell = game->data.map.arr[(int)(new_y / WALL_WIDTH)][(int)(new_x
 			/ WALL_WIDTH)];
-	if (cell == '0' || (cell == 'D' && valid_door_pos(new_x, new_y)))
+	if (cell == '0' || (ft_strchr("DX", cell) && valid_door_pos(new_x, new_y)))
 	{
 		game->player.moving = (game->player.p.x != new_x
 				|| game->player.p.y != new_y) || game->player.moving;
@@ -170,9 +175,9 @@ void	update_player(t_game *game)
 // in drawing calculate slice hight for each door door per door and map the pixel from fram sprite for the specific door if the x pixel is transparent go to next
 //  until you find a hit that is not transparnet then draw it
 // do it for each piwel in the hight ,
-	//if the last door pix is transparent just draw wall
+// if the last door pix is transparent just draw wall
 
 // so we should have an array of distences ro door from the ray casting ,
-	//loop over it
+// loop over it
 
 // task after it refactor all the code clean it merge and do next tasks

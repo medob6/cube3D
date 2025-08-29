@@ -27,9 +27,9 @@
 # include <sys/time.h>
 # include <unistd.h>
 
-# define WALL_HIGHT 20
+# define WALL_HIGHT 64
 
-# define WALL_WIDTH 64
+# define WALL_WIDTH 126
 
 // keys
 # define KEY_ESCAPE 65307
@@ -46,7 +46,7 @@
 
 // speed
 # define MOVE_SPEED 2.5
-# define ROTATE_SPEED 0.02
+# define ROTATE_SPEED 0.01
 # define JUMP_SPEED 10
 # define M_PI_3 1.0471975511965976
 # define FOV_ANGLE M_PI_3
@@ -67,6 +67,7 @@ typedef enum e_graphic
 	N_ICONE,
 	ARROW,
 	DOOR,
+	PORTAL,
 }				t_graphic;
 
 typedef struct s_point
@@ -164,9 +165,12 @@ typedef struct s_game
 	t_data		data;
 	t_player	player;
 	t_key		keys[11];
-	t_image		graphics[7];
+	t_image		graphics[8];
 	t_door		*doors;
 	t_image		display;
+	t_door		exit;
+	bool		passed;
+	int portal_frame;
 }				t_game;
 
 t_door			get_door(int x, int y);

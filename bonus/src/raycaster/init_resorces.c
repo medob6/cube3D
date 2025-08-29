@@ -6,7 +6,7 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 15:39:37 by mbousset          #+#    #+#             */
-/*   Updated: 2025/08/02 09:52:13 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/08/27 17:23:08 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,4 +97,7 @@ void	initilize_game_resorces(t_game *game)
 	init_image(game, &game->graphics[N_ICONE], "bonus/textures/N_icon.xpm");
 	init_image(game, &game->graphics[ARROW],
 		"bonus/textures/minimap_player.xpm");
+	init_image(game, &game->graphics[PORTAL], "bonus/textures/portal.xpm");
+	game->graphics[PORTAL].frames = 10;
+
 }

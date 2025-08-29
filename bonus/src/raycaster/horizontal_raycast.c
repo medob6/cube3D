@@ -6,7 +6,7 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 15:50:02 by mbousset          #+#    #+#             */
-/*   Updated: 2025/08/11 17:42:40 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/08/27 17:31:43 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,11 +50,9 @@ double	check_door_hhit(t_rayinfo *ray, double *wall_x, int *dir, int *door_x,
 	player_tile_x = (int)(g->player.p.x / WALL_WIDTH);
 	player_tile_y = (int)(g->player.p.y / WALL_WIDTH);
 	up = ray->left;
-	if (g->data.map.arr[(int)(g->player.p.y / WALL_WIDTH)][(int)(g->player.p.x
-			/ WALL_WIDTH)] == 'D' && g->data.map.arr[(int)(g->player.p.y
-			/ WALL_WIDTH)][(int)(g->player.p.x / WALL_WIDTH) + 1] == '1'
-		&& g->data.map.arr[(int)(g->player.p.y
-			/ WALL_WIDTH)][(int)(g->player.p.x / WALL_WIDTH) - 1] == '1')
+	if (ft_strchr("DX", g->data.map.arr[player_tile_y][player_tile_x])
+		&& g->data.map.arr[player_tile_y][player_tile_x + 1] == '1'
+		&& g->data.map.arr[player_tile_y][player_tile_x - 1] == '1')
 	{
 		if ((fmod(g->player.p.y, WALL_WIDTH) <= WALL_WIDTH / 2) ^ up)
 		{
@@ -79,9 +77,8 @@ double	check_door_hhit(t_rayinfo *ray, double *wall_x, int *dir, int *door_x,
 			}
 		}
 	}
-	if (g->data.map.arr[(int)ray->map_p.y][(int)ray->map_p.x] == 'D')
+	if (ft_strchr("DX", g->data.map.arr[(int)ray->map_p.y][(int)ray->map_p.x]))
 	{
-		// printf("herr %d\n", j++);
 		ray->next.y += WALL_WIDTH / 2 * (-up + !up);
 		ray->next.x += (WALL_WIDTH / 2) / tan(ray->ray_ang) * (-up + !up);
 		ray->map_p.x = (int)(ray->next.x / WALL_WIDTH);
@@ -126,6 +123,12 @@ double	horiz_dist(double ray_ang, double *wall_x, int *dir, t_door *next_door)
 			tex_x = fmod(*wall_x, WALL_WIDTH) / WALL_WIDTH
 				* (g->graphics[DOOR].w / 9) + ((g->graphics[DOOR].w / 9)
 					* door.frame);
+			if (g->data.map.arr[(int)door.pos.y][(int)door.pos.x] == 'X')
+			{
+				if (g->exit.frame == 8)
+					*dir = PORTAL;
+				return (*next_door = door, door_hit);
+			}
 			if (!get_t(get_slice_color(tex_x, g->graphics[DOOR].h / 2, DOOR,
 						2)))
 				return (*next_door = door, door_hit);

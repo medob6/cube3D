@@ -6,7 +6,7 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 15:49:58 by mbousset          #+#    #+#             */
-/*   Updated: 2025/08/11 17:44:08 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/08/27 17:31:59 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,10 @@ void	process_ray(t_raycaster *c, t_frame_state *state, int ray_index)
 	double	ray_ang;
 
 	ray_ang = calculate_ray_angle(state, c, ray_index);
-	if (can_reuse_ray(state, c, ray_index))
-		reuse_ray_data(c, state, ray_index, ray_ang);
-	else
-		cast_new_ray(c, state, ray_index, ray_ang);
+	// if (can_reuse_ray(state, c, ray_index))
+	// 	reuse_ray_data(c, state, ray_index, ray_ang);
+	// else
+	cast_new_ray(c, state, ray_index, ray_ang);
 }
 
 void	get_steps_v(t_pair *step, bool left, double ray_ang)
@@ -60,8 +60,9 @@ double	check_door_vhit(t_rayinfo *ray, double *wall_x, int *dir, int *door_x,
 	player_tile_y = (int)(g->player.p.y / WALL_WIDTH);
 	p.x = (g->player.p.x / WALL_WIDTH);
 	p.y = (g->player.p.y / WALL_WIDTH);
-	if (g->data.map.arr[(int)p.y][(int)p.x] == 'D' && g->data.map.arr[(int)p.y
-		+ 1][(int)p.x] == '1' && g->data.map.arr[(int)p.y - 1][(int)p.x] == '1')
+	if (ft_strchr("DX", g->data.map.arr[(int)p.y][(int)p.x])
+		&& g->data.map.arr[(int)p.y + 1][(int)p.x] == '1'
+		&& g->data.map.arr[(int)p.y - 1][(int)p.x] == '1')
 	{
 		if ((fmod(g->player.p.x, WALL_WIDTH) <= WALL_WIDTH / 2) ^ ray->left)
 		{
@@ -87,7 +88,7 @@ double	check_door_vhit(t_rayinfo *ray, double *wall_x, int *dir, int *door_x,
 			}
 		}
 	}
-	if (g->data.map.arr[(int)ray->map_p.y][(int)ray->map_p.x] == 'D')
+	if (ft_strchr("DX", g->data.map.arr[(int)ray->map_p.y][(int)ray->map_p.x]))
 	{
 		ray->next.y += WALL_WIDTH / 2 * tan(ray->ray_ang * (-ray->left
 					+ !ray->left));
@@ -134,6 +135,12 @@ double	verti_dist(double ray_ang, double *wall_x, int *dir, t_door *next_door)
 			tex_x = fmod(*wall_x, WALL_WIDTH) / WALL_WIDTH
 				* (g->graphics[DOOR].w / 9) + ((g->graphics[DOOR].w / 9)
 					* door.frame);
+			if (g->data.map.arr[(int)door.pos.y][(int)door.pos.x] == 'X')
+			{
+				if (g->exit.frame == 8)
+					*dir = PORTAL;
+				return (*next_door = door, door_hit);
+			}
 			if (!get_t(get_slice_color(tex_x, g->graphics[DOOR].h / 2, DOOR,
 						2)))
 				return (*next_door = door, door_hit);
