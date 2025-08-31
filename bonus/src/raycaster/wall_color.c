@@ -6,7 +6,7 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 15:51:51 by mbousset          #+#    #+#             */
-/*   Updated: 2025/08/08 18:42:12 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/08/27 17:46:55 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,13 +57,20 @@ void	draw_section(int start, int end, int num, t_sec_inf *section)
 
 	if (num == 2 && section->sec.dir != -1)
 	{
+		// if (section->sec.dir == 7)
+		// 	printf("PORTAL \n");
 		tex = get_game()->graphics[section->sec.dir];
 		offset = -start + section->tex_offset;
 		hight_factur = tex.h / section->sec.wall_h;
 		if (section->sec.dir == DOOR)
-			tex_p.x = fmod(section->sec.wall_x, WALL_WIDTH) / WALL_WIDTH* (tex.w / 9) + ((tex.w / 9) * (section->sec.door.frame));
+			tex_p.x = fmod(section->sec.wall_x, WALL_WIDTH) / WALL_WIDTH
+				* (tex.w / 9) + ((tex.w / 9) * (section->sec.door.frame));
+		else if (section->sec.dir == PORTAL)
+			tex_p.x = fmod(section->sec.wall_x, WALL_WIDTH) / WALL_WIDTH
+				* (tex.w / 11) + ((tex.w / 11) * (get_game()->portal_frame));
 		else
-			tex_p.x = fmod(section->sec.wall_x, WALL_WIDTH) / WALL_WIDTH * tex.w;
+			tex_p.x = fmod(section->sec.wall_x, WALL_WIDTH) / WALL_WIDTH
+				* tex.w;
 	}
 	i = start--;
 	end = fmin(end, get_game()->win_h);

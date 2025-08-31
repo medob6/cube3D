@@ -6,11 +6,13 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 16:07:13 by mbousset          #+#    #+#             */
-/*   Updated: 2025/08/12 08:56:59 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/08/13 16:28:42 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub_bs.h"
+
+#define WORLD_VISIBILITY_UNIT_FACTOR 2.3
 
 t_mm_scale	get_minimap_scale(t_game *g, double radius)
 {
@@ -18,7 +20,7 @@ t_mm_scale	get_minimap_scale(t_game *g, double radius)
 	t_mm_scale	sc;
 	double		world_units_visible;
 
-	world_units_visible = shortest * (5.0 / 3.0);
+	world_units_visible = shortest * WORLD_VISIBILITY_UNIT_FACTOR;
 	sc.world_zoom = radius / world_units_visible;
 	sc.px_border = fmin(fmax(radius * 0.01, 1.0), 6.0);
 	return (sc);

@@ -6,7 +6,7 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 15:38:56 by omben-ch          #+#    #+#             */
-/*   Updated: 2025/08/09 13:04:31 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/08/27 11:56:08 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	init_data(t_fcub *fcub)
 
 void	check_name(char *arg)
 {
-	int		i;
+	int	i;
 
 	i = 0;
 	if (ft_strlen(arg) < 5)
@@ -44,11 +44,11 @@ void	check_name(char *arg)
 			print_error_file_and_exit();
 	}
 }
-int count_char_in_map(char **map, char c)
+int	count_char_in_map(char **map, char c)
 {
-	int count;
-	int x;
-	int y;
+	int	count;
+	int	x;
+	int	y;
 
 	x = 0;
 	count = 0;
@@ -58,7 +58,7 @@ int count_char_in_map(char **map, char c)
 		while (map[x][y])
 		{
 			if (map[x][y] == c)
-				count++;		
+				count++;
 			y++;
 		}
 		x++;
@@ -66,17 +66,16 @@ int count_char_in_map(char **map, char c)
 	return (count);
 }
 
-void init_door(t_fcub *fcub)
+void	init_door(t_fcub *fcub)
 {
-	int size;
+	int	size;
 
 	size = count_char_in_map(fcub->map, 'D');
 	fcub->door = NULL;
 	fcub->nb_door = size;
-	
 	if (!size)
 		return ;
-	fcub->door = malloc(size * sizeof(t_door));	
+	fcub->door = malloc(size * sizeof(t_door));
 	if (fcub->door == NULL)
 	{
 		ft_putstr_fd("Malloc error\n", 2);
@@ -84,13 +83,14 @@ void init_door(t_fcub *fcub)
 	}
 }
 
-void get_info_of_door(t_fcub *fcub)
+void	get_info_of_door(t_fcub *fcub)
 {
-	int door;
-	int x;
-	int y;
-	
+	int	door;
+	int	x;
+	int	y;
+
 	init_door(fcub);
+	fcub->exit = malloc(sizeof(t_door));
 	door = 0;
 	y = 0;
 	while (fcub->map[y] && fcub->door)
@@ -108,6 +108,16 @@ void get_info_of_door(t_fcub *fcub)
 				fcub->door[door].opening = false;
 				fcub->door[door].animating = false;
 				door++;
+			}
+			else if (fcub->map[y][x] == 'X')
+			{
+				fcub->exit->pos.x = x;
+				fcub->exit->pos.y = y;
+				fcub->exit->in_range = false;
+				fcub->exit->frame = 0;
+				fcub->exit->closing = false;
+				fcub->exit->opening = false;
+				fcub->exit->animating = false;
 			}
 			x++;
 		}

@@ -6,7 +6,7 @@
 /*   By: omben-ch <omben-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 09:38:33 by omben-ch          #+#    #+#             */
-/*   Updated: 2025/08/20 12:52:53 by omben-ch         ###   ########.fr       */
+/*   Updated: 2025/08/31 13:27:55 by omben-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,11 @@ void	parse_input(t_game *game, int ac, char **av)
 	game->data.map.map_w = get_size_of_long_line(&fcub);
 	game->doors = fcub.door;
 	game->nb_of_doors = fcub.nb_door;
+	game->exit = *fcub.exit;
+	free(fcub.exit);
+	game->passed = false;
 }
+
 long long	get_current_time_ms(void)
 {
 	struct timeval	tv;
@@ -45,26 +49,26 @@ void	print_err(char *msg)
 	cleanup(EXIT_FAILURE);
 }
 
-static bool	handle_intro_video(void)
-{
-	// static bool	start = true;
-	// static int	video_result = 0;
+// static bool	handle_video(char *path)
+// {
+// 	static bool	start = true;
+// 	static int	video_result = 0;
 
-	// if (!start)
-	// 	return (false);
-	// video_result = play_video("bonus/video/intro.mp4");
-	// if (video_result == 1)
-	// {
-	// 	start = false;
-	// 	usleep(30000);
-	// }
-	// else if (video_result == -1)
-	// {
-	// 	usleep(30000);
-	// 	printf("Error:\n err while processing video n");
-	// }
-	// return (true);
-}
+// 	if (!start)
+// 		return (false);
+// 	video_result = play_video("bonus/video/intro.mp4");
+// 	if (video_result == 1)
+// 	{
+// 		start = false;
+// 		usleep(30000);
+// 	}
+// 	else if (video_result == -1)
+// 	{
+// 		usleep(30000);
+// 		printf("Error:\n err while processing video n");
+// 	}
+// 	return (true);
+// }
 
 bool	door_is_closed(t_door door)
 {
@@ -95,6 +99,10 @@ void	handel_o_press(t_game *game)
 
 	if (!get_key(KEY_O, game)->press)
 		return ;
+	if (game->exit.in_range && door_is_closed(game->exit))
+		start_closing_door(&game->exit);
+	else if (game->exit.in_range)
+		start_opening_door(&game->exit);
 	for (int n = 0; n < game->nb_of_doors; n++)
 	{
 		door = &game->doors[n];
@@ -138,6 +146,80 @@ static void	update_closing_door(t_door *door, long long current_time)
 	}
 }
 
+bool		angle_between(double angle, double start, double end);
+
+bool	looking_at_open_portal(t_game *g)
+{
+	t_point	player_pos;
+	double	player_angle;
+	char	**map;
+	t_door	*door;
+	bool	door_is_horizontale;
+	t_point	door_center;
+	t_point	door_p1;
+	t_point	door_p2;
+	double	p1_player_angle;
+	double	p2_player_angle;
+	double	angle;
+	double	angle_step;
+	int		x;
+
+	player_pos = g->player.p;
+	player_angle = g->player.angle;
+	map = g->data.map.arr;
+	door = &g->exit;
+	// --- compute door orientation and corners ---
+	door_is_horizontale = (map[(int)door->pos.y][(int)door->pos.x - 1] == '1'
+			&& map[(int)door->pos.y][(int)door->pos.x + 1] == '1');
+	door_center = (t_point){.x = (door->pos.x + 0.5) * WALL_WIDTH,
+		.y = (door->pos.y + 0.5) * WALL_WIDTH};
+	if (door_is_horizontale)
+	{
+		door_p1 = (t_point){.x = (door->pos.x) * WALL_WIDTH, .y = (door->pos.y
+				+ 0.5) * WALL_WIDTH};
+		door_p2 = (t_point){.x = (door->pos.x + 1) * WALL_WIDTH,
+			.y = (door->pos.y + 0.5) * WALL_WIDTH};
+	}
+	else
+	{
+		door_p1 = (t_point){.x = (door->pos.x + 0.5) * WALL_WIDTH,
+			.y = (door->pos.y) * WALL_WIDTH};
+		door_p2 = (t_point){.x = (door->pos.x + 0.5) * WALL_WIDTH,
+			.y = (door->pos.y + 1) * WALL_WIDTH};
+	}
+	// --- precompute door bounding angles relative to player ---
+	p1_player_angle = normalize_angle(atan2(door_p1.y - player_pos.y, door_p1.x
+				- player_pos.x));
+	p2_player_angle = normalize_angle(atan2(door_p2.y - player_pos.y, door_p2.x
+				- player_pos.x));
+	// --- sweep through the FOV and check if door lies inside ---
+	angle_step = FOV_ANGLE / (double)g->win_w;
+	angle = player_angle - FOV_ANGLE / 2.0;
+	x = -1;
+	while (++x < g->win_w)
+	{
+		angle = normalize_angle(angle + angle_step);
+		if (angle_between(angle, p1_player_angle, p2_player_angle))
+			return (true);
+	}
+	return (false);
+}
+
+bool	check_exit_door(t_game *g, long long current_time)
+{
+	if (g->exit.frame == 8)
+	{
+		if (looking_at_open_portal(g))
+			return (true);
+		return (false);
+	}
+	if (g->exit.opening)
+		update_opening_door(&g->exit, current_time);
+	else
+		return (false);
+	return (true);
+}
+
 bool	update_doors_states(t_game *game)
 {
 	bool		door_moves;
@@ -146,6 +228,7 @@ bool	update_doors_states(t_game *game)
 
 	door_moves = false;
 	current_time = get_current_time_ms();
+	door_moves = check_exit_door(game, current_time);
 	for (int n = 0; n < game->nb_of_doors; n++)
 	{
 		door = &game->doors[n];
@@ -184,32 +267,36 @@ bool	angle_between(double angle, double start, double end)
 
 static void	update_doors_in_range(void)
 {
-	const t_game	*g = get_game();
-	t_point			player_pos;
-	double			player_angle;
-	char			**map;
-	int				i;
-	bool			loking_at_door_center;
-	bool			close_enough;
-	t_door			*door;
-	bool			door_is_horizontale;
-	t_point			door_center;
-	bool			up;
-	t_point			door_p1;
-	t_point			door_p2;
-	double			vertical_dist;
-	double			p1_player_angle;
-	double			p2_player_angle;
-	bool			right;
-	double			horizontal_dist;
+	t_game	*g;
+	t_point	player_pos;
+	double	player_angle;
+	char	**map;
+	int		i;
+	bool	loking_at_door_center;
+	bool	close_enough;
+	t_door	*door;
+	bool	door_is_horizontale;
+	t_point	door_center;
+	bool	up;
+	t_point	door_p1;
+	t_point	door_p2;
+	double	vertical_dist;
+	double	p1_player_angle;
+	double	p2_player_angle;
+	bool	right;
+	double	horizontal_dist;
 
+	g = get_game();
 	player_pos = g->player.p;
 	player_angle = g->player.angle;
 	map = g->data.map.arr;
-	i = -1;
+	i = -2;
 	while (++i < g->nb_of_doors)
 	{
-		door = &g->doors[i];
+		if (i == -1)
+			door = &g->exit;
+		else
+			door = &g->doors[i];
 		door_is_horizontale = (map[(int)door->pos.y][(int)door->pos.x
 				- 1] == '1');
 		door_center = (t_point){.x = (door->pos.x + 0.5) * WALL_WIDTH,
@@ -272,14 +359,32 @@ static void	update_doors_in_range(void)
 	}
 }
 
+#define PORTAL_FRAME_DURATION_MS 10 // tweak speed
+#define PORTAL_MAX_FRAMES 11 // 0..10
+
+static void	update_portal_animation(t_game *g, long long current_time)
+{
+	// Only animate if the portal door is fully open
+	if (g->exit.frame == 8)
+	{
+		if (current_time - g->exit.last_update >= PORTAL_FRAME_DURATION_MS)
+		{
+			g->portal_frame = (g->portal_frame + 1) % PORTAL_MAX_FRAMES;
+			g->exit.last_update = current_time;
+		}
+	}
+}
+
 int	game_loop(t_game *game)
 {
-	int		n;
-	bool	scean_changed;
-	bool	door_moving;
+	static int	c;
+	int			n;
+	bool		scean_changed;
+	bool		door_moving;
+	long long	current_time;
 
 	handle_exit(game);
-	// if (handle_intro_video())
+	// if (handle_video("bonus/video/intro.mp4"))
 	// 	return (1);
 	door_moving = update_doors_states(game);
 	scean_changed = game->player.moving || door_moving;
@@ -287,8 +392,20 @@ int	game_loop(t_game *game)
 	update_player(game);
 	if (game->player.moving)
 		update_doors_in_range();
-	if (scean_changed)
+	current_time = get_current_time_ms();
+	update_portal_animation(game, current_time);
+	// if (game->passed)
+	// {
+	// 	// play end video
+	// 	// display win info
+	// 	// exit gracefully
+	// 	if (handle_video("/home/mbousset/Desktop/video/videos/short.mp4"))
+	// 		return (1);
+	// 	handle_close();
+	// }
+	if (scean_changed) // if player looking at open portal
 	{
+		//printf("hello %d \n", c++);
 		display_scean(game);
 		draw_mini_map(game);
 		mlx_put_image_to_window(game->mlx, game->win, game->display.img, 0, 0);
@@ -298,11 +415,15 @@ int	game_loop(t_game *game)
 
 void	lunch_game_hooks(t_game *game)
 {
+	init_img_menu(game);
+	draw_menu(game);
 	mlx_do_key_autorepeatoff(game->mlx);
 	mlx_hook(game->win, 2, 1L << 0, key_press, game);
 	mlx_hook(game->win, 3, 1L << 1, key_release, game);
 	mlx_hook(game->win, 17, 0, handle_close, NULL);
-	mlx_loop_hook(game->mlx, game_loop, game);
+	mlx_hook(game->win, 6, 1L << 6, mouse_move, game);
+	mlx_mouse_hook(game->win,mouse_click,game);
+	//mlx_loop_hook(game->mlx, game_loop, game);
 	mlx_loop(game->mlx);
 }
 
@@ -323,5 +444,3 @@ int	main(int ac, char **av)
 	lunch_game_hooks(game);
 	return (0);
 }
-
-// i added a X character in map its like a door but when its open fully a portal like a black hole appears and spins when you enetr game ends

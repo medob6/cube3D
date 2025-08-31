@@ -36,12 +36,14 @@ LDFLAGS        := -lmlx -lXext -lX11 -lm  -g3 #-fsanitize=address -Ofast
 # 	-lmlx -lX11 -lXext -g3  -fsanitize=address
 LDFLAGS_BNS    := -lz -lpthread -lm -lmlx -lX11 -lXext -g3  -fsanitize=address
 
-MAIN_SRC       := main.c
+MAIN_SRC       := main.c 
 PARSER_SRC     := check_fc.c check_map.c errors_msg.c get_val_of_file.c parser.c tools1.c tools2.c
 RAYCASTER_SRC  := cleanup.c draw_wall_slice.c geometry_utils.c helpers.c init_resorces2.c keys_api.c minimap_utils.c \
                   ray_cast.c wall_color.c draw_sections.c frame_utils.c helpers2.c horizontal_raycast.c init_resorces.c \
                   minimap.c movements.c vertical_raycast.c
 VIDEO_PLAYER :=  video.c  video_audio.c  video_cleanup.c  video_codec.c  video_utils.c
+MENU_SRC	   := exit.c start.c control.c menu.c no.c yes.c return.c mlx_event.c
+COUNTER_TIME_SRC	   :=   design.c  init_res.c  tools.c#time_of_player.c
 
 SRCS           := $(addprefix $(MANDATORY_DIR)/src/, $(MAIN_SRC)) \
                   $(addprefix $(MANDATORY_DIR)/src/parser/, $(PARSER_SRC)) \
@@ -52,7 +54,9 @@ OBJS           := $(SRCS:.c=.o)
 SRCS_BNS       := $(addprefix $(BONUS_DIR)/src/, $(MAIN_SRC)) \
                   $(addprefix $(BONUS_DIR)/src/parser/, $(PARSER_SRC)) \
                   $(addprefix $(BONUS_DIR)/src/raycaster/, $(RAYCASTER_SRC)) \
-				  #$(addprefix $(BONUS_DIR)/src/video_player/, $(VIDEO_PLAYER)) \
+				  $(addprefix $(BONUS_DIR)/src/menu/, $(MENU_SRC)) \
+                  $(addprefix $(BONUS_DIR)/src/counter_time/, $(COUNTER_TIME_SRC))
+#$(addprefix $(BONUS_DIR)/src/video_player/, $(VIDEO_PLAYER)) \
 
 OBJS_BNS       := $(SRCS_BNS:.c=.o)
 
