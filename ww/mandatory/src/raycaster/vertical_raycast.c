@@ -6,7 +6,11 @@
 /*   By: omben-ch <omben-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 15:49:58 by mbousset          #+#    #+#             */
+<<<<<<<< HEAD:ww/mandatory/src/raycaster/vertical_raycast.c
 /*   Updated: 2025/07/25 16:29:19 by omben-ch         ###   ########.fr       */
+========
+/*   Updated: 2025/07/25 08:47:58 by mbousset         ###   ########.fr       */
+>>>>>>>> 384d2b3a7c05f5be84a9a9f5ccc1ea2d1e67dafe:folder/mandatory/src/raycaster/vertical_raycast.c
 /*                                                                            */
 /* ************************************************************************** */
 

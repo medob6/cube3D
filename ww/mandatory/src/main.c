@@ -6,7 +6,11 @@
 /*   By: omben-ch <omben-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 09:38:33 by omben-ch          #+#    #+#             */
+<<<<<<<< HEAD:ww/mandatory/src/main.c
 /*   Updated: 2025/07/27 15:26:07 by omben-ch         ###   ########.fr       */
+========
+/*   Updated: 2025/07/30 11:26:13 by mbousset         ###   ########.fr       */
+>>>>>>>> 384d2b3a7c05f5be84a9a9f5ccc1ea2d1e67dafe:folder/mandatory/src/main.c
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +47,22 @@ int	game_loop(t_game *game)
 		draw_mini_map(game);
 		mlx_put_image_to_window(game->mlx, game->win, game->display.img, 0, 0);
 	}
+	if (get_key(KEY_O,game)->press)
+	{
+		// if the player is looking directly to the door and the dist bteween him and the door is less the tile_size/2 
+		// player should open the door
+		printf("here \n");
+		if (game->data.map.arr[(int)game->player.p.y][(int)game->player.p.x + 1] == 'D')
+			game->data.map.arr[(int)game->player.p.y][(int)game->player.p.x + 1] = '0';
+		else if (game->data.map.arr[(int)game->player.p.y][(int)game->player.p.x - 1] == 'D')
+			game->data.map.arr[(int)game->player.p.y][(int)game->player.p.x - 1] == '0';
+		else if (game->data.map.arr[(int)game->player.p.y + 1][(int)game->player.p.x] == 'D')
+			game->data.map.arr[(int)game->player.p.y + 1][(int)game->player.p.x] == 'D';
+		else if (game->data.map.arr[(int)game->player.p.y - 1][(int)game->player.p.x] == 'D')
+			game->data.map.arr[(int)game->player.p.y - 1][(int)game->player.p.x] == 'D';
+	}
 	update_player(game);
+	handle_exit(game);
 	return (1);
 }
 
@@ -52,6 +71,7 @@ void	lunch_game_hooks(t_game *game)
 	mlx_do_key_autorepeatoff(game->mlx);
 	mlx_hook(game->win, 2, 1L << 0, key_press, game);
 	mlx_hook(game->win, 3, 1L << 1, key_release, game);
+	mlx_hook(game->win, 17, 0, handle_close, NULL);
 	mlx_loop_hook(game->mlx, game_loop, game);
 	mlx_loop(game->mlx);
 }

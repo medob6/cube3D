@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   tools2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: omben-ch <omben-ch@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/16 09:35:56 by omben-ch          #+#    #+#             */
-/*   Updated: 2025/06/26 15:26:34 by omben-ch         ###   ########.fr       */
+/*   Updated: 2025/07/31 10:04:19 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub.h"
+#include "cub_bs.h"
 
 void	freeing_list(char **list)
 {

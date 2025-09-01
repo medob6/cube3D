@@ -6,11 +6,11 @@
 /*   By: omben-ch <omben-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 15:58:30 by omben-ch          #+#    #+#             */
-/*   Updated: 2025/08/06 16:52:21 by omben-ch         ###   ########.fr       */
+/*   Updated: 2025/09/01 09:48:17 by omben-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub.h"
+#include "cub_bs.h"
 
 void init_timer_bg_part(t_game *game)
 {

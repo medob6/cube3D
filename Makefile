@@ -1,6 +1,6 @@
 NAME        = cub3D
 
-CC          := cc
+CC          := gcc
 
 MANDATORY_DIR := mandatory
 BONUS_DIR     := bonus
@@ -12,19 +12,38 @@ LIBFT         := $(LIBFT_PATH)/libft.a
 LIBFT_BNS     := $(LIBFT_BONUS_PATH)/libft.a
 
 INCLUDES       := -I$(MANDATORY_DIR)/includes -I$(MANDATORY_DIR)/libft
-INCLUDES_BNS   := -I$(BONUS_DIR)/includes -I$(BONUS_DIR)/libft -g $(shell sdl2-config --cflags)
+INCLUDES_BNS   := -I$(BONUS_DIR)/includes -I$(BONUS_DIR)/libft  $(shell sdl2-config --cflags) -I$(HOME)/goinfre/ffmpeg_build/include 
 
-CFLAGS         := -Wall -Wextra -Werror $(INCLUDES)
-CFLAGS_BNS     := -Wall -Wextra -Werror $(INCLUDES_BNS)
+CFLAGS         := -Wall -Wextra -Werror -g -Wuninitialized $(INCLUDES) 
+#-Wall -Wextra -Werror
+CFLAGS_BNS     :=  -g -Wuninitialized $(INCLUDES_BNS)
+#OPENSSL_CFLAGS := $(shell pkg-config --cflags openssl)
+#SDL2_CFLAGS := $(shell pkg-config --cflags sdl2)
+#CFLAGS_BNS += $(OPENSSL_CFLAGS) $(SDL2_CFLAGS)
 
-LDFLAGS        := -lmlx -lXext -lX11 -lm -Ofast
-LDFLAGS_BNS    := $(LDFLAGS) $(shell sdl2-config --libs)
+LDFLAGS        := -lmlx -lXext -lX11 -lm  -g3 #-fsanitize=address -Ofast
 
-MAIN_SRC       := main.c
-PARSER_SRC     := check_fc.c check_map.c errors_msg.c get_val_of_file.c parser.c tools1.c tools2.c
+
+#OPENSSL_LIBS := $(shell pkg-config --libs openssl)
+#SDL2_LIBS := $(shell pkg-config --libs sdl2)
+# LDFLAGS_BNS    :=-L$(HOME)/goinfre/ffmpeg_build/lib \
+# 	-Wl,--start-group \
+# 	-lavformat -lavcodec -lswscale -lavutil -lswresample \
+# 	-Wl,--end-group \
+# 	$(OPENSSL_LIBS) \
+# 	$(SDL2_LIBS) \
+# 	-lz -lpthread -ldl -lm -llzma \
+# 	-lmlx -lX11 -lXext -g3  -fsanitize=address
+LDFLAGS_BNS    := -lz -lpthread -lm -lmlx -lX11 -lXext -g3  -fsanitize=address
+
+MAIN_SRC       := main.c 
+PARSER_SRC     := check_fc.c check_map.c errors_msg.c get_val_of_file.c parser.c tools1.c tools2.c flood_fill.c
 RAYCASTER_SRC  := cleanup.c draw_wall_slice.c geometry_utils.c helpers.c init_resorces2.c keys_api.c minimap_utils.c \
                   ray_cast.c wall_color.c draw_sections.c frame_utils.c helpers2.c horizontal_raycast.c init_resorces.c \
                   minimap.c movements.c vertical_raycast.c
+VIDEO_PLAYER :=  video.c  video_audio.c  video_cleanup.c  video_codec.c  video_utils.c
+MENU_SRC	   := exit.c start.c control.c menu.c no.c yes.c return.c mlx_event.c
+COUNTER_TIME_SRC	   :=   design.c  init_res.c  tools.c#time_of_player.c
 
 MENU_SRC	   := exit.c start.c control.c menu.c no.c yes.c return.c
 
@@ -38,12 +57,21 @@ OBJS           := $(SRCS:.c=.o)
 
 SRCS_BNS       := $(addprefix $(BONUS_DIR)/src/, $(MAIN_SRC)) \
                   $(addprefix $(BONUS_DIR)/src/parser/, $(PARSER_SRC)) \
+<<<<<<< HEAD
                   $(addprefix $(BONUS_DIR)/src/raycaster/, $(RAYCASTER_SRC))\
                   $(addprefix $(BONUS_DIR)/src/menu/, $(MENU_SRC)) \
                   $(addprefix $(BONUS_DIR)/src/counter_time/, $(COUNTER_TIME_SRC))
+=======
+                  $(addprefix $(BONUS_DIR)/src/raycaster/, $(RAYCASTER_SRC)) \
+				  $(addprefix $(BONUS_DIR)/src/menu/, $(MENU_SRC)) \
+                  $(addprefix $(BONUS_DIR)/src/counter_time/, $(COUNTER_TIME_SRC))
+#$(addprefix $(BONUS_DIR)/src/video_player/, $(VIDEO_PLAYER)) \
+
+>>>>>>> 384d2b3a7c05f5be84a9a9f5ccc1ea2d1e67dafe
 OBJS_BNS       := $(SRCS_BNS:.c=.o)
 
-HEADER_FILES   := $(MANDATORY_DIR)/includes/cub.h $(MANDATORY_DIR)/includes/raycaster.h
+HEADER_FILES   := $(MANDATORY_DIR)/includes/cub_bs.h $(MANDATORY_DIR)/includes/raycaster_bs.h
+HEADER_FILES_BNS := $(BONUS_DIR)/includes/cub_bs.h $(BONUS_DIR)/includes/raycaster_bs.h
 
 all: $(LIBFT) $(NAME)
 
@@ -58,9 +86,15 @@ $(LIBFT):
 
 
 $(NAME): $(OBJS)
+<<<<<<< HEAD
 	@$(CC) $(CFLAGS) $(OBJS) $(LIBFT) -o $(NAME) $(LDFLAGS)
 
 bonus/%.o: bonus/%.c
+=======
+	@$(CC) $(CFLAGS) $(OBJS) $(LIBFT) -o $(NAME) $(LDFLAGS) 
+
+bonus/%.o: bonus/%.c $(HEADER_FILES_BNS)
+>>>>>>> 384d2b3a7c05f5be84a9a9f5ccc1ea2d1e67dafe
 	@$(CC) $(CFLAGS_BNS) -c $< -o $@
 
 %.o: %.c $(HEADER_FILES)
@@ -68,12 +102,18 @@ bonus/%.o: bonus/%.c
 
 clean:
 	@rm -rf $(OBJS) $(OBJS_BNS)
+<<<<<<< HEAD
 #	make -C $(LIBFT_PATH) clean
+=======
+>>>>>>> 384d2b3a7c05f5be84a9a9f5ccc1ea2d1e67dafe
 	@make -C $(LIBFT_BONUS_PATH) clean
 
 fclean: clean
 	@rm -rf $(NAME)
+<<<<<<< HEAD
 #	make -C $(LIBFT_PATH) fclean
+=======
+>>>>>>> 384d2b3a7c05f5be84a9a9f5ccc1ea2d1e67dafe
 	@make -C $(LIBFT_BONUS_PATH) fclean
 
 re: fclean all

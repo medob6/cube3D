@@ -6,11 +6,15 @@
 /*   By: omben-ch <omben-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 15:39:37 by mbousset          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2025/08/05 18:51:59 by omben-ch         ###   ########.fr       */
+=======
+/*   Updated: 2025/08/31 13:22:44 by omben-ch         ###   ########.fr       */
+>>>>>>> 384d2b3a7c05f5be84a9a9f5ccc1ea2d1e67dafe
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub.h"
+#include "cub_bs.h"
 
 double	get_view_angel(char dir)
 {
@@ -46,6 +50,7 @@ void	init_image(t_game *game, t_image *img, char *path)
 	}
 	img->addr = mlx_get_data_addr(img->img, &img->bpp, &img->line_len,
 			&img->endian);
+	img->frames = 1;
 }
 
 void	init_player(t_game *game)
@@ -69,6 +74,7 @@ void	init_player(t_game *game)
 				game->player.p.z = 0;
 				game->player.angle = get_view_angel(map[y][x]);
 				game->player.moving = true;
+				map[y][x] = '0';
 				return ;
 			}
 			x++;
@@ -79,6 +85,8 @@ void	init_player(t_game *game)
 
 void	initilize_game_resorces(t_game *game)
 {
+	// if (SDL_Init(SDL_INIT_AUDIO) < 0)
+	// 	return ;
 	init_keys(game);
 	init_player(game);
 	init_image_fram(game, &game->display);
@@ -86,6 +94,7 @@ void	initilize_game_resorces(t_game *game)
 	init_image(game, &game->graphics[N_WALL], game->data.paths[N_WALL]);
 	init_image(game, &game->graphics[W_WALL], game->data.paths[W_WALL]);
 	init_image(game, &game->graphics[S_WALL], game->data.paths[S_WALL]);
+<<<<<<< HEAD
 	init_image(game, &game->graphics[N_ICONE], "/home/omben-ch/Desktop/cube3D/bonus/textures/N_icon.xpm");
 	init_image(game, &game->graphics[ARROW],
 		"/home/omben-ch/Desktop/cube3D/bonus/textures/minimap_player.xpm");
@@ -125,4 +134,51 @@ void	initilize_game_resorces(t_game *game)
 		"/home/omben-ch/Desktop/cube3D/bonus/textures/2_point.xpm");
 	init_image(game, &game->graphic_menu[TIMER_BG_IMG],
 		"/home/omben-ch/Desktop/cube3D/bonus/textures/timer_bg.xpm");
+=======
+	init_image(game, &game->graphics[DOOR], "bonus/textures/door.xpm");
+	// draw_vert_line(&game->graphics[DOOR], (164) ,game->graphics[DOOR].h);
+	// draw_vert_line(&game->graphics[DOOR], (game->graphics[DOOR].w /3  * 2) ,game->graphics[DOOR].w);
+	game->graphics[DOOR].frames = 10;
+	init_image(game, &game->graphics[N_ICONE], "bonus/textures/N_icon.xpm");
+	init_image(game, &game->graphics[ARROW],
+		"bonus/textures/minimap_player.xpm");
+	init_image(game, &game->graphics[PORTAL], "bonus/textures/portal.xpm");
+	game->graphics[PORTAL].frames = 10;
+	init_image(game, &game->graphic_menu[BG_IMG],
+		"bonus/textures/bg.xpm");
+	init_image(game, &game->graphic_menu[START_IMG],
+		"bonus/textures/start.xpm");
+	init_image(game, &game->graphic_menu[CONTROL_IMG],
+		"bonus/textures/control.xpm");
+	init_image(game, &game->graphic_menu[EXIT_IMG],
+		"bonus/textures/exit.xpm");
+	init_image(game, &game->graphic_menu[H_START_IMG],
+		"bonus/textures/h_start.xpm");
+	init_image(game, &game->graphic_menu[H_CONTROL_IMG],
+		"bonus/textures/h_control.xpm");
+	init_image(game, &game->graphic_menu[H_EXIT_IMG],
+		"bonus/textures/h_exit.xpm");
+	init_image(game, &game->graphic_menu[CONTROL_PAGE_IMG],
+		"bonus/textures/control_page.xpm");
+	init_image(game, &game->graphic_menu[EXIT_PAGE_IMG],
+		"bonus/textures/exit_page.xpm");
+	init_image(game, &game->graphic_menu[NO_IMG],
+		"bonus/textures/no.xpm");
+	init_image(game, &game->graphic_menu[YES_IMG],
+		"bonus/textures/yes.xpm");
+	init_image(game, &game->graphic_menu[H_NO_IMG],
+		"bonus/textures/h_no.xpm");
+	init_image(game, &game->graphic_menu[H_YES_IMG],
+		"bonus/textures/h_yes.xpm");
+	init_image(game, &game->graphic_menu[RETURN_IMG],
+		"bonus/textures/return.xpm");
+	init_image(game, &game->graphic_menu[H_RETURN_IMG],
+		"bonus/textures/h_return.xpm");
+	init_image(game, &game->graphic_menu[NUMBERS_IMG],
+		"bonus/textures/numbers.xpm");
+	init_image(game, &game->graphic_menu[POINT_IMG],
+		"bonus/textures/2_point.xpm");
+	init_image(game, &game->graphic_menu[TIMER_BG_IMG],
+		"bonus/textures/timer_bg.xpm");
+>>>>>>> 384d2b3a7c05f5be84a9a9f5ccc1ea2d1e67dafe
 }

@@ -6,7 +6,7 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 15:50:02 by mbousset          #+#    #+#             */
-/*   Updated: 2025/07/12 18:51:29 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/07/30 12:03:27 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@ void	init_raycaster(t_raycaster *c)
 	g = get_game();
 	c->num_rays = g->win_w;
 	c->angle_step = FOV_ANGLE / c->num_rays;
-	c->lines = malloc(sizeof(t_sec) * c->num_rays);
-	c->prev_lines = malloc(sizeof(t_sec) * c->num_rays);
+	c->lines = ft_calloc(c->num_rays, sizeof(t_sec));
+	c->prev_lines = ft_calloc(c->num_rays, sizeof(t_sec));
 }
 
 void	get_h_inter(t_point *next, bool facing_up, double ray_ang)
@@ -56,8 +56,7 @@ double	horiz_dist(double ray_ang, double *wall_x, int *dir)
 		if (outside_map(map_p.x, map_p.y))
 			break ;
 		if (g->data.map.arr[(int)map_p.y][(int)map_p.x] == '1')
-			return (*wall_x = next.x, *dir = N_WALL * up + S_WALL * !up,
-				get_dist(g->player.p, next));
+			return (*wall_x = next.x, *dir = N_WALL * up + S_WALL * !up,get_dist(g->player.p, next));
 		next.x += step.x;
 		next.y += step.y;
 	}

@@ -6,11 +6,15 @@
 /*   By: omben-ch <omben-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 18:19:30 by mbousset          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2025/08/20 10:23:31 by omben-ch         ###   ########.fr       */
+=======
+/*   Updated: 2025/08/02 09:51:35 by mbousset         ###   ########.fr       */
+>>>>>>> 384d2b3a7c05f5be84a9a9f5ccc1ea2d1e67dafe
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub.h"
+#include "cub_bs.h"
 
 double	normalize_angle(double angle)
 {
@@ -47,12 +51,11 @@ unsigned int	get_color(t_image img, int x, int y)
 
 void	my_mlx_pixel_put(t_image fram, int x, int y, int color)
 {
-	char	*dst;
-	t_game	*game;
-
+	char *dst;
+	t_game *game;
 	game = get_game();
 	if (x < 0 || y < 0 || x >= game->win_w || y >= game->win_h)
 		return ;
-	dst = fram.addr + (y * fram.line_len + x * 4);
+	dst = fram.addr + (y * fram.line_len) + (x * fram.bpp / 8);
 	*(unsigned int *)dst = color;
 }

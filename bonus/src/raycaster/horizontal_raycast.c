@@ -6,11 +6,11 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 15:50:02 by mbousset          #+#    #+#             */
-/*   Updated: 2025/07/12 18:51:29 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/08/27 17:31:43 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "raycaster.h"
+#include "raycaster_bs.h"
 
 void	init_raycaster(t_raycaster *c)
 {
@@ -19,8 +19,8 @@ void	init_raycaster(t_raycaster *c)
 	g = get_game();
 	c->num_rays = g->win_w;
 	c->angle_step = FOV_ANGLE / c->num_rays;
-	c->lines = malloc(sizeof(t_sec) * c->num_rays);
-	c->prev_lines = malloc(sizeof(t_sec) * c->num_rays);
+	c->lines = ft_calloc(c->num_rays, sizeof(t_sec));
+	c->prev_lines = ft_calloc(c->num_rays, sizeof(t_sec));
 }
 
 void	get_h_inter(t_point *next, bool facing_up, double ray_ang)
@@ -38,13 +38,73 @@ void	get_steps_h(t_pair *step, bool up, double ray_ang)
 	step->x = step->y / tan(ray_ang);
 }
 
-double	horiz_dist(double ray_ang, double *wall_x, int *dir)
+double	check_door_hhit(t_rayinfo *ray, double *wall_x, int *dir, int *door_x,
+		int *door_y)
+{
+	const t_game	*g = get_game();
+	bool			up;
+	int				player_tile_x;
+	int				player_tile_y;
+	static int		j;
+
+	player_tile_x = (int)(g->player.p.x / WALL_WIDTH);
+	player_tile_y = (int)(g->player.p.y / WALL_WIDTH);
+	up = ray->left;
+	if (ft_strchr("DX", g->data.map.arr[player_tile_y][player_tile_x])
+		&& g->data.map.arr[player_tile_y][player_tile_x + 1] == '1'
+		&& g->data.map.arr[player_tile_y][player_tile_x - 1] == '1')
+	{
+		if ((fmod(g->player.p.y, WALL_WIDTH) <= WALL_WIDTH / 2) ^ up)
+		{
+			ray->next.y -= WALL_WIDTH / 2 * (-up + !up);
+			ray->next.x -= (WALL_WIDTH / 2) / tan(ray->ray_ang) * (-up + !up);
+			if (((int)(ray->next.x / WALL_WIDTH) == player_tile_x
+					&& (int)(ray->next.y / WALL_WIDTH) == player_tile_y))
+			{
+				ray->map_p.x = (int)(ray->next.x / WALL_WIDTH);
+				ray->map_p.y = (int)(ray->next.y / WALL_WIDTH);
+				*door_x = ray->map_p.x;
+				*door_y = ray->map_p.y;
+				*wall_x = ray->next.x;
+				*dir = DOOR;
+				return (get_dist(g->player.p, ray->next));
+			}
+			else
+			{
+				ray->next.y += WALL_WIDTH / 2 * (-up + !up);
+				ray->next.x += (WALL_WIDTH / 2) / tan(ray->ray_ang) * (-up
+						+ !up);
+			}
+		}
+	}
+	if (ft_strchr("DX", g->data.map.arr[(int)ray->map_p.y][(int)ray->map_p.x]))
+	{
+		ray->next.y += WALL_WIDTH / 2 * (-up + !up);
+		ray->next.x += (WALL_WIDTH / 2) / tan(ray->ray_ang) * (-up + !up);
+		ray->map_p.x = (int)(ray->next.x / WALL_WIDTH);
+		ray->map_p.y = (int)(ray->next.y / WALL_WIDTH);
+		*door_x = ray->map_p.x;
+		*door_y = ray->map_p.y;
+		*wall_x = ray->next.x;
+		*dir = DOOR;
+		return (get_dist(g->player.p, ray->next));
+	}
+	return (-1);
+}
+
+double	horiz_dist(double ray_ang, double *wall_x, int *dir, t_door *next_door)
 {
 	t_point			map_p;
 	t_point			next;
 	t_pair			step;
 	bool			up;
 	const t_game	*g = get_game();
+	t_rayinfo		ray;
+	double			door_hit;
+	t_door			door;
+	double			tex_x;
+	int				door_x;
+	int				door_y;
 
 	up = sin(ray_ang) < 0;
 	get_h_inter(&next, up, ray_ang);
@@ -55,6 +115,24 @@ double	horiz_dist(double ray_ang, double *wall_x, int *dir)
 		map_p.y = ((next.y - 1) * (up) + next.y * (!up)) / WALL_WIDTH;
 		if (outside_map(map_p.x, map_p.y))
 			break ;
+		ray = (t_rayinfo){next, map_p, ray_ang, up};
+		door_hit = check_door_hhit(&ray, wall_x, dir, &door_x, &door_y);
+		if (door_hit != -1)
+		{
+			door = get_door(door_x, door_y);
+			tex_x = fmod(*wall_x, WALL_WIDTH) / WALL_WIDTH
+				* (g->graphics[DOOR].w / 9) + ((g->graphics[DOOR].w / 9)
+					* door.frame);
+			if (g->data.map.arr[(int)door.pos.y][(int)door.pos.x] == 'X')
+			{
+				if (g->exit.frame == 8)
+					*dir = PORTAL;
+				return (*next_door = door, door_hit);
+			}
+			if (!get_t(get_slice_color(tex_x, g->graphics[DOOR].h / 2, DOOR,
+						2)))
+				return (*next_door = door, door_hit);
+		}
 		if (g->data.map.arr[(int)map_p.y][(int)map_p.x] == '1')
 			return (*wall_x = next.x, *dir = N_WALL * up + S_WALL * !up,
 				get_dist(g->player.p, next));

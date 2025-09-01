@@ -6,11 +6,11 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 15:55:45 by mbousset          #+#    #+#             */
-/*   Updated: 2025/07/12 19:02:50 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/08/08 17:44:12 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "raycaster.h"
+#include "raycaster_bs.h"
 
 void	init_frame_state(t_game *g, t_raycaster *c, t_frame_state *state)
 {

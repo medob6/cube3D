@@ -6,11 +6,13 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 16:07:13 by mbousset          #+#    #+#             */
-/*   Updated: 2025/07/14 12:25:43 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/08/13 16:28:42 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub.h"
+#include "cub_bs.h"
+
+#define WORLD_VISIBILITY_UNIT_FACTOR 2.3
 
 t_mm_scale	get_minimap_scale(t_game *g, double radius)
 {
@@ -18,7 +20,7 @@ t_mm_scale	get_minimap_scale(t_game *g, double radius)
 	t_mm_scale	sc;
 	double		world_units_visible;
 
-	world_units_visible = shortest * (5.0 / 3.0);
+	world_units_visible = shortest * WORLD_VISIBILITY_UNIT_FACTOR;
 	sc.world_zoom = radius / world_units_visible;
 	sc.px_border = fmin(fmax(radius * 0.01, 1.0), 6.0);
 	return (sc);
@@ -54,6 +56,12 @@ int	get_minimap_pixel_color(t_game *g, double rx, double ry, t_mm_scale sc)
 		return (0xeeeeee);
 	else if (g->data.map.arr[row][col] == ' ')
 		return (0x000000);
+	else if (g->data.map.arr[row][col] == 'D')
+	{
+		if (get_door(col, row).frame != 8) // last frame is 8 in this sprit case
+			return (0x4D03A0);
+		return (0xeeeeee);
+	}
 	f.x = fmod(wp.x, WALL_WIDTH);
 	f.y = fmod(wp.y, WALL_WIDTH);
 	if (in_border(f, sc))

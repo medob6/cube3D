@@ -6,11 +6,11 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 16:07:10 by mbousset          #+#    #+#             */
-/*   Updated: 2025/07/12 16:18:52 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/07/31 10:04:19 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub.h"
+#include "cub_bs.h"
 
 double	pow_2(double n)
 {
@@ -39,5 +39,5 @@ int	get_rgb(t_fcub *fcub, char *color)
 void	handle_exit(t_game *game)
 {
 	if (get_key(KEY_ESCAPE, game)->press)
-		handle_close(game);
+		handle_close();
 }

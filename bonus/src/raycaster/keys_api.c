@@ -6,18 +6,22 @@
 /*   By: omben-ch <omben-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 15:40:06 by mbousset          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2025/08/02 09:48:26 by omben-ch         ###   ########.fr       */
+=======
+/*   Updated: 2025/07/31 10:04:19 by mbousset         ###   ########.fr       */
+>>>>>>> 384d2b3a7c05f5be84a9a9f5ccc1ea2d1e67dafe
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub.h"
+#include "cub_bs.h"
 
 t_key	*get_key(int keycode, t_game *game)
 {
 	int	i;
 
 	i = 0;
-	while (i < 10)
+	while (i < 11)
 	{
 		if (game->keys[i].code == keycode)
 			return (&game->keys[i]);
@@ -67,4 +71,5 @@ void	init_keys(t_game *game)
 	game->keys[7] = (t_key){ARROW_LEFT, false};
 	game->keys[8] = (t_key){ARROW_RIGHT, false};
 	game->keys[9] = (t_key){KEY_SPACE, false};
+	game->keys[10] = (t_key){KEY_O, false};
 }

@@ -6,11 +6,11 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 15:39:30 by mbousset          #+#    #+#             */
-/*   Updated: 2025/07/14 09:48:38 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/08/09 15:22:48 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "raycaster.h"
+#include "raycaster_bs.h"
 
 double	get_previous_wall_height(t_raycaster *c, int ray_index)
 {

@@ -6,7 +6,7 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 15:39:33 by mbousset          #+#    #+#             */
-/*   Updated: 2025/07/12 10:06:31 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/07/27 18:13:28 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,11 +54,9 @@ void	cleanup(int code)
 	exit(code);
 }
 
-int	handle_close(t_game *game)
+int	handle_close()
 {
 	write(1, "Window closed.\n", 15);
-	if (game->mlx && game->win)
-		mlx_destroy_window(game->mlx, game->win);
 	cleanup(EXIT_SUCCESS);
 	return (0);
 }

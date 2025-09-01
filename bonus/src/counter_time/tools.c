@@ -6,11 +6,11 @@
 /*   By: omben-ch <omben-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/03 18:25:34 by omben-ch          #+#    #+#             */
-/*   Updated: 2025/08/06 08:48:01 by omben-ch         ###   ########.fr       */
+/*   Updated: 2025/09/01 09:48:22 by omben-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub.h"
+#include "cub_bs.h"
 
 void put_time_imag(t_game *game, t_timer *img_info , int index)
 {
