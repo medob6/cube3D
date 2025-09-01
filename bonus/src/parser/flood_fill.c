@@ -6,7 +6,7 @@
 /*   By: omben-ch <omben-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/31 14:29:57 by omben-ch          #+#    #+#             */
-/*   Updated: 2025/09/01 09:44:09 by omben-ch         ###   ########.fr       */
+/*   Updated: 2025/09/01 15:43:11 by omben-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,8 +122,7 @@ void flood_fill(t_fcub *fcub, int rows, int colums)
     {
         printf("yes\n");
         free_map_flood_fill(map);
-        freeing_data(fcub);        
-        print_and_exit("");        
+       
     }
     else
     {
