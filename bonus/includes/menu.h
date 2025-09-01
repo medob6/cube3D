@@ -6,17 +6,11 @@
 /*   By: omben-ch <omben-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/26 09:56:43 by omben-ch          #+#    #+#             */
-/*   Updated: 2025/07/26 18:14:11 by omben-ch         ###   ########.fr       */
+/*   Updated: 2025/09/01 14:46:24 by omben-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MENU_H
 #define MENU_H
-#include "cub.h"
-
-
-
-/* FUNCTIONS */
-
-
+#include "cub_bs.h"
 #endif

@@ -45,9 +45,6 @@ VIDEO_PLAYER :=  video.c  video_audio.c  video_cleanup.c  video_codec.c  video_u
 MENU_SRC	   := exit.c start.c control.c menu.c no.c yes.c return.c mlx_event.c
 COUNTER_TIME_SRC	   :=   design.c  init_res.c  tools.c#time_of_player.c
 
-MENU_SRC	   := exit.c start.c control.c menu.c no.c yes.c return.c
-
-COUNTER_TIME_SRC	   :=   design.c  init_res.c  tools.c#time_of_player.c
 
 SRCS           := $(addprefix $(MANDATORY_DIR)/src/, $(MAIN_SRC)) \
                   $(addprefix $(MANDATORY_DIR)/src/parser/, $(PARSER_SRC)) \
@@ -57,17 +54,11 @@ OBJS           := $(SRCS:.c=.o)
 
 SRCS_BNS       := $(addprefix $(BONUS_DIR)/src/, $(MAIN_SRC)) \
                   $(addprefix $(BONUS_DIR)/src/parser/, $(PARSER_SRC)) \
-<<<<<<< HEAD
-                  $(addprefix $(BONUS_DIR)/src/raycaster/, $(RAYCASTER_SRC))\
-                  $(addprefix $(BONUS_DIR)/src/menu/, $(MENU_SRC)) \
-                  $(addprefix $(BONUS_DIR)/src/counter_time/, $(COUNTER_TIME_SRC))
-=======
                   $(addprefix $(BONUS_DIR)/src/raycaster/, $(RAYCASTER_SRC)) \
 				  $(addprefix $(BONUS_DIR)/src/menu/, $(MENU_SRC)) \
                   $(addprefix $(BONUS_DIR)/src/counter_time/, $(COUNTER_TIME_SRC))
 #$(addprefix $(BONUS_DIR)/src/video_player/, $(VIDEO_PLAYER)) \
 
->>>>>>> 384d2b3a7c05f5be84a9a9f5ccc1ea2d1e67dafe
 OBJS_BNS       := $(SRCS_BNS:.c=.o)
 
 HEADER_FILES   := $(MANDATORY_DIR)/includes/cub_bs.h $(MANDATORY_DIR)/includes/raycaster_bs.h
@@ -86,15 +77,9 @@ $(LIBFT):
 
 
 $(NAME): $(OBJS)
-<<<<<<< HEAD
-	@$(CC) $(CFLAGS) $(OBJS) $(LIBFT) -o $(NAME) $(LDFLAGS)
-
-bonus/%.o: bonus/%.c
-=======
 	@$(CC) $(CFLAGS) $(OBJS) $(LIBFT) -o $(NAME) $(LDFLAGS) 
 
 bonus/%.o: bonus/%.c $(HEADER_FILES_BNS)
->>>>>>> 384d2b3a7c05f5be84a9a9f5ccc1ea2d1e67dafe
 	@$(CC) $(CFLAGS_BNS) -c $< -o $@
 
 %.o: %.c $(HEADER_FILES)
@@ -102,18 +87,10 @@ bonus/%.o: bonus/%.c $(HEADER_FILES_BNS)
 
 clean:
 	@rm -rf $(OBJS) $(OBJS_BNS)
-<<<<<<< HEAD
-#	make -C $(LIBFT_PATH) clean
-=======
->>>>>>> 384d2b3a7c05f5be84a9a9f5ccc1ea2d1e67dafe
 	@make -C $(LIBFT_BONUS_PATH) clean
 
 fclean: clean
 	@rm -rf $(NAME)
-<<<<<<< HEAD
-#	make -C $(LIBFT_PATH) fclean
-=======
->>>>>>> 384d2b3a7c05f5be84a9a9f5ccc1ea2d1e67dafe
 	@make -C $(LIBFT_BONUS_PATH) fclean
 
 re: fclean all

@@ -6,11 +6,7 @@
 /*   By: omben-ch <omben-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 15:40:06 by mbousset          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2025/08/02 09:48:26 by omben-ch         ###   ########.fr       */
-=======
-/*   Updated: 2025/07/31 10:04:19 by mbousset         ###   ########.fr       */
->>>>>>> 384d2b3a7c05f5be84a9a9f5ccc1ea2d1e67dafe
+/*   Updated: 2025/09/01 15:33:35 by omben-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +38,7 @@ int	key_press(int keycode, t_game *game)
 		draw_menu(game);
 	}
 	if (game->end_start_menu == EXIT &&  keycode == 121)
-		handle_close(game);
+		handle_close();
 	k = get_key(keycode, game);
 	if (k)
 		k->press = true;

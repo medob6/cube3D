@@ -6,7 +6,7 @@
 /*   By: omben-ch <omben-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 15:38:56 by omben-ch          #+#    #+#             */
-/*   Updated: 2025/09/01 09:49:00 by omben-ch         ###   ########.fr       */
+/*   Updated: 2025/09/01 15:31:30 by omben-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,10 @@ void	get_info_of_door(t_fcub *fcub)
 			}
 			else if (fcub->map[y][x] == 'X')
 			{
+
+
+/* FUNCTIONS */
+
 				fcub->exit->pos.x = x;
 				fcub->exit->pos.y = y;
 				fcub->exit->in_range = false;

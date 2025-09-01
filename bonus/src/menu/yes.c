@@ -6,19 +6,11 @@
 /*   By: omben-ch <omben-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 16:53:42 by omben-ch          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2025/08/02 09:50:21 by omben-ch         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
-#include "cub.h"
-=======
-/*   Updated: 2025/08/22 17:06:58 by omben-ch         ###   ########.fr       */
+/*   Updated: 2025/09/01 15:30:59 by omben-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub_bs.h"
->>>>>>> 384d2b3a7c05f5be84a9a9f5ccc1ea2d1e67dafe
 
 void on_click_yes(t_game *game, int button)
 {
@@ -26,11 +18,7 @@ void on_click_yes(t_game *game, int button)
         return;
     if (button == YES)
     {
-<<<<<<< HEAD
-        handle_close(game);
-=======
         handle_close();
->>>>>>> 384d2b3a7c05f5be84a9a9f5ccc1ea2d1e67dafe
     }    
 }
 

@@ -6,7 +6,7 @@
 /*   By: omben-ch <omben-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 09:38:33 by omben-ch          #+#    #+#             */
-/*   Updated: 2025/09/01 09:49:27 by omben-ch         ###   ########.fr       */
+/*   Updated: 2025/09/01 15:34:53 by omben-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -413,21 +413,6 @@ int	game_loop(t_game *game)
 	return (1);
 }
 
-int mouse_click(int code, int x,int y ,t_game *game)
-{
-	int button;
-	int i;
-
-	i = -1;
-	button = check_button(game,x,y);
-	if (code == 1)
-	{
-		while (++i < NB_BUTTON)
-			game->buttons[i].on_click(game, button);
-		draw_menu(game);
-	}
-	return (0);
-}
 
 void	lunch_game_hooks(t_game *game)
 {

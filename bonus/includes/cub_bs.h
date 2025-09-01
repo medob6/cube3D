@@ -62,7 +62,7 @@
 # define NB_BUTTON 6
 # define NB_IMG_MENU 18
 
-typedef enum e_graphic
+typedef enum e_graphicMENU_SRC
 {
 	E_WALL,
 	N_WALL,
