@@ -313,6 +313,8 @@ void			handle_exit(t_game *game);
 
 
 /* FUNCTIONS */
+int get_size_lines_of_map(t_fcub *fcub);
+void flood_fill(t_fcub *fcub, int rows, int colums);
 int	mouse_move(int x, int y, t_game *game);
 int mouse_click(int code, int x,int y ,t_game *game);
 

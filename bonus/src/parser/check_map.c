@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_map.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
+/*   By: omben-ch <omben-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 15:14:23 by omben-ch          #+#    #+#             */
-/*   Updated: 2025/08/12 09:06:22 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/08/31 14:26:56 by omben-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ void	position_of_player_and_floor_check(t_fcub *fcub, char **map, int x,
 				map[x][y + 1]) || !ft_strchr("10XDNWSE", map[x - 1][y])
 			|| !ft_strchr("10XDNWSE", map[x + 1][y])))
 		print_error_map_and_exit(fcub);
-	if (x && map[x][y] && map[x + 1] && (ft_strchr("D", map[x][y]) || ft_strchr("X", map[x][y]))
+	if (x && map[x][y] && map[x + 1] && (ft_strchr("DX", map[x][y]) || ft_strchr("X", map[x][y]))
 		&& !(((ft_strchr("0NWSE", map[x][y - 1]) && ft_strchr("0NWSE", map[x][y
 						+ 1])) && (ft_strchr("1", map[x - 1][y])
 					&& ft_strchr("1", map[x + 1][y]))) || (((ft_strchr("1",
