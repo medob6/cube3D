@@ -6,7 +6,7 @@
 /*   By: omben-ch <omben-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/31 14:29:57 by omben-ch          #+#    #+#             */
-/*   Updated: 2025/09/01 15:43:11 by omben-ch         ###   ########.fr       */
+/*   Updated: 2025/09/01 18:13:54 by omben-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,6 @@ void dup_map(t_fcub *fcub, char **map)
 
 int check_news(int x, int y, char **map)
 {
-    
     if (map[x][y] == '1' || map[x][y] ==  'F')
         return (0);
     if (map[x][y] == 'X')

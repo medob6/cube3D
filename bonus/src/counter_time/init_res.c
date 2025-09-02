@@ -6,7 +6,7 @@
 /*   By: omben-ch <omben-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 15:58:30 by omben-ch          #+#    #+#             */
-/*   Updated: 2025/08/22 17:06:40 by omben-ch         ###   ########.fr       */
+/*   Updated: 2025/09/02 11:53:36 by omben-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,10 @@ void init_sec_part(t_game *game)
 
 void init_timer_pic(t_game *game)
 {
+	game->win_timer_w = game->win_w * 6.8 / 30;
+	game->win_timer_h = game->win_h * 2 / 15;
+	game->img_timer.img = mlx_new_image(game->mlx, game->win_timer_w, game->win_timer_h);
+	game->img_timer.addr = mlx_get_data_addr(game->img_timer.img,&game->img_timer.bpp,&game->img_timer.line_len,&game->img_timer.endian);
 	init_timer_bg_part(game);
     init_min_part(game);
     init_point_part(game);

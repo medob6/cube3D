@@ -6,7 +6,7 @@
 /*   By: omben-ch <omben-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 09:38:33 by omben-ch          #+#    #+#             */
-/*   Updated: 2025/08/31 13:27:55 by omben-ch         ###   ########.fr       */
+/*   Updated: 2025/09/02 14:55:08 by omben-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -215,9 +215,9 @@ bool	check_exit_door(t_game *g, long long current_time)
 	}
 	if (g->exit.opening)
 		update_opening_door(&g->exit, current_time);
-	else
-		return (false);
-	return (true);
+
+	return (false);
+	// return (true);
 }
 
 bool	update_doors_states(t_game *game)
@@ -405,11 +405,13 @@ int	game_loop(t_game *game)
 	// }
 	if (scean_changed) // if player looking at open portal
 	{
-		//printf("hello %d \n", c++);
+	//	printf("hello %d \n", c++);
 		display_scean(game);
 		draw_mini_map(game);
+		//draw_timer(game, 1);
 		mlx_put_image_to_window(game->mlx, game->win, game->display.img, 0, 0);
 	}
+	draw_timer(game, 0);
 	return (1);
 }
 

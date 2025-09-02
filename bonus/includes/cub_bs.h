@@ -26,6 +26,7 @@
 # include <string.h>
 # include <sys/time.h>
 # include <unistd.h>
+# include <pthread.h>
 
 # define WALL_HIGHT 64
 
@@ -206,6 +207,7 @@ typedef struct s_game t_game;
 typedef struct s_button
 {
     t_image *img;
+	int lock;
 	int name;
     int start_x;
     int start_y;
@@ -219,7 +221,8 @@ typedef struct s_button
 
 typedef struct s_timer
 {
-    t_image *img;
+	t_image *img;
+	pthread_mutex_t mutex;
 	int name;
     int start_x;
     int start_y;
@@ -237,6 +240,8 @@ typedef struct s_game
 	void		*win;
 	int			win_h;
 	int			win_w;
+	int			win_timer_h;
+	int			win_timer_w;
 	int			end_start_menu;
 	int			nb_of_doors;
 	t_data		data;
@@ -244,6 +249,7 @@ typedef struct s_game
 	t_key		keys[11];
 	t_image		graphics[8];
 	t_image		graphic_menu[NB_IMG_MENU];
+	t_image 	img_timer;
 	t_button	buttons[NB_BUTTON];
 	t_timer		timer[6];
 	t_door		*doors;
@@ -266,7 +272,6 @@ void draw_menu(t_game *game);
 void put_bg(t_game *game, t_image *img);
 void put_imag(t_game *game, t_button *img_info);
 void init_img_menu(t_game *game);
-void draw_timer(t_game *game);
 void init_timer_pic(t_game *game);
 void	put_pixel(t_game *game, int x, int y, int color);
 void put_time_imag(t_game *game, t_timer *img_info , int index);
@@ -313,6 +318,14 @@ void			handle_exit(t_game *game);
 
 
 /* FUNCTIONS */
+void	draw_timer(t_game *game, int sign);
+void	put_timer_pixel(t_game *game, int x, int y, int color);
+void	put_timer_bg(t_game *game, t_image *img);
+void	put_timer_imag(t_game *game, t_button *img_info);
+void	put_timer_bg(t_game *game, t_image *img);
+void	put_timer_pixel(t_game *game, int x, int y, int color);
+void	put_timer_pixel(t_game *game, int x, int y, int color);
+//void	draw_timer(t_game *game);
 int get_size_lines_of_map(t_fcub *fcub);
 void flood_fill(t_fcub *fcub, int rows, int colums);
 int	mouse_move(int x, int y, t_game *game);

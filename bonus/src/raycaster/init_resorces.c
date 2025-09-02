@@ -6,7 +6,7 @@
 /*   By: omben-ch <omben-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 15:39:37 by mbousset          #+#    #+#             */
-/*   Updated: 2025/08/31 13:22:44 by omben-ch         ###   ########.fr       */
+/*   Updated: 2025/09/02 11:48:19 by omben-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,4 +135,5 @@ void	initilize_game_resorces(t_game *game)
 		"bonus/textures/2_point.xpm");
 	init_image(game, &game->graphic_menu[TIMER_BG_IMG],
 		"bonus/textures/timer_bg.xpm");
+	init_timer_pic(game);
 }
