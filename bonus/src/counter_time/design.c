@@ -6,7 +6,7 @@
 /*   By: omben-ch <omben-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 15:13:48 by omben-ch          #+#    #+#             */
-/*   Updated: 2025/09/02 15:43:25 by omben-ch         ###   ########.fr       */
+/*   Updated: 2025/09/03 10:52:48 by omben-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	put_timer(t_game *game ,int sign)
 	put_timer_bg(game, game->timer[TIMER_BG].img);
 	put_time_imag(game, &game->timer[FP_MIN], game->timer[FP_MIN].min / 10 + 1);
 	put_time_imag(game, &game->timer[SP_MIN], game->timer[FP_MIN].min % 10 + 1);
-	put_timer_imag(game, (t_button *)&game->timer[POINT]);
+	put_timer_imag(game, &game->timer[POINT]);
 	put_time_imag(game, &game->timer[FP_SEC], game->timer[FP_SEC].sec / 10 + 1);
 	put_time_imag(game, &game->timer[SP_SEC], game->timer[FP_SEC].sec % 10 + 1);
 	mlx_put_image_to_window(game->mlx, game->win, game->img_timer.img , 0, 0);

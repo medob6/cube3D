@@ -6,7 +6,7 @@
 /*   By: omben-ch <omben-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/03 18:25:30 by omben-ch          #+#    #+#             */
-/*   Updated: 2025/09/02 11:57:25 by omben-ch         ###   ########.fr       */
+/*   Updated: 2025/09/03 10:52:38 by omben-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void	put_timer_bg(t_game *game, t_image *img)
 	}
 }
 
-void	put_timer_imag(t_game *game, t_button *img_info)
+void	put_timer_imag(t_game *game, t_timer *img_info)
 {
 	int			img_x;
 	int			y;

@@ -318,10 +318,10 @@ void			handle_exit(t_game *game);
 
 
 /* FUNCTIONS */
+void	put_timer_imag(t_game *game, t_timer *img_info);
 void	draw_timer(t_game *game, int sign);
 void	put_timer_pixel(t_game *game, int x, int y, int color);
 void	put_timer_bg(t_game *game, t_image *img);
-void	put_timer_imag(t_game *game, t_button *img_info);
 void	put_timer_bg(t_game *game, t_image *img);
 void	put_timer_pixel(t_game *game, int x, int y, int color);
 void	put_timer_pixel(t_game *game, int x, int y, int color);

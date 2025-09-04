@@ -6,7 +6,7 @@
 /*   By: omben-ch <omben-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 15:40:06 by mbousset          #+#    #+#             */
-/*   Updated: 2025/09/02 13:34:56 by omben-ch         ###   ########.fr       */
+/*   Updated: 2025/09/03 12:51:11 by omben-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,15 @@ int	key_press(int keycode, t_game *game)
 {
 	t_key	*k;
 
+	if (game->end_start_menu == EXIT && keycode == 110)
+	{
+		game->buttons[YES].img = &game->graphic_menu[YES_IMG];
+		game->buttons[NO].img = &game->graphic_menu[NO_IMG];
+		game->end_start_menu = START;
+		draw_menu(game);
+	}
+	if (game->end_start_menu == EXIT &&  keycode == 121)
+		handle_close();
 	k = get_key(keycode, game);
 	if (k)
 		k->press = true;
