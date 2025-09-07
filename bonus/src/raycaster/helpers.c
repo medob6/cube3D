@@ -6,7 +6,7 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 18:19:30 by mbousset          #+#    #+#             */
-/*   Updated: 2025/08/02 09:51:35 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/09/06 14:43:00 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,8 @@ unsigned int	get_color(t_image img, int x, int y)
 {
 	int	offset;
 
+	if (y > img.h || x > img.w)
+		return (0);
 	offset = (y * img.line_len) + (x * (img.bpp / 8));
 	return (*(unsigned int *)(img.addr + offset));
 }

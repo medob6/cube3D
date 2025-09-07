@@ -6,7 +6,7 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 16:22:34 by mbousset          #+#    #+#             */
-/*   Updated: 2025/08/09 16:21:50 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/09/06 14:31:46 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,9 +58,26 @@ typedef struct s_frame_state
 	double		proj_dist;
 }				t_frame_state;
 
+typedef struct s_floorcast
+{
+	t_game		*game;
+	t_image		floor_tex;
+	t_image		sky_tex;
+	int			winW;
+	int			winH;
+	double		rayDirX0;
+	double		rayDirY0;
+	double		rayDirX1;
+	double		rayDirY1;
+	double		eyeHeight;
+	double		mid;
+	int			win_x;
+}				t_floorcast;
+
 void			display_scean(t_game *game);
 void			draw_3d_view(t_game *game, t_raycaster *caster);
-t_sec_inf		*init_section(int w_x, double wall_h, int x, t_graphic dir,t_door door);
+t_sec_inf		*init_section(int w_x, double wall_h, int x, t_graphic dir,
+					t_door door);
 unsigned int	get_slice_color(int x, int y, int dir, int section);
 void			draw_section(int start, int end, int num, t_sec_inf *section);
 bool			in_minimap_range(int w_x);
@@ -68,10 +85,12 @@ void			calculate_old_boundaries(int old_wh, int w_x, int *old_wt,
 					int *old_wb);
 void			process_ray(t_raycaster *c, t_frame_state *state,
 					int ray_index);
-double			verti_dist(double ray_ang, double *wall_x, int *dir,t_door *next_door);
+double			verti_dist(double ray_ang, double *wall_x, int *dir,
+					t_door *next_door);
 void			init_raycaster(t_raycaster *c);
 void			get_steps_h(t_pair *step, bool up, double ray_ang);
-double			horiz_dist(double ray_ang, double *wall_x, int *dir,t_door *next_door);
+double			horiz_dist(double ray_ang, double *wall_x, int *dir,
+					t_door *next_door);
 void			update_player(t_game *game);
 double			pow_2(double n);
 double			get_old_angel(t_game *g);
@@ -109,3 +128,10 @@ int				get_rgb(t_fcub *fcub, char *color);
 void			handle_exit(t_game *game);
 
 #endif
+
+
+
+
+// TODO : 
+
+// split functions , add vlc video player 

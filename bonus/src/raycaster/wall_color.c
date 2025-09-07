@@ -6,7 +6,7 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 15:51:51 by mbousset          #+#    #+#             */
-/*   Updated: 2025/08/27 17:46:55 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/09/07 16:21:55 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,49 +42,158 @@ unsigned int	get_slice_color(int x, int y, int dir, int section)
 	}
 	else if (section == 3)
 		return (get_game()->data.floor_clr);
-	return (0xffffff);
+	return (0x00000);
+}
+
+static int	apply_shading(int color, double dist)
+{
+	double	attenuation;
+	double	intensity;
+	int		r;
+	int		g;
+	int		b;
+
+	attenuation = 0.0012;
+	intensity = 1.0 / (1.0 + dist * attenuation);
+	if (intensity < 0.2)
+		intensity = 0.2;
+	r = ((color >> 16) & 0xFF) * intensity;
+	g = ((color >> 8) & 0xFF) * intensity;
+	b = (color & 0xFF) * intensity;
+	return ((r << 16) | (g << 8) | b);
+}
+
+static t_floorcast	init_floorcast(t_sec_inf *section)
+{
+	t_floorcast	fc;
+
+	fc.game = get_game();
+	fc.winW = fc.game->win_w;
+	fc.winH = fc.game->win_h;
+	fc.floor_tex = fc.game->graphics[FLOOR];
+	fc.sky_tex = fc.game->graphics[SKY];
+	fc.rayDirX0 = cos(fc.game->player.angle - FOV_ANGLE / 2.0);
+	fc.rayDirY0 = sin(fc.game->player.angle - FOV_ANGLE / 2.0);
+	fc.rayDirX1 = cos(fc.game->player.angle + FOV_ANGLE / 2.0);
+	fc.rayDirY1 = sin(fc.game->player.angle + FOV_ANGLE / 2.0);
+	fc.eyeHeight = 0.5 * fc.winH;
+	fc.mid = fc.winH / 2.0 + fc.game->player.p.z;
+	fc.win_x = section->win_x;
+	return (fc);
+}
+
+typedef struct s_wall_inf
+{
+	t_image			tex;
+	t_point			tex_p;
+	int				raw_dist;
+	double			h_factor;
+	int				offset;
+	int				win_h;
+}					t_wall_inf;
+
+static void	initialize_wall_inf(t_wall_inf *inf, t_sec_inf *section, int start)
+{
+	t_game	*game;
+
+	game = get_game();
+	inf->win_h = game->win_h;
+	inf->tex = game->graphics[section->sec.dir];
+	if (section->sec.wall_h == 0)
+		return ;
+	inf->raw_dist = WALL_HIGHT / section->sec.wall_h * ((game->win_w / 2)
+			/ tan(FOV_ANGLE / 2));
+	inf->h_factor = (double)inf->tex.h / section->sec.wall_h;
+	inf->offset = -start + section->tex_offset;
+	if (section->sec.dir == DOOR)
+		inf->tex_p.x = fmod(section->sec.wall_x, WALL_WIDTH) / WALL_WIDTH
+			* (inf->tex.w / 10) + ((inf->tex.w / 10) * section->sec.door.frame);
+	else if (section->sec.dir == PORTAL)
+		inf->tex_p.x = fmod(section->sec.wall_x, WALL_WIDTH) / WALL_WIDTH
+			* (inf->tex.w / 32) + ((inf->tex.w / 32) * game->portal_frame);
+	else
+		inf->tex_p.x = fmod(section->sec.wall_x, WALL_WIDTH) / WALL_WIDTH
+			* inf->tex.w;
+}
+
+static void	draw_wall(int start, int end, t_sec_inf *section, int num)
+{
+	t_wall_inf	inf;
+	double		d_from_top;
+	int			color;
+	int			i;
+
+	initialize_wall_inf(&inf, section, start);
+	i = start - 1;
+	while (++i <= end && i < inf.win_h)
+	{
+		d_from_top = i + inf.offset;
+		inf.tex_p.y = d_from_top * inf.h_factor;
+		color = get_slice_color(inf.tex_p.x, inf.tex_p.y, section->sec.dir,
+				num);
+		color = apply_shading(color, inf.raw_dist);
+		if (get_t(color) != 255)
+			my_mlx_pixel_put(get_game()->display, section->win_x, i, color);
+	}
+}
+
+static void	draw_floor_ceiling(t_floorcast *fc, int start, int end, int num)
+{
+	double	p;
+	double	rowDist;
+	double	factor;
+	double	rayDirX;
+	double	rayDirY;
+	double	worldX;
+	double	worldY;
+
+	for (int y = start; y <= end && y < fc->winH; y++)
+	{
+		p = (double)y - fc->mid;
+		if (p == 0.0)
+			continue ;
+		rowDist = fc->eyeHeight / fabs(p);
+		factor = (double)fc->win_x / fc->winW;
+		rayDirX = fc->rayDirX0 + factor * (fc->rayDirX1 - fc->rayDirX0);
+		rayDirY = fc->rayDirY0 + factor * (fc->rayDirY1 - fc->rayDirY0);
+		worldX = (fc->game->player.p.x / WALL_WIDTH) + rowDist * rayDirX;
+		worldY = (fc->game->player.p.y / WALL_WIDTH) + rowDist * rayDirY;
+		int tx, ty, color;
+		if (num == 1)
+		{
+			tx = ((int)(worldX * fc->sky_tex.w) % fc->sky_tex.w + fc->sky_tex.w)
+				% fc->sky_tex.w;
+			ty = ((int)(worldY * fc->sky_tex.h) % fc->sky_tex.h + fc->sky_tex.h)
+				% fc->sky_tex.h;
+			color = get_color(fc->sky_tex, tx, ty);
+			color = apply_shading(color, rowDist * 100.0);
+		}
+		else
+		{
+			tx = ((int)(worldX * fc->floor_tex.w) % fc->floor_tex.w
+					+ fc->floor_tex.w) % fc->floor_tex.w;
+			ty = ((int)(worldY * fc->floor_tex.h) % fc->floor_tex.h
+					+ fc->floor_tex.h) % fc->floor_tex.h;
+			color = get_color(fc->floor_tex, tx, ty);
+			color = apply_shading(color, rowDist * 300.0);
+		}
+		my_mlx_pixel_put(fc->game->display, fc->win_x, y, color);
+	}
 }
 
 void	draw_section(int start, int end, int num, t_sec_inf *section)
 {
-	int		i;
-	t_image	tex;
-	double	d_from_top;
-	int		color;
-	t_point	tex_p;
-	double	hight_factur;
-	int		offset;
+	t_floorcast	fc;
 
 	if (num == 2 && section->sec.dir != -1)
 	{
-		// if (section->sec.dir == 7)
-		// 	printf("PORTAL \n");
-		tex = get_game()->graphics[section->sec.dir];
-		offset = -start + section->tex_offset;
-		hight_factur = tex.h / section->sec.wall_h;
-		if (section->sec.dir == DOOR)
-			tex_p.x = fmod(section->sec.wall_x, WALL_WIDTH) / WALL_WIDTH
-				* (tex.w / 9) + ((tex.w / 9) * (section->sec.door.frame));
-		else if (section->sec.dir == PORTAL)
-			tex_p.x = fmod(section->sec.wall_x, WALL_WIDTH) / WALL_WIDTH
-				* (tex.w / 11) + ((tex.w / 11) * (get_game()->portal_frame));
-		else
-			tex_p.x = fmod(section->sec.wall_x, WALL_WIDTH) / WALL_WIDTH
-				* tex.w;
+		draw_wall(start, end, section, num);
+		return ;
 	}
-	i = start--;
-	end = fmin(end, get_game()->win_h);
-	while (++i <= end)
-	{
-		if (num == 2)
-		{
-			d_from_top = i + offset;
-			tex_p.y = d_from_top * hight_factur;
-		}
-		color = get_slice_color(tex_p.x, tex_p.y, section->sec.dir, num);
-		// if (!get_t(color))
-		my_mlx_pixel_put(get_game()->display, section->win_x, i, color);
-	}
+	if (num != 1 && num != 3)
+		return ;
+	fc = init_floorcast(section);
+	draw_floor_ceiling(&fc, start, end, num);
 }
 
 bool	in_minimap_range(int w_x)
@@ -103,7 +212,8 @@ bool	in_minimap_range(int w_x)
 
 void	calculate_old_boundaries(int old_wh, int w_x, int *old_wt, int *old_wb)
 {
-	*old_wt = (get_game()->win_h / 2 - old_wh / 2 - 1) * (old_wh != 0);
+	*old_wt = (get_game()->win_h / 2 - old_wh / 2 + get_game()->player.p.z)
+		* (old_wh != 0);
 	*old_wb = *old_wt + old_wh;
 	if (old_wh == 0 || in_minimap_range(w_x))
 		*old_wb = get_game()->win_h;

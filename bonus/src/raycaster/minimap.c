@@ -6,7 +6,7 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/28 09:02:20 by mbousset          #+#    #+#             */
-/*   Updated: 2025/07/31 10:04:19 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/09/07 15:59:44 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,7 @@ void	draw_mini_map(t_game *game)
 	t_point		p;
 	int			color;
 	t_mm_scale	sc;
+	double		icon_angle;
 
 	mini_map.radius = game->win_h * MINIMAP_SCREEN_SCALE;
 	mini_map.c.x = mini_map.radius * 1.2;

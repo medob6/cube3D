@@ -29,7 +29,7 @@
 
 # define WALL_HIGHT 64
 
-# define WALL_WIDTH 126
+# define WALL_WIDTH 128
 
 // keys
 # define KEY_ESCAPE 65307
@@ -41,12 +41,11 @@
 # define ARROW_DOWN 65364
 # define ARROW_LEFT 65361
 # define ARROW_RIGHT 65363
-# define KEY_SPACE 32
 # define KEY_O 111
 
 // speed
-# define MOVE_SPEED 2.5
-# define ROTATE_SPEED 0.01
+# define MOVE_SPEED 4.0
+# define ROTATE_SPEED 0.03
 # define JUMP_SPEED 10
 # define M_PI_3 1.0471975511965976
 # define FOV_ANGLE M_PI_3
@@ -68,6 +67,8 @@ typedef enum e_graphic
 	ARROW,
 	DOOR,
 	PORTAL,
+	FLOOR,
+	SKY,
 }				t_graphic;
 
 typedef struct s_point
@@ -165,12 +166,12 @@ typedef struct s_game
 	t_data		data;
 	t_player	player;
 	t_key		keys[11];
-	t_image		graphics[8];
+	t_image		graphics[10];
 	t_door		*doors;
 	t_image		display;
 	t_door		exit;
 	bool		passed;
-	int portal_frame;
+	int			portal_frame;
 }				t_game;
 
 t_door			get_door(int x, int y);
@@ -206,8 +207,6 @@ void			get_icone_info(t_circle *icn, t_circle minimap,
 					double icon_angle, double player_angle);
 
 void			handle_exit(t_game *game);
-
-// debugin
-// void			draw_vert_line(t_image *img, int y, int len);
+t_door			get_door(int x, int y);
 
 #endif

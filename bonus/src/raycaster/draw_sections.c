@@ -6,7 +6,7 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 16:07:04 by mbousset          #+#    #+#             */
-/*   Updated: 2025/08/08 18:41:58 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/09/06 14:28:11 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,7 @@ void	apply_texture_offset(t_sec_inf *section, int *wall_top)
 
 void	draw_ceiling_section(t_sec_inf *section, int old_wt, int wall_top)
 {
-	if (old_wt < wall_top)
-		draw_section(old_wt, wall_top, 1, section);
+	draw_section(0, wall_top, 1, section);
 }
 
 void	draw_wall_section(t_sec_inf *section, int wall_top, int wall_bottom)
@@ -44,6 +43,5 @@ void	draw_wall_section(t_sec_inf *section, int wall_top, int wall_bottom)
 
 void	draw_floor_section(t_sec_inf *section, int wall_bottom, int old_wb)
 {
-	if (wall_bottom < old_wb)
-		draw_section(wall_bottom, old_wb, 3, section);
+	draw_section(wall_bottom, get_game()->win_h, 3, section);
 }

@@ -6,7 +6,7 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 15:49:58 by mbousset          #+#    #+#             */
-/*   Updated: 2025/08/27 17:31:59 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/09/06 17:08:02 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,11 +133,11 @@ double	verti_dist(double ray_ang, double *wall_x, int *dir, t_door *next_door)
 		{
 			door = get_door(door_x, door_y);
 			tex_x = fmod(*wall_x, WALL_WIDTH) / WALL_WIDTH
-				* (g->graphics[DOOR].w / 9) + ((g->graphics[DOOR].w / 9)
+				* (g->graphics[DOOR].w / g->graphics[DOOR].frames) + ((g->graphics[DOOR].w / (g->graphics[DOOR].frames))
 					* door.frame);
 			if (g->data.map.arr[(int)door.pos.y][(int)door.pos.x] == 'X')
 			{
-				if (g->exit.frame == 8)
+				if (g->exit.frame == g->graphics[DOOR].frames - 1)
 					*dir = PORTAL;
 				return (*next_door = door, door_hit);
 			}

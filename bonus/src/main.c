@@ -6,7 +6,7 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 09:38:33 by omben-ch          #+#    #+#             */
-/*   Updated: 2025/08/29 17:10:29 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/09/07 18:01:14 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ static bool	handle_video(char *path)
 		usleep(30000);
 		printf("Error:\n err while processing video n");
 	}
+	// start = true;
 	return (true);
 }
 
@@ -74,7 +75,7 @@ bool	door_is_closed(t_door door)
 	int	last_fram;
 
 	last_fram = get_game()->graphics[DOOR].frames;
-	last_fram = 8; // in this case 10 becus te image is not fixed
+	last_fram = 9;
 	if (door.frame == last_fram)
 		return (true);
 	return (false);
@@ -117,7 +118,7 @@ static void	update_opening_door(t_door *door, long long current_time)
 	door->closing = false;
 	if (current_time - door->last_update >= FRAME_DURATION_MS)
 	{
-		if (door->frame < 8)
+		if (door->frame < 9)
 		{
 			door->frame++;
 			door->last_update = current_time;
@@ -206,7 +207,7 @@ bool	looking_at_open_portal(t_game *g)
 
 bool	check_exit_door(t_game *g, long long current_time)
 {
-	if (g->exit.frame == 8)
+	if (g->exit.frame)
 	{
 		if (looking_at_open_portal(g))
 			return (true);
@@ -216,7 +217,7 @@ bool	check_exit_door(t_game *g, long long current_time)
 		update_opening_door(&g->exit, current_time);
 	else
 		return (false);
-	return (true);
+	return (false);
 }
 
 bool	update_doors_states(t_game *game)
@@ -358,17 +359,16 @@ static void	update_doors_in_range(void)
 	}
 }
 
-#define PORTAL_FRAME_DURATION_MS 10 // tweak speed
-#define PORTAL_MAX_FRAMES 11 // 0..10
+#define PORTAL_FRAME_DURATION_MS 20
 
 static void	update_portal_animation(t_game *g, long long current_time)
 {
-	// Only animate if the portal door is fully open
-	if (g->exit.frame == 8)
+	if (g->exit.frame)
 	{
 		if (current_time - g->exit.last_update >= PORTAL_FRAME_DURATION_MS)
 		{
-			g->portal_frame = (g->portal_frame + 1) % PORTAL_MAX_FRAMES;
+			g->portal_frame = (g->portal_frame + 1)
+				% g->graphics[PORTAL].frames;
 			g->exit.last_update = current_time;
 		}
 	}
@@ -376,15 +376,13 @@ static void	update_portal_animation(t_game *g, long long current_time)
 
 int	game_loop(t_game *game)
 {
-	static int	c;
-	int			n;
 	bool		scean_changed;
 	bool		door_moving;
 	long long	current_time;
 
 	handle_exit(game);
-	// if (handle_video("bonus/video/intro.mp4"))
-	// 	return (1);
+	if (handle_video("bonus/video/intro.mp4"))
+		return (1);
 	door_moving = update_doors_states(game);
 	scean_changed = game->player.moving || door_moving;
 	handel_o_press(game);
@@ -395,16 +393,12 @@ int	game_loop(t_game *game)
 	update_portal_animation(game, current_time);
 	if (game->passed)
 	{
-		// play end video
-		// display win info
-		// exit gracefully
 		if (handle_video("/home/mbousset/Desktop/video/videos/short.mp4"))
 			return (1);
 		handle_close();
 	}
-	if (scean_changed) // if player looking at open portal
+	if (scean_changed)
 	{
-		printf("hello %d \n", c++);
 		display_scean(game);
 		draw_mini_map(game);
 		mlx_put_image_to_window(game->mlx, game->win, game->display.img, 0, 0);

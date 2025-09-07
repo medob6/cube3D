@@ -6,7 +6,7 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 15:39:33 by mbousset          #+#    #+#             */
-/*   Updated: 2025/08/29 09:15:40 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/09/05 16:14:12 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	cleanup(int code)
 	i = 0;
 	if (game->mlx && game->win)
 		mlx_destroy_window(game->mlx, game->win);
-	while (i < 7)
+	while (i < 9)
 		destroy_image(game->mlx, game->graphics[i++].img);
 	destroy_image(game->mlx, game->display.img);
 	if (game->data.map.arr)

@@ -6,7 +6,7 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 15:50:02 by mbousset          #+#    #+#             */
-/*   Updated: 2025/08/27 17:31:43 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/09/07 17:58:15 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,11 +121,11 @@ double	horiz_dist(double ray_ang, double *wall_x, int *dir, t_door *next_door)
 		{
 			door = get_door(door_x, door_y);
 			tex_x = fmod(*wall_x, WALL_WIDTH) / WALL_WIDTH
-				* (g->graphics[DOOR].w / 9) + ((g->graphics[DOOR].w / 9)
+				* (g->graphics[DOOR].w / 10) + ((g->graphics[DOOR].w / 10)
 					* door.frame);
 			if (g->data.map.arr[(int)door.pos.y][(int)door.pos.x] == 'X')
 			{
-				if (g->exit.frame == 8)
+				if (g->exit.frame == g->graphics[DOOR].frames - 1)
 					*dir = PORTAL;
 				return (*next_door = door, door_hit);
 			}
