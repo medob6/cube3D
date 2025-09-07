@@ -6,7 +6,7 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 15:49:58 by mbousset          #+#    #+#             */
-/*   Updated: 2025/09/07 19:22:13 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/09/07 19:23:17 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ void	get_v_inter(t_point *next, bool left, double ray_ang)
 // }
 
 // static bool	handle_vdoor_hit(t_rayinfo *ray, t_door_hit *hit,
-		t_door *next_door,
+//		t_door *next_door,
 // 		double *wall_x)
 // {
 // 	const t_game	*g = get_game();
@@ -143,7 +143,7 @@ void	get_v_inter(t_point *next, bool left, double ray_ang)
 // }
 
 // double	verti_dist(double ray_ang, double *wall_x, int *dir,
-		t_door *next_door)
+//		t_door *next_door)
 // {
 // 	t_point		map_p;
 // 	t_point		next;
