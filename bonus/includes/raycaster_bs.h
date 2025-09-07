@@ -6,7 +6,7 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 16:22:34 by mbousset          #+#    #+#             */
-/*   Updated: 2025/09/06 14:31:46 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/09/07 18:52:54 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,16 @@ typedef struct s_sec_inf
 	int			win_x;
 	int			tex_offset;
 }				t_sec_inf;
+
+typedef struct s_wall_inf
+{
+	t_image		tex;
+	t_point		tex_p;
+	int			raw_dist;
+	double		h_factor;
+	int			offset;
+	int			win_h;
+}				t_wall_inf;
 
 typedef struct s_frame_state
 {
@@ -128,10 +138,3 @@ int				get_rgb(t_fcub *fcub, char *color);
 void			handle_exit(t_game *game);
 
 #endif
-
-
-
-
-// TODO : 
-
-// split functions , add vlc video player 

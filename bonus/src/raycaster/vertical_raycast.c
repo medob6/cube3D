@@ -6,7 +6,7 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 15:49:58 by mbousset          #+#    #+#             */
-/*   Updated: 2025/09/06 17:08:02 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/09/07 19:22:13 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,14 +39,146 @@ void	get_v_inter(t_point *next, bool left, double ray_ang)
 		* tan(ray_ang);
 }
 
-typedef struct s_doorhit
-{
-	double	dist;
-	int		grid_x;
-	int		grid_y;
-	double	wall_x;
-	int		dir;
-}			t_doorhit;
+// typedef struct s_door_hit
+// {
+// 	double	*wall_x;
+// 	int		*dir;
+// 	int		*door_x;
+// 	int		*door_y;
+// }			t_door_hit;
+
+// static bool	player_in_vdoor_tile(const t_game *g, int x, int y)
+// {
+// 	if (!ft_strchr("DX", g->data.map.arr[y][x]))
+// 		return (false);
+// 	if (g->data.map.arr[y + 1][x] != '1')
+// 		return (false);
+// 	if (g->data.map.arr[y - 1][x] != '1')
+// 		return (false);
+// 	return (true);
+// }
+
+// static void	adjust_vray(t_rayinfo *ray, bool left, int sign)
+// {
+// 	ray->next.y += sign * WALL_WIDTH / 2 * tan(ray->ray_ang * (-left + !left));
+// 	ray->next.x += sign * WALL_WIDTH / 2 * (-left + !left);
+// }
+
+// static bool	ray_hits_vdoor_tile(t_rayinfo *ray, t_door_hit *hit)
+// {
+// 	ray->map_p.x = (int)(ray->next.x / WALL_WIDTH);
+// 	ray->map_p.y = (int)(ray->next.y / WALL_WIDTH);
+// 	*hit->door_x = ray->map_p.x;
+// 	*hit->door_y = ray->map_p.y;
+// 	*hit->wall_x = ray->next.y;
+// 	*hit->dir = DOOR;
+// 	return (true);
+// }
+
+// double	check_door_vhit(t_rayinfo *ray, t_door_hit *hit)
+// {
+// 	const t_game	*g = get_game();
+// 	t_pair			player_tile;
+// 	bool			left;
+
+// 	player_tile.x = (int)(g->player.p.x / WALL_WIDTH);
+// 	player_tile.y = (int)(g->player.p.y / WALL_WIDTH);
+// 	left = ray->left;
+// 	if (player_in_vdoor_tile(g, (int)player_tile.x, (int)player_tile.y)
+// 		&& ((fmod(g->player.p.x, WALL_WIDTH) <= WALL_WIDTH / 2) ^ left))
+// 	{
+// 		adjust_vray(ray, left, -1);
+// 		if ((int)(ray->next.x / WALL_WIDTH) == (int)player_tile.x
+// 			&& (int)(ray->next.y / WALL_WIDTH) == (int)player_tile.y)
+// 			return (get_dist(g->player.p, ray->next) * ray_hits_vdoor_tile(ray,
+// 					hit));
+// 		adjust_vray(ray, left, 1);
+// 	}
+// 	if (ft_strchr("DX", g->data.map.arr[(int)ray->map_p.y][(int)ray->map_p.x]))
+// 	{
+// 		adjust_vray(ray, left, 1);
+// 		return (get_dist(g->player.p, ray->next) * ray_hits_vdoor_tile(ray,
+// 				hit));
+// 	}
+// 	return (-1);
+// }
+
+// static bool	handle_vdoor_hit(t_rayinfo *ray, t_door_hit *hit,
+		t_door *next_door,
+// 		double *wall_x)
+// {
+// 	const t_game	*g = get_game();
+// 	t_door			door;
+// 	double			tex_x;
+
+// 	door = get_door(*hit->door_x, *hit->door_y);
+// 	tex_x = fmod(*wall_x, WALL_WIDTH) / WALL_WIDTH * (g->graphics[DOOR].w
+// 			/ g->graphics[DOOR].frames) + ((g->graphics[DOOR].w
+// 				/ g->graphics[DOOR].frames) * door.frame);
+// 	if (g->data.map.arr[(int)door.pos.y][(int)door.pos.x] == 'X')
+// 	{
+// 		if (g->exit.frame == g->graphics[DOOR].frames - 1)
+// 			*hit->dir = PORTAL;
+// 		*next_door = door;
+// 		return (true);
+// 	}
+// 	if (!get_t(get_slice_color(tex_x, g->graphics[DOOR].h / 2, DOOR, 2)))
+// 	{
+// 		*next_door = door;
+// 		return (true);
+// 	}
+// 	return (false);
+// }
+
+// static bool	handle_vwall_hit(t_point map_p, t_point next, double *wall_x,
+// 		int *dir, bool left)
+// {
+// 	const t_game	*g = get_game();
+
+// 	if (g->data.map.arr[(int)map_p.y][(int)map_p.x] != '1')
+// 		return (false);
+// 	*wall_x = next.y;
+// 	*dir = W_WALL * left + E_WALL * !left;
+// 	return (true);
+// }
+
+// double	verti_dist(double ray_ang, double *wall_x, int *dir,
+		t_door *next_door)
+// {
+// 	t_point		map_p;
+// 	t_point		next;
+// 	t_pair		step;
+// 	bool		left;
+// 	t_rayinfo	ray;
+// 	double		door_hit;
+// 	t_door_hit	hit;
+// 	int			door_x;
+// 	int			door_y;
+
+// 	left = cos(ray_ang) < 0;
+// 	get_v_inter(&next, left, ray_ang);
+// 	get_steps_v(&step, left, ray_ang);
+// 	hit.wall_x = wall_x;
+// 	hit.dir = dir;
+// 	hit.door_x = &door_x;
+// 	hit.door_y = &door_y;
+// 	while (true)
+// 	{
+// 		map_p.x = ((next.x - 1) * left + next.x * (!left)) / WALL_WIDTH;
+// 		map_p.y = next.y / WALL_WIDTH;
+// 		if (outside_map(map_p.x, map_p.y))
+// 			break ;
+// 		ray = (t_rayinfo){next, map_p, ray_ang, left};
+// 		door_hit = check_door_vhit(&ray, &hit);
+// 		if (door_hit != -1 && handle_vdoor_hit(&ray, &hit, next_door, wall_x))
+// 			return (door_hit);
+// 		if (handle_vwall_hit(map_p, next, wall_x, dir, left))
+// 			return (get_dist(get_game()->player.p, next));
+// 		next.x += step.x;
+// 		next.y += step.y;
+// 	}
+// 	return (INFINITY);
+// }
 
 double	check_door_vhit(t_rayinfo *ray, double *wall_x, int *dir, int *door_x,
 		int *door_y)
@@ -133,7 +265,8 @@ double	verti_dist(double ray_ang, double *wall_x, int *dir, t_door *next_door)
 		{
 			door = get_door(door_x, door_y);
 			tex_x = fmod(*wall_x, WALL_WIDTH) / WALL_WIDTH
-				* (g->graphics[DOOR].w / g->graphics[DOOR].frames) + ((g->graphics[DOOR].w / (g->graphics[DOOR].frames))
+				* (g->graphics[DOOR].w / g->graphics[DOOR].frames)
+				+ ((g->graphics[DOOR].w / (g->graphics[DOOR].frames))
 					* door.frame);
 			if (g->data.map.arr[(int)door.pos.y][(int)door.pos.x] == 'X')
 			{

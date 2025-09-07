@@ -6,7 +6,7 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 15:51:51 by mbousset          #+#    #+#             */
-/*   Updated: 2025/09/07 16:21:55 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/09/07 18:52:28 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,16 +82,6 @@ static t_floorcast	init_floorcast(t_sec_inf *section)
 	return (fc);
 }
 
-typedef struct s_wall_inf
-{
-	t_image			tex;
-	t_point			tex_p;
-	int				raw_dist;
-	double			h_factor;
-	int				offset;
-	int				win_h;
-}					t_wall_inf;
-
 static void	initialize_wall_inf(t_wall_inf *inf, t_sec_inf *section, int start)
 {
 	t_game	*game;
@@ -137,46 +127,66 @@ static void	draw_wall(int start, int end, t_sec_inf *section, int num)
 	}
 }
 
-static void	draw_floor_ceiling(t_floorcast *fc, int start, int end, int num)
+static void	get_world_coords(t_floorcast *fc, double rowDist, double *worldX,
+		double *worldY)
 {
-	double	p;
-	double	rowDist;
 	double	factor;
 	double	rayDirX;
 	double	rayDirY;
+
+	factor = (double)fc->win_x / fc->winW;
+	rayDirX = fc->rayDirX0 + factor * (fc->rayDirX1 - fc->rayDirX0);
+	rayDirY = fc->rayDirY0 + factor * (fc->rayDirY1 - fc->rayDirY0);
+	*worldX = (fc->game->player.p.x / WALL_WIDTH) + rowDist * rayDirX;
+	*worldY = (fc->game->player.p.y / WALL_WIDTH) + rowDist * rayDirY;
+}
+
+static int	get_tex_color(t_floorcast *fc, double worldX, double worldY,
+		double rowDist, int num)
+{
+	int	tx;
+	int	ty;
+	int	color;
+
+	if (num == 1)
+	{
+		tx = ((int)(worldX * fc->sky_tex.w) % fc->sky_tex.w + fc->sky_tex.w)
+			% fc->sky_tex.w;
+		ty = ((int)(worldY * fc->sky_tex.h) % fc->sky_tex.h + fc->sky_tex.h)
+			% fc->sky_tex.h;
+		color = get_color(fc->sky_tex, tx, ty);
+		color = apply_shading(color, rowDist * 100.0);
+	}
+	else
+	{
+		tx = ((int)(worldX * fc->floor_tex.w) % fc->floor_tex.w
+				+ fc->floor_tex.w) % fc->floor_tex.w;
+		ty = ((int)(worldY * fc->floor_tex.h) % fc->floor_tex.h
+				+ fc->floor_tex.h) % fc->floor_tex.h;
+		color = get_color(fc->floor_tex, tx, ty);
+		color = apply_shading(color, rowDist * 300.0);
+	}
+	return (color);
+}
+
+static void	draw_floor_ceiling(t_floorcast *fc, int start, int end, int num)
+{
+	int		y;
+	double	p;
+	double	rowDist;
 	double	worldX;
 	double	worldY;
+	int		color;
 
-	for (int y = start; y <= end && y < fc->winH; y++)
+	y = start - 1;
+	while (++y <= end && y < fc->winH)
 	{
 		p = (double)y - fc->mid;
 		if (p == 0.0)
 			continue ;
 		rowDist = fc->eyeHeight / fabs(p);
-		factor = (double)fc->win_x / fc->winW;
-		rayDirX = fc->rayDirX0 + factor * (fc->rayDirX1 - fc->rayDirX0);
-		rayDirY = fc->rayDirY0 + factor * (fc->rayDirY1 - fc->rayDirY0);
-		worldX = (fc->game->player.p.x / WALL_WIDTH) + rowDist * rayDirX;
-		worldY = (fc->game->player.p.y / WALL_WIDTH) + rowDist * rayDirY;
-		int tx, ty, color;
-		if (num == 1)
-		{
-			tx = ((int)(worldX * fc->sky_tex.w) % fc->sky_tex.w + fc->sky_tex.w)
-				% fc->sky_tex.w;
-			ty = ((int)(worldY * fc->sky_tex.h) % fc->sky_tex.h + fc->sky_tex.h)
-				% fc->sky_tex.h;
-			color = get_color(fc->sky_tex, tx, ty);
-			color = apply_shading(color, rowDist * 100.0);
-		}
-		else
-		{
-			tx = ((int)(worldX * fc->floor_tex.w) % fc->floor_tex.w
-					+ fc->floor_tex.w) % fc->floor_tex.w;
-			ty = ((int)(worldY * fc->floor_tex.h) % fc->floor_tex.h
-					+ fc->floor_tex.h) % fc->floor_tex.h;
-			color = get_color(fc->floor_tex, tx, ty);
-			color = apply_shading(color, rowDist * 300.0);
-		}
+		get_world_coords(fc, rowDist, &worldX, &worldY);
+		color = get_tex_color(fc, worldX, worldY, rowDist, num);
 		my_mlx_pixel_put(fc->game->display, fc->win_x, y, color);
 	}
 }

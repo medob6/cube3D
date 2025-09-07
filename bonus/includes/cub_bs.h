@@ -205,6 +205,7 @@ int				get_minimap_pixel_color(t_game *g, double rx, double ry,
 					t_mm_scale sc);
 void			get_icone_info(t_circle *icn, t_circle minimap,
 					double icon_angle, double player_angle);
+bool			angle_between(double angle, double start, double end);
 
 void			handle_exit(t_game *game);
 t_door			get_door(int x, int y);
