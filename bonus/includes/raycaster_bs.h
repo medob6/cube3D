@@ -6,7 +6,7 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 16:22:34 by mbousset          #+#    #+#             */
-/*   Updated: 2025/09/07 18:52:54 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/09/08 19:08:04 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,57 @@
 
 # include "cub_bs.h"
 
+typedef struct s_door_inf
+{
+	double			*wall_x;
+	int				*dir;
+	double			ray_ang;
+	bool			left;
+}					t_door_inf;
+
+typedef struct s_doorhit
+{
+	double		*wall_x;
+	int			*dir;
+	int			*door_x;
+	int			*door_y;
+	bool		left;
+}				t_doorhit;
+
+
+typedef struct s_hit_data
+{
+	double		x;
+	double		y;
+	int			h_dir;
+	int			v_dir;
+	double		h_x;
+	double		v_x;
+}				t_hit_data;
+
+typedef struct s_draw_bounds
+{
+	int			wall_top;
+	int			wall_bottom;
+	int			old_wt;
+	int			old_wb;
+}				t_draw_bounds;
+
+typedef struct s_sec_params
+{
+	double		wall_h;
+	int			wall_x;
+	t_graphic	dir;
+	t_door		door;
+}				t_sec_params;
+
 typedef struct s_rayinfo
 {
 	t_point		next;
 	t_point		map_p;
 	double		ray_ang;
 	bool		left;
+	double		result;
 }				t_rayinfo;
 
 typedef struct s_sec
@@ -68,26 +113,47 @@ typedef struct s_frame_state
 	double		proj_dist;
 }				t_frame_state;
 
+typedef struct s_vray
+{
+	t_pair		step;
+	t_point		map_p;
+	t_point		next;
+	t_rayinfo	ray;
+	t_doorhit	h;
+	int			door_x;
+	int			door_y;
+}				t_vray;
+
+typedef struct s_hray
+{
+	t_pair		step;
+	t_point		map_p;
+	t_point		next;
+	t_rayinfo	ray;
+	t_doorhit	h;
+	int			door_x;
+	int			door_y;
+}				t_hray;
+
 typedef struct s_floorcast
 {
 	t_game		*game;
 	t_image		floor_tex;
 	t_image		sky_tex;
-	int			winW;
-	int			winH;
-	double		rayDirX0;
-	double		rayDirY0;
-	double		rayDirX1;
-	double		rayDirY1;
-	double		eyeHeight;
+	int			winw;
+	int			winh;
+	double		raydirx0;
+	double		raydiry0;
+	double		raydirx1;
+	double		raydiry1;
+	double		eyeheight;
 	double		mid;
 	int			win_x;
 }				t_floorcast;
 
 void			display_scean(t_game *game);
 void			draw_3d_view(t_game *game, t_raycaster *caster);
-t_sec_inf		*init_section(int w_x, double wall_h, int x, t_graphic dir,
-					t_door door);
+t_sec_inf		*init_section(int w_x, t_sec_params p);
 unsigned int	get_slice_color(int x, int y, int dir, int section);
 void			draw_section(int start, int end, int num, t_sec_inf *section);
 bool			in_minimap_range(int w_x);
@@ -135,6 +201,8 @@ void			draw_wall_section(t_sec_inf *section, int wall_top,
 void			draw_floor_section(t_sec_inf *section, int wall_bottom,
 					int old_wb);
 int				get_rgb(t_fcub *fcub, char *color);
+// double			process_door_hit(double door_hit, double wall_x, t_doorhit h,
+// 					t_door *next_door);
 void			handle_exit(t_game *game);
 
 #endif

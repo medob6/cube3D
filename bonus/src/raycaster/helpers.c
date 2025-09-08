@@ -6,7 +6,7 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 18:19:30 by mbousset          #+#    #+#             */
-/*   Updated: 2025/09/06 14:43:00 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/09/08 14:14:58 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,9 @@ unsigned int	get_color(t_image img, int x, int y)
 
 void	my_mlx_pixel_put(t_image fram, int x, int y, int color)
 {
-	char *dst;
-	t_game *game;
+	char	*dst;
+	t_game	*game;
+
 	game = get_game();
 	if (x < 0 || y < 0 || x >= game->win_w || y >= game->win_h)
 		return ;

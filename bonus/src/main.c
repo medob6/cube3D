@@ -6,7 +6,7 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 09:38:33 by omben-ch          #+#    #+#             */
-/*   Updated: 2025/09/07 19:03:41 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/09/08 15:53:17 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,12 +33,13 @@ void	parse_input(t_game *game, int ac, char **av)
 	free(fcub.exit);
 	game->passed = false;
 }
+
 long long	get_current_time_ms(void)
 {
 	struct timeval	tv;
 
 	gettimeofday(&tv, NULL);
-	return (long long)(tv.tv_sec) * 1000 + (tv.tv_usec / 1000);
+	return (((long long)(tv.tv_sec) * 1000) + (tv.tv_usec / 1000));
 }
 
 void	print_err(char *msg)
@@ -191,23 +192,20 @@ static bool	sweep_fov_for_door(t_game *g, double player_angle, double p1_angle,
 bool	looking_at_open_portal(t_game *g)
 {
 	t_point	player_pos;
-	double	player_angle;
 	t_door	*door;
 	t_point	door_p1;
 	t_point	door_p2;
-	double	p1_player_angle;
-	double	p2_player_angle;
+	t_pair	palyer_ang_bounds;
 
 	player_pos = g->player.p;
-	player_angle = g->player.angle;
 	door = &g->exit;
 	get_exit_door_corners(door, g->data.map.arr, &door_p1, &door_p2);
-	p1_player_angle = normalize_angle(atan2(door_p1.y - player_pos.y, door_p1.x
-				- player_pos.x));
-	p2_player_angle = normalize_angle(atan2(door_p2.y - player_pos.y, door_p2.x
-				- player_pos.x));
-	return (sweep_fov_for_door(g, player_angle, p1_player_angle,
-			p2_player_angle));
+	palyer_ang_bounds.x = normalize_angle(atan2(door_p1.y - player_pos.y,
+				door_p1.x - player_pos.x));
+	palyer_ang_bounds.y = normalize_angle(atan2(door_p2.y - player_pos.y,
+				door_p2.x - player_pos.x));
+	return (sweep_fov_for_door(g, g->player.angle, palyer_ang_bounds.x,
+			palyer_ang_bounds.y));
 }
 
 bool	check_exit_door(t_game *g, long long current_time)
@@ -289,14 +287,33 @@ static bool	is_horizontal_door(t_door *door, char **map)
 	return (map[(int)door->pos.y][(int)door->pos.x - 1] == '1');
 }
 
+bool	is_door_close_enough(t_point p_pos, t_point door_center,
+		bool horizontal)
+{
+	double	vertical_dist;
+	double	horiz_dist;
+
+	if (horizontal)
+	{
+		vertical_dist = fabs(p_pos.y - door_center.y);
+		return ((vertical_dist < (1.5 * WALL_WIDTH)) && (door_center.x
+				- WALL_WIDTH / 2 < p_pos.x && p_pos.x < door_center.x
+				+ WALL_WIDTH / 2));
+	}
+	else
+	{
+		horiz_dist = fabs(p_pos.x - door_center.x);
+		return ((horiz_dist < (1.5 * WALL_WIDTH)) && (door_center.y - WALL_WIDTH
+				/ 2 < p_pos.y && p_pos.y < door_center.y + WALL_WIDTH / 2));
+	}
+}
+
 static bool	check_horizontal_door(t_door *door, t_point p_pos,
 		double player_angle, t_point door_center)
 {
 	t_point	door_p1;
 	t_point	door_p2;
-	double	vertical_dist;
-	double	p1_angle;
-	double	p2_angle;
+	t_pair	palyer_ang_bounds;
 	bool	up;
 	bool	close_enough;
 
@@ -307,16 +324,20 @@ static bool	check_horizontal_door(t_door *door, t_point p_pos,
 		.y = (door->pos.y + 0.5) * WALL_WIDTH};
 	door_p2 = (t_point){.x = (door->pos.x + 0.75) * WALL_WIDTH,
 		.y = (door->pos.y + 0.5) * WALL_WIDTH};
-	vertical_dist = fabs(p_pos.y - door_center.y);
-	close_enough = (vertical_dist < (1.5 * WALL_WIDTH)) && (door_center.x
-			- WALL_WIDTH / 2 < p_pos.x && p_pos.x < door_center.x + WALL_WIDTH
-			/ 2);
-	p1_angle = normalize_angle(atan2(door_p1.y - p_pos.y, door_p1.x - p_pos.x));
-	p2_angle = normalize_angle(atan2(door_p2.y - p_pos.y, door_p2.x - p_pos.x));
+	close_enough = is_door_close_enough(p_pos, door_center, true);
+	palyer_ang_bounds.x = normalize_angle(atan2(door_p1.y - p_pos.y, door_p1.x
+				- p_pos.x));
+	palyer_ang_bounds.y = normalize_angle(atan2(door_p2.y - p_pos.y, door_p2.x
+				- p_pos.x));
 	if (up)
-		return (close_enough && angle_between(player_angle, p1_angle,
-				p2_angle));
-	return (close_enough && angle_between(player_angle, p2_angle, p1_angle));
+		return (close_enough && angle_between(player_angle, palyer_ang_bounds.x,
+				palyer_ang_bounds.y));
+	return (close_enough && angle_between(player_angle, palyer_ang_bounds.y,
+			palyer_ang_bounds.x));
+}
+
+bool	is_close_enough(void)
+{
 }
 
 static bool	check_vertical_door(t_door *door, t_point p_pos,
@@ -324,9 +345,7 @@ static bool	check_vertical_door(t_door *door, t_point p_pos,
 {
 	t_point	door_p1;
 	t_point	door_p2;
-	double	horizontal_dist;
-	double	p1_angle;
-	double	p2_angle;
+	t_pair	palyer_ang_bounds;
 	bool	right;
 	bool	close_enough;
 
@@ -337,16 +356,16 @@ static bool	check_vertical_door(t_door *door, t_point p_pos,
 			+ 1.0 / 3.0) * WALL_WIDTH};
 	door_p2 = (t_point){.x = (door->pos.x + 0.5) * WALL_WIDTH, .y = (door->pos.y
 			+ 2.0 / 3.0) * WALL_WIDTH};
-	horizontal_dist = fabs(p_pos.x - door_center.x);
-	close_enough = (horizontal_dist < (1.5 * WALL_WIDTH)) && (door_center.y
-			- WALL_WIDTH / 2 < p_pos.y && p_pos.y < door_center.y + WALL_WIDTH
-			/ 2);
-	p1_angle = normalize_angle(atan2(door_p1.y - p_pos.y, door_p1.x - p_pos.x));
-	p2_angle = normalize_angle(atan2(door_p2.y - p_pos.y, door_p2.x - p_pos.x));
+	close_enough = is_door_close_enough(p_pos, door_center, false);
+	palyer_ang_bounds.x = normalize_angle(atan2(door_p1.y - p_pos.y, door_p1.x
+				- p_pos.x));
+	palyer_ang_bounds.y = normalize_angle(atan2(door_p2.y - p_pos.y, door_p2.x
+				- p_pos.x));
 	if (right)
-		return (close_enough && angle_between(player_angle, p1_angle,
-				p2_angle));
-	return (close_enough && angle_between(player_angle, p2_angle, p1_angle));
+		return (close_enough && angle_between(player_angle, palyer_ang_bounds.x,
+				palyer_ang_bounds.y));
+	return (close_enough && angle_between(player_angle, palyer_ang_bounds.y,
+			palyer_ang_bounds.x));
 }
 
 static void	update_single_door_in_range(t_door *door, t_point player_pos,
@@ -366,29 +385,25 @@ static void	update_single_door_in_range(t_door *door, t_point player_pos,
 
 static void	update_doors_in_range(void)
 {
-	t_game	*g;
 	t_point	player_pos;
 	double	player_angle;
 	char	**map;
 	int		i;
 	t_door	*door;
 
-	g = get_game();
-	player_pos = g->player.p;
-	player_angle = g->player.angle;
-	map = g->data.map.arr;
+	player_pos = get_game()->player.p;
+	player_angle = get_game()->player.angle;
+	map = get_game()->data.map.arr;
 	i = -2;
-	while (++i < g->nb_of_doors)
+	while (++i < get_game()->nb_of_doors)
 	{
 		if (i == -1)
-			door = &g->exit;
+			door = &get_game()->exit;
 		else
-			door = &g->doors[i];
+			door = &get_game()->doors[i];
 		update_single_door_in_range(door, player_pos, player_angle, map);
 	}
 }
-
-#define PORTAL_FRAME_DURATION_MS 20
 
 static void	update_portal_animation(t_game *g, long long current_time)
 {

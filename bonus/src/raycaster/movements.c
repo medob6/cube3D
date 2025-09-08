@@ -6,7 +6,7 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 15:39:57 by mbousset          #+#    #+#             */
-/*   Updated: 2025/09/07 17:58:46 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/09/08 14:25:09 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ static void	rotate_player(t_game *game)
 static bool	is_door_fully_open(double new_x, double new_y, char cell)
 {
 	if (get_door((int)(new_x / WALL_WIDTH), (int)(new_y
-				/ WALL_WIDTH)).frame == get_game()->graphics[DOOR].frames - 1)
+		/ WALL_WIDTH)).frame == get_game()->graphics[DOOR].frames - 1)
 		return (cell == 'D');
 	return (false);
 }
@@ -92,15 +92,14 @@ static bool	is_door_passable(double new_x, double new_y, char **map, char cell)
 	char	d_cell;
 	char	l_cell;
 	char	r_cell;
-	int		x;
-	int		y;
+	t_point	p;
 
-	x = (int)(new_x / WALL_WIDTH);
-	y = (int)(new_y / WALL_WIDTH);
-	u_cell = map[y + 1][x];
-	d_cell = map[y - 1][x];
-	l_cell = map[y][x + 1];
-	r_cell = map[y][x - 1];
+	p.x = (int)(new_x / WALL_WIDTH);
+	p.y = (int)(new_y / WALL_WIDTH);
+	u_cell = map[(int)p.y + 1][(int)p.x];
+	d_cell = map[(int)p.y - 1][(int)p.x];
+	l_cell = map[(int)p.y][(int)p.x + 1];
+	r_cell = map[(int)p.y][(int)p.x - 1];
 	if (ft_strchr("DX", cell))
 	{
 		if (u_cell == '1' && d_cell == '1')
@@ -126,7 +125,8 @@ bool	valid_door_pos(double new_x, double new_y)
 		return (true);
 	if (is_door_passable(new_x, new_y, map, cell))
 		return (true);
-	if (cell == 'X' && get_door(x, y).frame == get_game()->graphics[DOOR].frames - 1)
+	if (cell == 'X' && get_door(x, y).frame == get_game()->graphics[DOOR].frames
+		- 1)
 		get_game()->passed = true;
 	return (false);
 }
@@ -164,6 +164,7 @@ static void	apply_movement(t_game *game, double new_x, double new_y)
 		game->player.p.y = new_y;
 	}
 }
+
 void	update_player(t_game *game)
 {
 	double	new_x;

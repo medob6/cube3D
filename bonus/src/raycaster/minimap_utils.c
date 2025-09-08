@@ -6,13 +6,11 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 16:07:13 by mbousset          #+#    #+#             */
-/*   Updated: 2025/09/06 15:59:00 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/09/08 14:15:30 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub_bs.h"
-
-#define WORLD_VISIBILITY_UNIT_FACTOR 1
 
 t_mm_scale	get_minimap_scale(t_game *g, double radius)
 {
@@ -47,6 +45,7 @@ bool	in_door(t_point f, t_map map, int row, int col)
 		return (f.y > WALL_WIDTH / 3 && f.y < WALL_WIDTH * 2 / 3);
 	return (false);
 }
+
 static t_point	calc_world_point(t_game *g, double rx, double ry, t_mm_scale sc)
 {
 	t_point	delta;
@@ -127,7 +126,7 @@ int	get_minimap_pixel_color(t_game *g, double rx, double ry, t_mm_scale sc)
 	c = get_out_of_bounds_color(g, row, col);
 	if (c != -1)
 		return (c);
-	return (get_tile_color( wp, row, col, sc));
+	return (get_tile_color(wp, row, col, sc));
 }
 
 int	get_icone_color(t_graphic icone, double raidus, double x, double y)

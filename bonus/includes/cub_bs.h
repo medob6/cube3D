@@ -51,11 +51,13 @@
 # define FOV_ANGLE M_PI_3
 
 # define FRAME_DURATION_MS 40
+# define PORTAL_FRAME_DURATION_MS 20
 
 // minimp
 # define MINIMAP_SCREEN_SCALE 0.09
 # define ICON_SCALE 0.14
 # define PLAYER_SCALE 0.20
+# define WORLD_VISIBILITY_UNIT_FACTOR 1
 
 typedef enum e_graphic
 {
@@ -70,6 +72,9 @@ typedef enum e_graphic
 	FLOOR,
 	SKY,
 }				t_graphic;
+
+
+
 
 typedef struct s_point
 {

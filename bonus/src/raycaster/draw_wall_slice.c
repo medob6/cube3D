@@ -6,7 +6,7 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 16:07:07 by mbousset          #+#    #+#             */
-/*   Updated: 2025/09/07 15:58:44 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/09/08 14:31:34 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,22 +23,26 @@ void	draw_jump_floor_section(t_sec_inf *section, int wall_bottom, int old_wb)
 	}
 }
 
+void	calc_boundaries(t_sec *slice, int w_x, int old_wh, t_draw_bounds *b)
+{
+	calculate_old_boundaries(old_wh, w_x, &b->old_wt, &b->old_wb);
+	calculate_wall_boundaries(slice, w_x, &b->wall_top, &b->wall_bottom);
+}
+
 void	draw_wall_slice(int w_x, t_sec *slice, int old_wh)
 {
-	t_sec_inf	*section;
-	int			wall_top;
-	int			wall_bottom;
-	int			old_wt;
-	int			old_wb;
+	t_sec_inf		*section;
+	t_draw_bounds	b;
+	t_sec_params	p;
 
-	calculate_old_boundaries(old_wh, w_x, &old_wt, &old_wb);
-	calculate_wall_boundaries(slice, w_x, &wall_top, &wall_bottom);
-	section = init_section(w_x, slice[w_x].wall_h, slice[w_x].wall_x,
-			slice[w_x].dir, slice[w_x].door);
-	apply_texture_offset(section, &wall_top);
-	draw_ceiling_section(section, old_wt, wall_top);
-	draw_wall_section(section, wall_top, wall_bottom);
-	draw_floor_section(section, wall_bottom, old_wb);
+	calc_boundaries(slice, w_x, old_wh, &b);
+	p = (t_sec_params){slice[w_x].wall_h, slice[w_x].wall_x, slice[w_x].dir,
+		slice[w_x].door};
+	section = init_section(w_x, p);
+	apply_texture_offset(section, &b.wall_top);
+	draw_ceiling_section(section, b.old_wt, b.wall_top);
+	draw_wall_section(section, b.wall_top, b.wall_bottom);
+	draw_floor_section(section, b.wall_bottom, b.old_wb);
 	free(section);
 }
 
@@ -71,29 +75,23 @@ double	correct_dist(double raw_d, double ang)
 
 double	closest_hit(double ang, t_sec *line)
 {
-	t_pair	distance;
-	double	h_x;
-	double	v_x;
-	int		h_dir;
-	int		v_dir;
-	t_door	next_door_x;
-	t_door	next_door_y;
+	t_hit_data	h;
+	t_door		the_door;
 
-	next_door_x = (t_door){.pos.x = -1};
-	next_door_y = (t_door){.pos.x = -1};
-	distance.x = horiz_dist(ang, &h_x, &h_dir, &next_door_x);
-	distance.y = verti_dist(ang, &v_x, &v_dir, &next_door_y);
-	if (distance.x < distance.y)
+	the_door = (t_door){.pos.x = -1};
+	h.x = horiz_dist(ang, &h.h_x, &h.h_dir, &the_door);
+	h.y = verti_dist(ang, &h.v_x, &h.v_dir, &the_door);
+	if (h.x < h.y)
 	{
-		fill_line_inf(line, h_dir, h_x, distance.x);
-		if (next_door_x.pos.x != -1)
-			line->door = next_door_x;
+		fill_line_inf(line, h.h_dir, h.h_x, h.x);
+		if (the_door.pos.x != -1)
+			line->door = the_door;
 	}
 	else
 	{
-		fill_line_inf(line, v_dir, v_x, distance.y);
-		if (next_door_y.pos.y != -1)
-			line->door = next_door_y;
+		fill_line_inf(line, h.v_dir, h.v_x, h.y);
+		if (the_door.pos.y != -1)
+			line->door = the_door;
 	}
 	return (correct_dist(line->raw_dist, ang));
 }

@@ -6,23 +6,30 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 15:51:51 by mbousset          #+#    #+#             */
-/*   Updated: 2025/09/07 18:52:28 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/09/08 15:13:21 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "raycaster_bs.h"
 
-t_sec_inf	*init_section(int w_x, double wall_h, int x, t_graphic dir,
-		t_door door)
+// fixing this part ....
+
+// after split functions into lines
+
+// next refactor vars namining
+
+t_sec_inf	*init_section(int w_x, t_sec_params p)
 {
 	t_sec_inf	*section;
 
 	section = malloc(sizeof(t_sec_inf));
-	section->sec.wall_h = wall_h;
-	section->sec.dir = dir;
-	section->sec.wall_x = x;
+	if (!section)
+		return (NULL);
+	section->sec.wall_h = p.wall_h;
+	section->sec.wall_x = p.wall_x;
+	section->sec.dir = p.dir;
+	section->sec.door = p.door;
 	section->sec.n = -1;
-	section->sec.door = door;
 	section->win_x = w_x;
 	section->tex_offset = 0;
 	return (section);
@@ -68,16 +75,16 @@ static t_floorcast	init_floorcast(t_sec_inf *section)
 	t_floorcast	fc;
 
 	fc.game = get_game();
-	fc.winW = fc.game->win_w;
-	fc.winH = fc.game->win_h;
+	fc.winw = fc.game->win_w;
+	fc.winh = fc.game->win_h;
 	fc.floor_tex = fc.game->graphics[FLOOR];
 	fc.sky_tex = fc.game->graphics[SKY];
-	fc.rayDirX0 = cos(fc.game->player.angle - FOV_ANGLE / 2.0);
-	fc.rayDirY0 = sin(fc.game->player.angle - FOV_ANGLE / 2.0);
-	fc.rayDirX1 = cos(fc.game->player.angle + FOV_ANGLE / 2.0);
-	fc.rayDirY1 = sin(fc.game->player.angle + FOV_ANGLE / 2.0);
-	fc.eyeHeight = 0.5 * fc.winH;
-	fc.mid = fc.winH / 2.0 + fc.game->player.p.z;
+	fc.raydirx0 = cos(fc.game->player.angle - FOV_ANGLE / 2.0);
+	fc.raydiry0 = sin(fc.game->player.angle - FOV_ANGLE / 2.0);
+	fc.raydirx1 = cos(fc.game->player.angle + FOV_ANGLE / 2.0);
+	fc.raydiry1 = sin(fc.game->player.angle + FOV_ANGLE / 2.0);
+	fc.eyeheight = 0.5 * fc.winh;
+	fc.mid = fc.winh / 2.0 + fc.game->player.p.z;
 	fc.win_x = section->win_x;
 	return (fc);
 }
@@ -127,22 +134,21 @@ static void	draw_wall(int start, int end, t_sec_inf *section, int num)
 	}
 }
 
-static void	get_world_coords(t_floorcast *fc, double rowDist, double *worldX,
-		double *worldY)
+static void	get_world_coords(t_floorcast *fc, double rowDist, double *worldx,
+		double *worldy)
 {
 	double	factor;
-	double	rayDirX;
-	double	rayDirY;
+	double	raydirx;
+	double	raydiry;
 
-	factor = (double)fc->win_x / fc->winW;
-	rayDirX = fc->rayDirX0 + factor * (fc->rayDirX1 - fc->rayDirX0);
-	rayDirY = fc->rayDirY0 + factor * (fc->rayDirY1 - fc->rayDirY0);
-	*worldX = (fc->game->player.p.x / WALL_WIDTH) + rowDist * rayDirX;
-	*worldY = (fc->game->player.p.y / WALL_WIDTH) + rowDist * rayDirY;
+	factor = (double)fc->win_x / fc->winw;
+	raydirx = fc->raydirx0 + factor * (fc->raydirx1 - fc->raydirx0);
+	raydiry = fc->raydiry0 + factor * (fc->raydiry1 - fc->raydiry0);
+	*worldx = (fc->game->player.p.x / WALL_WIDTH) + rowDist * raydirx;
+	*worldy = (fc->game->player.p.y / WALL_WIDTH) + rowDist * raydiry;
 }
 
-static int	get_tex_color(t_floorcast *fc, double worldX, double worldY,
-		double rowDist, int num)
+int	get_tex_color(t_floorcast *fc, t_point world_p, double rowDist, int num)
 {
 	int	tx;
 	int	ty;
@@ -150,18 +156,18 @@ static int	get_tex_color(t_floorcast *fc, double worldX, double worldY,
 
 	if (num == 1)
 	{
-		tx = ((int)(worldX * fc->sky_tex.w) % fc->sky_tex.w + fc->sky_tex.w)
+		tx = ((int)(world_p.x * fc->sky_tex.w) % fc->sky_tex.w + fc->sky_tex.w)
 			% fc->sky_tex.w;
-		ty = ((int)(worldY * fc->sky_tex.h) % fc->sky_tex.h + fc->sky_tex.h)
+		ty = ((int)(world_p.y * fc->sky_tex.h) % fc->sky_tex.h + fc->sky_tex.h)
 			% fc->sky_tex.h;
 		color = get_color(fc->sky_tex, tx, ty);
 		color = apply_shading(color, rowDist * 100.0);
 	}
 	else
 	{
-		tx = ((int)(worldX * fc->floor_tex.w) % fc->floor_tex.w
+		tx = ((int)(world_p.x * fc->floor_tex.w) % fc->floor_tex.w
 				+ fc->floor_tex.w) % fc->floor_tex.w;
-		ty = ((int)(worldY * fc->floor_tex.h) % fc->floor_tex.h
+		ty = ((int)(world_p.y * fc->floor_tex.h) % fc->floor_tex.h
 				+ fc->floor_tex.h) % fc->floor_tex.h;
 		color = get_color(fc->floor_tex, tx, ty);
 		color = apply_shading(color, rowDist * 300.0);
@@ -173,20 +179,19 @@ static void	draw_floor_ceiling(t_floorcast *fc, int start, int end, int num)
 {
 	int		y;
 	double	p;
-	double	rowDist;
-	double	worldX;
-	double	worldY;
+	double	rowdist;
+	t_point	world_p;
 	int		color;
 
 	y = start - 1;
-	while (++y <= end && y < fc->winH)
+	while (++y <= end && y < fc->winh)
 	{
 		p = (double)y - fc->mid;
 		if (p == 0.0)
 			continue ;
-		rowDist = fc->eyeHeight / fabs(p);
-		get_world_coords(fc, rowDist, &worldX, &worldY);
-		color = get_tex_color(fc, worldX, worldY, rowDist, num);
+		rowdist = fc->eyeheight / fabs(p);
+		get_world_coords(fc, rowdist, &world_p.x, &world_p.y);
+		color = get_tex_color(fc, world_p, rowdist, num);
 		my_mlx_pixel_put(fc->game->display, fc->win_x, y, color);
 	}
 }
