@@ -6,7 +6,7 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 16:22:34 by mbousset          #+#    #+#             */
-/*   Updated: 2025/09/08 19:08:04 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/09/09 09:27:32 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,12 @@
 
 typedef struct s_door_inf
 {
-	double			*wall_x;
-	int				*dir;
-	double			ray_ang;
-	bool			left;
-}					t_door_inf;
+	double		*wall_x;
+	int			*dir;
+	double		ray_ang;
+	bool		left;
+	bool		up;
+}				t_door_inf;
 
 typedef struct s_doorhit
 {
@@ -31,7 +32,6 @@ typedef struct s_doorhit
 	int			*door_y;
 	bool		left;
 }				t_doorhit;
-
 
 typedef struct s_hit_data
 {
@@ -65,6 +65,7 @@ typedef struct s_rayinfo
 	t_point		map_p;
 	double		ray_ang;
 	bool		left;
+	bool		up;
 	double		result;
 }				t_rayinfo;
 
@@ -151,6 +152,10 @@ typedef struct s_floorcast
 	int			win_x;
 }				t_floorcast;
 
+bool			is_wall_hit(t_point map_p);
+t_rayinfo		init_vertical_ray(t_point next, t_point map_p, double ray_ang,
+					bool left);
+
 void			display_scean(t_game *game);
 void			draw_3d_view(t_game *game, t_raycaster *caster);
 t_sec_inf		*init_section(int w_x, t_sec_params p);
@@ -201,7 +206,8 @@ void			draw_wall_section(t_sec_inf *section, int wall_top,
 void			draw_floor_section(t_sec_inf *section, int wall_bottom,
 					int old_wb);
 int				get_rgb(t_fcub *fcub, char *color);
-// double			process_door_hit(double door_hit, double wall_x, t_doorhit h,
+// double			process_door_hit(double door_hit, double wall_x,
+// t_doorhit h,
 // 					t_door *next_door);
 void			handle_exit(t_game *game);
 

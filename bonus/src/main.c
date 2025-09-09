@@ -6,7 +6,7 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 09:38:33 by omben-ch          #+#    #+#             */
-/*   Updated: 2025/09/08 15:53:17 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/09/09 10:52:05 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,9 +139,7 @@ static void	update_closing_door(t_door *door, long long current_time)
 			door->last_update = current_time;
 		}
 		else
-		{
 			door->closing = false;
-		}
 	}
 }
 
@@ -418,14 +416,21 @@ static void	update_portal_animation(t_game *g, long long current_time)
 	}
 }
 
+void	lunch_cube(t_game *game)
+{
+	display_scean(game);
+	draw_mini_map(game);
+	mlx_put_image_to_window(game->mlx, game->win, game->display.img, 0, 0);
+}
+
 int	game_loop(t_game *game)
 {
 	bool	scean_changed;
 	bool	door_moving;
 
 	handle_exit(game);
-	// if (handle_video("bonus/video/intro.mp4"))
-	// 	return (1);
+	set_play_speed(150); // example: 1.5x audio speed
+	play_video("video/intro.mp4");
 	door_moving = update_doors_states(game);
 	scean_changed = game->player.moving || door_moving;
 	handel_o_press(game);
@@ -435,16 +440,14 @@ int	game_loop(t_game *game)
 	update_portal_animation(game, get_current_time_ms());
 	if (game->passed)
 	{
-		if (handle_video("/home/mbousset/Desktop/video/videos/short.mp4"))
-			return (1);
+		// set_play_speed(150);
+		play_video("video/short.mp4");
 		handle_close();
 	}
 	if (scean_changed)
-	{
-		display_scean(game);
-		draw_mini_map(game);
-		mlx_put_image_to_window(game->mlx, game->win, game->display.img, 0, 0);
-	}
+		lunch_cube(game);
+	if (should_clean_vlc())
+		clear_vlc();
 	return (1);
 }
 

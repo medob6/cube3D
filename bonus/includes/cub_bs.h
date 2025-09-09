@@ -73,9 +73,6 @@ typedef enum e_graphic
 	SKY,
 }				t_graphic;
 
-
-
-
 typedef struct s_point
 {
 	double		x;
