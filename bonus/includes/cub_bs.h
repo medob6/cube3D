@@ -59,6 +59,10 @@
 # define PLAYER_SCALE 0.20
 # define WORLD_VISIBILITY_UNIT_FACTOR 1
 
+//menu
+# define NB_BUTTON 6
+# define NB_IMG_MENU 18
+
 typedef enum e_graphic
 {
 	E_WALL,
@@ -72,6 +76,48 @@ typedef enum e_graphic
 	FLOOR,
 	SKY,
 }				t_graphic;
+
+typedef enum e_graphic_menu
+{
+	BG_IMG,
+	START_IMG,
+	CONTROL_IMG,
+	EXIT_IMG,
+	H_START_IMG,
+	H_CONTROL_IMG,
+	H_EXIT_IMG,
+	CONTROL_PAGE_IMG,
+	EXIT_PAGE_IMG,
+	NO_IMG,
+	YES_IMG,
+	H_NO_IMG,
+	H_YES_IMG,
+	RETURN_IMG,
+	H_RETURN_IMG,
+	NUMBERS_IMG,
+	POINT_IMG,
+	TIMER_BG_IMG
+}				t_graphic_menu;
+
+typedef enum e_timer_num
+{
+	FP_MIN,
+	SP_MIN,
+	POINT,
+	FP_SEC,
+	SP_SEC,
+	TIMER_BG
+}				t_timer_num;
+
+typedef enum e_button_name
+{
+	START,
+	CONTROL,
+	EXIT,
+	NO,
+	YES,
+	RETURN
+}				t_button_name;
 
 typedef struct s_point
 {
@@ -158,23 +204,84 @@ typedef struct s_mm_scale
 	double		px_border;
 }				t_mm_scale;
 
+typedef struct s_game t_game;
+
+typedef struct s_button
+{
+    t_image *img;
+	int lock;
+	int name;
+    int start_x;
+    int start_y;
+    int end_x;
+    int end_y;
+    int width;
+    int height;
+	void (*on_click)(t_game* game,int button);
+	void (*on_hover)(t_game* game,int button);
+} t_button;
+
+typedef struct s_timer
+{
+	t_image *img;
+	pthread_mutex_t mutex;
+	int name;
+    int start_x;
+    int start_y;
+    int end_x;
+    int end_y;
+    int width;
+    int height;
+	int sec;
+	int min;
+} t_timer;
+
 typedef struct s_game
 {
 	void		*mlx;
 	void		*win;
 	int			win_h;
 	int			win_w;
+	int			win_timer_h;
+	int			win_timer_w;
+	int end_start_menu;
 	int			nb_of_doors;
 	t_data		data;
 	t_player	player;
 	t_key		keys[11];
 	t_image		graphics[10];
+	t_image		graphic_menu[NB_IMG_MENU];
+	t_image 	img_timer;
+	t_button	buttons[NB_BUTTON];
+	t_timer		timer[6];
 	t_door		*doors;
 	t_image		display;
 	t_door		exit;
 	bool		passed;
 	int			portal_frame;
 }				t_game;
+
+
+/////////////////////////////
+void create_yes_button(t_game *game,t_button *button);
+void create_return_button(t_game *game,t_button *button);
+void create_no_button(t_game *game,t_button *button);
+void create_exit_button(t_game *game,t_button *button);
+void create_start_button(t_game *game,t_button *button);
+void create_control_button(t_game *game,t_button *button);
+int check_button(t_game *game, int x ,int y);
+int	game_loop(t_game *game);
+void draw_menu(t_game *game);
+void put_bg(t_game *game, t_image *img);
+void put_imag(t_game *game, t_button *img_info);
+void init_img_menu(t_game *game);
+void init_timer_pic(t_game *game);
+void	put_pixel(t_game *game, int x, int y, int color);
+void put_time_imag(t_game *game, t_timer *img_info , int index);
+long int get_time_sec();
+
+/////////////////////////////
+
 
 t_door			get_door(int x, int y);
 int				handle_close(void);
@@ -190,7 +297,7 @@ int				key_press(int keycode, t_game *game);
 int				key_release(int keycode, t_game *game);
 t_key			*get_key(int keycode, t_game *game);
 void			print_err(char *msg);
-double			normalize_angle(double angle);
+double			normalize_angle(double anMENU_SRC);
 void			draw_mini_map(t_game *game);
 double			deg_to_rad(double a);
 void			my_mlx_pixel_put(t_image fram, int x, int y, int color);
@@ -211,5 +318,19 @@ bool			angle_between(double angle, double start, double end);
 
 void			handle_exit(t_game *game);
 t_door			get_door(int x, int y);
+
+/* FUNCTIONS */
+void	put_timer_imag(t_game *game, t_timer *img_info);
+void	draw_timer(t_game *game, int sign);
+void	put_timer_pixel(t_game *game, int x, int y, int color);
+void	put_timer_bg(t_game *game, t_image *img);
+void	put_timer_bg(t_game *game, t_image *img);
+void	put_timer_pixel(t_game *game, int x, int y, int color);
+void	put_timer_pixel(t_game *game, int x, int y, int color);
+//void	draw_timer(t_game *game);
+int get_size_lines_of_map(t_fcub *fcub);
+void flood_fill(t_fcub *fcub, int rows, int colums);
+int	mouse_move(int x, int y, t_game *game);
+int mouse_click(int code, int x,int y ,t_game *game);
 
 #endif

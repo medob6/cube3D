@@ -6,7 +6,7 @@
 /*   By: omben-ch <omben-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 09:38:33 by omben-ch          #+#    #+#             */
-/*   Updated: 2025/09/09 11:52:02 by omben-ch         ###   ########.fr       */
+/*   Updated: 2025/09/09 12:58:29 by omben-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -448,16 +448,21 @@ int	game_loop(t_game *game)
 		lunch_cube(game);
 	// if (should_clean_vlc())
 	// 	clear_vlc();
+	draw_timer(game, 0);
 	return (1);
 }
 
 void	lunch_game_hooks(t_game *game)
 {
+	init_img_menu(game);
+	draw_menu(game);
 	mlx_do_key_autorepeatoff(game->mlx);
 	mlx_hook(game->win, 2, 1L << 0, key_press, game);
 	mlx_hook(game->win, 3, 1L << 1, key_release, game);
 	mlx_hook(game->win, 17, 0, handle_close, NULL);
-	mlx_loop_hook(game->mlx, game_loop, game);
+	mlx_hook(game->win, 6, 1L << 6, mouse_move, game);
+	mlx_mouse_hook(game->win,mouse_click,game);
+	// mlx_loop_hook(game->mlx, game_loop, game);
 	mlx_loop(game->mlx);
 }
 

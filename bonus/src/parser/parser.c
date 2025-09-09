@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
+/*   By: omben-ch <omben-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 15:38:56 by omben-ch          #+#    #+#             */
-/*   Updated: 2025/08/27 11:56:08 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/08/31 15:39:31 by omben-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,5 +143,6 @@ void	parse_and_get_data(t_fcub *fcub, int ac, char **av)
 	get_val_of_element(fcub, fd);
 	check_content_fc(fcub);
 	check_content_map(fcub);
+	flood_fill(fcub, get_size_lines_of_map(fcub) + 1,count_line(fcub->map[0]) + 1);
 	get_info_of_door(fcub);
 }

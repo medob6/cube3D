@@ -6,7 +6,7 @@
 /*   By: omben-ch <omben-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 15:39:37 by mbousset          #+#    #+#             */
-/*   Updated: 2025/09/09 11:52:16 by omben-ch         ###   ########.fr       */
+/*   Updated: 2025/09/09 12:59:37 by omben-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,4 +98,41 @@ void	initilize_game_resorces(t_game *game)
 	game->graphics[PORTAL].frames = 32;
 	init_image(game, &game->graphics[FLOOR], "bonus/textures/floor.xpm");
 	init_image(game, &game->graphics[SKY], "bonus/textures/sky.xpm");
+		init_image(game, &game->graphic_menu[BG_IMG],
+		"bonus/textures/bg.xpm");
+	init_image(game, &game->graphic_menu[START_IMG],
+		"bonus/textures/start.xpm");
+	init_image(game, &game->graphic_menu[CONTROL_IMG],
+		"bonus/textures/control.xpm");
+	init_image(game, &game->graphic_menu[EXIT_IMG],
+		"bonus/textures/exit.xpm");
+	init_image(game, &game->graphic_menu[H_START_IMG],
+		"bonus/textures/h_start.xpm");
+	init_image(game, &game->graphic_menu[H_CONTROL_IMG],
+		"bonus/textures/h_control.xpm");
+	init_image(game, &game->graphic_menu[H_EXIT_IMG],
+		"bonus/textures/h_exit.xpm");
+	init_image(game, &game->graphic_menu[CONTROL_PAGE_IMG],
+		"bonus/textures/control_page.xpm");
+	init_image(game, &game->graphic_menu[EXIT_PAGE_IMG],
+		"bonus/textures/exit_page.xpm");
+	init_image(game, &game->graphic_menu[NO_IMG],
+		"bonus/textures/no.xpm");
+	init_image(game, &game->graphic_menu[YES_IMG],
+		"bonus/textures/yes.xpm");
+	init_image(game, &game->graphic_menu[H_NO_IMG],
+		"bonus/textures/h_no.xpm");
+	init_image(game, &game->graphic_menu[H_YES_IMG],
+		"bonus/textures/h_yes.xpm");
+	init_image(game, &game->graphic_menu[RETURN_IMG],
+		"bonus/textures/return.xpm");
+	init_image(game, &game->graphic_menu[H_RETURN_IMG],
+		"bonus/textures/h_return.xpm");
+	init_image(game, &game->graphic_menu[NUMBERS_IMG],
+		"bonus/textures/numbers.xpm");
+	init_image(game, &game->graphic_menu[POINT_IMG],
+		"bonus/textures/2_point.xpm");
+	init_image(game, &game->graphic_menu[TIMER_BG_IMG],
+		"bonus/textures/timer_bg.xpm");
+	init_timer_pic(game);
 }
