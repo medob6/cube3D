@@ -12,13 +12,13 @@ LIBFT         := $(LIBFT_PATH)/libft.a
 LIBFT_BNS     := $(LIBFT_BONUS_PATH)/libft.a
 
 INCLUDES       := -I$(MANDATORY_DIR)/includes -I$(MANDATORY_DIR)/libft
-INCLUDES_BNS   := -I$(BONUS_DIR)/includes -I$(BONUS_DIR)/libft  $(shell sdl2-config --cflags) -I$(HOME)/goinfre/ffmpeg_build/include 
+INCLUDES_BNS   := -I$(BONUS_DIR)/includes -I$(BONUS_DIR)/libft  #$(shell sdl2-config --cflags) -I$(HOME)/goinfre/ffmpeg_build/include 
 
 CFLAGS         := -Wall -Wextra -Werror -g -Wuninitialized $(INCLUDES) 
 #-Wall -Wextra -Werror
 CFLAGS_BNS     :=  -g -Wuninitialized $(INCLUDES_BNS)
-OPENSSL_CFLAGS := $(shell pkg-config --cflags openssl)
-SDL2_CFLAGS := $(shell pkg-config --cflags sdl2)
+# OPENSSL_CFLAGS := $(shell pkg-config --cflags openssl)
+# SDL2_CFLAGS := $(shell pkg-config --cflags sdl2)
 CFLAGS_BNS += $(OPENSSL_CFLAGS) $(SDL2_CFLAGS)
 
 LDFLAGS        := -lmlx -lXext -lX11 -lm  -g3 #-fsanitize=address -Ofast
@@ -26,13 +26,15 @@ LDFLAGS        := -lmlx -lXext -lX11 -lm  -g3 #-fsanitize=address -Ofast
 
 OPENSSL_LIBS := $(shell pkg-config --libs openssl)
 SDL2_LIBS := $(shell pkg-config --libs sdl2)
-LDFLAGS_BNS    :=-L$(HOME)/goinfre/ffmpeg_build/lib \
-	-Wl,--start-group \
-	-lavformat -lavcodec -lswscale -lavutil -lswresample \
-	-Wl,--end-group \
-	$(OPENSSL_LIBS) \
-	$(SDL2_LIBS) \
-	-lz -lpthread -ldl -lm -llzma \
+LDFLAGS_BNS    := -lmlx -lX11 -lXext -g3 -lm
+
+# -L$(HOME)/goinfre/ffmpeg_build/lib \
+# 	-Wl,--start-group \
+# 	-lavformat -lavcodec -lswscale -lavutil -lswresample \
+# 	-Wl,--end-group \
+# 	$(OPENSSL_LIBS) \
+# 	$(SDL2_LIBS) \
+# 	-lz -lpthread -ldl -lm -llzma \
 	-lmlx -lX11 -lXext -g3  #-Ofast -fsanitize=address 
 
 MAIN_SRC       := main.c
@@ -51,7 +53,7 @@ OBJS           := $(SRCS:.c=.o)
 SRCS_BNS       := $(addprefix $(BONUS_DIR)/src/, $(MAIN_SRC)) \
                   $(addprefix $(BONUS_DIR)/src/parser/, $(PARSER_SRC)) \
                   $(addprefix $(BONUS_DIR)/src/raycaster/, $(RAYCASTER_SRC)) \
-				  $(addprefix $(BONUS_DIR)/src/video_player/, $(VIDEO_PLAYER)) \
+				#   $(addprefix $(BONUS_DIR)/src/video_player/, $(VIDEO_PLAYER)) 
 
 OBJS_BNS       := $(SRCS_BNS:.c=.o)
 

@@ -3,15 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
+/*   By: omben-ch <omben-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 09:38:33 by omben-ch          #+#    #+#             */
-/*   Updated: 2025/09/09 10:52:05 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/09/09 11:52:02 by omben-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "raycaster_bs.h"
-#include "video_bs.h"
+// #include "video_bs.h"
 
 void	parse_input(t_game *game, int ac, char **av)
 {
@@ -49,26 +49,26 @@ void	print_err(char *msg)
 	cleanup(EXIT_FAILURE);
 }
 
-static bool	handle_video(char *path)
-{
-	static bool	start = true;
-	static int	video_result = 0;
+// static bool	handle_video(char *path)
+// {
+// 	static bool	start = true;
+// 	static int	video_result = 0;
 
-	if (!start)
-		return (false);
-	video_result = play_video(path);
-	if (video_result == 1)
-	{
-		start = false;
-		usleep(30000);
-	}
-	else if (video_result == -1)
-	{
-		usleep(30000);
-		printf("Error:\n err while processing video n");
-	}
-	return (true);
-}
+// 	if (!start)
+// 		return (false);
+// 	video_result = play_video(path);
+// 	if (video_result == 1)
+// 	{
+// 		start = false;
+// 		usleep(30000);
+// 	}
+// 	else if (video_result == -1)
+// 	{
+// 		usleep(30000);
+// 		printf("Error:\n err while processing video n");
+// 	}
+// 	return (true);
+// }
 
 bool	door_is_closed(t_door door)
 {
@@ -429,8 +429,8 @@ int	game_loop(t_game *game)
 	bool	door_moving;
 
 	handle_exit(game);
-	set_play_speed(150); // example: 1.5x audio speed
-	play_video("video/intro.mp4");
+	// set_play_speed(150); // example: 1.5x audio speed
+	// play_video("video/intro.mp4");
 	door_moving = update_doors_states(game);
 	scean_changed = game->player.moving || door_moving;
 	handel_o_press(game);
@@ -441,13 +441,13 @@ int	game_loop(t_game *game)
 	if (game->passed)
 	{
 		// set_play_speed(150);
-		play_video("video/short.mp4");
+		//play_video("video/short.mp4");
 		handle_close();
 	}
 	if (scean_changed)
 		lunch_cube(game);
-	if (should_clean_vlc())
-		clear_vlc();
+	// if (should_clean_vlc())
+	// 	clear_vlc();
 	return (1);
 }
 
