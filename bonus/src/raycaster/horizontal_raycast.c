@@ -6,7 +6,7 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 15:50:02 by mbousset          #+#    #+#             */
-/*   Updated: 2025/09/09 10:32:08 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/09/10 16:03:42 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,27 +62,42 @@ double	check_door_hhit(t_rayinfo *ray, double *wall_x, int *dir, t_pair *door)
 	t_game	*g;
 	int		px;
 	int		py;
+	int		direction;
 
 	g = get_game();
 	px = (int)(g->player.p.x / WALL_WIDTH);
 	py = (int)(g->player.p.y / WALL_WIDTH);
+	direction = get_direction(ray->up);
 	if (is_valid_door_position(px, py, ray))
 	{
-		ray->next.y -= (WALL_WIDTH / 2) * (get_direction(ray->up));
-		ray->next.x -= (WALL_WIDTH / 2) / tan(ray->ray_ang)
-			* (get_direction(ray->up));
+		ray->next.y -= (WALL_WIDTH / 2) * direction;
+		ray->next.x -= (WALL_WIDTH / 2) / tan(ray->ray_ang * direction)
+			* direction;
 		if ((int)(ray->next.x / WALL_WIDTH) == px && (int)(ray->next.y
 				/ WALL_WIDTH) == py)
-			return (*door = (t_pair){px, py}, *wall_x = ray->next.x,
-				*dir = DOOR, get_dist(g->player.p, ray->next));
+		{
+			*door = (t_pair){px, py};
+			*wall_x = ray->next.x;
+			*dir = DOOR;
+			return (get_dist(g->player.p, ray->next));
+		}
+		else
+		{
+			ray->next.y += (WALL_WIDTH / 2) * direction;
+			ray->next.x += (WALL_WIDTH / 2) / tan(ray->ray_ang * direction)
+				* direction;
+		}
 	}
 	if (ft_strchr("DX", g->data.map.arr[(int)ray->map_p.y][(int)ray->map_p.x]))
-		return (ray->next.y += (WALL_WIDTH / 2) * get_direction(ray->up),
-			ray->next.x += (WALL_WIDTH / 2) / tan(ray->ray_ang)
-			* (get_direction(ray->up)), *door = (t_pair){(int)(ray->next.x
-			/ WALL_WIDTH), (int)(ray->next.y / WALL_WIDTH)},
-			*wall_x = ray->next.x, *dir = DOOR, get_dist(g->player.p,
-				ray->next));
+	{
+		ray->next.y += (WALL_WIDTH / 2) * direction;
+		ray->next.x += (WALL_WIDTH / 2) / tan(ray->ray_ang) * direction;
+		*door = (t_pair){(int)(ray->next.x / WALL_WIDTH), (int)(ray->next.y
+				/ WALL_WIDTH)};
+		*wall_x = ray->next.x;
+		*dir = DOOR;
+		return (get_dist(g->player.p, ray->next));
+	}
 	return (-1);
 }
 
@@ -147,7 +162,7 @@ double	get_h_dist(t_door_inf f, t_point next, t_pair step, t_door *next_door)
 		ray.map_p.y = ((next.y - 1) * f.up + next.y * !f.up) / WALL_WIDTH;
 		if (outside_map(ray.map_p.x, ray.map_p.y))
 			break ;
-		ray = (t_rayinfo){next, ray.map_p, f.ray_ang, f.up};
+		ray = (t_rayinfo){next, ray.map_p, f.ray_ang, .up = f.up};
 		hit = do_door_hit(&f, &ray, next_door);
 		if (hit != -1)
 			return (hit);

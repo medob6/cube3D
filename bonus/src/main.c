@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: omben-ch <omben-ch@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 09:38:33 by omben-ch          #+#    #+#             */
-/*   Updated: 2025/09/10 11:38:22 by omben-ch         ###   ########.fr       */
+/*   Updated: 2025/09/10 14:55:51 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "raycaster_bs.h"
+
 // #include "video_bs.h"
 
 void	parse_input(t_game *game, int ac, char **av)
@@ -429,8 +430,6 @@ int	game_loop(t_game *game)
 	bool	door_moving;
 
 	handle_exit(game);
-	// set_play_speed(150); // example: 1.5x audio speed
-	// play_video("video/intro.mp4");
 	door_moving = update_doors_states(game);
 	scean_changed = game->player.moving || door_moving;
 	handel_o_press(game);
@@ -440,14 +439,10 @@ int	game_loop(t_game *game)
 	update_portal_animation(game, get_current_time_ms());
 	if (game->passed)
 	{
-		// set_play_speed(150);
-		//play_video("video/short.mp4");
 		handle_close();
 	}
 	if (scean_changed)
 		lunch_cube(game);
-	// if (should_clean_vlc())
-	// 	clear_vlc();
 	draw_timer(game, 0);
 	return (1);
 }
@@ -461,7 +456,7 @@ void	lunch_game_hooks(t_game *game)
 	mlx_hook(game->win, 3, 1L << 1, key_release, game);
 	mlx_hook(game->win, 17, 0, handle_close, NULL);
 	mlx_hook(game->win, 6, 1L << 6, mouse_move, game);
-	mlx_mouse_hook(game->win,mouse_click,game);
+	mlx_mouse_hook(game->win, mouse_click, game);
 	// mlx_loop_hook(game->mlx, game_loop, game);
 	mlx_loop(game->mlx);
 }
@@ -476,7 +471,7 @@ int	main(int ac, char **av)
 		print_err("Failed to initialize MLX\n");
 	get_window_dimensions();
 	parse_input(game, ac, av);
-	game->win = mlx_new_window(game->mlx, game->win_w, game->win_h, "Cub3D");
+	game->win = mlx_new_window(game->mlx, game->win_w, game->win_h, "FIND THE EXIT");
 	if (!game->win)
 		print_err("Failed to create window\n");
 	initilize_game_resorces(game);
