@@ -6,12 +6,11 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 09:38:33 by omben-ch          #+#    #+#             */
-/*   Updated: 2025/09/09 10:52:05 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/09/10 13:42:34 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "raycaster_bs.h"
-#include "video_bs.h"
 
 void	parse_input(t_game *game, int ac, char **av)
 {
@@ -334,9 +333,6 @@ static bool	check_horizontal_door(t_door *door, t_point p_pos,
 			palyer_ang_bounds.x));
 }
 
-bool	is_close_enough(void)
-{
-}
 
 static bool	check_vertical_door(t_door *door, t_point p_pos,
 		double player_angle, t_point door_center)

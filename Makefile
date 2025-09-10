@@ -1,6 +1,6 @@
 NAME        = cub3D
 
-CC          := gcc
+CC          := cc
 
 MANDATORY_DIR := mandatory
 BONUS_DIR     := bonus

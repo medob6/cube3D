@@ -29,7 +29,8 @@
         "video_bs.h": "c",
         "array.h": "c",
         "cub_bs.h": "c",
-        "cstdlib": "c"
+        "cstdlib": "c",
+        "vlc_mlx_init.h": "c"
     },
     "functionHeaderExtension.headerFilePath": "/home/mbousset/Desktop/cub3D/mandatory/includes/cub.h"
 }
