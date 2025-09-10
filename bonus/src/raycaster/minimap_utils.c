@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minimap_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
+/*   By: omben-ch <omben-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 16:07:13 by mbousset          #+#    #+#             */
-/*   Updated: 2025/09/08 14:15:30 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/09/10 14:40:56 by omben-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,8 @@ bool	in_door(t_point f, t_map map, int row, int col)
 	bool	vertical;
 	bool	horizontal;
 
-	vertical = (map.arr[row - 1][col] == '1' || map.arr[row + 1][col] == '1');
-	horizontal = (map.arr[row][col - 1] == '1' || map.arr[row][col + 1] == '1');
+	vertical = (map.arr[row - 1][col] == '1' && map.arr[row + 1][col] == '1');
+	horizontal = (map.arr[row][col - 1] == '1' && map.arr[row][col + 1] == '1');
 	if (vertical)
 		return (f.x > WALL_WIDTH / 3 && f.x < WALL_WIDTH * 2 / 3);
 	if (horizontal)
@@ -73,7 +73,7 @@ static int	get_door_color(t_point f, int row, int col, char type)
 	g = get_game();
 	if (in_door(f, g->data.map, row, col))
 	{
-		if (get_door(col, row).frame != 9)
+		if (get_door(col, row).frame != get_game()->graphics[DOOR].frames - 1)
 		{
 			if (type == 'D')
 				return (0xff0000);

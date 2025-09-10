@@ -6,7 +6,7 @@
 /*   By: omben-ch <omben-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 15:14:23 by omben-ch          #+#    #+#             */
-/*   Updated: 2025/09/04 11:09:10 by omben-ch         ###   ########.fr       */
+/*   Updated: 2025/09/10 12:38:24 by omben-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,10 +115,10 @@ void	check_content_map(t_fcub *fcub)
 {
 	int	x;
 	int	y;
-	int	position;
+	static int	position;
+	static int	exit;
 
 	x = 0;
-	position = 0;
 	add_space(fcub);
 	check_line_first_last(fcub, count_list(fcub->map) - 1);
 	while (fcub->map[++x] && fcub->map[x + 1])
@@ -131,8 +131,10 @@ void	check_content_map(t_fcub *fcub)
 			position_of_player_and_floor_check(fcub, fcub->map, x, y);
 			if (ft_strchr("NWSE", fcub->map[x][y]))
 				position++;
+			if (ft_strchr("X", fcub->map[x][y]))
+				exit++;
 		}
 	}
-	if (position != 1)
+	if (position != 1 || exit != 1)
 		print_error_map_and_exit(fcub);
 }

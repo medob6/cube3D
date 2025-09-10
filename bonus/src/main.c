@@ -6,7 +6,7 @@
 /*   By: omben-ch <omben-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 09:38:33 by omben-ch          #+#    #+#             */
-/*   Updated: 2025/09/09 12:58:29 by omben-ch         ###   ########.fr       */
+/*   Updated: 2025/09/10 11:38:22 by omben-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -334,9 +334,9 @@ static bool	check_horizontal_door(t_door *door, t_point p_pos,
 			palyer_ang_bounds.x));
 }
 
-bool	is_close_enough(void)
-{
-}
+// bool	is_close_enough(void)
+// {
+// }
 
 static bool	check_vertical_door(t_door *door, t_point p_pos,
 		double player_angle, t_point door_center)

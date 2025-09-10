@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   movements.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
+/*   By: omben-ch <omben-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 15:39:57 by mbousset          #+#    #+#             */
-/*   Updated: 2025/09/08 14:25:09 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/09/10 14:21:49 by omben-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,6 +144,7 @@ t_door	get_door(int x, int y)
 			return (get_game()->doors[i]);
 		i++;
 	}
+	return (get_game()->doors[0]);
 }
 
 static void	apply_movement(t_game *game, double new_x, double new_y)

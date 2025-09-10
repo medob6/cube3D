@@ -6,7 +6,7 @@
 /*   By: omben-ch <omben-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 15:13:48 by omben-ch          #+#    #+#             */
-/*   Updated: 2025/09/03 10:52:48 by omben-ch         ###   ########.fr       */
+/*   Updated: 2025/09/10 14:27:17 by omben-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,11 @@ void	draw_timer(t_game *game, int sign)
 		game->timer[FP_SEC].sec = 0;
 		game->timer[FP_MIN].min++;
 	}
-	if (game->timer[FP_SEC].sec == 8)
-	{
-		handle_close();
-	}
+	// if (game->timer[FP_SEC].sec == 15)
+	// {
+	// 	tmp_time = 0;
+	// 	init_game(game);
+	// 	draw_menu(game);
+	// }
 	put_timer(game, sign);
 }

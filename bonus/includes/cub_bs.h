@@ -224,7 +224,6 @@ typedef struct s_button
 typedef struct s_timer
 {
 	t_image *img;
-	pthread_mutex_t mutex;
 	int name;
     int start_x;
     int start_y;
@@ -248,6 +247,7 @@ typedef struct s_game
 	int			nb_of_doors;
 	t_data		data;
 	t_player	player;
+	t_player	player_info;
 	t_key		keys[11];
 	t_image		graphics[10];
 	t_image		graphic_menu[NB_IMG_MENU];
@@ -263,6 +263,7 @@ typedef struct s_game
 
 
 /////////////////////////////
+
 void create_yes_button(t_game *game,t_button *button);
 void create_return_button(t_game *game,t_button *button);
 void create_no_button(t_game *game,t_button *button);
@@ -319,7 +320,7 @@ bool			angle_between(double angle, double start, double end);
 void			handle_exit(t_game *game);
 t_door			get_door(int x, int y);
 
-/* FUNCTIONS */
+int mouse_move_handler(int x, int y, t_game *game);
 void	put_timer_imag(t_game *game, t_timer *img_info);
 void	draw_timer(t_game *game, int sign);
 void	put_timer_pixel(t_game *game, int x, int y, int color);
@@ -327,10 +328,13 @@ void	put_timer_bg(t_game *game, t_image *img);
 void	put_timer_bg(t_game *game, t_image *img);
 void	put_timer_pixel(t_game *game, int x, int y, int color);
 void	put_timer_pixel(t_game *game, int x, int y, int color);
-//void	draw_timer(t_game *game);
 int get_size_lines_of_map(t_fcub *fcub);
 void flood_fill(t_fcub *fcub, int rows, int colums);
 int	mouse_move(int x, int y, t_game *game);
 int mouse_click(int code, int x,int y ,t_game *game);
+
+
+/* FUNCTIONS */
+void init_game(t_game *game);
 
 #endif

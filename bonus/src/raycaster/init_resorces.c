@@ -6,7 +6,7 @@
 /*   By: omben-ch <omben-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 15:39:37 by mbousset          #+#    #+#             */
-/*   Updated: 2025/09/09 12:59:37 by omben-ch         ###   ########.fr       */
+/*   Updated: 2025/09/10 13:32:07 by omben-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,8 +60,8 @@ void	init_player(t_game *game)
 	y = -1;
 	while (map[++y])
 	{
-		x = 0;
-		while (map[y][x])
+		x = -1;
+		while (map[y][++x])
 		{
 			if (is_valid_dir(map[y][x]))
 			{
@@ -71,9 +71,9 @@ void	init_player(t_game *game)
 				game->player.angle = get_view_angel(map[y][x]);
 				game->player.moving = true;
 				map[y][x] = '0';
+				game->player_info = game->player;
 				return ;
 			}
-			x++;
 		}
 	}
 }

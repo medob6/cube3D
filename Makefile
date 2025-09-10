@@ -1,6 +1,6 @@
 NAME        = cub3D
 
-CC          := gcc
+CC          := cc
 
 MANDATORY_DIR := mandatory
 BONUS_DIR     := bonus
@@ -14,19 +14,19 @@ LIBFT_BNS     := $(LIBFT_BONUS_PATH)/libft.a
 INCLUDES       := -I$(MANDATORY_DIR)/includes -I$(MANDATORY_DIR)/libft
 INCLUDES_BNS   := -I$(BONUS_DIR)/includes -I$(BONUS_DIR)/libft  #$(shell sdl2-config --cflags) -I$(HOME)/goinfre/ffmpeg_build/include 
 
-CFLAGS         := -Wall -Wextra -Werror -g -Wuninitialized $(INCLUDES) 
+CFLAGS         := -Wall -Wextra -Werror -Wuninitialized -Ofast $(INCLUDES) 
 #-Wall -Wextra -Werror
-CFLAGS_BNS     :=  -g -Wuninitialized $(INCLUDES_BNS)
+CFLAGS_BNS     :=  -Wuninitialized $(INCLUDES_BNS)
 # OPENSSL_CFLAGS := $(shell pkg-config --cflags openssl)
 # SDL2_CFLAGS := $(shell pkg-config --cflags sdl2)
 CFLAGS_BNS += $(OPENSSL_CFLAGS) $(SDL2_CFLAGS)
 
-LDFLAGS        := -lmlx -lXext -lX11 -lm  -g3 #-fsanitize=address -Ofast
+LDFLAGS        := -lmlx -lXext -lX11 -lm -Ofast -g #-fsanitize=address 
 
 
 OPENSSL_LIBS := $(shell pkg-config --libs openssl)
 SDL2_LIBS := $(shell pkg-config --libs sdl2)
-LDFLAGS_BNS    := -lmlx -lX11 -lXext -g3 -lm
+LDFLAGS_BNS    := -lmlx -lX11 -lXext -lm
 
 # -L$(HOME)/goinfre/ffmpeg_build/lib \
 # 	-Wl,--start-group \
@@ -45,6 +45,7 @@ RAYCASTER_SRC  := cleanup.c draw_wall_slice.c geometry_utils.c helpers.c init_re
 VIDEO_PLAYER :=  video.c  video_audio.c  video_cleanup.c  video_codec.c  video_utils.c
 MENU_SRC	   := exit.c start.c control.c menu.c no.c yes.c return.c mlx_event.c
 COUNTER_TIME_SRC	   :=  time_of_player.c design.c  init_res.c  tools.c#time_of_player.c
+MOUSE_SRC	   :=  mouse_hook.c init_game.c
 
 SRCS           := $(addprefix $(MANDATORY_DIR)/src/, $(MAIN_SRC)) \
                   $(addprefix $(MANDATORY_DIR)/src/parser/, $(PARSER_SRC)) \
@@ -56,7 +57,8 @@ SRCS_BNS       := $(addprefix $(BONUS_DIR)/src/, $(MAIN_SRC)) \
                   $(addprefix $(BONUS_DIR)/src/parser/, $(PARSER_SRC)) \
                   $(addprefix $(BONUS_DIR)/src/raycaster/, $(RAYCASTER_SRC)) \
 				  $(addprefix $(BONUS_DIR)/src/menu/, $(MENU_SRC)) \
-                  $(addprefix $(BONUS_DIR)/src/counter_time/, $(COUNTER_TIME_SRC))
+                  $(addprefix $(BONUS_DIR)/src/counter_time/, $(COUNTER_TIME_SRC)) \
+                  $(addprefix $(BONUS_DIR)/src/mouse/, $(MOUSE_SRC))
 				
 #$(addprefix $(BONUS_DIR)/src/video_player/, $(VIDEO_PLAYER)) 
 
