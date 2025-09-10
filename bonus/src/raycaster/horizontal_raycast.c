@@ -6,7 +6,7 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 15:50:02 by mbousset          #+#    #+#             */
-/*   Updated: 2025/09/10 16:17:30 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/09/10 18:57:55 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ bool	is_valid_door_position(int px, int py, t_rayinfo *ray)
 				/ 2) ^ ray->up));
 }
 
-static double	handle_player_door_hit(t_rayinfo *ray, double *wall_x, int *dir)
+double	check_door_hhit(t_rayinfo *ray, double *wall_x, int *dir, t_pair *door)
 {
 	t_game	*g;
 	int		px;
@@ -68,52 +68,26 @@ static double	handle_player_door_hit(t_rayinfo *ray, double *wall_x, int *dir)
 	px = (int)(g->player.p.x / WALL_WIDTH);
 	py = (int)(g->player.p.y / WALL_WIDTH);
 	direction = get_direction(ray->up);
-	ray->next.y -= (WALL_WIDTH / 2) * direction;
-	ray->next.x -= (WALL_WIDTH / 2) / tan(ray->ray_ang) * direction;
-	if ((int)(ray->next.x / WALL_WIDTH) == px && (int)(ray->next.y
-			/ WALL_WIDTH) == py)
+	if (is_valid_door_position(px, py, ray))
 	{
-		ray->map_p = (t_point){px, py};
-		*wall_x = ray->next.x;
-		*dir = DOOR;
-		return (get_dist(g->player.p, ray->next));
+		ray->next.y -= (WALL_WIDTH / 2) * direction;
+		ray->next.x -= (WALL_WIDTH / 2) / tan(ray->ray_ang) * direction;
+		if ((int)(ray->next.x / WALL_WIDTH) == px && (int)(ray->next.y
+				/ WALL_WIDTH) == py)
+			return (*door = (t_pair){px, py}, *wall_x = ray->next.x,
+				*dir = DOOR, get_dist(g->player.p, ray->next));
+		else
+		{
+			ray->next.y += (WALL_WIDTH / 2) * direction;
+			ray->next.x += (WALL_WIDTH / 2) / tan(ray->ray_ang) * direction;
+		}
 	}
-	ray->next.y += (WALL_WIDTH / 2) * direction;
-	ray->next.x += (WALL_WIDTH / 2) / tan(ray->ray_ang) * direction;
-	return (-1);
-}
-
-static double	handle_map_door_hit(t_rayinfo *ray, double *wall_x, int *dir)
-{
-	int	direction;
-
-	direction = get_direction(ray->up);
-	ray->next.y += (WALL_WIDTH / 2) * direction;
-	ray->next.x += (WALL_WIDTH / 2) / tan(ray->ray_ang) * direction;
-	ray->map_p = (t_point){(int)(ray->next.x / WALL_WIDTH), (int)(ray->next.y
-			/ WALL_WIDTH)};
-	*wall_x = ray->next.x;
-	*dir = DOOR;
-	return (get_dist(get_game()->player.p, ray->next));
-}
-
-double	check_door_hhit(t_rayinfo *ray, double *wall_x, int *dir, t_pair *door)
-{
-	double	result;
-
-	if (is_valid_door_position((int)(get_game()->player.p.x / WALL_WIDTH),
-		(int)(get_game()->player.p.y / WALL_WIDTH), ray))
-	{
-		result = handle_player_door_hit(ray, wall_x, dir);
-		if (result != -1)
-			return (*door = (t_pair){ray->map_p.x, ray->map_p.y}, result);
-	}
-	if (ft_strchr("DX",
-			get_game()->data.map.arr[(int)ray->map_p.y][(int)ray->map_p.x]))
-	{
-		result = handle_map_door_hit(ray, wall_x, dir);
-		return (*door = (t_pair){ray->map_p.x, ray->map_p.y}, result);
-	}
+	if (ft_strchr("DX", g->data.map.arr[(int)ray->map_p.y][(int)ray->map_p.x]))
+		return (ray->next.y += (WALL_WIDTH / 2) * direction, ray->next.x
+			+= (WALL_WIDTH / 2) / tan(ray->ray_ang) * direction,
+			*door = (t_pair){(int)(ray->next.x / WALL_WIDTH), (int)(ray->next.y
+				/ WALL_WIDTH)}, *wall_x = ray->next.x, *dir = DOOR,
+			get_dist(g->player.p, ray->next));
 	return (-1);
 }
 
