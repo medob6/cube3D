@@ -6,11 +6,22 @@
 /*   By: omben-ch <omben-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 15:13:48 by omben-ch          #+#    #+#             */
-/*   Updated: 2025/09/10 14:27:17 by omben-ch         ###   ########.fr       */
+/*   Updated: 2025/09/11 14:30:54 by omben-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub_bs.h"
+
+void  restart_game(t_game *game)
+{
+	init_resources_game(game);
+	game->passed = false;
+	game->timer[FP_SEC].sec = 60;
+	game->timer[FP_MIN].min = game->toeg;
+	game->end_start_menu = START;
+	game->tmp_time = 0;
+	draw_menu(game);
+}
 
 void	put_timer(t_game *game ,int sign)
 {
@@ -24,27 +35,27 @@ void	put_timer(t_game *game ,int sign)
 }
 void	draw_timer(t_game *game, int sign)
 {
-	static long int tmp_time;
 	long int time;
-	
-	if (!tmp_time)
-		tmp_time =  get_time_sec();
+
+	if (!game->tmp_time)
+		game->tmp_time =  get_time_sec();
 	time = get_time_sec();
-	if (time - tmp_time == 1)
+	if (time - game->tmp_time == 1)
 	{
-		game->timer[FP_SEC].sec++;
-		tmp_time = time;
+		game->timer[FP_SEC].sec--;
+		game->tmp_time = time;
 	}
-	if (game->timer[FP_SEC].sec == 60)
+	if (game->timer[FP_SEC].sec == 0 && game->timer[FP_MIN].min == 0)
 	{
-		game->timer[FP_SEC].sec = 0;
-		game->timer[FP_MIN].min++;
+		put_timer(game, sign);
+		//! vid game over
+		restart_game(game);
+		return ;
 	}
-	// if (game->timer[FP_SEC].sec == 15)
-	// {
-	// 	tmp_time = 0;
-	// 	init_game(game);
-	// 	draw_menu(game);
-	// }
+	if (game->timer[FP_SEC].sec == 0)
+	{
+		game->timer[FP_SEC].sec = 60;		
+		game->timer[FP_MIN].min--;
+	}
 	put_timer(game, sign);
 }

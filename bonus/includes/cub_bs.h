@@ -259,6 +259,8 @@ typedef struct s_game
 	t_door		exit;
 	bool		passed;
 	int			portal_frame;
+	int			toeg;
+	long int 	tmp_time;
 }				t_game;
 
 
@@ -335,6 +337,7 @@ int mouse_click(int code, int x,int y ,t_game *game);
 
 
 /* FUNCTIONS */
-void init_game(t_game *game);
+void  restart_game(t_game *game);
+void init_resources_game(t_game *game);
 
 #endif

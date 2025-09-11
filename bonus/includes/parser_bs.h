@@ -26,7 +26,6 @@
 
 typedef struct s_door	t_door;
 
-
 typedef struct s_fcub
 {
 	char				*n_path;
@@ -38,7 +37,7 @@ typedef struct s_fcub
 	char				**map;
 	t_door				*exit;
 	t_door				*door;
-
+	int					steps_to_exit;
 	int					nb_door;
 }						t_fcub;
 

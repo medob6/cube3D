@@ -6,7 +6,7 @@
 /*   By: omben-ch <omben-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 13:22:27 by omben-ch          #+#    #+#             */
-/*   Updated: 2025/09/10 11:37:12 by omben-ch         ###   ########.fr       */
+/*   Updated: 2025/09/11 10:15:17 by omben-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int mouse_move_handler(int x, int y, t_game *game)
 		tmp = x - prev_x;
 		if (abs(tmp) > 2)
 		{
-            game->player.angle  += tmp * 0.01;
+            game->player.angle  += tmp * 0.009;
 		}
 	}
 	if (prev_y != -1)
@@ -31,7 +31,7 @@ int mouse_move_handler(int x, int y, t_game *game)
 		tmp = y - prev_y;
 		if (abs(tmp) > 2)
 		{
-            game->player.p.z -= tmp ;
+            game->player.p.z -= tmp;
 		}
 	}
 	prev_x = x;

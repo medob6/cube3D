@@ -6,7 +6,7 @@
 /*   By: omben-ch <omben-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 15:58:30 by omben-ch          #+#    #+#             */
-/*   Updated: 2025/09/02 11:53:36 by omben-ch         ###   ########.fr       */
+/*   Updated: 2025/09/11 14:16:52 by omben-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,8 @@ void init_min_part(t_game *game)
 	game->timer[FP_MIN].end_y = 3*(game->win_h / 30);
 	game->timer[FP_MIN].width = game->timer[FP_MIN].end_x - game->timer[FP_MIN].start_x;
 	game->timer[FP_MIN].height = game->timer[FP_MIN].end_y - game->timer[FP_MIN].start_y;
-	game->timer[FP_MIN].min = 0;
-    
+	game->timer[FP_MIN].min = game->toeg;
+
 	game->timer[SP_MIN].img = &game->graphic_menu[NUMBERS_IMG];
 	game->timer[SP_MIN].start_x = 2.5 * game->win_w / 35;
 	game->timer[SP_MIN].start_y = 2 * (game->win_h / 30);
@@ -63,7 +63,7 @@ void init_sec_part(t_game *game)
 	game->timer[FP_SEC].end_y = 3*(game->win_h / 30);
 	game->timer[FP_SEC].width = game->timer[FP_SEC].end_x - game->timer[FP_SEC].start_x;
 	game->timer[FP_SEC].height = game->timer[FP_SEC].end_y - game->timer[FP_SEC].start_y;
-	game->timer[FP_SEC].sec = 0;
+	game->timer[FP_SEC].sec = 60;
 
     game->timer[SP_SEC].img = &game->graphic_menu[NUMBERS_IMG];
 	game->timer[SP_SEC].start_x = 5.5*game->win_w / 35;

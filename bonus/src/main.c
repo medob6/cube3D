@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
+/*   By: omben-ch <omben-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 09:38:33 by omben-ch          #+#    #+#             */
-/*   Updated: 2025/09/10 14:55:51 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/09/11 14:25:24 by omben-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,12 @@ void	parse_input(t_game *game, int ac, char **av)
 	t_fcub	fcub;
 
 	parse_and_get_data(&fcub, ac, av);
+	game->toeg = fcub.steps_to_exit * 10 / 60;
+	if (game->toeg > 15)
+		game->toeg = 15;
+	if (game->toeg <= 0)
+		game->toeg = 1;
+	game->toeg--;
 	game->data.paths[N_WALL] = fcub.n_path;
 	game->data.paths[W_WALL] = fcub.w_path;
 	game->data.paths[E_WALL] = fcub.e_path;
@@ -33,6 +39,7 @@ void	parse_input(t_game *game, int ac, char **av)
 	game->exit = *fcub.exit;
 	free(fcub.exit);
 	game->passed = false;
+	game->tmp_time = 0;
 }
 
 long long	get_current_time_ms(void)
@@ -429,6 +436,8 @@ int	game_loop(t_game *game)
 	bool	scean_changed;
 	bool	door_moving;
 
+	if (game->end_start_menu != -1)
+		return (0);
 	handle_exit(game);
 	door_moving = update_doors_states(game);
 	scean_changed = game->player.moving || door_moving;
@@ -439,7 +448,10 @@ int	game_loop(t_game *game)
 	update_portal_animation(game, get_current_time_ms());
 	if (game->passed)
 	{
-		handle_close();
+		//! vid you win
+		restart_game(game);
+		return (0);
+		//handle_close();
 	}
 	if (scean_changed)
 		lunch_cube(game);

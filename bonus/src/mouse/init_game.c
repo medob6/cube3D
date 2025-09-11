@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init_game.c                                        :+:      :+:    :+:   */
+/*   init_resources_game.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: omben-ch <omben-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 13:34:28 by omben-ch          #+#    #+#             */
-/*   Updated: 2025/09/10 13:40:59 by omben-ch         ###   ########.fr       */
+/*   Updated: 2025/09/11 10:14:54 by omben-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void init_doors_exit(t_game *game)
     game->exit.animating = false;
 }
 
-void init_game(t_game *game)
+void init_resources_game(t_game *game)
 {
     init_doors_exit(game);
     game->player = game->player_info;
