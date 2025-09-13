@@ -6,11 +6,12 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 09:38:33 by omben-ch          #+#    #+#             */
-/*   Updated: 2025/09/10 13:42:34 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/09/11 17:54:57 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "raycaster_bs.h"
+#include "video_bs.h"
 
 void	parse_input(t_game *game, int ac, char **av)
 {
@@ -47,28 +48,6 @@ void	print_err(char *msg)
 	ft_putstr_fd(msg, 2);
 	cleanup(EXIT_FAILURE);
 }
-
-static bool	handle_video(char *path)
-{
-	static bool	start = true;
-	static int	video_result = 0;
-
-	if (!start)
-		return (false);
-	video_result = play_video(path);
-	if (video_result == 1)
-	{
-		start = false;
-		usleep(30000);
-	}
-	else if (video_result == -1)
-	{
-		usleep(30000);
-		printf("Error:\n err while processing video n");
-	}
-	return (true);
-}
-
 bool	door_is_closed(t_door door)
 {
 	int	last_fram;
@@ -333,7 +312,6 @@ static bool	check_horizontal_door(t_door *door, t_point p_pos,
 			palyer_ang_bounds.x));
 }
 
-
 static bool	check_vertical_door(t_door *door, t_point p_pos,
 		double player_angle, t_point door_center)
 {
@@ -419,14 +397,46 @@ void	lunch_cube(t_game *game)
 	mlx_put_image_to_window(game->mlx, game->win, game->display.img, 0, 0);
 }
 
+bool	handle_video(const char *path, t_video *vid)
+{
+	if (vid->played)
+		return (false); // already finished, never restart
+	if (!vid->active)
+	{
+		vid->active = true;
+		vid->result = 0;
+	}
+	vid->result = play_video(path);
+	if (vid->result == 0)
+	{
+		return (true); // still playing
+	}
+	else if (vid->result == 1)
+	{
+		vid->active = false;
+		vid->played = true; // mark as done forever
+		return (false);
+	}
+	else if (vid->result == -1)
+	{
+		usleep(30000);
+		printf("Error: err while processing video\n");
+		vid->active = false;
+		vid->played = true; // also mark done, to avoid retries
+		return (false);
+	}
+	return (false);
+}
+
 int	game_loop(t_game *game)
 {
 	bool	scean_changed;
 	bool	door_moving;
 
 	handle_exit(game);
-	set_play_speed(150); // example: 1.5x audio speed
-	play_video("video/intro.mp4");
+	// play intro
+	if (!game->intro.played)
+		handle_video("bonus/video/Copie_de_cub3d_intro.mp4", &game->intro);
 	door_moving = update_doors_states(game);
 	scean_changed = game->player.moving || door_moving;
 	handel_o_press(game);
@@ -434,16 +444,23 @@ int	game_loop(t_game *game)
 	if (game->player.moving)
 		update_doors_in_range();
 	update_portal_animation(game, get_current_time_ms());
+	// play lose video
 	if (game->passed)
 	{
-		// set_play_speed(150);
-		play_video("video/short.mp4");
+		if (game->intro.played)
+		{
+			game->intro.active = false;
+			game->intro.played = false;
+			game->intro.result = 0;
+		}
+		if (handle_video("bonus/video/short.mp4", &game->intro))
+			return (1);
+		if (handle_video("bonus/video/you_lose_vid.mp4", &game->lose))
+			return (1);
 		handle_close();
 	}
 	if (scean_changed)
 		lunch_cube(game);
-	if (should_clean_vlc())
-		clear_vlc();
 	return (1);
 }
 
@@ -471,6 +488,12 @@ int	main(int ac, char **av)
 	if (!game->win)
 		print_err("Failed to create window\n");
 	initilize_game_resorces(game);
+	game->intro.active = false;
+	game->intro.played = false;
+	game->intro.result = 0;
+	game->lose.active = false;
+	game->lose.played = false;
+	game->lose.result = 0;
 	lunch_game_hooks(game);
 	return (0);
 }

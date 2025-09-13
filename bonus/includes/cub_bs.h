@@ -158,6 +158,13 @@ typedef struct s_mm_scale
 	double		px_border;
 }				t_mm_scale;
 
+typedef struct s_video
+{
+	bool		active;
+	bool		played;
+	int			result;
+}				t_video;
+
 typedef struct s_game
 {
 	void		*mlx;
@@ -174,6 +181,8 @@ typedef struct s_game
 	t_door		exit;
 	bool		passed;
 	int			portal_frame;
+	t_video		intro;
+	t_video		lose;
 }				t_game;
 
 t_door			get_door(int x, int y);
