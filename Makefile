@@ -33,7 +33,7 @@ LDFLAGS_BNS    :=-L$(HOME)/goinfre/ffmpeg_build/lib \
 	-lmlx -lX11 -lXext -g3  -Ofast -fsanitize=thread  #-fsanitize=address 
 
 MAIN_SRC       := main.c
-PARSER_SRC     := check_fc.c check_map.c errors_msg.c get_val_of_file.c parser.c tools1.c tools2.c flood_fill.c
+PARSER_SRC     := check_fc.c tools_flood_fill.c check_map.c errors_msg.c get_val_of_file.c parser.c tools1.c tools2.c flood_fill.c
 RAYCASTER_SRC  := cleanup.c draw_wall_slice.c geometry_utils.c helpers.c init_resorces2.c keys_api.c minimap_utils.c \
                   ray_cast.c wall_color.c draw_sections.c frame_utils.c helpers2.c horizontal_raycast.c init_resorces.c \
                   minimap.c movements.c vertical_raycast.c

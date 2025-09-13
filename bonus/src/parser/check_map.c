@@ -6,7 +6,7 @@
 /*   By: omben-ch <omben-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 15:14:23 by omben-ch          #+#    #+#             */
-/*   Updated: 2025/09/10 12:38:24 by omben-ch         ###   ########.fr       */
+/*   Updated: 2025/09/13 18:37:05 by omben-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,8 +113,8 @@ void	position_of_player_and_floor_check(t_fcub *fcub, char **map, int x,
 
 void	check_content_map(t_fcub *fcub)
 {
-	int	x;
-	int	y;
+	int			x;
+	int			y;
 	static int	position;
 	static int	exit;
 

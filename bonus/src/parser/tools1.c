@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tools1.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
+/*   By: omben-ch <omben-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 15:17:02 by omben-ch          #+#    #+#             */
-/*   Updated: 2025/07/31 10:04:19 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/09/13 18:42:58 by omben-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,4 +72,26 @@ int	check_nwes(t_fcub *fcub, char *line)
 	}
 	freeing_list(list);
 	return (0);
+}
+
+int	count_char_in_map(char **map, char c)
+{
+	int	count;
+	int	x;
+	int	y;
+
+	x = 0;
+	count = 0;
+	while (map[x])
+	{
+		y = 0;
+		while (map[x][y])
+		{
+			if (map[x][y] == c)
+				count++;
+			y++;
+		}
+		x++;
+	}
+	return (count);
 }

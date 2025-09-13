@@ -14,7 +14,7 @@
 # define CUB_BS_H
 # include "get_next_line.h"
 # include "libft.h"
-# include "parser_bs.h"
+# include "pars_b.h"
 # include <SDL2/SDL.h>
 # include <errno.h>
 # include <fcntl.h>
@@ -237,6 +237,20 @@ typedef struct s_timer
 	int sec;
 	int min;
 } t_timer;
+
+typedef struct s_var
+{
+	unsigned int  color;
+	double		scale_x;
+	double		scale_y;
+	double		start_x;
+	int			img_y;
+	int			img_x;
+	int			y;
+	int			end;
+	int			x;
+}	t_var;
+
 typedef struct s_video
 {
 	bool		active;
@@ -355,6 +369,11 @@ int mouse_click(int code, int x,int y ,t_game *game);
 
 
 /* FUNCTIONS */
+void	dup_map(t_fcub *fcub, char **map);
+void	free_map_flood_fill(char **map);
+int	count_char_in_map(char **map, char c);
+void	next(t_fcub *fcub, int x, int y, int *door);
+void	handel_o_press(t_game *game);
 void  restart_game(t_game *game);
 void init_resources_game(t_game *game);
 

@@ -6,25 +6,11 @@
 /*   By: omben-ch <omben-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/26 09:49:46 by omben-ch          #+#    #+#             */
-/*   Updated: 2025/09/13 14:47:48 by omben-ch         ###   ########.fr       */
+/*   Updated: 2025/09/13 18:35:35 by omben-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub_bs.h"
-
-int	check_button(t_game *game, int x, int y)
-{
-	int	i;
-
-	i = -1;
-	while (++i < NB_BUTTON)
-	{
-		if ((x >= game->buttons[i].start_x && x <= game->buttons[i].end_x)
-			&& (y >= game->buttons[i].start_y && y <= game->buttons[i].end_y))
-			return (i);
-	}
-	return (-1);
-}
 
 void	draw_menu(t_game *game)
 {
@@ -64,8 +50,7 @@ void	init_img_menu(t_game *game)
 
 void	put_pixel(t_game *game, int x, int y, int color)
 {
-	unsigned	*color_add;
-
+	unsigned *color_add;
 	if (x < 0 || y < 0 || x >= game->win_w || y >= game->win_h)
 		return ;
 	color_add = (unsigned *)(game->display.addr + (x * game->display.bpp / 8)
@@ -75,62 +60,50 @@ void	put_pixel(t_game *game, int x, int y, int color)
 
 void	put_bg(t_game *game, t_image *img)
 {
-	int			y;
-	int			x;
-	int			img_x;
-	int			img_y;
-	unsigned	color;
-	double		scale_x;
-	double		scale_y;
+	t_var	v;
 
-	scale_x = (double)img->w / (double)game->win_w;
-	scale_y = (double)img->h / (double)game->win_h;
-	y = 0;
-	while (y < game->win_h)
+	v.scale_x = (double)img->w / (double)game->win_w;
+	v.scale_y = (double)img->h / (double)game->win_h;
+	v.y = 0;
+	while (v.y < game->win_h)
 	{
-		x = 0;
-		while (x < game->win_w)
+		v.x = 0;
+		while (v.x < game->win_w)
 		{
-			img_x = (double)x * (double)scale_x;
-			img_y = (double)y * (double)scale_y;
-			color = *(unsigned *)(img->addr + (img_x * img->bpp / 8) + (img_y
-						* img->line_len));
-			if (!get_t(color))
-				put_pixel(game, x, y, color);
-			x++;
+			v.img_x = (double)v.x * (double)v.scale_x;
+			v.img_y = (double)v.y * (double)v.scale_y;
+			v.color = *(unsigned *)(img->addr + (v.img_x * img->bpp / 8)
+					+ (v.img_y * img->line_len));
+			if (!get_t(v.color))
+				put_pixel(game, v.x, v.y, v.color);
+			v.x++;
 		}
-		y++;
+		v.y++;
 	}
 }
 
 void	put_imag(t_game *game, t_button *img_info)
 {
-	int			img_x;
-	int			y;
-	int			x;
-	int			img_y;
-	unsigned	color;
-	double		scale_x;
-	double		scale_y;
+	t_var	v;
 
-	scale_x = (double)img_info->img->w / (double)img_info->width;
-	scale_y = (double)img_info->img->h / (double)img_info->height;
-	y = 0;
-	while (y < img_info->height)
+	v.scale_x = (double)img_info->img->w / (double)img_info->width;
+	v.scale_y = (double)img_info->img->h / (double)img_info->height;
+	v.y = 0;
+	while (v.y < img_info->height)
 	{
-		x = 0;
-		while (x < img_info->width)
+		v.x = 0;
+		while (v.x < img_info->width)
 		{
-			img_x = (double)x * (double)scale_x;
-			img_y = (double)y * (double)scale_y;
-			color = *(unsigned *)(img_info->img->addr + (img_x
-						* img_info->img->bpp / 8) + (img_y
+			v.img_x = (double)v.x * (double)v.scale_x;
+			v.img_y = (double)v.y * (double)v.scale_y;
+			v.color = *(unsigned *)(img_info->img->addr + (v.img_x
+						* img_info->img->bpp / 8) + (v.img_y
 						* img_info->img->line_len));
-			if (!get_t(color))
-				put_pixel(game, img_info->start_x + x, img_info->start_y + y,
-					color);
-			x++;
+			if (!get_t(v.color))
+				put_pixel(game, img_info->start_x + v.x, img_info->start_y
+					+ v.y, v.color);
+			v.x++;
 		}
-		y++;
+		v.y++;
 	}
 }

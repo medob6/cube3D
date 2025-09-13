@@ -1,37 +1,44 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   mouse_hook.c                                       :+:      :+:    :+:   */
+/*   tools_flood_fill.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: omben-ch <omben-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/09/09 13:22:27 by omben-ch          #+#    #+#             */
-/*   Updated: 2025/09/13 18:36:00 by omben-ch         ###   ########.fr       */
+/*   Created: 2025/09/13 18:45:07 by omben-ch          #+#    #+#             */
+/*   Updated: 2025/09/13 18:46:07 by omben-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub_bs.h"
 
-int	mouse_move_handler(int x, int y, t_game *game)
+int	get_size_lines_of_map(t_fcub *fcub)
 {
-	static int	prev_x = -1;
-	static int	prev_y = -1;
-	int			tmp;
+	int	x;
 
-	if (prev_x != -1)
+	x = 0;
+	while (fcub->map[x])
 	{
-		tmp = x - prev_x;
-		if (abs(tmp) > 2)
-			game->player.angle += tmp * 0.009;
+		x++;
 	}
-	if (prev_y != -1)
+	return (x);
+}
+
+void	dup_map(t_fcub *fcub, char **map)
+{
+	int	x;
+
+	x = 0;
+	while (fcub->map[x])
 	{
-		tmp = y - prev_y;
-		if (abs(tmp) > 2)
-			game->player.p.z -= tmp;
+		map[x] = ft_strdup(fcub->map[x]);
+		if (!map[x])
+		{
+			free_map_flood_fill(map);
+			freeing_data(fcub);
+			print_and_exit("error malloc\n");
+		}
+		x++;
 	}
-	prev_x = x;
-	prev_y = y;
-	game->player.moving = true;
-	return (0);
+	map[x] = NULL;
 }

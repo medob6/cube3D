@@ -6,12 +6,11 @@
 /*   By: omben-ch <omben-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 09:38:33 by omben-ch          #+#    #+#             */
-/*   Updated: 2025/09/13 15:20:40 by omben-ch         ###   ########.fr       */
+/*   Updated: 2025/09/13 16:58:08 by omben-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "raycaster_bs.h"
-
 #include "video_bs.h"
 
 void	parse_input(t_game *game, int ac, char **av)
@@ -56,27 +55,6 @@ void	print_err(char *msg)
 	ft_putstr_fd(msg, 2);
 	cleanup(EXIT_FAILURE);
 }
-
-// static bool	handle_video(char *path)
-// {
-// 	static bool	start = true;
-// 	static int	video_result = 0;
-
-// 	if (!start)
-// 		return (false);
-// 	video_result = play_video(path);
-// 	if (video_result == 1)
-// 	{
-// 		start = false;
-// 		usleep(30000);
-// 	}
-// 	else if (video_result == -1)
-// 	{
-// 		usleep(30000);
-// 		printf("Error:\n err while processing video n");
-// 	}
-// 	return (true);
-// }
 
 bool	door_is_closed(t_door door)
 {
@@ -483,6 +461,7 @@ int play_win_lose_vid(t_game *game)
 
 void game_runing(t_game *game)
 {
+	
 	bool	scean_changed;
 	bool	door_moving;
 
@@ -502,6 +481,7 @@ void game_runing(t_game *game)
 	if (scean_changed)
 		lunch_cube(game);
 	draw_timer(game, 0);
+
 }
 
 int	game_loop(t_game *game)
