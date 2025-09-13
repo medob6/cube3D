@@ -165,6 +165,14 @@ typedef struct s_video
 	int			result;
 }				t_video;
 
+typedef enum e_vid
+{
+	INTRO,
+	
+	END,
+
+}				t_vid;
+
 typedef struct s_game
 {
 	void		*mlx;
@@ -176,13 +184,12 @@ typedef struct s_game
 	t_player	player;
 	t_key		keys[11];
 	t_image		graphics[10];
+	t_video		videos[3];
 	t_door		*doors;
 	t_image		display;
 	t_door		exit;
 	bool		passed;
 	int			portal_frame;
-	t_video		intro;
-	t_video		lose;
 }				t_game;
 
 t_door			get_door(int x, int y);

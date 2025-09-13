@@ -6,7 +6,7 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 15:39:37 by mbousset          #+#    #+#             */
-/*   Updated: 2025/09/06 15:35:42 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/09/13 09:02:47 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,20 @@ void	init_player(t_game *game)
 	}
 }
 
+void	init_videos(void)
+{
+	int	i;
+
+	i = 0;
+	while (i < 2)
+	{
+		get_game()->videos[i].active = false;
+		get_game()->videos[i].played = false;
+		get_game()->videos[i].result = 0;
+		i++;
+	}
+}
+
 void	initilize_game_resorces(t_game *game)
 {
 	if (SDL_Init(SDL_INIT_AUDIO) < 0)
@@ -98,4 +112,5 @@ void	initilize_game_resorces(t_game *game)
 	game->graphics[PORTAL].frames = 32;
 	init_image(game, &game->graphics[FLOOR], "bonus/textures/floor.xpm");
 	init_image(game, &game->graphics[SKY], "bonus/textures/sky.xpm");
+	init_videos();
 }

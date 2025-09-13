@@ -6,7 +6,7 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/27 16:03:45 by mbousset          #+#    #+#             */
-/*   Updated: 2025/09/11 17:37:08 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/09/13 08:59:19 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,9 +69,6 @@ static int	convert_audio_frame(t_audio_convert *conv)
 	int	len2;
 	int	data_size;
 
-	av_rescale_rnd(swr_get_delay(conv->swr_ctx,
-				conv->ctx->sample_rate) + conv->frame->nb_samples,
-			conv->ctx->sample_rate, conv->ctx->sample_rate, AV_ROUND_UP);
 	len2 = swr_convert(conv->swr_ctx, &conv->out_buf, conv->out_buf_size / 2,
 			(const uint8_t **)conv->frame->data, conv->frame->nb_samples);
 	data_size = len2 * 2 * 2;
@@ -212,7 +209,6 @@ static void	process_frame_with_pts(t_vdata *vdata)
 static int	process_decoded_video_frame(t_vdata *vdata)
 {
 	// enum AVPixelFormat	src_pix_fmt;
-
 	if (!initialize_sws_context(vdata))
 		return (-1);
 	// src_pix_fmt = vdata->video.frame->format;

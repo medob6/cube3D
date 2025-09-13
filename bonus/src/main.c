@@ -6,7 +6,7 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 09:38:33 by omben-ch          #+#    #+#             */
-/*   Updated: 2025/09/11 17:54:57 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/09/13 08:59:38 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -397,10 +397,10 @@ void	lunch_cube(t_game *game)
 	mlx_put_image_to_window(game->mlx, game->win, game->display.img, 0, 0);
 }
 
-bool	handle_video(const char *path, t_video *vid)
+bool	handle_video(char *path, t_video *vid)
 {
 	if (vid->played)
-		return (false); // already finished, never restart
+		return (false);
 	if (!vid->active)
 	{
 		vid->active = true;
@@ -408,21 +408,19 @@ bool	handle_video(const char *path, t_video *vid)
 	}
 	vid->result = play_video(path);
 	if (vid->result == 0)
-	{
-		return (true); // still playing
-	}
+		return (true);
 	else if (vid->result == 1)
 	{
 		vid->active = false;
-		vid->played = true; // mark as done forever
+		vid->played = true;
 		return (false);
 	}
 	else if (vid->result == -1)
 	{
-		usleep(30000);
+		usleep(3000);
 		printf("Error: err while processing video\n");
 		vid->active = false;
-		vid->played = true; // also mark done, to avoid retries
+		vid->played = true;
 		return (false);
 	}
 	return (false);
@@ -434,9 +432,12 @@ int	game_loop(t_game *game)
 	bool	door_moving;
 
 	handle_exit(game);
-	// play intro
-	if (!game->intro.played)
-		handle_video("bonus/video/Copie_de_cub3d_intro.mp4", &game->intro);
+	if (!game->videos[INTRO].played)
+	{
+		if (handle_video("bonus/video/Copie_de_cub3d_intro.mp4",
+				&game->videos[INTRO]))
+			return (1);
+	}
 	door_moving = update_doors_states(game);
 	scean_changed = game->player.moving || door_moving;
 	handel_o_press(game);
@@ -444,18 +445,9 @@ int	game_loop(t_game *game)
 	if (game->player.moving)
 		update_doors_in_range();
 	update_portal_animation(game, get_current_time_ms());
-	// play lose video
 	if (game->passed)
 	{
-		if (game->intro.played)
-		{
-			game->intro.active = false;
-			game->intro.played = false;
-			game->intro.result = 0;
-		}
-		if (handle_video("bonus/video/short.mp4", &game->intro))
-			return (1);
-		if (handle_video("bonus/video/you_lose_vid.mp4", &game->lose))
+		if (handle_video("bonus/video/you_lose_vid.mp4", &game->videos[END]))
 			return (1);
 		handle_close();
 	}
@@ -488,12 +480,6 @@ int	main(int ac, char **av)
 	if (!game->win)
 		print_err("Failed to create window\n");
 	initilize_game_resorces(game);
-	game->intro.active = false;
-	game->intro.played = false;
-	game->intro.result = 0;
-	game->lose.active = false;
-	game->lose.played = false;
-	game->lose.result = 0;
 	lunch_game_hooks(game);
 	return (0);
 }
