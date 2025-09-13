@@ -29,7 +29,10 @@
         "video_bs.h": "c",
         "array.h": "c",
         "cub_bs.h": "c",
-        "cstdlib": "c"
+        "cstdlib": "c",
+        "errno.h": "c",
+        "stdlib.h": "c",
+        "unistd.h": "c"
     },
     "functionHeaderExtension.headerFilePath": "/home/omben-ch/Desktop/cube3D/bonus/includes/cub_bs.h"
 }

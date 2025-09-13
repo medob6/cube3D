@@ -6,11 +6,12 @@
 /*   By: omben-ch <omben-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 15:13:48 by omben-ch          #+#    #+#             */
-/*   Updated: 2025/09/11 14:30:54 by omben-ch         ###   ########.fr       */
+/*   Updated: 2025/09/13 15:13:54 by omben-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub_bs.h"
+#include "video_bs.h"
 
 void  restart_game(t_game *game)
 {
@@ -19,6 +20,7 @@ void  restart_game(t_game *game)
 	game->timer[FP_SEC].sec = 60;
 	game->timer[FP_MIN].min = game->toeg;
 	game->end_start_menu = START;
+	game->win_lose = 0;
 	game->tmp_time = 0;
 	draw_menu(game);
 }
@@ -48,8 +50,7 @@ void	draw_timer(t_game *game, int sign)
 	if (game->timer[FP_SEC].sec == 0 && game->timer[FP_MIN].min == 0)
 	{
 		put_timer(game, sign);
-		//! vid game over
-		restart_game(game);
+		game->win_lose = 2;
 		return ;
 	}
 	if (game->timer[FP_SEC].sec == 0)

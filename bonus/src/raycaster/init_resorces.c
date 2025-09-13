@@ -6,7 +6,7 @@
 /*   By: omben-ch <omben-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 15:39:37 by mbousset          #+#    #+#             */
-/*   Updated: 2025/09/10 13:32:07 by omben-ch         ###   ########.fr       */
+/*   Updated: 2025/09/13 15:02:42 by omben-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,10 +78,24 @@ void	init_player(t_game *game)
 	}
 }
 
+
+void	init_videos(void)
+{
+	int	i;
+
+	i = 0;
+	while (i < 3)
+	{
+		get_game()->videos[i].active = false;
+		get_game()->videos[i].played = false;
+		get_game()->videos[i].result = 0;
+		i++;
+	}
+}
+
 void	initilize_game_resorces(t_game *game)
 {
-	// if (SDL_Init(SDL_INIT_AUDIO) < 0)
-	// 	return ;
+	init_videos();
 	init_keys(game);
 	init_player(game);
 	init_image_fram(game, &game->display);

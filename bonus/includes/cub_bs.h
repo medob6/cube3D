@@ -26,7 +26,6 @@
 # include <string.h>
 # include <sys/time.h>
 # include <unistd.h>
-
 # define WALL_HIGHT 64
 
 # define WALL_WIDTH 128
@@ -116,7 +115,11 @@ typedef enum e_button_name
 	EXIT,
 	NO,
 	YES,
-	RETURN
+	RETURN,
+	IN_GAME,
+	IN_PLY_W_VID,
+	IN_PLY_L_VID,
+	IN_PLY_I_VID
 }				t_button_name;
 
 typedef struct s_point
@@ -234,6 +237,19 @@ typedef struct s_timer
 	int sec;
 	int min;
 } t_timer;
+typedef struct s_video
+{
+	bool		active;
+	bool		played;
+	int			result;
+}				t_video;
+
+typedef enum e_vid
+{
+	INTRO,
+	WIN,
+	LOSE,
+}				t_vid;
 
 typedef struct s_game
 {
@@ -254,6 +270,7 @@ typedef struct s_game
 	t_image 	img_timer;
 	t_button	buttons[NB_BUTTON];
 	t_timer		timer[6];
+	t_video 	videos[3];
 	t_door		*doors;
 	t_image		display;
 	t_door		exit;
@@ -261,6 +278,7 @@ typedef struct s_game
 	int			portal_frame;
 	int			toeg;
 	long int 	tmp_time;
+	int 	win_lose;
 }				t_game;
 
 

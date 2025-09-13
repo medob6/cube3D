@@ -36,5 +36,11 @@ void init_doors_exit(t_game *game)
 void init_resources_game(t_game *game)
 {
     init_doors_exit(game);
+    get_game()->videos[WIN].active = false;
+	get_game()->videos[WIN].played = false;
+	get_game()->videos[WIN].result = 0;
+    get_game()->videos[LOSE].active = false;
+	get_game()->videos[LOSE].played = false;
+	get_game()->videos[LOSE].result = 0;
     game->player = game->player_info;
 }

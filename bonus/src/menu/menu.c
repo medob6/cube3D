@@ -6,7 +6,7 @@
 /*   By: omben-ch <omben-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/26 09:49:46 by omben-ch          #+#    #+#             */
-/*   Updated: 2025/09/02 10:00:47 by omben-ch         ###   ########.fr       */
+/*   Updated: 2025/09/13 14:47:48 by omben-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ int	check_button(t_game *game, int x, int y)
 
 void	draw_menu(t_game *game)
 {
+	if (game->end_start_menu == IN_PLY_I_VID)
+		game->end_start_menu = START;
 	if (game->end_start_menu == START)
 	{
 		put_bg(game, &game->graphic_menu[BG_IMG]);

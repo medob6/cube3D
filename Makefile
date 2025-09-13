@@ -12,30 +12,25 @@ LIBFT         := $(LIBFT_PATH)/libft.a
 LIBFT_BNS     := $(LIBFT_BONUS_PATH)/libft.a
 
 INCLUDES       := -I$(MANDATORY_DIR)/includes -I$(MANDATORY_DIR)/libft
-INCLUDES_BNS   := -I$(BONUS_DIR)/includes -I$(BONUS_DIR)/libft  #$(shell sdl2-config --cflags) -I$(HOME)/goinfre/ffmpeg_build/include 
+INCLUDES_BNS   := -I$(BONUS_DIR)/includes -I$(BONUS_DIR)/libft  $(shell sdl2-config --cflags) -I$(HOME)/goinfre/ffmpeg_build/include 
 
-CFLAGS         := -Wall -Wextra -Werror -Wuninitialized -Ofast $(INCLUDES) 
+CFLAGS         := -Wall -Wextra -Werror -g -Wuninitialized $(INCLUDES) 
 #-Wall -Wextra -Werror
-CFLAGS_BNS     :=  -Wuninitialized $(INCLUDES_BNS)
-# OPENSSL_CFLAGS := $(shell pkg-config --cflags openssl)
-# SDL2_CFLAGS := $(shell pkg-config --cflags sdl2)
-CFLAGS_BNS += $(OPENSSL_CFLAGS) $(SDL2_CFLAGS)
+CFLAGS_BNS     :=  -g -Wuninitialized $(INCLUDES_BNS)
+SDL2_CFLAGS := $(shell pkg-config --cflags sdl2)
+CFLAGS_BNS += $(SDL2_CFLAGS)
 
-LDFLAGS        := -lmlx -lXext -lX11 -lm -Ofast -g #-fsanitize=address 
+LDFLAGS        := -lmlx -lXext -lX11 -lm  -g3 #-fsanitize=address -Ofast
 
 
-OPENSSL_LIBS := $(shell pkg-config --libs openssl)
 SDL2_LIBS := $(shell pkg-config --libs sdl2)
-LDFLAGS_BNS    := -lmlx -lX11 -lXext -lm
-
-# -L$(HOME)/goinfre/ffmpeg_build/lib \
-# 	-Wl,--start-group \
-# 	-lavformat -lavcodec -lswscale -lavutil -lswresample \
-# 	-Wl,--end-group \
-# 	$(OPENSSL_LIBS) \
-# 	$(SDL2_LIBS) \
-# 	-lz -lpthread -ldl -lm -llzma \
-	-lmlx -lX11 -lXext -g3  #-Ofast -fsanitize=address 
+LDFLAGS_BNS    :=-L$(HOME)/goinfre/ffmpeg_build/lib \
+	-Wl,--start-group \
+	-lavformat -lavcodec -lswscale -lavutil -lswresample \
+	-Wl,--end-group \
+	$(SDL2_LIBS) \
+	-lz -lpthread -ldl -lm -llzma \
+	-lmlx -lX11 -lXext -g3  -Ofast -fsanitize=thread  #-fsanitize=address 
 
 MAIN_SRC       := main.c
 PARSER_SRC     := check_fc.c check_map.c errors_msg.c get_val_of_file.c parser.c tools1.c tools2.c flood_fill.c
@@ -58,9 +53,9 @@ SRCS_BNS       := $(addprefix $(BONUS_DIR)/src/, $(MAIN_SRC)) \
                   $(addprefix $(BONUS_DIR)/src/raycaster/, $(RAYCASTER_SRC)) \
 				  $(addprefix $(BONUS_DIR)/src/menu/, $(MENU_SRC)) \
                   $(addprefix $(BONUS_DIR)/src/counter_time/, $(COUNTER_TIME_SRC)) \
-                  $(addprefix $(BONUS_DIR)/src/mouse/, $(MOUSE_SRC))
+                  $(addprefix $(BONUS_DIR)/src/mouse/, $(MOUSE_SRC)) \
+				  $(addprefix $(BONUS_DIR)/src/video_player/, $(VIDEO_PLAYER))
 				
-#$(addprefix $(BONUS_DIR)/src/video_player/, $(VIDEO_PLAYER)) 
 
 OBJS_BNS       := $(SRCS_BNS:.c=.o)
 
