@@ -6,7 +6,7 @@
 /*   By: omben-ch <omben-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 09:38:33 by omben-ch          #+#    #+#             */
-/*   Updated: 2025/09/13 16:58:08 by omben-ch         ###   ########.fr       */
+/*   Updated: 2025/09/15 09:26:56 by omben-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -486,8 +486,10 @@ void game_runing(t_game *game)
 
 int	game_loop(t_game *game)
 {
+	// ! DONT REMOVE THIS COMMIT
 	// if (handle_video("bonus/video/cub3d_intro.mkv", &game->videos[INTRO]))
 	// 	return (1);
+	// ! DONT REMOVE THIS COMMIT
 	if (play_win_lose_vid(game))
 		return (1);
 	draw_menu(game);

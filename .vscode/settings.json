@@ -32,7 +32,8 @@
         "cstdlib": "c",
         "errno.h": "c",
         "stdlib.h": "c",
-        "unistd.h": "c"
+        "unistd.h": "c",
+        "pars_b.h": "c"
     },
     "functionHeaderExtension.headerFilePath": "/home/omben-ch/Desktop/cube3D/bonus/includes/cub_bs.h"
 }
