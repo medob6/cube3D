@@ -6,7 +6,7 @@
 /*   By: omben-ch <omben-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 14:44:04 by omben-ch          #+#    #+#             */
-/*   Updated: 2025/06/26 18:09:26 by omben-ch         ###   ########.fr       */
+/*   Updated: 2025/09/15 16:37:05 by omben-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,13 @@ void	print_cub_rules(void)
 	ft_putstr_fd(BOLD GREEN "==========================\n" RESET, 1);
 }
 
-void	print_error_argument(void)
+void	print_error_argument(char *error)
 {
 	ft_putstr_fd("Error\n", 2);
 	ft_putstr_fd(RED BOLD "❌ Error Argument: " RESET, 2);
+	ft_putstr_fd(GREEN BOLD, 2);
+	ft_putstr_fd(error, 2);
+	ft_putstr_fd(" " RESET, 2);
 	ft_putstr_fd("invalid .cub configuration.\n", 2);
 	ft_putstr_fd("➡️  Please run ", 2);
 	ft_putstr_fd(BOLD "./cub --rules" RESET, 2);
@@ -65,7 +68,7 @@ void	print_and_exit(char *str)
 
 void	print_error_map_and_exit(t_fcub *fcub)
 {
-	print_error_argument();
+	print_error_argument("Map");
 	freeing_data(fcub);
 	cleanup(1);
 }
