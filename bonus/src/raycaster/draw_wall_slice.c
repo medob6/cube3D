@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   draw_wall_slice.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: omben-ch <omben-ch@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 16:07:07 by mbousset          #+#    #+#             */
-/*   Updated: 2025/09/10 14:51:47 by omben-ch         ###   ########.fr       */
+/*   Updated: 2025/09/15 15:25:56 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ double	closest_hit(double ang, t_sec *line)
 	t_hit_data	h;
 	t_door		the_door;
 
-	the_door = (t_door){.pos.x = -1,.pos.y = -1};
+	the_door = (t_door){.pos.x = -1, .pos.y = -1};
 	h.x = horiz_dist(ang, &h.h_x, &h.h_dir, &the_door);
 	h.y = verti_dist(ang, &h.v_x, &h.v_dir, &the_door);
 	if (h.x < h.y)

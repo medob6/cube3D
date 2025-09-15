@@ -6,7 +6,7 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 15:49:58 by mbousset          #+#    #+#             */
-/*   Updated: 2025/09/10 18:53:48 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/09/15 17:59:57 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ void	get_v_inter(t_point *next, bool left, double ray_ang)
 		* tan(ray_ang);
 }
 
-// Check if the player's tile is a valid vertical door
 bool	is_player_on_vertical_door(t_pair p, t_game *g)
 {
 	return (ft_strchr("DX", g->data.map.arr[(int)p.y][(int)p.x])
@@ -44,7 +43,6 @@ bool	is_player_on_vertical_door(t_pair p, t_game *g)
 		&& g->data.map.arr[(int)p.y - 1][(int)p.x] == '1');
 }
 
-// Apply the door offset (temporary shift)
 void	apply_door_offset(t_rayinfo *ray)
 {
 	ray->next.y -= WALL_WIDTH / 2 * tan(ray->ray_ang * (-ray->left
@@ -52,7 +50,6 @@ void	apply_door_offset(t_rayinfo *ray)
 	ray->next.x -= WALL_WIDTH / 2 * (-ray->left + !ray->left);
 }
 
-// Restore the door offset (undo shift if no hit)
 void	restore_door_offset(t_rayinfo *ray)
 {
 	ray->next.y += WALL_WIDTH / 2 * tan(ray->ray_ang * (-ray->left
@@ -60,7 +57,17 @@ void	restore_door_offset(t_rayinfo *ray)
 	ray->next.x += WALL_WIDTH / 2 * (-ray->left + !ray->left);
 }
 
-// Main: check if ray hits player's vertical door
+double	ver_door_res(t_rayinfo *ray, int *door_x, int *door_y)
+{
+	t_game	*g;
+
+	g = get_game();
+	if (get_door(*door_x, *door_y).frame == g->graphics[DOOR].frames - 1)
+		return (restore_door_offset(ray), -1);
+	else
+		return (get_dist(g->player.p, ray->next));
+}
+
 double	check_player_vertical_door(t_rayinfo *ray, t_door_inf f, int *door_x,
 		int *door_y)
 {
@@ -68,6 +75,7 @@ double	check_player_vertical_door(t_rayinfo *ray, t_door_inf f, int *door_x,
 	t_pair	p;
 	int		p_tile_x;
 	int		p_tile_y;
+	double	result;
 
 	g = get_game();
 	p.x = g->player.p.x / WALL_WIDTH;
@@ -76,15 +84,15 @@ double	check_player_vertical_door(t_rayinfo *ray, t_door_inf f, int *door_x,
 	p_tile_y = (int)p.y;
 	if (!is_player_on_vertical_door(p, g))
 		return (-1);
-	if ((fmod(g->player.p.x, WALL_WIDTH) <= WALL_WIDTH / 2) ^ ray->left)
+	if ((fmod(g->player.p.x, WALL_WIDTH) < WALL_WIDTH / 2) ^ ray->left)
 	{
 		apply_door_offset(ray);
 		if ((int)(ray->next.x / WALL_WIDTH) == p_tile_x && (int)(ray->next.y
 				/ WALL_WIDTH) == p_tile_y)
 			return (ray->map_p.x = p_tile_x, ray->map_p.y = p_tile_y,
 				*door_x = ray->map_p.x, *door_y = ray->map_p.y,
-				*(f.wall_x) = ray->next.y, *(f.dir) = DOOR,
-				get_dist(g->player.p, ray->next));
+				*(f.wall_x) = ray->next.y, *(f.dir) = DOOR, ver_door_res(ray,
+					door_x, door_y));
 		restore_door_offset(ray);
 	}
 	return (-1);
@@ -163,10 +171,11 @@ double	handle_vertical_door_hit(double door_hit, t_door *door, t_door_inf f,
 // === HANDLE DOOR HIT ===
 double	check_vertical_door_hit(t_door_inf f, t_rayinfo ray, t_door *next_door)
 {
-	int		door_x;
-	int		door_y;
-	double	door_hit;
-	t_door	door;
+	int			door_x;
+	int			door_y;
+	double		door_hit;
+	t_door		door;
+	static int	c = 0;
 
 	door_hit = check_door_vhit(&ray, f, &door_x, &door_y);
 	if (door_hit == -1)
@@ -176,12 +185,11 @@ double	check_vertical_door_hit(t_door_inf f, t_rayinfo ray, t_door *next_door)
 	return (door_hit);
 }
 
-// === RAY LOOP ===
 double	get_v_dist(t_door_inf f, t_point next, t_pair step, t_door *next_door)
 {
 	t_point		map_p;
 	t_rayinfo	ray;
-	double		door_hit;
+	double		dist_door_hit;
 
 	while (true)
 	{
@@ -190,9 +198,9 @@ double	get_v_dist(t_door_inf f, t_point next, t_pair step, t_door *next_door)
 		if (outside_map(map_p.x, map_p.y))
 			break ;
 		ray = init_vertical_ray(next, map_p, f.ray_ang, f.left);
-		door_hit = check_vertical_door_hit(f, ray, next_door);
-		if (door_hit != -1)
-			return (door_hit);
+		dist_door_hit = check_vertical_door_hit(f, ray, next_door);
+		if (dist_door_hit != -1)
+			return (dist_door_hit);
 		if (is_wall_hit(map_p))
 		{
 			*(f.wall_x) = next.y;
@@ -205,7 +213,6 @@ double	get_v_dist(t_door_inf f, t_point next, t_pair step, t_door *next_door)
 	return (INFINITY);
 }
 
-// === MAIN FUNCTION ===
 double	verti_dist(double ray_ang, double *wall_x, int *dir, t_door *next_door)
 {
 	t_point		next;

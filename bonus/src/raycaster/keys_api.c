@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   keys_api.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: omben-ch <omben-ch@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 15:40:06 by mbousset          #+#    #+#             */
-/*   Updated: 2025/09/09 12:58:51 by omben-ch         ###   ########.fr       */
+/*   Updated: 2025/09/15 18:39:06 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int	key_press(int keycode, t_game *game)
 		game->end_start_menu = START;
 		draw_menu(game);
 	}
-	if (game->end_start_menu == EXIT &&  keycode == 121)
+	if ((game->end_start_menu == EXIT && keycode == 121) || keycode == 65307)
 		handle_close();
 	k = get_key(keycode, game);
 	if (k)

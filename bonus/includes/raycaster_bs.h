@@ -6,7 +6,7 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 16:22:34 by mbousset          #+#    #+#             */
-/*   Updated: 2025/09/09 09:27:32 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/09/15 16:43:22 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,6 +151,18 @@ typedef struct s_floorcast
 	double		mid;
 	int			win_x;
 }				t_floorcast;
+
+typedef struct s_door_ctx
+{
+	t_rayinfo	*ray;
+	double		*wall_x;
+	int			*dir;
+	t_pair		*door;
+	int			px;
+	int			py;
+	int			direction;
+	t_game		*g;
+}				t_door_ctx;
 
 bool			is_wall_hit(t_point map_p);
 t_rayinfo		init_vertical_ray(t_point next, t_point map_p, double ray_ang,

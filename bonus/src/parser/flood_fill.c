@@ -6,7 +6,7 @@
 /*   By: omben-ch <omben-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/31 14:29:57 by omben-ch          #+#    #+#             */
-/*   Updated: 2025/09/13 18:49:55 by omben-ch         ###   ########.fr       */
+/*   Updated: 2025/09/15 15:50:09 by omben-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,6 @@ void	flood_fill(t_fcub *fcub, int rows, int colums)
 	{
 		free_map_flood_fill(map);
 		freeing_data(fcub);
-		print_and_exit("this map dont have the exit");
+		print_and_exit("There's no exit on this Map.");
 	}
 }

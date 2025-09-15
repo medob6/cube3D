@@ -6,7 +6,7 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/02 14:56:30 by mbousset          #+#    #+#             */
-/*   Updated: 2025/08/03 09:11:38 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/09/15 18:47:06 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void	array_push(t_array **list, void *new_item)
 
 void	array_clear(t_array *arr)
 {
-	size_t i;
+	size_t	i;
 
 	i = 0;
 	while (i < arr->length)

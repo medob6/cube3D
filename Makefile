@@ -30,7 +30,7 @@ LDFLAGS_BNS    :=-L$(HOME)/goinfre/ffmpeg_build/lib \
 	-Wl,--end-group \
 	$(SDL2_LIBS) \
 	-lz -lpthread -ldl -lm -llzma \
-	-lmlx -lX11 -lXext -g3  -Ofast -fsanitize=thread  #-fsanitize=address 
+	-lmlx -lX11 -lXext -g3  -Ofast -fsanitize=address 
 
 MAIN_SRC       := main.c
 PARSER_SRC     := check_fc.c tools_flood_fill.c check_map.c errors_msg.c get_val_of_file.c parser.c tools1.c tools2.c flood_fill.c

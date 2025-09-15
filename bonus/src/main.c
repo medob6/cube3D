@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: omben-ch <omben-ch@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 09:38:33 by omben-ch          #+#    #+#             */
-/*   Updated: 2025/09/13 16:58:08 by omben-ch         ###   ########.fr       */
+/*   Updated: 2025/09/15 18:48:15 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ long long	get_current_time_ms(void)
 	struct timeval	tv;
 
 	gettimeofday(&tv, NULL);
-	return (((long long)(tv.tv_sec) * 1000) + (tv.tv_usec / 1000));
+	return (((long long)(tv.tv_sec) *1000) + (tv.tv_usec / 1000));
 }
 
 void	print_err(char *msg)
@@ -438,7 +438,7 @@ bool	handle_video(char *path, t_video *vid)
 	return (false);
 }
 
-int play_win_lose_vid(t_game *game)
+int	play_win_lose_vid(t_game *game)
 {
 	if (game->win_lose == 1)
 	{
@@ -459,9 +459,8 @@ int play_win_lose_vid(t_game *game)
 	return (0);
 }
 
-void game_runing(t_game *game)
+void	game_runing(t_game *game)
 {
-	
 	bool	scean_changed;
 	bool	door_moving;
 
@@ -481,13 +480,14 @@ void game_runing(t_game *game)
 	if (scean_changed)
 		lunch_cube(game);
 	draw_timer(game, 0);
-
 }
 
 int	game_loop(t_game *game)
 {
+	// ! DONT REMOVE THIS COMMIT
 	// if (handle_video("bonus/video/cub3d_intro.mkv", &game->videos[INTRO]))
 	// 	return (1);
+	// ! DONT REMOVE THIS COMMIT
 	if (play_win_lose_vid(game))
 		return (1);
 	draw_menu(game);
@@ -521,7 +521,8 @@ int	main(int ac, char **av)
 		print_err("Failed to initialize MLX\n");
 	get_window_dimensions();
 	parse_input(game, ac, av);
-	game->win = mlx_new_window(game->mlx, game->win_w, game->win_h, "FIND THE EXIT");
+	game->win = mlx_new_window(game->mlx, game->win_w, game->win_h,
+			"FIND THE EXIT");
 	if (!game->win)
 		print_err("Failed to create window\n");
 	initilize_game_resorces(game);
