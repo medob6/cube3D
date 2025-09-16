@@ -6,7 +6,7 @@
 /*   By: omben-ch <omben-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 08:44:41 by mbousset          #+#    #+#             */
-/*   Updated: 2025/09/16 16:19:03 by omben-ch         ###   ########.fr       */
+/*   Updated: 2025/09/16 16:30:35 by omben-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,8 +87,6 @@ typedef struct s_vdata
 	uint64_t			total_audio_bytes_sent;
 	int					av_synced;
 }						t_vdata;
-
-/* Main functions - video.c */
 int						find_stream_index(AVFormatContext *fmt_ctx,
 							enum AVMediaType type);
 void					draw_frame_to_mlx(t_image *img, AVFrame *frame_rgb);
@@ -99,8 +97,6 @@ int						process_audio_packet(t_vdata *vdata, AVPacket *pkt);
 int						allocate_video_frames(t_vdata *vdata);
 int						create_mlx_image(t_vdata *vdata);
 int						play_video(char *path);
-
-/* Helper functions - video_utils.c */
 int						create_color(uint8_t *src, int x);
 t_audio_convert			init_audio_convert(t_audio_decode *decode);
 double					calculate_seconds_queued(t_vdata *vdata,
@@ -114,22 +110,14 @@ int						initialize_player_data(t_vdata **vdata, char *path);
 int						handle_video_end(t_vdata **vdata,
 							int *video_initialized);
 int						process_packet_by_type(t_vdata *vdata, AVPacket *pkt);
-
-/* Codec functions - video_codec.c */
 int						setup_video_codec(t_vdata *vdata);
 int						setup_audio_codec(t_vdata *vdata);
 int						init_format_context(const char *url,
 							AVFormatContext **fmt_ctx);
 int						initialize_video_player(t_vdata *vdata);
-
-/* Audio device functions - video_audio.c */
-int						setup_audio_device(t_vdata *vdata);
-
-/* Cleanup functions - video_cleanup.c */
+int						setup_audio_devic
 void					cleanup_video_player(t_vdata *vdata);
 bool					handle_video(char *path, t_video *vid);
-
-/* FUNCTIONS */
 int						process_video_packet(t_vdata *vdata, AVPacket *pkt);
 int						process_decoded_video_frame(t_vdata *vdata);
 void					process_frame_with_pts(t_vdata *vdata);
