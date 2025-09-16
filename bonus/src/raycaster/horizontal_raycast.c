@@ -6,129 +6,13 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 15:50:02 by mbousset          #+#    #+#             */
-/*   Updated: 2025/09/15 16:44:34 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/09/16 09:32:28 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "raycaster_bs.h"
 
-void	init_raycaster(t_raycaster *c)
-{
-	t_game	*g;
-
-	g = get_game();
-	c->num_rays = g->win_w;
-	c->angle_step = FOV_ANGLE / c->num_rays;
-	c->lines = ft_calloc(c->num_rays, sizeof(t_sec));
-	c->prev_lines = ft_calloc(c->num_rays, sizeof(t_sec));
-}
-
-void	get_h_inter(t_point *next, bool facing_up, double ray_ang)
-{
-	next->y = floor(get_game()->player.p.y / WALL_WIDTH) * WALL_WIDTH;
-	if (!facing_up)
-		next->y += WALL_WIDTH;
-	next->x = get_game()->player.p.x + (next->y - get_game()->player.p.y)
-		/ tan(ray_ang);
-}
-
-void	get_steps_h(t_pair *step, bool up, double ray_ang)
-{
-	step->y = WALL_WIDTH * (-up + !up);
-	step->x = step->y / tan(ray_ang);
-}
-
-int	get_direction(int up)
-{
-	if (up)
-		return (-1);
-	return (1);
-}
-
-bool	is_valid_door_position(int px, int py, t_rayinfo *ray)
-{
-	t_game	*g;
-
-	g = get_game();
-	return (px > 0 && px < g->data.map.map_w - 1 && py >= 0
-		&& py < g->data.map.map_h && ft_strchr("DX", g->data.map.arr[py][px])
-		&& g->data.map.arr[py][px + 1] == '1' && g->data.map.arr[py][px
-		- 1] == '1' && ((fmod(g->player.p.y, WALL_WIDTH) <= WALL_WIDTH
-				/ 2) ^ ray->up));
-}
-
-static void	move_ray_forward(t_rayinfo *ray, int direction)
-{
-	ray->next.y -= (WALL_WIDTH / 2) * direction;
-	ray->next.x -= (WALL_WIDTH / 2) / tan(ray->ray_ang) * direction;
-}
-
-static void	move_ray_back(t_rayinfo *ray, int direction)
-{
-	ray->next.y += (WALL_WIDTH / 2) * direction;
-	ray->next.x += (WALL_WIDTH / 2) / tan(ray->ray_ang) * direction;
-}
-
-static double	process_door_hit(t_door_ctx *ctx)
-{
-	*(ctx->door) = (t_pair){ctx->px, ctx->py};
-	*(ctx->wall_x) = ctx->ray->next.x;
-	*(ctx->dir) = DOOR;
-	if (get_door(ctx->px, ctx->py).frame == ctx->g->graphics[DOOR].frames - 1)
-	{
-		move_ray_back(ctx->ray, ctx->direction);
-		return (-1);
-	}
-	return (get_dist(ctx->g->player.p, ctx->ray->next));
-}
-
-static double	process_map_door(t_door_ctx *ctx)
-{
-	char	tile;
-
-	tile = ctx->g->data.map.arr[(int)ctx->ray->map_p.y][(int)ctx->ray->map_p.x];
-	if (ft_strchr("DX", tile))
-	{
-		move_ray_back(ctx->ray, ctx->direction);
-		*(ctx->door) = (t_pair){(int)(ctx->ray->next.x / WALL_WIDTH),
-			(int)(ctx->ray->next.y / WALL_WIDTH)};
-		*(ctx->wall_x) = ctx->ray->next.x;
-		*(ctx->dir) = DOOR;
-		return (get_dist(ctx->g->player.p, ctx->ray->next));
-	}
-	return (-1);
-}
-
-double	check_door_hhit(t_rayinfo *ray, double *wall_x, int *dir, t_pair *door)
-{
-	t_door_ctx	ctx;
-	double		dist;
-
-	ctx.g = get_game();
-	ctx.px = (int)(ctx.g->player.p.x / WALL_WIDTH);
-	ctx.py = (int)(ctx.g->player.p.y / WALL_WIDTH);
-	ctx.direction = get_direction(ray->up);
-	ctx.ray = ray;
-	ctx.wall_x = wall_x;
-	ctx.dir = dir;
-	ctx.door = door;
-	if (is_valid_door_position(ctx.px, ctx.py, ctx.ray))
-	{
-		move_ray_forward(ctx.ray, ctx.direction);
-		if ((int)(ctx.ray->next.x / WALL_WIDTH) == ctx.px
-			&& (int)(ctx.ray->next.y / WALL_WIDTH) == ctx.py)
-		{
-			dist = process_door_hit(&ctx);
-			if (dist != -1)
-				return (dist);
-		}
-		else
-			move_ray_back(ctx.ray, ctx.direction);
-	}
-	return (process_map_door(&ctx));
-}
-
-static void	update_next_point(t_point *next, t_pair *step)
+void	update_next_point(t_point *next, t_pair *step)
 {
 	next->x += step->x;
 	next->y += step->y;

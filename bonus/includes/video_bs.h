@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   video_bs.h                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/09/16 08:44:41 by mbousset          #+#    #+#             */
+/*   Updated: 2025/09/16 08:44:44 by mbousset         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef VIDEO_BS_H
 # define VIDEO_BS_H
 
@@ -115,5 +127,5 @@ int						setup_audio_device(t_vdata *vdata);
 
 /* Cleanup functions - video_cleanup.c */
 void					cleanup_video_player(t_vdata *vdata);
-bool	handle_video(char *path, t_video *vid);
+bool					handle_video(char *path, t_video *vid);
 #endif

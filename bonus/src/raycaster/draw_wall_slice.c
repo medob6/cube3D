@@ -6,7 +6,7 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 16:07:07 by mbousset          #+#    #+#             */
-/*   Updated: 2025/09/15 15:25:56 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/09/16 09:22:27 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,18 +59,6 @@ bool	check_in_range(int ray, int offset, int max_rays)
 			return (true);
 	}
 	return (false);
-}
-
-void	fill_line_inf(t_sec *line, int dir, double wall_x, double dist)
-{
-	line->dir = dir;
-	line->wall_x = wall_x;
-	line->raw_dist = dist;
-}
-
-double	correct_dist(double raw_d, double ang)
-{
-	return (raw_d * cos(normalize_angle(ang - get_game()->player.angle)));
 }
 
 double	closest_hit(double ang, t_sec *line)

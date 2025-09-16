@@ -6,7 +6,7 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 16:22:34 by mbousset          #+#    #+#             */
-/*   Updated: 2025/09/15 16:43:22 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/09/16 09:50:36 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -218,9 +218,27 @@ void			draw_wall_section(t_sec_inf *section, int wall_top,
 void			draw_floor_section(t_sec_inf *section, int wall_bottom,
 					int old_wb);
 int				get_rgb(t_fcub *fcub, char *color);
-// double			process_door_hit(double door_hit, double wall_x,
-// t_doorhit h,
-// 					t_door *next_door);
 void			handle_exit(t_game *game);
+bool			is_valid_door_position(int px, int py, t_rayinfo *ray);
+void			get_h_inter(t_point *next, bool facing_up, double ray_ang);
+int				get_direction(int up);
+double			check_door_hhit(t_rayinfo *ray, double *wall_x, int *dir,
+					t_pair *door);
+bool			is_player_on_vertical_door(t_pair p, t_game *g);
+void			apply_door_offset(t_rayinfo *ray);
+void			get_v_inter(t_point *next, bool left, double ray_ang);
+void			get_steps_v(t_pair *step, bool left, double ray_ang);
+double			check_door_vhit(t_rayinfo *ray, t_door_inf f, int *door_x,
+					int *door_y);
+t_floorcast		init_floorcast(t_sec_inf *section);
+
+
+/* FUNCTIONS */
+bool	in_minimap_range(int w_x)
+;
+void	initialize_wall_inf(t_wall_inf *inf, t_sec_inf *section, int start)
+;
+int	apply_shading(int color, double dist)
+;
 
 #endif

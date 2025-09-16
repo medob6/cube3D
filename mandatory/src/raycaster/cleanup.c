@@ -6,7 +6,7 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 15:39:33 by mbousset          #+#    #+#             */
-/*   Updated: 2025/07/27 18:13:28 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/09/16 08:07:11 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void	cleanup(int code)
 	exit(code);
 }
 
-int	handle_close()
+int	handle_close(void)
 {
 	write(1, "Window closed.\n", 15);
 	cleanup(EXIT_SUCCESS);

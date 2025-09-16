@@ -12,34 +12,37 @@ LIBFT         := $(LIBFT_PATH)/libft.a
 LIBFT_BNS     := $(LIBFT_BONUS_PATH)/libft.a
 
 INCLUDES       := -I$(MANDATORY_DIR)/includes -I$(MANDATORY_DIR)/libft
-INCLUDES_BNS   := -I$(BONUS_DIR)/includes -I$(BONUS_DIR)/libft  $(shell sdl2-config --cflags) -I$(HOME)/goinfre/ffmpeg_build/include 
+INCLUDES_BNS   := -I$(BONUS_DIR)/includes -I$(BONUS_DIR)/libft  -I/usr/include/SDL2 -D_REENTRANT -I$(HOME)/goinfre/ffmpeg_build/include 
 
-CFLAGS         := -Wall -Wextra -Werror -g -Wuninitialized $(INCLUDES) 
-#-Wall -Wextra -Werror
-CFLAGS_BNS     :=  -g -Wuninitialized $(INCLUDES_BNS)
-SDL2_CFLAGS := $(shell pkg-config --cflags sdl2)
-CFLAGS_BNS += $(SDL2_CFLAGS)
+CFLAGS         := -Wall -Wextra -Werror  $(INCLUDES) 
 
-LDFLAGS        := -lmlx -lXext -lX11 -lm  -g3 #-fsanitize=address -Ofast
+SDL2_CFLAGS := -I/usr/include/SDL2 -D_REENTRANT
+ 
+CFLAGS_BNS := $(SDL2_CFLAGS) $(INCLUDES_BNS)
+
+LDFLAGS        := -lmlx -lXext -lX11 -lm  -g3 -Ofast #-fsanitize=address 
 
 
-SDL2_LIBS := $(shell pkg-config --libs sdl2)
+SDL2_LIBS := -lSDL2
 LDFLAGS_BNS    :=-L$(HOME)/goinfre/ffmpeg_build/lib \
 	-Wl,--start-group \
 	-lavformat -lavcodec -lswscale -lavutil -lswresample \
 	-Wl,--end-group \
 	$(SDL2_LIBS) \
 	-lz -lpthread -ldl -lm -llzma \
-	-lmlx -lX11 -lXext -g3  -Ofast -fsanitize=address 
+	-lmlx -lX11 -lXext -g3  -Ofast #-fsanitize=address 
 
 MAIN_SRC       := main.c
-PARSER_SRC     := check_fc.c tools_flood_fill.c check_map.c errors_msg.c get_val_of_file.c parser.c tools1.c tools2.c flood_fill.c
-RAYCASTER_SRC  := cleanup.c draw_wall_slice.c geometry_utils.c helpers.c init_resorces2.c keys_api.c minimap_utils.c \
+PARSER_SRC_BNS     := check_fc.c tools_flood_fill.c check_map.c errors_msg.c get_val_of_file.c parser.c tools1.c tools2.c flood_fill.c
+PARSER_SRC     := check_fc.c check_map.c errors_msg.c get_val_of_file.c parser.c tools1.c tools2.c
+RAYCASTER_SRC  := cleanup.c draw_wall_slice.c geometry_utils.c helpers.c helper_funcs.c keys_api.c minimap_utils.c \
                   ray_cast.c wall_color.c draw_sections.c frame_utils.c helpers2.c horizontal_raycast.c init_resorces.c \
-                  minimap.c movements.c vertical_raycast.c
+                  minimap.c movements.c vertical_raycast.c  
+RAYCASTER_SRC_BNS = $(RAYCASTER_SRC) move_toward_door.c minimap_utils2.c init_graphic_resorces.c raycaster_init.c raycaster_door_utils.c \
+					raycaster_process.c vdoor_intersection.c section_init.c
 VIDEO_PLAYER :=  video.c  video_audio.c  video_cleanup.c  video_codec.c  video_utils.c
 MENU_SRC	   := exit.c start.c control.c menu.c no.c yes.c return.c mlx_event.c
-COUNTER_TIME_SRC	   :=  time_of_player.c design.c  init_res.c  tools.c#time_of_player.c
+COUNTER_TIME_SRC	   :=  time_of_player.c design.c  init_res.c  tools.c
 MOUSE_SRC	   :=  mouse_hook.c init_game.c
 
 SRCS           := $(addprefix $(MANDATORY_DIR)/src/, $(MAIN_SRC)) \
@@ -49,8 +52,8 @@ SRCS           := $(addprefix $(MANDATORY_DIR)/src/, $(MAIN_SRC)) \
 OBJS           := $(SRCS:.c=.o)
 
 SRCS_BNS       := $(addprefix $(BONUS_DIR)/src/, $(MAIN_SRC)) \
-                  $(addprefix $(BONUS_DIR)/src/parser/, $(PARSER_SRC)) \
-                  $(addprefix $(BONUS_DIR)/src/raycaster/, $(RAYCASTER_SRC)) \
+                  $(addprefix $(BONUS_DIR)/src/parser/, $(PARSER_SRC_BNS)) \
+                  $(addprefix $(BONUS_DIR)/src/raycaster/, $(RAYCASTER_SRC_BNS)) \
 				  $(addprefix $(BONUS_DIR)/src/menu/, $(MENU_SRC)) \
                   $(addprefix $(BONUS_DIR)/src/counter_time/, $(COUNTER_TIME_SRC)) \
                   $(addprefix $(BONUS_DIR)/src/mouse/, $(MOUSE_SRC)) \

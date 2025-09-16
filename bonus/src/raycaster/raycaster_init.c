@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   horizontal_raycast.c                               :+:      :+:    :+:   */
+/*   raycaster_init.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/12 15:50:02 by mbousset          #+#    #+#             */
-/*   Updated: 2025/09/16 08:07:40 by mbousset         ###   ########.fr       */
+/*   Created: 2025/09/16 09:26:46 by mbousset          #+#    #+#             */
+/*   Updated: 2025/09/16 09:26:49 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "raycaster.h"
+#include "raycaster_bs.h"
 
 void	init_raycaster(t_raycaster *c)
 {
@@ -38,28 +38,21 @@ void	get_steps_h(t_pair *step, bool up, double ray_ang)
 	step->x = step->y / tan(ray_ang);
 }
 
-double	horiz_dist(double ray_ang, double *wall_x, int *dir)
+int	get_direction(int up)
 {
-	t_point			map_p;
-	t_point			next;
-	t_pair			step;
-	bool			up;
-	const t_game	*g = get_game();
+	if (up)
+		return (-1);
+	return (1);
+}
 
-	up = sin(ray_ang) < 0;
-	get_h_inter(&next, up, ray_ang);
-	get_steps_h(&step, up, ray_ang);
-	while (true)
-	{
-		map_p.x = next.x / WALL_WIDTH;
-		map_p.y = ((next.y - 1) * (up) + next.y * (!up)) / WALL_WIDTH;
-		if (outside_map(map_p.x, map_p.y))
-			break ;
-		if (g->data.map.arr[(int)map_p.y][(int)map_p.x] == '1')
-			return (*wall_x = next.x, *dir = N_WALL * up + S_WALL * !up,
-				get_dist(g->player.p, next));
-		next.x += step.x;
-		next.y += step.y;
-	}
-	return (INFINITY);
+bool	is_valid_door_position(int px, int py, t_rayinfo *ray)
+{
+	t_game	*g;
+
+	g = get_game();
+	return (px > 0 && px < g->data.map.map_w - 1 && py >= 0
+		&& py < g->data.map.map_h && ft_strchr("DX", g->data.map.arr[py][px])
+		&& g->data.map.arr[py][px + 1] == '1' && g->data.map.arr[py][px
+		- 1] == '1' && ((fmod(g->player.p.y, WALL_WIDTH) <= WALL_WIDTH
+				/ 2) ^ ray->up));
 }
