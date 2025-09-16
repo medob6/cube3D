@@ -6,7 +6,7 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 09:32:35 by mbousset          #+#    #+#             */
-/*   Updated: 2025/09/16 09:33:12 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/09/16 10:15:28 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,8 @@ static double	process_door_hit(t_door_ctx *ctx)
 	*(ctx->door) = (t_pair){ctx->px, ctx->py};
 	*(ctx->wall_x) = ctx->ray->next.x;
 	*(ctx->dir) = DOOR;
-	if (get_door(ctx->px, ctx->py).frame == ctx->g->graphics[DOOR].frames - 1)
+	if (get_door(ctx->px, ctx->py).frame == ctx->g->graphics[DOOR].frames - 1
+		&& get_game()->data.map.arr[ctx->py][ctx->px] == 'D')
 	{
 		move_ray_back(ctx->ray, ctx->direction);
 		return (-1);

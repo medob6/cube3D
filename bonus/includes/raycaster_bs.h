@@ -6,7 +6,7 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 16:22:34 by mbousset          #+#    #+#             */
-/*   Updated: 2025/09/16 09:50:36 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/09/16 10:01:15 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -231,14 +231,9 @@ void			get_steps_v(t_pair *step, bool left, double ray_ang);
 double			check_door_vhit(t_rayinfo *ray, t_door_inf f, int *door_x,
 					int *door_y);
 t_floorcast		init_floorcast(t_sec_inf *section);
-
-
-/* FUNCTIONS */
-bool	in_minimap_range(int w_x)
-;
-void	initialize_wall_inf(t_wall_inf *inf, t_sec_inf *section, int start)
-;
-int	apply_shading(int color, double dist)
-;
+bool			in_minimap_range(int w_x);
+void			initialize_wall_inf(t_wall_inf *inf, t_sec_inf *section,
+					int start);
+int				apply_shading(int color, double dist);
 
 #endif

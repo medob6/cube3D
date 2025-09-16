@@ -6,7 +6,7 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 15:49:58 by mbousset          #+#    #+#             */
-/*   Updated: 2025/09/16 09:44:50 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/09/16 10:09:44 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,6 @@ double	check_vertical_door_hit(t_door_inf f, t_rayinfo ray, t_door *next_door)
 	int			door_y;
 	double		door_hit;
 	t_door		door;
-	static int	c = 0;
 
 	door_hit = check_door_vhit(&ray, f, &door_x, &door_y);
 	if (door_hit == -1)

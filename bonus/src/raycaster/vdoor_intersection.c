@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   v_raycaster_rayhelper.c                            :+:      :+:    :+:   */
+/*   vdoor_intersection.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 09:41:08 by mbousset          #+#    #+#             */
-/*   Updated: 2025/09/16 09:41:20 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/09/16 10:11:09 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ double	ver_door_res(t_rayinfo *ray, int *door_x, int *door_y)
 	t_game	*g;
 
 	g = get_game();
-	if (get_door(*door_x, *door_y).frame == g->graphics[DOOR].frames - 1)
+	if (get_door(*door_x, *door_y).frame == g->graphics[DOOR].frames - 1 && g->data.map.arr[*door_y][*door_x] == 'D')
 		return (restore_door_offset(ray), -1);
 	else
 		return (get_dist(g->player.p, ray->next));
