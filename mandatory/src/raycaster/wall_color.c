@@ -6,7 +6,7 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 15:51:51 by mbousset          #+#    #+#             */
-/*   Updated: 2025/08/27 17:39:17 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/09/16 08:19:08 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,6 @@ void	draw_section(int start, int end, int num, t_sec_inf *section)
 {
 	int		i;
 	t_image	tex;
-	double	d_from_top;
-	int		color;
 	t_point	tex_p;
 	double	hight_factur;
 	int		offset;
@@ -64,12 +62,9 @@ void	draw_section(int start, int end, int num, t_sec_inf *section)
 	while (++i <= end)
 	{
 		if (num == 2)
-		{
-			d_from_top = i + offset;
-			tex_p.y = d_from_top * hight_factur;
-		}
-		color = get_slice_color(tex_p.x, tex_p.y, section->sec.dir, num);
-		my_mlx_pixel_put(get_game()->display, section->win_x, i, color);
+			tex_p.y = (i + offset) * hight_factur;
+		my_mlx_pixel_put(get_game()->display, section->win_x, i,
+			get_slice_color(tex_p.x, tex_p.y, section->sec.dir, num));
 	}
 }
 

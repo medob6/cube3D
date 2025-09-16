@@ -6,7 +6,7 @@
 /*   By: omben-ch <omben-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 17:18:08 by omben-ch          #+#    #+#             */
-/*   Updated: 2025/09/15 16:17:25 by omben-ch         ###   ########.fr       */
+/*   Updated: 2025/09/16 13:36:16 by omben-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,12 +48,11 @@ void		print_error_argument(char *error);
 void		print_cub_rules(void);
 int			count_line(char *str);
 int			get_size_of_long_line(t_fcub *fcub);
-int			check_nwes(t_fcub *fcub, char *line);
 int			count_list(char **list);
 void		print_cub_rules(void);
 void		freeing_list(char **list);
 void		freeing_data(t_fcub *fcub);
-int			check_nwes(t_fcub *fcub, char *line);
+int			check_nwesfc(t_fcub *fcub, char *line);
 void		parse_and_get_data(t_fcub *fcub, int ac, char **av);
 void		check_content_map(t_fcub *fcub);
 

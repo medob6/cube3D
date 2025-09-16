@@ -6,92 +6,13 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 15:50:02 by mbousset          #+#    #+#             */
-/*   Updated: 2025/09/10 18:57:55 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/09/16 09:32:28 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "raycaster_bs.h"
 
-void	init_raycaster(t_raycaster *c)
-{
-	t_game	*g;
-
-	g = get_game();
-	c->num_rays = g->win_w;
-	c->angle_step = FOV_ANGLE / c->num_rays;
-	c->lines = ft_calloc(c->num_rays, sizeof(t_sec));
-	c->prev_lines = ft_calloc(c->num_rays, sizeof(t_sec));
-}
-
-void	get_h_inter(t_point *next, bool facing_up, double ray_ang)
-{
-	next->y = floor(get_game()->player.p.y / WALL_WIDTH) * WALL_WIDTH;
-	if (!facing_up)
-		next->y += WALL_WIDTH;
-	next->x = get_game()->player.p.x + (next->y - get_game()->player.p.y)
-		/ tan(ray_ang);
-}
-
-void	get_steps_h(t_pair *step, bool up, double ray_ang)
-{
-	step->y = WALL_WIDTH * (-up + !up);
-	step->x = step->y / tan(ray_ang);
-}
-
-int	get_direction(int up)
-{
-	if (up)
-		return (-1);
-	return (1);
-}
-
-bool	is_valid_door_position(int px, int py, t_rayinfo *ray)
-{
-	t_game	*g;
-
-	g = get_game();
-	return (px > 0 && px < g->data.map.map_w - 1 && py >= 0
-		&& py < g->data.map.map_h && ft_strchr("DX", g->data.map.arr[py][px])
-		&& g->data.map.arr[py][px + 1] == '1' && g->data.map.arr[py][px
-		- 1] == '1' && ((fmod(g->player.p.y, WALL_WIDTH) <= WALL_WIDTH
-				/ 2) ^ ray->up));
-}
-
-double	check_door_hhit(t_rayinfo *ray, double *wall_x, int *dir, t_pair *door)
-{
-	t_game	*g;
-	int		px;
-	int		py;
-	int		direction;
-
-	g = get_game();
-	px = (int)(g->player.p.x / WALL_WIDTH);
-	py = (int)(g->player.p.y / WALL_WIDTH);
-	direction = get_direction(ray->up);
-	if (is_valid_door_position(px, py, ray))
-	{
-		ray->next.y -= (WALL_WIDTH / 2) * direction;
-		ray->next.x -= (WALL_WIDTH / 2) / tan(ray->ray_ang) * direction;
-		if ((int)(ray->next.x / WALL_WIDTH) == px && (int)(ray->next.y
-				/ WALL_WIDTH) == py)
-			return (*door = (t_pair){px, py}, *wall_x = ray->next.x,
-				*dir = DOOR, get_dist(g->player.p, ray->next));
-		else
-		{
-			ray->next.y += (WALL_WIDTH / 2) * direction;
-			ray->next.x += (WALL_WIDTH / 2) / tan(ray->ray_ang) * direction;
-		}
-	}
-	if (ft_strchr("DX", g->data.map.arr[(int)ray->map_p.y][(int)ray->map_p.x]))
-		return (ray->next.y += (WALL_WIDTH / 2) * direction, ray->next.x
-			+= (WALL_WIDTH / 2) / tan(ray->ray_ang) * direction,
-			*door = (t_pair){(int)(ray->next.x / WALL_WIDTH), (int)(ray->next.y
-				/ WALL_WIDTH)}, *wall_x = ray->next.x, *dir = DOOR,
-			get_dist(g->player.p, ray->next));
-	return (-1);
-}
-
-static void	update_next_point(t_point *next, t_pair *step)
+void	update_next_point(t_point *next, t_pair *step)
 {
 	next->x += step->x;
 	next->y += step->y;

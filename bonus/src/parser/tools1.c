@@ -6,13 +6,13 @@
 /*   By: omben-ch <omben-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 15:17:02 by omben-ch          #+#    #+#             */
-/*   Updated: 2025/09/15 15:41:57 by omben-ch         ###   ########.fr       */
+/*   Updated: 2025/09/16 14:47:29 by omben-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub_bs.h"
 
-int		check_struct_fcub_val(t_fcub *fcub)
+int	check_struct_fcub_val(t_fcub *fcub)
 {
 	if (!fcub->n_path || !fcub->w_path || !fcub->e_path || !fcub->s_path
 		|| !fcub->f_color || !fcub->c_color)
@@ -31,7 +31,7 @@ void	sup_newline(t_fcub *fcub)
 		tmp_list = ft_split(fcub->map[i], "\n");
 		if (!tmp_list)
 		{
-			print_error_argument("Map (Separate Map Lines with Newlines)");
+			print_error_argument("error maloc");
 			freeing_data(fcub);
 			cleanup(1);
 		}

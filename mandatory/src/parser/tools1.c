@@ -6,7 +6,7 @@
 /*   By: omben-ch <omben-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 15:17:02 by omben-ch          #+#    #+#             */
-/*   Updated: 2025/06/26 18:09:26 by omben-ch         ###   ########.fr       */
+/*   Updated: 2025/09/16 13:38:00 by omben-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	sup_newline(t_fcub *fcub)
 		tmp_list = ft_split(fcub->map[i], "\n");
 		if (!tmp_list)
 		{
-			print_error_argument();
+			print_error_argument("error maloc");
 			freeing_data(fcub);
 			cleanup(1);
 		}
@@ -53,7 +53,7 @@ int	add_val(t_fcub *fcub, char *line)
 	return (0);
 }
 
-int	check_nwes(t_fcub *fcub, char *line)
+int	check_nwesfc(t_fcub *fcub, char *line)
 {
 	char	**list;
 

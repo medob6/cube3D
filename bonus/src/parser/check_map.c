@@ -6,7 +6,7 @@
 /*   By: omben-ch <omben-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 15:14:23 by omben-ch          #+#    #+#             */
-/*   Updated: 2025/09/15 15:10:53 by omben-ch         ###   ########.fr       */
+/*   Updated: 2025/09/16 13:33:32 by omben-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	add_space(t_fcub *fcub)
 			if (!tmp_two)
 			{
 				freeing_data(fcub);
-				// !print_error_argument();
+				print_error_argument("error maloc");
 				cleanup(1);
 			}
 			fcub->map[i] = tmp_two;
@@ -74,7 +74,7 @@ int	get_size_of_long_line(t_fcub *fcub)
 		tmp_size_line = count_line(fcub->map[i]);
 		if (tmp_size_line == -1)
 		{
-			//! print_error_argument();
+			print_error_argument("Map");
 			freeing_data(fcub);
 			cleanup(1);
 		}

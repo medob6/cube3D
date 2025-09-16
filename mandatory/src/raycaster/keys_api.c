@@ -6,7 +6,7 @@
 /*   By: omben-ch <omben-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 15:40:06 by mbousset          #+#    #+#             */
-/*   Updated: 2025/09/15 16:41:11 by omben-ch         ###   ########.fr       */
+/*   Updated: 2025/09/16 16:15:35 by omben-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ t_key	*get_key(int keycode, t_game *game)
 int	key_press(int keycode, t_game *game)
 {
 	t_key	*k;
-	
+
 	k = get_key(keycode, game);
 	if (k)
 		k->press = true;

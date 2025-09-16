@@ -6,7 +6,7 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 15:55:45 by mbousset          #+#    #+#             */
-/*   Updated: 2025/07/23 17:20:39 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/09/16 08:07:21 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,8 @@ void	reuse_ray_data(t_raycaster *c, t_frame_state *state, int ray_index,
 	double	corrected_dist;
 
 	c->lines[ray_index] = c->prev_lines[ray_index + state->ray_offset];
-	corrected_dist = c->lines[ray_index].raw_dist * cos(normalize_angle(ray_ang - get_game()->player.angle));
+	corrected_dist = c->lines[ray_index].raw_dist * cos(normalize_angle(ray_ang
+				- get_game()->player.angle));
 	c->lines[ray_index].wall_h = (WALL_HIGHT / corrected_dist)
 		* state->proj_dist;
 }

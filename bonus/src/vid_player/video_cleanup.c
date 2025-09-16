@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   video_cleanup.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
+/*   By: omben-ch <omben-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/01 00:00:00 by user              #+#    #+#             */
-/*   Updated: 2025/07/31 10:05:24 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/09/16 16:19:53 by omben-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "video_bs.h"
 
-static void	cleanup_video_resources(t_vdata *vdata)
+void	cleanup_video_resources(t_vdata *vdata)
 {
 	if (vdata->video.sws_ctx)
 		sws_freeContext(vdata->video.sws_ctx);
@@ -28,7 +28,7 @@ static void	cleanup_video_resources(t_vdata *vdata)
 		avformat_close_input(&vdata->video.fmt_ctx);
 }
 
-static void	cleanup_audio_resources(t_vdata *vdata)
+void	cleanup_audio_resources(t_vdata *vdata)
 {
 	if (vdata->audio.frame)
 		av_frame_free(&vdata->audio.frame);
@@ -40,7 +40,7 @@ static void	cleanup_audio_resources(t_vdata *vdata)
 		SDL_CloseAudioDevice(vdata->audio.audio_dev);
 }
 
-static void	cleanup_mlx_resources(t_vdata *vdata)
+void	cleanup_mlx_resources(t_vdata *vdata)
 {
 	if (vdata->image.img && vdata->inf->mlx)
 		mlx_destroy_image(vdata->inf->mlx, vdata->image.img);
