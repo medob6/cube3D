@@ -6,11 +6,12 @@
 /*   By: omben-ch <omben-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 16:14:20 by omben-ch          #+#    #+#             */
-/*   Updated: 2025/09/16 16:14:21 by omben-ch         ###   ########.fr       */
+/*   Updated: 2025/09/16 16:35:06 by omben-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub_bs.h"
+#include "raycaster_bs.h"
 
 bool	check_vertical_door(t_door *door, t_point p_pos,
 		double player_angle, t_point door_center)

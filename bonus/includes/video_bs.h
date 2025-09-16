@@ -6,7 +6,7 @@
 /*   By: omben-ch <omben-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 08:44:41 by mbousset          #+#    #+#             */
-/*   Updated: 2025/09/16 16:30:35 by omben-ch         ###   ########.fr       */
+/*   Updated: 2025/09/16 16:32:29 by omben-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,7 @@ int						setup_audio_codec(t_vdata *vdata);
 int						init_format_context(const char *url,
 							AVFormatContext **fmt_ctx);
 int						initialize_video_player(t_vdata *vdata);
-int						setup_audio_devic
+int						setup_audio_device(t_vdata *vdata);
 void					cleanup_video_player(t_vdata *vdata);
 bool					handle_video(char *path, t_video *vid);
 int						process_video_packet(t_vdata *vdata, AVPacket *pkt);

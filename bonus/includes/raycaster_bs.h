@@ -6,7 +6,7 @@
 /*   By: omben-ch <omben-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 16:22:34 by mbousset          #+#    #+#             */
-/*   Updated: 2025/09/16 16:25:24 by omben-ch         ###   ########.fr       */
+/*   Updated: 2025/09/16 16:34:13 by omben-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,8 +167,6 @@ typedef struct s_door_ctx
 bool			is_wall_hit(t_point map_p);
 t_rayinfo		init_vertical_ray(t_point next, t_point map_p, double ray_ang,
 					bool left);
-
-void			display_scean(t_game *game);
 void			draw_3d_view(t_game *game, t_raycaster *caster);
 t_sec_inf		*init_section(int w_x, t_sec_params p);
 unsigned int	get_slice_color(int x, int y, int dir, int section);
@@ -235,8 +233,6 @@ bool			in_minimap_range(int w_x);
 void			initialize_wall_inf(t_wall_inf *inf, t_sec_inf *section,
 					int start);
 int				apply_shading(int color, double dist);
-
-/* FUNCTIONS */
 void			display_scean(t_game *game);
 int				get_tex_color(t_floorcast *fc, t_point world_p, double rowDist,
 					int num);

@@ -425,4 +425,8 @@ void					print_err(char *msg);
 long long				get_current_time_ms(void);
 void					parse_input(t_game *game, int ac, char **av);
 
+
+/* FUNCTIONS */
+int	get_rgb(t_fcub *fcub, char *color);
+
 #endif
