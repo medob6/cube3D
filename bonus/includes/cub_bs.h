@@ -6,7 +6,7 @@
 /*   By: omben-ch <omben-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 08:44:11 by mbousset          #+#    #+#             */
-/*   Updated: 2025/09/16 16:24:58 by omben-ch         ###   ########.fr       */
+/*   Updated: 2025/09/16 17:46:03 by omben-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -425,8 +425,7 @@ void					print_err(char *msg);
 long long				get_current_time_ms(void);
 void					parse_input(t_game *game, int ac, char **av);
 
-
 /* FUNCTIONS */
-int	get_rgb(t_fcub *fcub, char *color);
+int						get_rgb(t_fcub *fcub, char *color);
 
 #endif
