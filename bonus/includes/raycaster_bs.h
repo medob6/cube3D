@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   raycaster_bs.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: omben-ch <omben-ch@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 16:22:34 by mbousset          #+#    #+#             */
-/*   Updated: 2025/09/16 16:34:13 by omben-ch         ###   ########.fr       */
+/*   Updated: 2025/09/17 18:32:20 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -226,8 +226,7 @@ bool			is_player_on_vertical_door(t_pair p, t_game *g);
 void			apply_door_offset(t_rayinfo *ray);
 void			get_v_inter(t_point *next, bool left, double ray_ang);
 void			get_steps_v(t_pair *step, bool left, double ray_ang);
-double			check_door_vhit(t_rayinfo *ray, t_door_inf f, int *door_x,
-					int *door_y);
+
 t_floorcast		init_floorcast(t_sec_inf *section);
 bool			in_minimap_range(int w_x);
 void			initialize_wall_inf(t_wall_inf *inf, t_sec_inf *section,
@@ -238,5 +237,9 @@ int				get_tex_color(t_floorcast *fc, t_point world_p, double rowDist,
 					int num);
 void			get_world_coords(t_floorcast *fc, double rowDist,
 					double *worldx, double *worldy);
+void			update_next_point(t_point *next, t_pair *step);
+double			check_door_vhit(t_rayinfo *ray, double *wall_x, int *dir,
+					t_pair *door);
+bool			is_valid_vdoor_position(int px, int py, t_rayinfo *ray);
 
 #endif

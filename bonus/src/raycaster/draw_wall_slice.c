@@ -6,7 +6,7 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 16:07:07 by mbousset          #+#    #+#             */
-/*   Updated: 2025/09/16 09:22:27 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/09/17 17:43:14 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,22 +64,24 @@ bool	check_in_range(int ray, int offset, int max_rays)
 double	closest_hit(double ang, t_sec *line)
 {
 	t_hit_data	h;
-	t_door		the_door;
+	t_door		the_vdoor;
+	t_door		the_hdoor;
 
-	the_door = (t_door){.pos.x = -1, .pos.y = -1};
-	h.x = horiz_dist(ang, &h.h_x, &h.h_dir, &the_door);
-	h.y = verti_dist(ang, &h.v_x, &h.v_dir, &the_door);
+	the_vdoor = (t_door){.pos.x = -1, .pos.y = -1};
+	the_hdoor = (t_door){.pos.x = -1, .pos.y = -1};
+	h.y = verti_dist(ang, &h.v_x, &h.v_dir, &the_vdoor);
+	h.x = horiz_dist(ang, &h.h_x, &h.h_dir, &the_hdoor);
 	if (h.x < h.y)
 	{
 		fill_line_inf(line, h.h_dir, h.h_x, h.x);
-		if (the_door.pos.x != -1)
-			line->door = the_door;
+		if (the_hdoor.pos.x != -1)
+			line->door = the_hdoor;
 	}
 	else
 	{
 		fill_line_inf(line, h.v_dir, h.v_x, h.y);
-		if (the_door.pos.y != -1)
-			line->door = the_door;
+		if (the_vdoor.pos.y != -1)
+			line->door = the_vdoor;
 	}
 	return (correct_dist(line->raw_dist, ang));
 }

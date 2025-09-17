@@ -6,7 +6,7 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 15:50:02 by mbousset          #+#    #+#             */
-/*   Updated: 2025/09/16 09:32:28 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/09/17 18:29:11 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	update_next_point(t_point *next, t_pair *step)
 	next->y += step->y;
 }
 
-static double	check_wall_hit(t_door_inf *f, t_rayinfo *ray, t_point *next)
+static double	check_wall_hhit(t_door_inf *f, t_rayinfo *ray, t_point *next)
 {
 	t_game	*g;
 
@@ -77,7 +77,7 @@ double	get_h_dist(t_door_inf f, t_point next, t_pair step, t_door *next_door)
 		hit = do_door_hit(&f, &ray, next_door);
 		if (hit != -1)
 			return (hit);
-		hit = check_wall_hit(&f, &ray, &next);
+		hit = check_wall_hhit(&f, &ray, &next);
 		if (hit != -1)
 			return (hit);
 		update_next_point(&next, &step);
