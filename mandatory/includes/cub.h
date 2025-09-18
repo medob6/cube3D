@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
+/*   By: omben-ch <omben-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 15:39:51 by mbousset          #+#    #+#             */
-/*   Updated: 2025/07/30 11:31:57 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/09/18 10:14:53 by omben-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -178,8 +178,6 @@ int				get_minimap_pixel_color(t_game *g, double rx, double ry,
 void			get_icone_info(t_circle *icn, t_circle minimap,
 					double icon_angle, double player_angle);
 void			handle_exit(t_game *game);
-
-/* FUNCTIONS */
 void			play_intro(char *path);
 
 #endif

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub_bs.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
+/*   By: omben-ch <omben-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 08:44:11 by mbousset          #+#    #+#             */
-/*   Updated: 2025/09/18 09:29:28 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/09/18 10:14:37 by omben-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -424,8 +424,6 @@ bool					door_is_closed(t_door door);
 void					print_err(char *msg);
 long long				get_current_time_ms(void);
 void					parse_input(t_game *game, int ac, char **av);
-
-/* FUNCTIONS */
 int						get_rgb(t_fcub *fcub, char *color);
 void					init_image2(t_game *game, t_image *img, char *path);
 
