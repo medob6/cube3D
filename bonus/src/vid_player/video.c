@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   video.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: omben-ch <omben-ch@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/27 16:03:45 by mbousset          #+#    #+#             */
-/*   Updated: 2025/09/16 16:05:27 by omben-ch         ###   ########.fr       */
+/*   Updated: 2025/09/18 08:39:52 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,6 @@ bool	handle_video(char *path, t_video *vid)
 	else if (vid->result == -1)
 	{
 		usleep(3000);
-		printf("Error: err while processing video\n");
 		vid->active = false;
 		vid->played = true;
 		return (false);
