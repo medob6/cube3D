@@ -6,7 +6,7 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 15:39:37 by mbousset          #+#    #+#             */
-/*   Updated: 2025/09/18 08:51:16 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/09/18 09:30:16 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,17 @@ void	init_image(t_game *game, t_image *img, char *path)
 	img->addr = mlx_get_data_addr(img->img, &img->bpp, &img->line_len,
 			&img->endian);
 	img->frames = 1;
+}
+
+void	init_image2(t_game *game, t_image *img, char *path)
+{
+	img->img = mlx_xpm_file_to_image(game->mlx, path, &img->w, &img->h);
+	if (img->img)
+	{
+		img->addr = mlx_get_data_addr(img->img, &img->bpp, &img->line_len,
+				&img->endian);
+		img->frames = 1;
+	}
 }
 
 void	init_player(t_game *game)

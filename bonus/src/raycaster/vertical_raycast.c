@@ -6,7 +6,7 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 15:49:58 by mbousset          #+#    #+#             */
-/*   Updated: 2025/09/17 18:31:01 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/09/18 09:26:06 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,8 @@ double	check_vertical_door_hit(t_door_inf *f, t_rayinfo *ray,
 	if (door_hit == -1)
 		return (-1);
 	d = get_door(door.x, door.y);
-	tex_x = fmod(*f->wall_x, WALL_WIDTH) / WALL_WIDTH
-		* (get_game()->graphics[DOOR].w / get_game()->graphics[DOOR].frames)
-		+ ((get_game()->graphics[DOOR].w / get_game()->graphics[DOOR].frames)
-			* d.frame);
+	tex_x = (fmod(*f->wall_x, WALL_WIDTH) / WALL_WIDTH + d.frame)
+		* (get_game()->graphics[DOOR].w / get_game()->graphics[DOOR].frames);
 	if (get_game()->data.map.arr[(int)d.pos.y][(int)d.pos.x] == 'X')
 	{
 		if (get_game()->exit.frame == get_game()->graphics[DOOR].frames - 1)

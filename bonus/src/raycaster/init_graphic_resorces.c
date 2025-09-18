@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_graphic_resorces.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: omben-ch <omben-ch@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 09:14:08 by mbousset          #+#    #+#             */
-/*   Updated: 2025/09/16 14:47:02 by omben-ch         ###   ########.fr       */
+/*   Updated: 2025/09/18 09:27:43 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,8 +88,8 @@ void	initilize_game_resorces(t_game *game)
 		"bonus/textures/minimap_player.xpm");
 	init_image(game, &game->graphics[PORTAL], "bonus/textures/portal.xpm");
 	game->graphics[PORTAL].frames = 32;
-	init_image(game, &game->graphics[FLOOR], "bonus/textures/floor.xpm");
-	init_image(game, &game->graphics[SKY], "bonus/textures/sky.xpm");
+	init_image2(game, &game->graphics[FLOOR], "bonus/textures/floor.xpm");
+	init_image2(game, &game->graphics[SKY], "bonus/textures/sky.xpm");
 	initilize_menu_images(game);
 	init_timer_pic(game);
 }
