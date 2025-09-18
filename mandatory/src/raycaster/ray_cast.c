@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ray_cast.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
+/*   By: omben-ch <omben-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 15:39:30 by mbousset          #+#    #+#             */
-/*   Updated: 2025/07/14 09:48:38 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/09/18 17:46:33 by omben-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void	draw_3d_view(t_game *g, t_raycaster *c)
 	swap_buffers(c);
 }
 
-void	display_scean(t_game *game)
+void	display_scean(t_game *game, bool exit)
 {
 	static bool			first = true;
 	static t_raycaster	caster;
@@ -58,6 +58,12 @@ void	display_scean(t_game *game)
 	{
 		init_raycaster(&caster);
 		first = false;
+	}
+	if (exit)
+	{
+		free(caster.lines);
+		free(caster.prev_lines);
+		return ;
 	}
 	draw_3d_view(game, &caster);
 }

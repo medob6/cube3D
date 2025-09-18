@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   raycaster.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
+/*   By: omben-ch <omben-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 16:22:34 by mbousset          #+#    #+#             */
-/*   Updated: 2025/07/31 09:28:26 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/09/18 16:29:54 by omben-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ typedef struct s_frame_state
 	double		proj_dist;
 }				t_frame_state;
 
-void			display_scean(t_game *game);
+void			display_scean(t_game *game, bool exit);
 void			draw_3d_view(t_game *game, t_raycaster *caster);
 t_sec_inf		*init_section(int w_x, double wall_h, int x, t_graphic dir);
 unsigned int	get_slice_color(int x, int y, int dir, int section);

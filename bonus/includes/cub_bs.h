@@ -6,7 +6,7 @@
 /*   By: omben-ch <omben-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 08:44:11 by mbousset          #+#    #+#             */
-/*   Updated: 2025/09/18 10:14:37 by omben-ch         ###   ########.fr       */
+/*   Updated: 2025/09/18 16:51:03 by omben-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@
 # define KEY_UP 119
 # define KEY_DOWN 115
 # define KEY_LEFT 97
-# define KEY_RIGHT 100
+# define KEY_RIGHT 1000
 # define ARROW_UP 65362
 # define ARROW_DOWN 65364
 # define ARROW_LEFT 65361
@@ -63,6 +63,8 @@
 // menu
 # define NB_BUTTON 6
 # define NB_IMG_MENU 18
+# define NB_TIMER 6
+# define NB_GRAGHICS 10
 
 typedef enum e_graphic
 {
@@ -266,7 +268,6 @@ typedef enum e_vid
 	WIN,
 	LOSE,
 }						t_vid;
-
 typedef struct s_game
 {
 	void				*mlx;
@@ -281,11 +282,11 @@ typedef struct s_game
 	t_player			player;
 	t_player			player_info;
 	t_key				keys[11];
-	t_image				graphics[10];
+	t_image				graphics[NB_GRAGHICS];
 	t_image				graphic_menu[NB_IMG_MENU];
 	t_image				img_timer;
 	t_button			buttons[NB_BUTTON];
-	t_timer				timer[6];
+	t_timer				timer[NB_TIMER];
 	t_video				videos[3];
 	t_door				*doors;
 	t_image				display;

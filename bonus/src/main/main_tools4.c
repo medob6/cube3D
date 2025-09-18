@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_tools4.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
+/*   By: omben-ch <omben-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 16:14:20 by omben-ch          #+#    #+#             */
-/*   Updated: 2025/09/18 09:10:31 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/09/18 17:53:53 by omben-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ void	update_portal_animation(t_game *g, long long current_time)
 
 void	lunch_cube(t_game *game)
 {
-	display_scean(game);
+	display_scean(game, false);
 	draw_mini_map(game);
 	mlx_put_image_to_window(game->mlx, game->win, game->display.img, 0, 0);
 }

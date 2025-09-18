@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
+/*   By: omben-ch <omben-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 09:38:33 by omben-ch          #+#    #+#             */
-/*   Updated: 2025/09/16 08:19:26 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/09/18 16:29:14 by omben-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int	game_loop(t_game *game)
 {
 	if (game->player.moving)
 	{
-		display_scean(game);
+		display_scean(game, false);
 		draw_mini_map(game);
 		mlx_put_image_to_window(game->mlx, game->win, game->display.img, 0, 0);
 	}

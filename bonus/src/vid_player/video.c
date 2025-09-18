@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   video.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
+/*   By: omben-ch <omben-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/27 16:03:45 by mbousset          #+#    #+#             */
-/*   Updated: 2025/09/18 08:39:52 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/09/18 18:56:51 by omben-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	create_mlx_image(t_vdata *vdata)
 	return (0);
 }
 
-int	play_video(char *path)
+int	play_video(char *path, bool exit)
 {
 	AVPacket		pkt;
 	static int		video_initialized = 0;
@@ -47,6 +47,11 @@ int	play_video(char *path)
 		if (initialize_player_data(&vdata, path) < 0)
 			return (-1);
 		video_initialized = 1;
+	}
+	if (exit)
+	{
+		handle_video_end(&vdata, &video_initialized);
+		return (1);
 	}
 	if (av_read_frame(vdata->video.fmt_ctx, &pkt) < 0)
 		return (handle_video_end(&vdata, &video_initialized));
@@ -64,7 +69,7 @@ bool	handle_video(char *path, t_video *vid)
 		vid->active = true;
 		vid->result = 0;
 	}
-	vid->result = play_video(path);
+	vid->result = play_video(path, false);
 	if (vid->result == 0)
 		return (true);
 	else if (vid->result == 1)

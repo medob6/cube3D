@@ -6,7 +6,7 @@
 /*   By: omben-ch <omben-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 15:39:51 by mbousset          #+#    #+#             */
-/*   Updated: 2025/09/18 10:14:53 by omben-ch         ###   ########.fr       */
+/*   Updated: 2025/09/18 16:08:44 by omben-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,9 @@
 # define MINIMAP_SCREEN_SCALE 0.09
 # define ICON_SCALE 0.14
 # define PLAYER_SCALE 0.20
+
+# define NB_KEYS 11
+# define NB_GRAPHICS 7
 
 typedef enum e_graphic
 {
@@ -133,7 +136,6 @@ typedef struct s_mm_scale
 	double		world_zoom;
 	double		px_border;
 }				t_mm_scale;
-
 typedef struct s_game
 {
 	void		*mlx;
@@ -142,8 +144,8 @@ typedef struct s_game
 	int			win_w;
 	t_data		data;
 	t_player	player;
-	t_key		keys[11];
-	t_image		graphics[7];
+	t_key		keys[NB_KEYS];
+	t_image		graphics[NB_GRAPHICS];
 	t_image		display;
 }				t_game;
 

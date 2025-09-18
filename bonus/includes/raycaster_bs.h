@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   raycaster_bs.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
+/*   By: omben-ch <omben-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 16:22:34 by mbousset          #+#    #+#             */
-/*   Updated: 2025/09/18 09:29:22 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/09/18 17:53:41 by omben-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -232,7 +232,7 @@ bool			in_minimap_range(int w_x);
 void			initialize_wall_inf(t_wall_inf *inf, t_sec_inf *section,
 					int start);
 int				apply_shading(int color, double dist);
-void			display_scean(t_game *game);
+void			display_scean(t_game *game, bool exit);
 int				get_tex_color(t_floorcast *fc, t_point world_p, double rowDist,
 					int num);
 void			get_world_coords(t_floorcast *fc, double rowDist,

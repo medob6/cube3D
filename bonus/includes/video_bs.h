@@ -6,7 +6,7 @@
 /*   By: omben-ch <omben-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/16 08:44:41 by mbousset          #+#    #+#             */
-/*   Updated: 2025/09/16 16:32:29 by omben-ch         ###   ########.fr       */
+/*   Updated: 2025/09/18 18:11:07 by omben-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ int						process_video_packet(t_vdata *vdata, AVPacket *pkt);
 int						process_audio_packet(t_vdata *vdata, AVPacket *pkt);
 int						allocate_video_frames(t_vdata *vdata);
 int						create_mlx_image(t_vdata *vdata);
-int						play_video(char *path);
+int						play_video(char *path, bool exit);
 int						create_color(uint8_t *src, int x);
 t_audio_convert			init_audio_convert(t_audio_decode *decode);
 double					calculate_seconds_queued(t_vdata *vdata,
