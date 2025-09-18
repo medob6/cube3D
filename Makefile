@@ -55,7 +55,7 @@ SRCS           := $(addprefix $(MANDATORY_DIR)/src/, $(MAIN_SRC)) \
 
 OBJS           := $(SRCS:.c=.o)
 
-SRCS_BNS       := $(addprefix $(BONUS_DIR)/src/, $(MAIN_SRC_BNS)) \
+SRCS_BNS       := $(addprefix $(BONUS_DIR)/src/main/, $(MAIN_SRC_BNS)) \
                   $(addprefix $(BONUS_DIR)/src/parser/, $(PARSER_SRC_BNS)) \
                   $(addprefix $(BONUS_DIR)/src/raycaster/, $(RAYCASTER_SRC_BNS)) \
 				  $(addprefix $(BONUS_DIR)/src/menu/, $(MENU_SRC)) \
