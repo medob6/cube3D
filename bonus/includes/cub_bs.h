@@ -35,7 +35,7 @@
 # define KEY_UP 119
 # define KEY_DOWN 115
 # define KEY_LEFT 97
-# define KEY_RIGHT 1000
+# define KEY_RIGHT 100
 # define ARROW_UP 65362
 # define ARROW_DOWN 65364
 # define ARROW_LEFT 65361
@@ -43,7 +43,7 @@
 # define KEY_O 111
 
 // speed
-# define MOVE_SPEED 4.0
+# define MOVE_SPEED 6.0
 # define ROTATE_SPEED 0.03
 # define JUMP_SPEED 10
 # define M_PI_3 1.0471975511965976
