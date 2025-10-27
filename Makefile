@@ -14,14 +14,13 @@ LIBFT_BNS     := $(LIBFT_BONUS_PATH)/libft.a
 INCLUDES       := -I$(MANDATORY_DIR)/includes -I$(MANDATORY_DIR)/libft
 INCLUDES_BNS   := -I$(BONUS_DIR)/includes -I$(BONUS_DIR)/libft  $(shell sdl2-config --cflags) -I$(HOME)/goinfre/ffmpeg_build/include 
 
-CFLAGS         := -Wall -Wextra -Werror -g -Wuninitialized $(INCLUDES) 
-#-Wall -Wextra -Werror
+CFLAGS         := -Wall -Wextra -Werror $(INCLUDES) 
 CFLAGS_BNS     :=  -g -Wuninitialized $(INCLUDES_BNS)
 OPENSSL_CFLAGS := $(shell pkg-config --cflags openssl)
 SDL2_CFLAGS := $(shell pkg-config --cflags sdl2)
 CFLAGS_BNS += $(OPENSSL_CFLAGS) $(SDL2_CFLAGS)
 
-LDFLAGS        := -lmlx -lXext -lX11 -lm  -g3 #-fsanitize=address -Ofast
+LDFLAGS        := -lmlx -lXext -lX11 -lm  -g3 #-fsanitize=address 
 
 
 OPENSSL_LIBS := $(shell pkg-config --libs openssl)
@@ -33,7 +32,7 @@ LDFLAGS_BNS    :=-L$(HOME)/goinfre/ffmpeg_build/lib \
 	$(OPENSSL_LIBS) \
 	$(SDL2_LIBS) \
 	-lz -lpthread -ldl -lm -llzma \
-	-lmlx -lX11 -lXext -g3  -Ofast -fsanitize=thread  #-fsanitize=address 
+	-lmlx -lX11 -lXext -Ofast  # -g3  -fsanitize=address -fsanitize=thread 
 
 MAIN_SRC       := main.c
 PARSER_SRC     := check_fc.c check_map.c errors_msg.c get_val_of_file.c parser.c tools1.c tools2.c
