@@ -29,22 +29,29 @@ A / D → Strafe left / right
 ESC → Exit game  
 Mouse → Interact with the menu  
 
-**Project Layout**  
+**Project Structure**
 ```bash
 cub3D/
-├── mandatory/
-│ ├── src/
-│ ├── include/
-│ └── config/
-├── bonus/
-│ ├── src/
-│ └── include/
-├── engine/
-├── mlx_linux/
-├── textures/
-├── maps/
-├── Makefile
-└── README.md
+├── mandatory/               → Core game logic and resources
+│   ├── includes/            → Header files for mandatory part
+│   ├── libft/               → Custom C library used in mandatory part
+│   ├── maps/                → Example maps for mandatory part
+│   ├── src/                 → Source code for mandatory game engine
+│   └── textures/            → Wall and sprite textures
+├── bonus/                   → Bonus features and enhancements
+│   ├── audio/               → Sound effects and music
+│   ├── includes/            → Header files for bonus features
+│   ├── libft/               → Custom C library used in bonus part
+│   ├── maps/                → Example maps for bonus part
+│   ├── src/                 → Source code for bonus features
+│   ├── textures/            → Additional textures
+│   └── video/               → Video player module
+├── cub3D                    → Main executable (after compilation)
+├── Makefile                 → Build system
+├── mlx_linux/               → MiniLibX library (Linux)
+├── setup.sh                 → Environment setup script
+├── testing_video_playing.c  → Video player testing file
+└── README.md                → Project documentation
 ```
 
 **Tools & Libraries**  
