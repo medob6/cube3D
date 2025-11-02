@@ -1,86 +1,36 @@
-# 🎮 Cub3D – Optimized 3D Raycasting Engine
+# 🎮 Cub3D – High‑Performance 3D Raycasting Engine
 
 ![Cub3D Banner](path/to/banner_image.png)
 
-[![C](https://img.shields.io/badge/Language-C-blue?logo=c)](https://www.iso.org/standard/74528.html)
-[![42 Project](https://img.shields.io/badge/42-Project-orange)](https://projects.intra.42.fr/)
-[![Performance](https://img.shields.io/badge/Performance-Optimized-green)](https://permadi.com/1996/05/ray-casting-tutorial-table-of-contents/)
+[![Language: C](https://img.shields.io/badge/Language‑C‑blue?logo=c)](https://www.iso.org/standard/74528.html) [![42 Project](https://img.shields.io/badge/42‑Project‑orange)](https://projects.intra.42.fr/) [![Performance Optimized](https://img.shields.io/badge/Performance‑Optimized‑green)](https://permadi.com/1996/05/ray‑casting‑tutorial‑table‑of‑contents/)
 
----
+**Overview**  
+Cub3D is a 3D raycasting engine born from the 42/1337 curriculum, inspired by classic titles like Wolfenstein 3D. My objective: build a **lightweight yet extremely performant engine** using only the tools permitted, pushing beyond expectations with optimized rendering, smart algorithms and a clean engine API.  
 
-## 🧠 Project Overview
+**Mandatory Features**  
+In the core engine I implemented:  
+- A DDA‑based raycasting algorithm for wall collision and rendering.  
+- Angle correction and distance reuse to eliminate distortion and reduce computation.  
+- Map parsing with gap‑filling (spaces) to avoid invalid map configurations; automatic map validation.  
+- Optimized scene drawing: sky, floor and walls are redrawn only when necessary—reducing CPU load and boosting FPS.  
 
-**Cub3D** is a **highly optimized 3D raycasting game engine** developed at **42 / 1337 School**, inspired by **Wolfenstein 3D**.  
+**Bonus Features**  
+Going beyond the base requirements, this project also includes:  
+- A fully functional **start menu** with clickable buttons (Start, Exit, Controls) and mouse interaction.  
+- A custom **video player** module built with libav/avcodec and OpenSSL, enabling playback of remote HTTPS video URLs integrated with in‑game events.  
+- **Interactive doors** governed by precise mathematical equations, integrated into collision detection and optimized for minimal updates.  
+- Advanced **map validation algorithms** including flood‑fill to ensure maps are fully enclosed and valid before gameplay begins.  
+- A modular **engine API** that simplifies rendering, entity management, input handling, and feature integration—enabling easier expansion and maintenance.  
 
-The main goal of this project was to **create the most performant and flexible game engine possible** using the restricted tools provided, while adding advanced features and robust algorithms for validation, rendering, and gameplay logic.  
+**Controls**  
+W / S → Move forward / backward  
+A / D → Strafe left / right  
+← / → → Rotate view  
+ESC → Exit game  
+Mouse → Interact with the menu  
 
-Key highlights:  
-- Smooth 3D rendering with raycasting  
-- Optimized scene drawing for high FPS  
-- Interactive features: doors, start menu, and custom video player  
-- A clean **engine API** to simplify game logic and feature integration  
-
----
-
-## 🔧 Mandatory Features
-
-**Raycasting Engine**  
-- Implemented using **DDA (Digital Differential Analyzer)**.  
-- Optimized distance calculations and **angle correction** for realistic perspective.  
-- Only redraws parts of the scene that have changed for performance.  
-
-**Map Parsing & Validation**  
-- Configuration files parsed according to Cub3D specifications.  
-- Spaces fill gaps to prevent invalid map errors.  
-- Automatic detection of invalid maps (0 tiles next to empty space).  
-
-**Rendering Optimizations**  
-- Partial sky/floor redraw based on player movement.  
-- Reuses previously calculated distances for nearby columns.  
-- Profiling to detect and optimize bottlenecks.  
-
----
-
-## 🌟 Bonus Features
-
-**Start Menu**  
-- Fully functional menu with clickable buttons: Start, Exit, Controls.  
-- Pixel-perfect detection for smooth user interaction.  
-
-**Video Player**  
-- Built from scratch using **libav / avcodec**.  
-- Supports playback from **URLs** (including HTTPS via OpenSSL).  
-- Optimized for smooth playback and integration with in-game events.  
-
-**Interactive Doors**  
-- Doors open and close based on **precise mathematical equations**.  
-- Fully integrated with raycasting and collision detection.  
-- Optimized to update only when necessary for performance.  
-
-**Advanced Map Validation**  
-- **Flood-fill algorithm** ensures map is enclosed and valid.  
-- Additional algorithms applied to improve reliability and error detection.  
-
-**Custom Game Engine API**  
-- Exposes a **simple, clean interface** to handle rendering, movement, events, and assets.  
-- Makes integration of features like menus, video playback, and doors **straightforward and modular**.  
-
----
-
-## 🕹️ Controls
-
-- **Move Forward/Backward:** W / S  
-- **Strafe Left/Right:** A / D  
-- **Rotate View:** Arrow Keys ← →  
-- **Exit Game:** ESC  
-- **Interact with Menu:** Mouse Click  
-
----
-
-## 📂 Project Structure
-
-
-
+**Project Layout**  
+```bash
 cub3D/
 ├── mandatory/
 │ ├── src/
@@ -89,10 +39,48 @@ cub3D/
 ├── bonus/
 │ ├── src/
 │ └── include/
-├── engine/ → Custom game engine API
+├── engine/
 ├── mlx_linux/
 ├── textures/
 ├── maps/
 ├── Makefile
 └── README.md
+```
 
+**Tools & Libraries**  
+Written in C, rendered with MiniLibX, video capabilities via libav/avcodec, secure URL support via OpenSSL, and optimization achieved through native time and math libraries.  
+
+**Build & Run Instructions**  
+```bash
+git clone https://github.com/medob6/cube3D.git  
+cd cube3D  
+make  
+./cub3D maps/example.cub  
+```
+Visual Showcase
+(Replace the links below with your actual screenshots/GIFs)
+
+Performance Highlights
+
+    Selective redraw logic to only update changed scene segments.
+
+    Distance reuse across raycasts to reduce redundant computation.
+
+    Angle correction for accurate perspective rendering.
+
+    Custom video playback smoothly integrated with game flow.
+
+    Algorithmic door logic and map flood‑fill validation to enhance robustness and performance.
+
+**References / Resources**  
+- [Raycasting Algorithm Inspiration – Permadi Tutorial](https://permadi.com/1996/05/ray-casting-tutorial-table-of-contents/)  
+- [MiniLibX Documentation](https://harm-smits.github.io/42docs/libs/minilibx)  
+- [OpenSSL Documentation](https://www.openssl.org/docs/)  
+- [FFmpeg / libav Tutorial – Dranger](http://dranger.com/ffmpeg/)  
+- [FFmpeg Wiki – Using libavcodec](https://trac.ffmpeg.org/wiki/Using%20Libav%20Codec)  
+- [FFmpeg Official Documentation](https://ffmpeg.org/documentation.html)
+
+
+**Authors**  
+- [Mohamed Boussetta – 42 / 1337 School](https://github.com/medob6) – Core engine, raycasting optimizations, rendering, video player, performance improvements  
+- [Omar Bencherif – 42 / 1337 School](https://github.com/omar-bencherif) – Map parsing, menu system, game logic, bonus feature integration
