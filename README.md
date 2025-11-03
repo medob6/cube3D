@@ -107,32 +107,22 @@ The bonus features transform Cub3D from a technical demo into a fully-fledged ga
 ## 🧩 Project Structure
 
 ```
-cub3D/
-├── mandatory/
-│   ├── includes/          # Header files
-│   ├── libft/             # Core C library
-│   ├── maps/              # Example maps
-│   ├── src/               # Core engine source
-│   └── textures/          # Wall and sprite textures
-├── bonus/
-│   ├── audio/             # Sound effects & music
-│   ├── includes/          # Bonus headers
-│   ├── libft/             # Shared library
-│   ├── maps/              # Bonus maps
-│   ├── src/               # Bonus features source
-│   ├── textures/          # Bonus textures
-│   └── video/             # Video playback module
-├── mlx_linux/             # MiniLibX graphics library
-├── setup.sh               # Environment setup script
-├── Makefile               # Build system
-└── README.md
+cube3D/
+├── bonus/                 → Bonus feature source and assets
+├── mandatory/             → Core engine source and assets
+├── mlx_linux/             → MiniLibX graphics library
+├── Game_screenshots/      → Screenshots and visuals for README
+├── Makefile               → Build system
+├── README.md              → This README file
+├── setup.sh               → Environment setup script
 ```
-
 ---
 
 ## 🛠️ Build & Run
 
 ```bash
+# Install neccesery libs
+./setup
 # Clone the repository
 git clone https://github.com/medob6/cube3D.git
 cd cube3D
