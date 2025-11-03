@@ -41,12 +41,12 @@ The foundation of Cub3D includes:
 ### 📸 Mandatory Visuals
 
 **Main Gameplay View:**  
-> _(Add your main mandatory screenshot below)_  
-![Game View](path/to/mandatory_game_view.png)
+>
+![Game View](Game_screenshots/mandatory1.png)
 
 **Minimap System:**  
-> _(Add your minimap screenshot below)_  
-![Minimap](path/to/mandatory_minimap.png)
+
+![Minimap](Game_screenshots/minimap_mandatory.png)
 
 ---
 
@@ -69,23 +69,23 @@ The bonus features transform Cub3D from a technical demo into a fully-fledged ga
 
 **Gameplay Video Showcase:**  
 > _(Add your bonus gameplay video below — `.gif` or `.mp4` recommended)_  
-![Bonus Video](path/to/bonus_showcase_video.mp4)
+![Bonus Video](Game_screenshots/bonus_showcase_video.mp4)
 
 **Door System:**  
 > _(Add door interaction screenshot below)_  
-![Door System](path/to/bonus_door.png)
+![Door System](Game_screenshots/bonus_door.png)
 
 **Main Menu & Controls Page:**  
 > _(Add menu & controls screenshot below)_  
-![Menu and Controls](path/to/bonus_menu_controls.png)
+![Menu and Controls](Game_screenshots/bonus_menu.png)
 
 **Portal System:**  
 > _(Add portal screenshot below)_  
-![Portal](path/to/bonus_portal.png)
+![Portal](Game_screenshots/bonus_portal.png)
 
 **Bonus Minimap (With Doors & Portals):**  
 > _(Add minimap with doors/portals screenshot below)_  
-![Bonus Minimap](path/to/bonus_minimap_doors.png)
+![Bonus Minimap](Game_screenshots/bonus_minimap_doors.png)
 
 ---
 
