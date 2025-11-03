@@ -1,36 +1,38 @@
 NAME        = cub3D
 
-CC          =  cc
+CC          := cc
 
-MANDATORY_DIR =  mandatory
-BONUS_DIR     =  bonus
+MANDATORY_DIR := mandatory
+BONUS_DIR     := bonus
 
-LIBFT_PATH          =  $(MANDATORY_DIR)/libft
-LIBFT_BONUS_PATH    =  $(BONUS_DIR)/libft
+LIBFT_PATH          := $(MANDATORY_DIR)/libft
+LIBFT_BONUS_PATH    := $(BONUS_DIR)/libft
 
-LIBFT         =  $(LIBFT_PATH)/libft.a
-LIBFT_BNS     =  $(LIBFT_BONUS_PATH)/libft.a
+LIBFT         := $(LIBFT_PATH)/libft.a
+LIBFT_BNS     := $(LIBFT_BONUS_PATH)/libft.a
 
-INCLUDES       =  -I$(MANDATORY_DIR)/includes -I$(MANDATORY_DIR)/libft
-INCLUDES_BNS   =  -I$(BONUS_DIR)/includes -I$(BONUS_DIR)/libft  -I/usr/include/SDL2 -D_REENTRANT -I$(HOME)/goinfre/ffmpeg_build/include 
+INCLUDES       := -I$(MANDATORY_DIR)/includes -I$(MANDATORY_DIR)/libft
+INCLUDES_BNS   := -I$(BONUS_DIR)/includes -I$(BONUS_DIR)/libft  $(shell sdl2-config --cflags) -I$(HOME)/goinfre/ffmpeg_build/include 
 
-CFLAGS         =  -Wall -Wextra -Werror  $(INCLUDES) 
+CFLAGS         := -Wall -Wextra -Werror $(INCLUDES) 
+CFLAGS_BNS     :=   $(INCLUDES_BNS)
+OPENSSL_CFLAGS := $(shell pkg-config --cflags openssl)
+SDL2_CFLAGS := $(shell pkg-config --cflags sdl2)
+CFLAGS_BNS += $(OPENSSL_CFLAGS) $(SDL2_CFLAGS)
 
-SDL2_CFLAGS =  -I/usr/include/SDL2 -D_REENTRANT
- 
-CFLAGS_BNS =  $(SDL2_CFLAGS) $(INCLUDES_BNS)
-
-LDFLAGS        =  -lmlx -lXext -lX11 -lm  -g3 -Ofast #-fsanitize=address 
+LDFLAGS        := -Lmlx_linux -lmlx_Linux -L/usr/lib -Imlx_linux -lXext -lX11 -lm -lz #-fsanitize=address 
 
 
-SDL2_LIBS =  -lSDL2
-LDFLAGS_BNS    = -L$(HOME)/goinfre/ffmpeg_build/lib \
+OPENSSL_LIBS := $(shell pkg-config --libs openssl)
+SDL2_LIBS := $(shell pkg-config --libs sdl2)
+LDFLAGS_BNS    :=-L$(HOME)/goinfre/ffmpeg_build/lib \
 	-Wl,--start-group \
 	-lavformat -lavcodec -lswscale -lavutil -lswresample \
 	-Wl,--end-group \
+	$(OPENSSL_LIBS) \
 	$(SDL2_LIBS) \
-	-lz -lpthread -ldl -lm -llzma \
-	-lmlx -lX11 -lXext -g3  -Ofast #-fsanitize=address 
+	-lpthread -ldl  \
+	-Lmlx_linux -lmlx_Linux -L/usr/lib -Imlx_linux -lXext -lX11 -lm -lz -Ofast  # -g3  -fsanitize=address -fsanitize=thread 
 
 MAIN_SRC       =  main.c
 MAIN_SRC_BNS      =  main.c  main_tools1.c  main_tools2.c  main_tools3.c  main_tools4.c  main_tools.c

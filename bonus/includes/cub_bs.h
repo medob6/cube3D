@@ -19,7 +19,7 @@
 # include <errno.h>
 # include <fcntl.h>
 # include <math.h>
-# include <mlx.h>
+# include "../../mlx_linux/mlx.h"
 # include <stdbool.h>
 # include <stdio.h>
 # include <stdlib.h>

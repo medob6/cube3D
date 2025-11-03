@@ -25,13 +25,9 @@ void	init_data(t_fcub *fcub)
 
 void	check_name(char *arg)
 {
-	char	*str;
 	int		i;
-	int		j;
 
 	i = 0;
-	j = 0;
-	str = ".cub";
 	if (ft_strlen(arg) < 5)
 		print_error_file_and_exit();
 	while (arg[i])
