@@ -69,7 +69,7 @@ The bonus features transform Cub3D from a technical demo into a fully-fledged ga
 
 **Gameplay Video Showcase:**  
 > 
-![Bonus Video](Game_screenshots/bonus_showcase_video.mp4)
+[Watch Gameplay Video](Game_screenshots/bonus_showcase.mp4)
 
 **Door System:**  
 > 
