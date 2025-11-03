@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_map.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
+/*   By: omben-ch <omben-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 15:14:23 by omben-ch          #+#    #+#             */
-/*   Updated: 2025/08/12 09:06:22 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/09/16 13:33:32 by omben-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	add_space(t_fcub *fcub)
 			if (!tmp_two)
 			{
 				freeing_data(fcub);
-				print_error_argument();
+				print_error_argument("error maloc");
 				cleanup(1);
 			}
 			fcub->map[i] = tmp_two;
@@ -74,7 +74,7 @@ int	get_size_of_long_line(t_fcub *fcub)
 		tmp_size_line = count_line(fcub->map[i]);
 		if (tmp_size_line == -1)
 		{
-			print_error_argument();
+			print_error_argument("Map");
 			freeing_data(fcub);
 			cleanup(1);
 		}
@@ -96,24 +96,29 @@ void	position_of_player_and_floor_check(t_fcub *fcub, char **map, int x,
 				map[x][y + 1]) || !ft_strchr("10XDNWSE", map[x - 1][y])
 			|| !ft_strchr("10XDNWSE", map[x + 1][y])))
 		print_error_map_and_exit(fcub);
-	if (x && map[x][y] && map[x + 1] && (ft_strchr("D", map[x][y]) || ft_strchr("X", map[x][y]))
-		&& !(((ft_strchr("0NWSE", map[x][y - 1]) && ft_strchr("0NWSE", map[x][y
-						+ 1])) && (ft_strchr("1", map[x - 1][y])
+	if (x && map[x][y] && map[x + 1] && (ft_strchr("D", map[x][y]))
+		&& !(((ft_strchr("XD0NWSE", map[x][y - 1]) && ft_strchr("X0DNWSE",
+						map[x][y + 1])) && (ft_strchr("1", map[x - 1][y])
 					&& ft_strchr("1", map[x + 1][y]))) || (((ft_strchr("1",
 							map[x][y - 1]) && ft_strchr("1", map[x][y + 1]))
-					&& (ft_strchr("0NWSE", map[x - 1][y]) && ft_strchr("0NWSE",
-							map[x + 1][y]))))))
+					&& (ft_strchr("X0NDWSE", map[x - 1][y])
+						&& ft_strchr("X0DNWSE", map[x + 1][y]))))))
+		print_error_map_and_exit(fcub);
+	if (x && map[x][y] && map[x + 1] && (ft_strchr("X", map[x][y]))
+		&& !((ft_strchr("1", map[x - 1][y]) && ft_strchr("1", map[x + 1][y]))
+			|| (ft_strchr("1", map[x][y - 1]) && ft_strchr("1", map[x][y
+					+ 1]))))
 		print_error_map_and_exit(fcub);
 }
 
 void	check_content_map(t_fcub *fcub)
 {
-	int	x;
-	int	y;
-	int	position;
+	int			x;
+	int			y;
+	static int	position;
+	static int	exit;
 
 	x = 0;
-	position = 0;
 	add_space(fcub);
 	check_line_first_last(fcub, count_list(fcub->map) - 1);
 	while (fcub->map[++x] && fcub->map[x + 1])
@@ -126,8 +131,10 @@ void	check_content_map(t_fcub *fcub)
 			position_of_player_and_floor_check(fcub, fcub->map, x, y);
 			if (ft_strchr("NWSE", fcub->map[x][y]))
 				position++;
+			if (ft_strchr("X", fcub->map[x][y]))
+				exit++;
 		}
 	}
-	if (position != 1)
+	if (position != 1 || exit != 1)
 		print_error_map_and_exit(fcub);
 }

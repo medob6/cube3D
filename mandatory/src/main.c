@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
+/*   By: omben-ch <omben-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 09:38:33 by omben-ch          #+#    #+#             */
-/*   Updated: 2025/09/10 09:07:07 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/09/18 16:29:14 by omben-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,21 +39,10 @@ int	game_loop(t_game *game)
 {
 	if (game->player.moving)
 	{
-		display_scean(game);
+		display_scean(game, false);
 		draw_mini_map(game);
 		mlx_put_image_to_window(game->mlx, game->win, game->display.img, 0, 0);
 	}
-	// if (get_key(KEY_O,game)->press)
-	// {
-	// 	if (game->data.map.arr[(int)game->player.p.y][(int)game->player.p.x + 1] == 'D')
-	// 		game->data.map.arr[(int)game->player.p.y][(int)game->player.p.x + 1] = '0';
-	// 	else if (game->data.map.arr[(int)game->player.p.y][(int)game->player.p.x - 1] == 'D')
-	// 		game->data.map.arr[(int)game->player.p.y][(int)game->player.p.x - 1] == '0';
-	// 	else if (game->data.map.arr[(int)game->player.p.y + 1][(int)game->player.p.x] == 'D')
-	// 		game->data.map.arr[(int)game->player.p.y + 1][(int)game->player.p.x] == 'D';
-	// 	else if (game->data.map.arr[(int)game->player.p.y - 1][(int)game->player.p.x] == 'D')
-	// 		game->data.map.arr[(int)game->player.p.y - 1][(int)game->player.p.x] == 'D';
-	// }
 	update_player(game);
 	handle_exit(game);
 	return (1);

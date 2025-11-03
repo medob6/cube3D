@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tools2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
+/*   By: omben-ch <omben-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/16 09:35:56 by omben-ch          #+#    #+#             */
-/*   Updated: 2025/07/31 10:04:19 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/09/13 18:42:55 by omben-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,4 +70,29 @@ void	freeing_data(t_fcub *fcub)
 	if (fcub->map)
 		free(fcub->map[i]);
 	free(fcub->map);
+}
+
+void	next(t_fcub *fcub, int x, int y, int *door)
+{
+	if (fcub->map[y][x] == 'D')
+	{
+		fcub->door[*door].pos.x = x;
+		fcub->door[*door].pos.y = y;
+		fcub->door[*door].in_range = false;
+		fcub->door[*door].frame = 0;
+		fcub->door[*door].closing = false;
+		fcub->door[*door].opening = false;
+		fcub->door[*door].animating = false;
+		(*door)++;
+	}
+	else if (fcub->map[y][x] == 'X')
+	{
+		fcub->exit->pos.x = x;
+		fcub->exit->pos.y = y;
+		fcub->exit->in_range = false;
+		fcub->exit->frame = 0;
+		fcub->exit->closing = false;
+		fcub->exit->opening = false;
+		fcub->exit->animating = false;
+	}
 }

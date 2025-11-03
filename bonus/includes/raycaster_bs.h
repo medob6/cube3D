@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   raycaster_bs.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
+/*   By: omben-ch <omben-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 16:22:34 by mbousset          #+#    #+#             */
-/*   Updated: 2025/09/09 09:27:32 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/09/18 17:53:41 by omben-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,11 +152,21 @@ typedef struct s_floorcast
 	int			win_x;
 }				t_floorcast;
 
+typedef struct s_door_ctx
+{
+	t_rayinfo	*ray;
+	double		*wall_x;
+	int			*dir;
+	t_pair		*door;
+	int			px;
+	int			py;
+	int			direction;
+	t_game		*g;
+}				t_door_ctx;
+
 bool			is_wall_hit(t_point map_p);
 t_rayinfo		init_vertical_ray(t_point next, t_point map_p, double ray_ang,
 					bool left);
-
-void			display_scean(t_game *game);
 void			draw_3d_view(t_game *game, t_raycaster *caster);
 t_sec_inf		*init_section(int w_x, t_sec_params p);
 unsigned int	get_slice_color(int x, int y, int dir, int section);
@@ -206,9 +216,30 @@ void			draw_wall_section(t_sec_inf *section, int wall_top,
 void			draw_floor_section(t_sec_inf *section, int wall_bottom,
 					int old_wb);
 int				get_rgb(t_fcub *fcub, char *color);
-// double			process_door_hit(double door_hit, double wall_x,
-// t_doorhit h,
-// 					t_door *next_door);
 void			handle_exit(t_game *game);
+bool			is_valid_door_position(int px, int py, t_rayinfo *ray);
+void			get_h_inter(t_point *next, bool facing_up, double ray_ang);
+int				get_direction(int up);
+double			check_door_hhit(t_rayinfo *ray, double *wall_x, int *dir,
+					t_pair *door);
+bool			is_player_on_vertical_door(t_pair p, t_game *g);
+void			apply_door_offset(t_rayinfo *ray);
+void			get_v_inter(t_point *next, bool left, double ray_ang);
+void			get_steps_v(t_pair *step, bool left, double ray_ang);
+
+t_floorcast		init_floorcast(t_sec_inf *section);
+bool			in_minimap_range(int w_x);
+void			initialize_wall_inf(t_wall_inf *inf, t_sec_inf *section,
+					int start);
+int				apply_shading(int color, double dist);
+void			display_scean(t_game *game, bool exit);
+int				get_tex_color(t_floorcast *fc, t_point world_p, double rowDist,
+					int num);
+void			get_world_coords(t_floorcast *fc, double rowDist,
+					double *worldx, double *worldy);
+void			update_next_point(t_point *next, t_pair *step);
+double			check_door_vhit(t_rayinfo *ray, double *wall_x, int *dir,
+					t_pair *door);
+bool			is_valid_vdoor_position(int px, int py, t_rayinfo *ray);
 
 #endif

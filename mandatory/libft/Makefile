@@ -12,7 +12,7 @@ ${NAME} : ${OBJM}
 	@ar rcs ${NAME} ${OBJM}
 bonus : ${NAME} ${OBJB}
 	@ar rcs ${NAME} ${OBJB}
-%.o : %.c
+%.o : %.c get_next_line.h  libft.h
 	@${CC} ${FLAGS} -c $< -o $@
 clean :
 	@rm -f ${OBJM} ${OBJB}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tools1.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
+/*   By: omben-ch <omben-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 15:17:02 by omben-ch          #+#    #+#             */
-/*   Updated: 2025/07/31 10:04:19 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/09/16 14:47:29 by omben-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	sup_newline(t_fcub *fcub)
 		tmp_list = ft_split(fcub->map[i], "\n");
 		if (!tmp_list)
 		{
-			print_error_argument();
+			print_error_argument("error maloc");
 			freeing_data(fcub);
 			cleanup(1);
 		}
@@ -53,7 +53,7 @@ int	add_val(t_fcub *fcub, char *line)
 	return (0);
 }
 
-int	check_nwes(t_fcub *fcub, char *line)
+int	check_nwesfc(t_fcub *fcub, char *line)
 {
 	char	**list;
 
@@ -72,4 +72,26 @@ int	check_nwes(t_fcub *fcub, char *line)
 	}
 	freeing_list(list);
 	return (0);
+}
+
+int	count_char_in_map(char **map, char c)
+{
+	int	count;
+	int	x;
+	int	y;
+
+	x = 0;
+	count = 0;
+	while (map[x])
+	{
+		y = 0;
+		while (map[x][y])
+		{
+			if (map[x][y] == c)
+				count++;
+			y++;
+		}
+		x++;
+	}
+	return (count);
 }

@@ -3,14 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   cleanup.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
+/*   By: omben-ch <omben-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 15:39:33 by mbousset          #+#    #+#             */
-/*   Updated: 2025/09/10 09:14:22 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/09/18 18:49:43 by omben-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub_bs.h"
+#include "raycaster_bs.h"
+#include "video_bs.h"
 
 void	destroy_image(void *mlx, void *image)
 {
@@ -33,6 +35,17 @@ void	free_map(t_map *map)
 	free(map->arr);
 }
 
+void	next_freeing(t_game *game)
+{
+	free(game->data.paths[0]);
+	free(game->data.paths[1]);
+	free(game->data.paths[2]);
+	free(game->data.paths[3]);
+	free(game->doors);
+	display_scean(game, true);
+	play_video("NULL", true);
+}
+
 void	cleanup(int code)
 {
 	int		i;
@@ -42,9 +55,14 @@ void	cleanup(int code)
 	i = 0;
 	if (game->mlx && game->win)
 		mlx_destroy_window(game->mlx, game->win);
-	while (i < 9)
+	while (i < NB_GRAGHICS)
 		destroy_image(game->mlx, game->graphics[i++].img);
 	destroy_image(game->mlx, game->display.img);
+	destroy_image(game->mlx, game->img_timer.img);
+	next_freeing(game);
+	i = 0;
+	while (i < NB_IMG_MENU)
+		destroy_image(game->mlx, game->graphic_menu[i++].img);
 	if (game->data.map.arr)
 		free_map(&game->data.map);
 	if (game->mlx)

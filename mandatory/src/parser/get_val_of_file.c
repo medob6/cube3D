@@ -6,7 +6,7 @@
 /*   By: omben-ch <omben-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/15 15:27:03 by omben-ch          #+#    #+#             */
-/*   Updated: 2025/06/26 18:09:26 by omben-ch         ###   ########.fr       */
+/*   Updated: 2025/09/16 16:15:48 by omben-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,13 +46,15 @@ int	get_val_nwesfc(t_fcub *fcub, int fd)
 		if (!line)
 		{
 			free(line);
-			print_error_argument();
+			print_error_argument("North or South or \
+East or West or Floor or Ceiling");
 			return (1);
 		}
-		if (line[0] != '\n' && check_nwes(fcub, line))
+		if (line[0] != '\n' && check_nwesfc(fcub, line))
 		{
 			free(line);
-			print_error_argument();
+			print_error_argument("North or South or \
+East or West or Floor or Ceiling");
 			return (1);
 		}
 		free(line);
@@ -100,13 +102,13 @@ int	get_val_map(t_fcub *fcub, int fd)
 			break ;
 		if (line[0] != '\n' && set_line_map(fcub, line, count_list(fcub->map)))
 		{
-			print_error_argument();
+			print_error_argument("Map");
 			free(line);
 			return (1);
 		}
 		if (line[0] == '\n' && fcub->map)
 		{
-			print_error_argument();
+			print_error_argument("Map");
 			free(line);
 			return (1);
 		}
@@ -122,9 +124,16 @@ void	get_val_of_element(t_fcub *fcub, int fd)
 		freeing_data(fcub);
 		cleanup(1);
 	}
-	if (check_struct_fcub_val(fcub) || !fcub->map)
+	if (check_struct_fcub_val(fcub))
 	{
-		print_error_argument();
+		print_error_argument("North or South or \
+East or West or Floor or Ceiling");
+		freeing_data(fcub);
+		cleanup(1);
+	}
+	if (!fcub->map)
+	{
+		print_error_argument("Map");
 		freeing_data(fcub);
 		cleanup(1);
 	}

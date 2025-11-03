@@ -6,7 +6,7 @@
 /*   By: omben-ch <omben-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 15:38:56 by omben-ch          #+#    #+#             */
-/*   Updated: 2025/06/26 18:09:41 by omben-ch         ###   ########.fr       */
+/*   Updated: 2025/09/15 16:34:41 by omben-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void	parse_and_get_data(t_fcub *fcub, int ac, char **av)
 
 	if (ac != 2)
 	{
-		print_error_argument();
+		print_error_argument("More Arguments");
 		cleanup(1);
 		cleanup(1);
 	}

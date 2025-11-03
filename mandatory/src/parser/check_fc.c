@@ -6,7 +6,7 @@
 /*   By: omben-ch <omben-ch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/16 09:38:42 by omben-ch          #+#    #+#             */
-/*   Updated: 2025/06/26 18:09:26 by omben-ch         ###   ########.fr       */
+/*   Updated: 2025/09/15 16:36:19 by omben-ch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,6 @@ int	check_val_of_fc(char *arg)
 	if (check_diget_and_comma(arg) || !list || count_list(list) != 3)
 	{
 		freeing_list(list);
-		print_error_argument();
 		return (1);
 	}
 	i = -1;
@@ -72,7 +71,6 @@ int	check_val_of_fc(char *arg)
 		if (!check_nb_is_valide(list[i]))
 		{
 			freeing_list(list);
-			print_error_argument();
 			return (1);
 		}
 	}
@@ -82,8 +80,15 @@ int	check_val_of_fc(char *arg)
 
 void	check_content_fc(t_fcub *fcub)
 {
-	if (check_val_of_fc(fcub->f_color) || check_val_of_fc(fcub->c_color))
+	if (check_val_of_fc(fcub->f_color))
 	{
+		print_error_argument("Floor");
+		freeing_data(fcub);
+		cleanup(1);
+	}
+	if (check_val_of_fc(fcub->c_color))
+	{
+		print_error_argument("Ceiling");
 		freeing_data(fcub);
 		cleanup(1);
 	}

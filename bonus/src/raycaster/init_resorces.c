@@ -6,24 +6,11 @@
 /*   By: mbousset <mbousset@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 15:39:37 by mbousset          #+#    #+#             */
-/*   Updated: 2025/09/13 09:02:47 by mbousset         ###   ########.fr       */
+/*   Updated: 2025/09/18 09:30:16 by mbousset         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub_bs.h"
-
-double	get_view_angel(char dir)
-{
-	if (dir == 'E')
-		return (deg_to_rad(0));
-	else if (dir == 'S')
-		return (deg_to_rad(90));
-	else if (dir == 'W')
-		return (deg_to_rad(180));
-	else if (dir == 'N')
-		return (deg_to_rad(270));
-	return (1);
-}
 
 void	init_image_fram(t_game *game, t_image *frame)
 {
@@ -41,12 +28,23 @@ void	init_image(t_game *game, t_image *img, char *path)
 	img->img = mlx_xpm_file_to_image(game->mlx, path, &img->w, &img->h);
 	if (!img->img)
 	{
-		perror("Error: Failed to load an image ");
+		perror("Error\nFailed to load an image ");
 		cleanup(1);
 	}
 	img->addr = mlx_get_data_addr(img->img, &img->bpp, &img->line_len,
 			&img->endian);
 	img->frames = 1;
+}
+
+void	init_image2(t_game *game, t_image *img, char *path)
+{
+	img->img = mlx_xpm_file_to_image(game->mlx, path, &img->w, &img->h);
+	if (img->img)
+	{
+		img->addr = mlx_get_data_addr(img->img, &img->bpp, &img->line_len,
+				&img->endian);
+		img->frames = 1;
+	}
 }
 
 void	init_player(t_game *game)
@@ -60,8 +58,8 @@ void	init_player(t_game *game)
 	y = -1;
 	while (map[++y])
 	{
-		x = 0;
-		while (map[y][x])
+		x = -1;
+		while (map[y][++x])
 		{
 			if (is_valid_dir(map[y][x]))
 			{
@@ -71,46 +69,9 @@ void	init_player(t_game *game)
 				game->player.angle = get_view_angel(map[y][x]);
 				game->player.moving = true;
 				map[y][x] = '0';
+				game->player_info = game->player;
 				return ;
 			}
-			x++;
 		}
 	}
-}
-
-void	init_videos(void)
-{
-	int	i;
-
-	i = 0;
-	while (i < 2)
-	{
-		get_game()->videos[i].active = false;
-		get_game()->videos[i].played = false;
-		get_game()->videos[i].result = 0;
-		i++;
-	}
-}
-
-void	initilize_game_resorces(t_game *game)
-{
-	if (SDL_Init(SDL_INIT_AUDIO) < 0)
-		return ;
-	init_keys(game);
-	init_player(game);
-	init_image_fram(game, &game->display);
-	init_image(game, &game->graphics[E_WALL], game->data.paths[E_WALL]);
-	init_image(game, &game->graphics[N_WALL], game->data.paths[N_WALL]);
-	init_image(game, &game->graphics[W_WALL], game->data.paths[W_WALL]);
-	init_image(game, &game->graphics[S_WALL], game->data.paths[S_WALL]);
-	init_image(game, &game->graphics[DOOR], "bonus/textures/door.xpm");
-	game->graphics[DOOR].frames = 10;
-	init_image(game, &game->graphics[N_ICONE], "bonus/textures/N_icon.xpm");
-	init_image(game, &game->graphics[ARROW],
-		"bonus/textures/minimap_player.xpm");
-	init_image(game, &game->graphics[PORTAL], "bonus/textures/portal.xpm");
-	game->graphics[PORTAL].frames = 32;
-	init_image(game, &game->graphics[FLOOR], "bonus/textures/floor.xpm");
-	init_image(game, &game->graphics[SKY], "bonus/textures/sky.xpm");
-	init_videos();
 }
