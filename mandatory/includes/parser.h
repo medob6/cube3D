@@ -55,5 +55,4 @@ void		freeing_data(t_fcub *fcub);
 int			check_nwesfc(t_fcub *fcub, char *line);
 void		parse_and_get_data(t_fcub *fcub, int ac, char **av);
 void		check_content_map(t_fcub *fcub);
-
 #endif
