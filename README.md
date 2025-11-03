@@ -68,23 +68,23 @@ The bonus features transform Cub3D from a technical demo into a fully-fledged ga
 ### 🎬 Visual Showcase (Bonus Part)
 
 **Gameplay Video Showcase:**  
-> _(Add your bonus gameplay video below — `.gif` or `.mp4` recommended)_  
+> 
 ![Bonus Video](Game_screenshots/bonus_showcase_video.mp4)
 
 **Door System:**  
-> _(Add door interaction screenshot below)_  
+> 
 ![Door System](Game_screenshots/door_bonus.png)
 
 **Main Menu & Controls Page:**  
-> _(Add menu & controls screenshot below)_  
+>
 ![Menu and Controls](Game_screenshots/menu.png)
 
 **Portal System:**  
-> _(Add portal screenshot below)_  
+>
 ![Portal](Game_screenshots/portal.png)
 
 **Bonus Minimap (With Doors & Portals):**  
-> _(Add minimap with doors/portals screenshot below)_  
+>
 ![Bonus Minimap](Game_screenshots/bonus_minimap.png)
 
 ---
