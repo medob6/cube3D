@@ -77,15 +77,15 @@ The bonus features transform Cub3D from a technical demo into a fully-fledged ga
 
 **Main Menu & Controls Page:**  
 > _(Add menu & controls screenshot below)_  
-![Menu and Controls](Game_screenshots/bonus_menu.png)
+![Menu and Controls](Game_screenshots/menu.png)
 
 **Portal System:**  
 > _(Add portal screenshot below)_  
-![Portal](Game_screenshots/bonus_portal.png)
+![Portal](Game_screenshots/portal.png)
 
 **Bonus Minimap (With Doors & Portals):**  
 > _(Add minimap with doors/portals screenshot below)_  
-![Bonus Minimap](Game_screenshots/bonus_minimap_doors.png)
+![Bonus Minimap](Game_screenshots/bonus_minimap.png)
 
 ---
 
