@@ -73,7 +73,7 @@ The bonus features transform Cub3D from a technical demo into a fully-fledged ga
 
 **Door System:**  
 > _(Add door interaction screenshot below)_  
-![Door System](Game_screenshots/bonus_door.png)
+![Door System](Game_screenshots/door_bonus.png)
 
 **Main Menu & Controls Page:**  
 > _(Add menu & controls screenshot below)_  
