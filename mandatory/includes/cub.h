@@ -50,7 +50,7 @@
 # define FOV_ANGLE M_PI_3
 
 // minimp
-# define MINIMAP_SCREEN_SCALE 0.09
+# define MINIMAP_SCREEN_SCALE 0.2
 # define ICON_SCALE 0.14
 # define PLAYER_SCALE 0.20
 
