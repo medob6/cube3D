@@ -6,7 +6,7 @@
 
 ## 🌟 Overview
 
-**Cub3D** is a fully optimized 3D raycasting game engine developed as part of the **42 / 1337 School** curriculum. What began as a challenge to replicate *Wolfenstein 3D* evolved into a sophisticated, modular engine featuring mouse-controlled views, dynamic menus, portals, and in-engine video playback.
+**Cub3D** is a fully optimized 3D raycasting game engine developed as part of the **42 / 1337 School** curriculum. What began as a challenge to creat a game similar to *Wolfenstein 3D* evolved into a sophisticated, modular engine featuring mouse-controlled views, dynamic menus, portals, and in-engine video playback.
 
 ### Vision
 
